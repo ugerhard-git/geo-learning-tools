@@ -1,9 +1,9 @@
-// Terrain Atlas in a real browser: layers, picking features, the drills and saved progress.
+// Terrain in a real browser: layers, picking features, the drills and saved progress.
 import { test, expect } from "@playwright/test";
 import { clickAt, cspViolations, openPage, readData, screenPoint } from "./helpers.js";
 import { unpackRing } from "../../src/shared/codec.js";
 
-const PAGE = "terrain-atlas/";
+const PAGE = "terrain/";
 
 /** The features, decoded the way the app decodes them (geometry only where needed). */
 const json = JSON.parse(readData("terrain.json"));

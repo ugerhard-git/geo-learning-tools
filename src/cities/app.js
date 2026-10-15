@@ -1,5 +1,5 @@
 /**
- * City Atlas: 2,738 cities and 4,596 regions on a zoomable world map, with
+ * Cities and Regions: 2,738 cities and 4,596 regions on a zoomable world map, with
  * five drills and spaced repetition.
  *
  * - Explore: search, hover and click cities; open a region from a city.
@@ -10,7 +10,7 @@
  * The data model lives in data.js, the rules of each drill in drills.js;
  * this module puts them on the page.
  *
- * @module city-atlas/app
+ * @module cities/app
  */
 import { $, $$, esc, fmtNum } from "../shared/dom.js";
 import { storage } from "../shared/storage.js";
@@ -808,7 +808,7 @@ async function main() {
   const progressEl = $("#progress");
   const progress = new ProgressView(progressEl, {
     store,
-    appName: "City Atlas",
+    appName: "Cities and Regions",
     drills: () =>
       Object.entries(DRILLS).map(([type, d]) => ({
         label: d.label,

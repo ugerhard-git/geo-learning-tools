@@ -1,8 +1,8 @@
 import { test, before } from "node:test";
 import assert from "node:assert/strict";
 import { serveDataFromDisk } from "./load-data.js";
-import { RegionShapes, loadCityData } from "../../src/city-atlas/data.js";
-import { CityQuestion, keyOf, poolFor, scopeOptions } from "../../src/city-atlas/drills.js";
+import { RegionShapes, loadCityData } from "../../src/cities/data.js";
+import { CityQuestion, keyOf, poolFor, scopeOptions } from "../../src/cities/drills.js";
 
 let data;
 let shapes;

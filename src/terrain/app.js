@@ -1,5 +1,5 @@
 /**
- * Terrain Atlas: 2,121 physical features (rivers, ranges, deserts, seas,
+ * Terrain: 2,121 physical features (rivers, ranges, deserts, seas,
  * straits, islands, peaks …) on a zoomable world map, with three drills and
  * spaced repetition.
  *
@@ -9,7 +9,7 @@
  *   countries it touches.
  * - Progress: what is known, what is due, what keeps going wrong.
  *
- * @module terrain-atlas/app
+ * @module terrain/app
  */
 import { $, $$, esc, fmtNum } from "../shared/dom.js";
 import { storage } from "../shared/storage.js";
@@ -737,7 +737,7 @@ async function main() {
   const progressEl = $("#progress");
   const progress = new ProgressView(progressEl, {
     store,
-    appName: "Terrain Atlas",
+    appName: "Terrain",
     drills: () =>
       Object.entries(DRILLS).map(([type, d]) => ({
         label: d.label,

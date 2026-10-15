@@ -1,4 +1,4 @@
-"""Build src/data/terrain.json, the physical features of Terrain Atlas, from
+"""Build src/data/terrain.json, the physical features of Terrain, from
 Natural Earth. See tools/data/README.md for the inputs and how to run it:
 
     python3 tools/data/build_terrain.py path/to/natural-earth

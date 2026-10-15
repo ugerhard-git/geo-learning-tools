@@ -1,6 +1,6 @@
 """Build src/data/land.json and src/data/cities.json from Natural Earth.
 
-Country outlines (shared by City Atlas and Terrain Atlas), region outlines,
+Country outlines (shared by the Cities and Regions and the Terrain apps), region outlines,
 and the cities. See tools/data/README.md for the inputs and how to run it:
 
     python3 tools/data/build_cities.py path/to/natural-earth

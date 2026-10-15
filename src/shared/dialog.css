@@ -1,6 +1,6 @@
 /*
  * Modal dialogs: settings (the REST Countries key), export/import, and the
- * Flag Atlas progress screen. They are native <dialog> elements opened with
+ * Flags progress screen. They are native <dialog> elements opened with
  * showModal(), which traps focus and closes on Escape for free.
  */
 dialog {
@@ -19,7 +19,7 @@ dialog.wide {
 }
 
 dialog::backdrop {
-  background: rgba(10, 18, 28, 0.6);
+  background: rgba(35, 22, 30, 0.55);
 }
 
 .dlg {

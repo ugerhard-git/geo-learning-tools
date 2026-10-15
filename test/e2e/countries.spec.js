@@ -1,8 +1,8 @@
-// Flag Atlas Map in a real browser: the detail panel and every kind of quiz question.
+// Countries and Territories in a real browser: the detail panel and every kind of quiz question.
 import { test, expect } from "@playwright/test";
 import { clickAt, cspViolations, openPage, readData } from "./helpers.js";
 
-const PAGE = "flag-atlas-map/";
+const PAGE = "countries/";
 
 const WORLD = JSON.parse(readData("world.json"));
 const COUNTRIES = readData("countries.txt")

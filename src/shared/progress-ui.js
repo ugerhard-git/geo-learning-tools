@@ -2,7 +2,7 @@
  * The progress screen every app shows, and the dialog that moves progress
  * between devices as copy-and-paste text.
  *
- * An app with several drills (City Atlas, Terrain Atlas) gets a table with
+ * An app with several drills (Cities and Regions, Terrain) gets a table with
  * a row per drill; an app with one (the flag apps) gets a coverage bar and
  * a count per Leitner box instead.
  *
@@ -28,7 +28,7 @@ const FRAMED_MESSAGE = "Open this page in its own tab to change your saved progr
 /**
  * @typedef {object} ProgressOptions
  * @property {import("./leitner.js").ProgressStore} store
- * @property {string} appName shown in the export dialog, e.g. "City Atlas"
+ * @property {string} appName shown in the export dialog, e.g. "Cities and Regions"
  * @property {() => DrillKeys[]} drills what to report on, worked out afresh each time
  * @property {(key: string) => { label: string, look: string } | null} describe the name
  *   of the item behind a progress key, and an id that `onLook` understands

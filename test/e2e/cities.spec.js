@@ -1,9 +1,9 @@
-// City Atlas in a real browser: exploring, the drills, and saved progress.
+// Cities and Regions in a real browser: exploring, the drills, and saved progress.
 import { test, expect } from "@playwright/test";
 import { clickAt, cspViolations, openPage, readData, visiblePoint } from "./helpers.js";
 import { unpack } from "../../src/shared/codec.js";
 
-const PAGE = "city-atlas/";
+const PAGE = "cities/";
 
 /** The cities, decoded the way the app decodes them. */
 const json = JSON.parse(readData("cities.json"));
@@ -184,7 +184,7 @@ test("export and import move progress between devices", async ({ page }) => {
     .fill(JSON.stringify({ app: "terrainatlas", v: 1, p: {} }));
   await page.click("dialog[open] [data-act]");
   await expect(page.locator("dialog[open] .status")).toHaveText(
-    "That does not look like a City Atlas export.",
+    "That does not look like a Cities and Regions export.",
   );
 });
 

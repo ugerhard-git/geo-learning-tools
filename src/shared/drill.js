@@ -1,6 +1,6 @@
 /**
  * The drill: a session of questions shown in a bar along the bottom of the
- * map, as City Atlas and Terrain Atlas use it.
+ * map, as the Cities and Regions and the Terrain apps use it.
  *
  * The session owns what is the same in every drill: the queue, the score,
  * recording each answer, asking a missed item again a few questions later,

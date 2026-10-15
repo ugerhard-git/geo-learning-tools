@@ -1,5 +1,5 @@
 /**
- * Country outlines for City Atlas and Terrain Atlas, from src/data/land.json.
+ * Country outlines for the Cities and Regions and the Terrain apps, from src/data/land.json.
  *
  * The file holds two tab-separated tables as strings:
  *

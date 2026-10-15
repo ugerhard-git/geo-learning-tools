@@ -1,10 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import {
-  factsQuery,
-  isCountryWikidata,
-  parseFacts,
-} from "../../src/flag-atlas-map/wikidata-facts.js";
+import { factsQuery, isCountryWikidata, parseFacts } from "../../src/countries/wikidata-facts.js";
 
 const item = (q) => ({ type: "uri", value: `http://www.wikidata.org/entity/${q}` });
 const prop = (p) => ({ type: "uri", value: `http://www.wikidata.org/entity/${p}` });

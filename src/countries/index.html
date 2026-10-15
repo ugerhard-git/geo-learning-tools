@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' https://flagcdn.com; font-src 'self'; connect-src 'self' https://api.restcountries.com https://query.wikidata.org; base-uri 'none'; form-action 'none'; object-src 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Countries and Territories</title>
+    <link rel="icon" href="../icons/countries.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../fonts/fonts.css" />
+    <link rel="stylesheet" href="../shared/tokens.css" />
+    <link rel="stylesheet" href="../shared/base.css" />
+    <link rel="stylesheet" href="../shared/map.css" />
+    <link rel="stylesheet" href="../shared/drill.css" />
+    <link rel="stylesheet" href="../shared/progress.css" />
+    <link rel="stylesheet" href="../shared/dialog.css" />
+    <link rel="stylesheet" href="app.css" />
+    <script type="module" src="app.js"></script>
+  </head>
+  <body class="explore">
+    <header class="top">
+      <h1>
+        <a href="../">Countries<span class="long"> and Territories</span></a>
+      </h1>
+      <label class="search" id="searchWrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-4-4" />
+        </svg>
+        <input
+          id="q"
+          type="search"
+          list="names"
+          maxlength="60"
+          placeholder="Find a country or territory"
+          autocomplete="off"
+          aria-label="Find a country or territory by name or code"
+        />
+        <datalist id="names"></datalist>
+      </label>
+      <span class="spacer"></span>
+      <div class="seg" role="group" aria-label="Mode">
+        <button data-mode="explore" aria-pressed="true">Explore</button>
+        <button data-mode="quiz" aria-pressed="false">Quiz</button>
+      </div>
+      <button class="btn" id="progBtn">Progress</button>
+      <button class="btn quiet settings-btn" id="setBtn" aria-label="Settings">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="3" />
+          <path
+            d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"
+          />
+        </svg>
+        <span class="lbltxt">Settings</span>
+      </button>
+    </header>
+
+    <div id="stage">
+      <svg
+        id="map"
+        preserveAspectRatio="xMidYMid meet"
+        role="img"
+        aria-label="World map. Scroll or pinch to zoom, drag to move, click a country for details."
+        tabindex="0"
+      >
+        <g id="world" class="land"></g>
+        <g id="marks"></g>
+        <g id="overlay"></g>
+      </svg>
+      <div class="projsw">
+        <div class="seg" role="group" aria-label="Map projection">
+          <button data-proj="ee" aria-pressed="true">Equal Earth</button>
+          <button data-proj="merc" aria-pressed="false">Mercator</button>
+        </div>
+        <p class="pnote"></p>
+      </div>
+      <div id="tip" hidden></div>
+      <div class="zoom">
+        <button data-zoom="in" aria-label="Zoom in">+</button>
+        <button data-zoom="out" aria-label="Zoom out">−</button>
+        <button data-zoom="home" aria-label="Show the whole world">⌂</button>
+      </div>
+      <p class="maphint" id="hint">
+        Scroll or pinch to zoom, drag to move. Dots mark places too small to see.
+      </p>
+      <aside id="panel" hidden aria-label="Country details"></aside>
+      <section id="quizbar" class="qbar" hidden aria-label="Quiz">
+        <div class="qtop">
+          <div class="seg" role="group" aria-label="What the quiz asks">
+            <button data-dirn="name" aria-pressed="true">Name it</button>
+            <button data-dirn="find" aria-pressed="false">Find it</button>
+          </div>
+          <div class="seg" role="group" aria-label="Difficulty">
+            <button data-level="easy" aria-pressed="true">Easy</button>
+            <button data-level="hard" aria-pressed="false">Hard</button>
+            <button data-level="blind" aria-pressed="false" hidden>No borders</button>
+          </div>
+          <select id="qRegion" aria-label="Region to practise"></select>
+          <select id="qScope" aria-label="What to include">
+            <option value="countries">Countries only</option>
+            <option value="all">Countries and territories</option>
+          </select>
+          <span class="qscore" id="qScore"></span>
+        </div>
+        <p class="qprompt" id="qPrompt"></p>
+        <div id="qBody"></div>
+        <div class="qfoot" id="qFoot"></div>
+      </section>
+      <p class="page-status" id="pageStatus" role="status">Loading the map…</p>
+    </div>
+
+    <dialog id="progress" class="pg" aria-label="Progress"><div class="dlg"></div></dialog>
+  </body>
+</html>

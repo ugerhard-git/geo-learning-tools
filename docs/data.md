@@ -5,16 +5,16 @@ a page opens. They are generated, not written by hand (except
 `countries.txt` and `flag-tags.txt`), and are left out of Prettier: they are
 long single-line strings that formatting would only make bigger.
 
-| File            | Used by                    | What it holds                                                                |
-| --------------- | -------------------------- | ---------------------------------------------------------------------------- |
-| `countries.txt` | every app                  | The 253 countries and territories, their names and aliases                   |
-| `world.json`    | Flag Atlas, Flag Atlas Map | Country outlines in hundredths of a degree, and each country's main landmass |
-| `factbook.json` | Flag Atlas Map             | Geography sections of the CIA World Factbook, per country                    |
-| `flag-tags.txt` | Flag Atlas                 | Each flag's colours, layout and symbols                                      |
-| `land.json`     | City Atlas, Terrain Atlas  | Simplified country outlines, and a box around each country                   |
-| `cities.json`   | City Atlas                 | 2,738 cities, 4,596 regions and the regions' outlines                        |
-| `terrain.json`  | Terrain Atlas              | 2,121 physical features with their geometry                                  |
-| `hero.txt`      | landing page               | A coarse world outline for the masthead                                      |
+| File            | Used by                          | What it holds                                                                |
+| --------------- | -------------------------------- | ---------------------------------------------------------------------------- |
+| `countries.txt` | every app                        | The 253 countries and territories, their names and aliases                   |
+| `world.json`    | Flags, Countries and Territories | Country outlines in hundredths of a degree, and each country's main landmass |
+| `factbook.json` | Countries and Territories        | Geography sections of the CIA World Factbook, per country                    |
+| `flag-tags.txt` | Flags                            | Each flag's colours, layout and symbols                                      |
+| `land.json`     | Cities and Regions, Terrain      | Simplified country outlines, and a box around each country                   |
+| `cities.json`   | Cities and Regions               | 2,738 cities, 4,596 regions and the regions' outlines                        |
+| `terrain.json`  | Terrain                          | 2,121 physical features with their geometry                                  |
+| `hero.txt`      | landing page                     | A coarse world outline for the masthead                                      |
 
 ## Formats
 
@@ -90,7 +90,7 @@ packed lon,lat <TAB> packed population in thousands <TAB> type`, where type
 
 One feature per line: `kind <TAB> name <TAB> other names (;) <TAB> continent
 <TAB> countries ( · ) <TAB> Wikidata id <TAB> extra <TAB> scalerank <TAB>
-geometry <TAB> parts (|)`. Kinds are listed in `src/terrain-atlas/data.js`.
+geometry <TAB> parts (|)`. Kinds are listed in `src/terrain/data.js`.
 The continent is a region letter, or `W` for the open ocean. `extra` is a
 peak's height in metres. Geometry is `p` (area), `l` (line) or `x` (point);
 points use `scale.point`, the rest `scale.line`. Scalerank is Natural Earth's
@@ -100,7 +100,7 @@ known".
 ### `flag-tags.txt`
 
 One flag per line: `code colours layout symbols`, e.g. `DE kry h -`. The
-letters are explained in `src/flag-atlas/design.js`.
+letters are explained in `src/flags/design.js`.
 
 ### `factbook.json`
 
@@ -136,5 +136,5 @@ has one.
   degree.
 
 The data files were carried over unchanged from the single-file apps; the
-split into files changed the containers (`land.json` is shared by City and
-Terrain Atlas, which had identical copies), not the contents.
+split into files changed the containers (`land.json` is shared by Cities and
+Terrain, which had identical copies), not the contents.

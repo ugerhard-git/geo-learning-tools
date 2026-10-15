@@ -1,8 +1,8 @@
 /**
  * A country's politics, people and symbols from Wikidata, for the detail
- * panel of Flag Atlas Map: one SPARQL query per country, cached for a week.
+ * panel of Countries and Territories: one SPARQL query per country, cached for a week.
  *
- * @module flag-atlas-map/wikidata-facts
+ * @module countries/wikidata-facts
  */
 import { fmtNum, table } from "../shared/dom.js";
 import { str } from "../shared/net.js";

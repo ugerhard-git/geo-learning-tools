@@ -1,5 +1,5 @@
 /**
- * City Atlas data: cities, regions and their outlines, read from
+ * Cities and Regions data: cities, regions and their outlines, read from
  * src/data/cities.json and src/data/countries.txt.
  *
  * cities.json holds three tab-separated tables as strings (see docs/data.md):
@@ -13,7 +13,7 @@
  * Region outlines are decoded on first use: there are 4,596 of them and a
  * session rarely needs more than a few dozen.
  *
- * @module city-atlas/data
+ * @module cities/data
  */
 import { loadData } from "../shared/net.js";
 import { unpack, unpackRing } from "../shared/codec.js";

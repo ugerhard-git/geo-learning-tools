@@ -29,11 +29,12 @@ test("a well-formed page passes", () => {
 test("every page the site ships passes", () => {
   for (const path of [
     "index.html",
-    "city-atlas/index.html",
-    "terrain-atlas/index.html",
-    "flag-atlas/index.html",
-    "flag-atlas-map/index.html",
+    "cities/index.html",
+    "terrain/index.html",
+    "flags/index.html",
+    "countries/index.html",
     "city-atlas.html",
+    "city-atlas/index.html",
   ]) {
     const html = readFileSync(new URL(`../../src/${path}`, import.meta.url), "utf8");
     assert.deepEqual(checkPage(html), [], path);
@@ -126,7 +127,7 @@ test("markup the checks cannot read fails rather than slipping through", () => {
 test("forwarding pages lead only within the site", () => {
   const stub = (target) =>
     `<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'"><meta name="referrer" content="no-referrer"><meta http-equiv="refresh" content="0; url=${target}"><title>moved</title></head><body></body></html>`;
-  assert.deepEqual(checkPage(stub("city-atlas/")), []);
+  assert.deepEqual(checkPage(stub("cities/")), []);
   fails(stub("https://evil.example/"), /refresh leads off the site/);
   fails(stub("//evil.example/"), /refresh leads off the site/);
 });
@@ -143,7 +144,7 @@ test("SVGs must not carry script", () => {
 });
 
 test("local references have no scheme and no host", () => {
-  assert.ok(isLocalRef("city-atlas/"));
+  assert.ok(isLocalRef("cities/"));
   assert.ok(isLocalRef("../shared/dom.js"));
   assert.ok(!isLocalRef("https://example.com/"));
   assert.ok(!isLocalRef("//example.com/"));

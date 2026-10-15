@@ -1,9 +1,9 @@
 /**
- * City Atlas drills: what each drill asks, which places it draws on, and
+ * Cities and Regions drills: what each drill asks, which places it draws on, and
  * what counts as a right answer. Nothing here touches the page, so it can
  * be tested on its own (test/unit/city-drills.test.js).
  *
- * @module city-atlas/drills
+ * @module cities/drills
  */
 import { esc, table } from "../shared/dom.js";
 import { REGIONS } from "../shared/countries.js";

@@ -1,9 +1,9 @@
 /**
- * Terrain Atlas drills, and the geometry that judges a click: what each
+ * Terrain drills, and the geometry that judges a click: what each
  * drill asks, which features it draws on, and what counts as right.
  * Nothing here touches the page (see test/unit/terrain-drills.test.js).
  *
- * @module terrain-atlas/drills
+ * @module terrain/drills
  */
 import { esc, table } from "../shared/dom.js";
 import { answerKey, judgeTyped } from "../shared/text.js";
