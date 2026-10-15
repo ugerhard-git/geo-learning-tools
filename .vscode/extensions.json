@@ -1,0 +1,11 @@
+{
+  // VS Code offers to install these when the folder is opened.
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "editorconfig.editorconfig",
+    "ms-playwright.playwright",
+    "github.vscode-github-actions",
+    "streetsidesoftware.code-spell-checker"
+  ]
+}

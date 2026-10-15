@@ -1,0 +1,17 @@
+{
+  // F5 builds and serves the site, then opens it in Chrome with the debugger
+  // attached. The server serves dist/, an exact copy of src/, so breakpoints
+  // set in src/ work. After changing a file, run the "build" task (or press
+  // F5 again) and reload the page.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Open the apps in Chrome",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://127.0.0.1:4173/",
+      "webRoot": "${workspaceFolder}/src",
+      "preLaunchTask": "start"
+    }
+  ]
+}

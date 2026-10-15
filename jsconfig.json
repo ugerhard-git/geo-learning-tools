@@ -1,0 +1,16 @@
+{
+  // Gives VS Code IntelliSense from the JSDoc comments in the plain JavaScript.
+  // Nothing is compiled. Type checking is opt-in: put `// @ts-check` at the
+  // top of a file to see type errors in it.
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "checkJs": false,
+    "strict": false,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": []
+  },
+  "include": ["src", "tools", "test"],
+  "exclude": ["node_modules", "dist"]
+}
