@@ -1,0 +1,27 @@
+{
+  "name": "geo-learning-tools",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Browser apps for learning geography: flags, countries, cities and physical features.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "start": "npm run build && node tools/serve.mjs",
+    "lint": "npm run lint:format && npm run lint:js",
+    "lint:format": "prettier --check .",
+    "lint:js": "eslint .",
+    "format": "prettier --write .",
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.64.1",
+    "eslint": "10.12.0",
+    "globals": "17.13.0",
+    "prettier": "3.9.10"
+  }
+}
