@@ -38,3 +38,44 @@ npm test            # Playwright browser tests
 - **The security policy.** Every page keeps the same Content-Security-Policy
   rules, enforced by `tools/site-checks.mjs`. Do not loosen it to make a
   change work. `SECURITY.md` lists the known limits.
+
+## Code for people
+
+The code is read by the owner and by developers who don't know the project.
+Write it so they can follow it without help.
+
+- **Clear before clever.** Choose the plain version over the shortest or
+  fastest one, unless the speed matters and a comment says why.
+- **Every file explains itself.** Start with a short comment on what the file
+  does. In an app's `app.js`, also describe the flow from loading the data to
+  a drill, and what each of the app's own modules is for.
+- **Comments say why, not what.** Explain decisions, sources and edge cases
+  ("Box 1 waits zero days, so a miss comes back at once"); the code already
+  shows what it does.
+- **Small modules with one job each.** Data decoding, drawing and the page
+  are kept apart, and functions that only compute have no side effects, so
+  they can be tested in `test/unit/`.
+- **Names a reader understands:** whole words, matching the interface where
+  possible, no private abbreviations. Stored names are the exception: keys
+  like `flagatlas.progress.v1` keep their old spelling (see "Things that must
+  not break").
+- **JSDoc types** on exported functions and shared data shapes, so editors can
+  help.
+- **Follow the existing patterns.** Reuse `src/shared/` before writing
+  something new, and move code there once a second app needs it.
+- **No new tools without a reason.** Every dependency or build step is one
+  more thing to learn; propose it to the owner first. The build must keep
+  using only Node's built-in modules, so the published site is built without
+  third-party packages (see the `build-pages` job in
+  `.github/workflows/ci.yml`).
+- **Keep the documentation true.** When the code changes, update its comments,
+  `README.md`, `docs/architecture.md` and `docs/data.md` in the same pull
+  request.
+
+## Interface text
+
+Plain language for learners, in sentence case ("Name the region", not "Name
+The Region"), with no jargon. This covers buttons, hints, drill prompts,
+messages, errors and the progress screen: say what happened and what to do
+("The flags could not be loaded. Check your connection and reload."), not how
+the code works.
