@@ -9,6 +9,22 @@
  *   names a country). Find it has three levels: a shortlist of four, free
  *   hand, and no borders at all, where a miss is measured but never named.
  *
+ * How it runs: `main` loads the world outlines and the country table, draws
+ * the map, and starts loading the Factbook in the background (a panel needs
+ * it, the map does not). Clicking a country opens the panel, which fills in
+ * as REST Countries (with a key) and Wikidata answer. In the quiz, the
+ * Leitner picker (shared/leitner.js) chooses the next place from the region
+ * chosen, countries only or with territories. "Name it" offers nearby countries as wrong options. "Find
+ * it" judges the click against the country's outline, and every answer is
+ * saved to the learner's progress.
+ *
+ * The files:
+ * - app.js (this file): the map, the panel, the quiz and progress.
+ * - wikidata-facts.js: the one Wikidata query behind a panel's politics,
+ *   people and symbols, with its cache. Its parsing is unit-tested.
+ * - Shared code does the rest: the map view, outlines, distances, spaced
+ *   repetition and the progress screen.
+ *
  * @module countries/app
  */
 import { $, $$, esc } from "../shared/dom.js";

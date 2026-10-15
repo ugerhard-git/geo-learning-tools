@@ -9,6 +9,23 @@
  *   Wikipedia article and Wikidata facts about the flag.
  * - The quiz: whose flag is this, from four choices or typed.
  *
+ * How it runs: `main` loads the country table, the flag tags and the world
+ * outlines (src/data/), then draws the grid. Flag images come from
+ * flagcdn.com. Adoption dates are fetched from Wikidata the first time
+ * someone sorts by them, and kept for a while. Opening a flag fills the
+ * detail view part by part, as each outside source answers. The quiz runs in
+ * a dialog: the Leitner picker (shared/leitner.js) chooses the next flag from
+ * the ones on screen, the flag's look-alikes make the wrong options, and
+ * every answer is saved to the learner's progress.
+ *
+ * The files:
+ * - app.js (this file): the page — grid, detail view, quiz and progress.
+ * - design.js: what each flag looks like (colours, layout, symbols) and which
+ *   flags are easily mistaken for one another. No page access, so it is
+ *   unit-tested.
+ * - Shared code does the rest: the country table, world outlines, spaced
+ *   repetition, the progress screen and the outside services.
+ *
  * @module flags/app
  */
 import { $, $$, esc } from "../shared/dom.js";

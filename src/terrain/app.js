@@ -9,6 +9,23 @@
  *   countries it touches.
  * - Progress: what is known, what is due, what keeps going wrong.
  *
+ * How it runs: `main` loads the features and the country outlines, then
+ * draws one layer per kind of feature, showing the kinds the learner chose.
+ * Clicking near a feature opens the panel, which fetches its measurements and
+ * article from Wikidata and Wikipedia. A drill starts from the setup card.
+ * `planSession` (shared/leitner.js) picks what is due and what is new.
+ * `DrillSession` (shared/drill.js) runs the question bar, and this file puts
+ * each question on the map and judges clicks on it. Every answer is saved to
+ * the learner's progress.
+ *
+ * The files:
+ * - app.js (this file): the map, the layers, the panel, the drill setup and
+ *   progress.
+ * - data.js: reads terrain.json into features, and names each kind.
+ * - drills.js: what each drill asks, which features it uses, and how far a
+ *   click may be from a river, range or peak. No page access, so it is
+ *   unit-tested.
+ *
  * @module terrain/app
  */
 import { $, $$, esc, fmtNum } from "../shared/dom.js";
