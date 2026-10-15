@@ -8,10 +8,10 @@ stylesheets and one JavaScript module, and that module imports the rest.
 ```
 src/
   index.html            landing page          → landing/landing.js
-  flags/           a grid of flags        → app.js, design.js
-  countries/       countries on a map     → app.js, wikidata-facts.js
-  cities/           cities and regions     → app.js, data.js, drills.js
-  terrain/        physical features      → app.js, data.js, drills.js
+  flags/                a grid of flags       → app.js, design.js
+  countries/            countries on a map    → app.js, wikidata-facts.js
+  cities/               cities and regions    → app.js, data.js, drills.js
+  terrain/              physical features     → app.js, data.js, drills.js
   shared/               everything used by more than one page
   data/                 map and place data, loaded at run time
 ```

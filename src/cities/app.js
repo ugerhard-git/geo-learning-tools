@@ -7,8 +7,19 @@
  *   highlighted region, or match capitals with their countries and regions.
  * - Progress: what is known, what is due, what keeps going wrong.
  *
- * The data model lives in data.js, the rules of each drill in drills.js;
- * this module puts them on the page.
+ * How it runs: `main` loads the cities, regions and country outlines, then
+ * draws the map. More cities show as you zoom in; region borders are drawn the
+ * first time they are needed. Clicking a city or region opens the panel. A
+ * drill starts from the setup card. `planSession` (shared/leitner.js) picks
+ * what is due and what is new. `DrillSession` (shared/drill.js) runs the
+ * question bar, and this file puts each question on the map and judges
+ * clicks on it. Every answer is saved to the learner's progress.
+ *
+ * The files:
+ * - app.js (this file): the map, the panel, the drill setup and progress.
+ * - data.js: reads cities.json into cities, regions and region outlines.
+ * - drills.js: what each drill asks, which places it uses, and what counts
+ *   as right. No page access, so it is unit-tested.
  *
  * @module cities/app
  */
