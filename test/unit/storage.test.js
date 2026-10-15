@@ -1,6 +1,6 @@
 import { test, beforeEach } from "node:test";
 import assert from "node:assert/strict";
-import { storage, ttlCache } from "../../src/shared/storage.js";
+import { isFreshTime, shortString, storage, ttlCache } from "../../src/shared/storage.js";
 
 /** A minimal localStorage, installed fresh for each test. */
 beforeEach(() => {
@@ -59,4 +59,18 @@ test("ttlCache forgets stale entries and keeps at most `max`", () => {
   assert.deepEqual(Object.keys(stored).sort(), ["b", "c", "d"]);
   cache.clear();
   assert.equal(storage.get("cache"), null);
+});
+
+test("ttlCache ignores entries dated in the future, which would never expire", () => {
+  storage.set("cache", JSON.stringify({ a: { t: Date.now() + 864e5 * 365, v: 1 } }));
+  assert.equal(ttlCache("cache", 1000, 10, () => true).get("a"), null);
+  assert.ok(isFreshTime(Date.now() - 10, Date.now(), 1000));
+  assert.ok(!isFreshTime(Date.now() + 10_000, Date.now(), 1000));
+  assert.ok(!isFreshTime("0", Date.now(), 1000));
+});
+
+test("shortString caps the length of cached text", () => {
+  assert.ok(shortString("abc", 3));
+  assert.ok(!shortString("abcd", 3));
+  assert.ok(!shortString(7, 3));
 });

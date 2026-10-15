@@ -65,7 +65,9 @@ should be covered by a test.
 - **Outside data is untrusted.** Anything fetched from Wikipedia, Wikidata or
   REST Countries, and anything read back from localStorage, is validated and
   escaped before it reaches the page.
-- **Progress stays in the browser.** Nothing a learner does is sent anywhere.
+- **Progress stays in the browser.** Answers and progress are never sent
+  anywhere. The only requests to other sites are lookups of the place being
+  shown, to the services the policy allows.
 
 ## Recommended repository settings
 

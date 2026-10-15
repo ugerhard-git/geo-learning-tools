@@ -26,10 +26,43 @@ const OUTSIDE = {
 };
 
 /**
+ * The largest answer accepted from another site. The biggest real one, a
+ * Wikidata query covering every country, is a few hundred kilobytes.
+ */
+export const MAX_RESPONSE = 4 * 1024 * 1024;
+
+/** A response's body as text, giving up once it passes `max` bytes. */
+async function readLimited(res, max) {
+  if (Number(res.headers.get("content-length")) > max) throw new Error("Response too large");
+  if (!res.body) return res.text();
+  const reader = res.body.getReader();
+  const chunks = [];
+  let size = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    size += value.byteLength;
+    if (size > max) {
+      reader.cancel();
+      throw new Error("Response too large");
+    }
+    chunks.push(value);
+  }
+  const all = new Uint8Array(size);
+  let at = 0;
+  for (const c of chunks) {
+    all.set(c, at);
+    at += c.byteLength;
+  }
+  return new TextDecoder().decode(all);
+}
+
+/**
  * Fetch JSON from another site.
  *
  * The response is untrusted: callers pick out the fields they need with
- * {@link str} and {@link num} rather than using it as is.
+ * {@link str} and {@link num} rather than using it as is. Answers larger
+ * than {@link MAX_RESPONSE} are refused.
  *
  * @param {string} url
  * @param {RequestInit} [options] merged over the safe defaults
@@ -40,7 +73,7 @@ export async function getJSON(url, options = {}) {
   if (!/json/.test(res.headers.get("content-type") ?? "")) {
     throw new Error("Unexpected response type");
   }
-  return res.json();
+  return JSON.parse(await readLimited(res, MAX_RESPONSE));
 }
 
 /** A string field from untrusted JSON, cut to `max` characters; anything else becomes "". */

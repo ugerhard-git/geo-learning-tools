@@ -13,7 +13,8 @@ keeps track of what you know and brings back what you don't.
 | **Terrain Atlas**  | 2,121 physical features: rivers, ranges, deserts, seas, straits, islands and peaks.      |
 
 The landing page shows what is due for review in each app. Progress is kept in
-your browser only; nothing is sent anywhere.
+your browser only and is never sent anywhere. Opening a place's details asks
+Wikipedia, Wikidata or REST Countries about that place, and nothing more.
 
 ## Running it locally
 

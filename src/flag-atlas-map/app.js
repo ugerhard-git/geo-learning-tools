@@ -347,10 +347,10 @@ async function main() {
       <h2>${esc(d.name)}</h2>
       <div class="meta"><span class="tag code">${esc(d.code)}</span>${
         d.a3 ? `<span class="tag code">${esc(d.a3)}</span>` : ""
-      }<span class="tag">${REGIONS[d.region]}</span><span class="tag">${STATUS[d.status]}</span></div>
+      }<span class="tag">${esc(REGIONS[d.region] ?? "")}</span><span class="tag">${esc(STATUS[d.status] ?? "")}</span></div>
       <div data-outline>${outlineSVG(d)}</div>
       <div class="prow"><button class="btn" data-zoom-to>Zoom map to ${esc(d.name)}</button>${parts
-        .map((p) => `<button class="btn" data-go="${p}">${esc(BY[p].name)}</button>`)
+        .map((p) => `<button class="btn" data-go="${esc(p)}">${esc(BY[p].name)}</button>`)
         .join("")}</div>
       <div data-facts></div>`);
     facts = { code: d.code, rc: { state: "loading" }, wd: { state: "loading" } };
@@ -533,7 +533,7 @@ async function main() {
     `<option value="all">All regions</option>` +
     Object.entries(REGIONS)
       .filter(([k]) => k !== "N")
-      .map(([k, v]) => `<option value="${k}">${v}</option>`)
+      .map(([k, v]) => `<option value="${esc(k)}">${esc(v)}</option>`)
       .join("");
 
   /**
@@ -779,7 +779,10 @@ async function main() {
     $("#qBody").innerHTML =
       lvl() === "easy"
         ? `<div class="opts">${qs.opts
-            .map((o, i) => `<button data-a="${o.code}"><kbd>${i + 1}</kbd>${esc(o.name)}</button>`)
+            .map(
+              (o, i) =>
+                `<button data-a="${esc(o.code)}"><kbd>${i + 1}</kbd>${esc(o.name)}</button>`,
+            )
             .join("")}</div>`
         : `<div class="typed"><input id="qIn" maxlength="60" autocomplete="off" spellcheck="false" aria-label="Type the name"><button class="btn primary" data-check>Check</button></div>`;
     if (lvl() !== "easy") setTimeout(() => $("#qIn")?.focus({ preventScroll: true }), 50);

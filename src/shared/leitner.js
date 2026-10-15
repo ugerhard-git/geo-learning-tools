@@ -37,7 +37,15 @@ export const dayNumber = (ms = Date.now()) => Math.floor(ms / 864e5);
 export function cleanRecord(value) {
   if (!Array.isArray(value) || value.length !== 4) return null;
   const rec = value.map((x) => (Number.isInteger(x) ? x : 0));
-  return rec[0] >= 1 && rec[0] <= BOXES.length ? rec : null;
+  if (rec[0] < 1 || rec[0] > BOXES.length) return null;
+  // Bring the numbers into a range real answers can produce, so a doctored
+  // record cannot push an item out of reach for centuries or skew the
+  // totals. Day 100000 is in the year 2243.
+  const clamp = (x, lo, hi) => Math.min(hi, Math.max(lo, x));
+  rec[1] = clamp(rec[1], 0, 100000);
+  rec[2] = clamp(rec[2], 0, 1e6);
+  rec[3] = clamp(rec[3], 0, rec[2]);
+  return rec;
 }
 
 /**
@@ -81,6 +89,8 @@ export class ProgressStore {
     this.records = cleanRecords(store.object(storageKey), maxKeyLength);
     this.timer = 0;
     this.dirty = false;
+    /** The last save failed (storage full or blocked); the progress screen says so. */
+    this.saveFailed = false;
 
     // Write any pending change before the page goes away. `pagehide` and a
     // hidden tab cover mobile browsers, which may never fire `beforeunload`.
@@ -137,12 +147,16 @@ export class ProgressStore {
     this.timer = setTimeout(() => this.flush(), 400);
   }
 
-  /** Save now if anything changed. */
+  /**
+   * Save now if anything changed. If the write fails, the changes stay
+   * marked as unsaved, so the next answer or leaving the page tries again.
+   */
   flush() {
     clearTimeout(this.timer);
     if (!this.dirty) return;
-    this.store.set(this.storageKey, JSON.stringify(Object.fromEntries(this.records)));
-    this.dirty = false;
+    const saved = this.store.set(this.storageKey, JSON.stringify(Object.fromEntries(this.records)));
+    this.saveFailed = !saved;
+    if (saved) this.dirty = false;
   }
 
   /** Forget everything. */

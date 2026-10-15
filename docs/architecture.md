@@ -97,24 +97,29 @@ and fills up with what is due before anything that is not.
 styles from the site's own files only (`script-src 'self'; style-src 'self'`),
 with no `'unsafe-inline'`. So there are no `<script>` bodies, no `style=""`
 attributes and no `onclick=""` handlers anywhere, and the build fails if one
-appears. Styles that depend on data (a bar's width, the tooltip's position)
+appears. The checks live in `tools/site-checks.mjs`, which also fixes the
+exact list of outside hosts each directive may name, and are tested against
+pages that try to slip past them (`test/unit/site-checks.test.js`). Styles that depend on data (a bar's width, the tooltip's position)
 are set through the DOM (`el.style.width = …`), which the policy allows.
 
-**Escape what did not come from this repository.** Anything from a data file,
-an outside service or the learner passes through `esc` before it reaches
-`innerHTML`. Codes that end up in URLs or queries are checked against a
+**Escape everything.** Anything that reaches `innerHTML` other than a
+literal in the code passes through `esc`, including values from this
+repository's own data files and lookup tables. Codes that end up in URLs or queries are checked against a
 pattern first (`QID`, the SPARQL country code).
 
 **Treat storage as untrusted.** On GitHub Pages, every project site of the
 same account shares one origin and so one localStorage. Everything read back
-is validated: progress with `cleanRecords`, caches through `ttlCache`'s
-`isValid`, settings against the values on offer. Lookup tables are built with
+is validated: progress with `cleanRecords` (which also brings numbers into a
+range real answers produce), caches through `ttlCache`'s `isValid` (with
+length caps, via `shortString`; entries dated in the future are refused),
+settings against the values on offer. Lookup tables are built with
 `table()` so a stored `"__proto__"` cannot pass for a valid key.
 
-**Outside requests carry nothing.** `getJSON` sends no cookies and no referrer
-and refuses redirects. The REST Countries key goes only to
+**Outside requests carry nothing.** `getJSON` sends no cookies and no referrer,
+refuses redirects and refuses answers over 4 MB. The REST Countries key goes only to
 api.restcountries.com, and is neither read nor offered for entry when the page
-is framed by another site (`FRAMED`).
+is framed by another site (`FRAMED`). Erasing and importing progress are
+refused when framed too, so a framing page cannot trick a learner into them.
 
 **Keep stored names and formats.** Learners have progress on the live site.
 The storage keys below, the progress key of each item and the record format

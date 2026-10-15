@@ -97,6 +97,26 @@ test("cleanRecord rejects anything that is not four integers with a valid box", 
   assert.equal(cleanRecord({ 0: 1, 1: 0, 2: 0, 3: 0, length: 4 }), null);
 });
 
+test("cleanRecord brings doctored numbers into range", () => {
+  assert.deepEqual(cleanRecord([2, 1e12, -5, 3]), [2, 100000, 0, 0]);
+  assert.deepEqual(cleanRecord([2, 10, 4, 9]), [2, 10, 4, 4]);
+  assert.deepEqual(cleanRecord([2, 10, 1e9, 2]), [2, 10, 1e6, 2]);
+});
+
+test("a failed save keeps the changes pending and is reported", () => {
+  const { progress, store } = makeStore();
+  store.set = () => false;
+  progress.record("x", true);
+  progress.flush();
+  assert.equal(progress.saveFailed, true);
+  assert.equal(progress.dirty, true);
+
+  store.set = (k, v) => (store.data.set(k, v), true);
+  progress.flush();
+  assert.equal(progress.saveFailed, false);
+  assert.ok(store.object("test.progress").x);
+});
+
 test("stats, perBox and troublesome summarise a set of items", () => {
   const { progress } = makeStore({
     records: { a: [4, 50, 6, 1], b: [1, 100, 5, 4], c: [2, 200, 1, 0] },

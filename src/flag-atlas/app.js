@@ -13,7 +13,7 @@
  */
 import { $, $$, esc } from "../shared/dom.js";
 import { loadData, str } from "../shared/net.js";
-import { storage } from "../shared/storage.js";
+import { isFreshTime, storage } from "../shared/storage.js";
 import { answerKey, judgeTyped, norm } from "../shared/text.js";
 import { shuffle } from "../shared/random.js";
 import { PROJECTIONS, saveProjection, savedProjection, worldFrame } from "../shared/projection.js";
@@ -64,7 +64,7 @@ const ERAS = [
 ];
 
 const flagPng = (d, w = 320) => flagUrl(d.code, "w", w);
-const swatch = (k) => `<span class="sw c-${k}"></span>`;
+const swatch = (k) => `<span class="sw c-${esc(k)}"></span>`;
 
 try {
   await main();
@@ -106,7 +106,7 @@ async function main() {
     [["all", "All regions"], ...Object.entries(REGIONS)]
       .map(
         ([k, v]) =>
-          `<button class="chip" data-r="${k}" aria-pressed="${k === "all"}">${v}</button>`,
+          `<button class="chip" data-r="${esc(k)}" aria-pressed="${k === "all"}">${esc(v)}</button>`,
       )
       .join("") + `<span class="count" id="count"></span>`;
 
@@ -304,8 +304,7 @@ async function main() {
     const cached = storage.object(ADOPTION_KEY);
     if (
       cached &&
-      typeof cached.t === "number" &&
-      Date.now() - cached.t < ADOPTION_DAYS * 864e5 &&
+      isFreshTime(cached.t, Date.now(), ADOPTION_DAYS * 864e5) &&
       cached.d &&
       typeof cached.d === "object"
     ) {
@@ -530,7 +529,7 @@ async function main() {
           <h2 id="dname">${esc(d.name)}</h2>
           <div class="meta"><span class="tag code">${esc(d.code)}</span>${
             d.a3 ? `<span class="tag code">${esc(d.a3)}</span>` : ""
-          }<span class="tag">${REGIONS[d.region]}</span><span class="tag">${STATUS[d.status]}</span></div>
+          }<span class="tag">${esc(REGIONS[d.region] ?? "")}</span><span class="tag">${esc(STATUS[d.status] ?? "")}</span></div>
           ${designLine(d)}
           ${
             similar.length

@@ -57,6 +57,23 @@ export const storage = {
 };
 
 /**
+ * Whether a stored timestamp `t` lies within the last `ttl` milliseconds.
+ * Timestamps in the future are refused: anything on the origin can write
+ * them, and one would otherwise never expire.
+ * @param {unknown} t
+ * @param {number} now
+ * @param {number} ttl
+ */
+export const isFreshTime = (t, now, ttl) => typeof t === "number" && now - t >= 0 && now - t < ttl;
+
+/**
+ * Whether a value is a string of at most `max` characters. Validators of
+ * cached data use it so a planted entry cannot fill the page with megabytes
+ * of text.
+ */
+export const shortString = (v, max) => typeof v === "string" && v.length <= max;
+
+/**
  * A small time-limited cache in localStorage, for answers fetched from other
  * services that are slow to change. Entries older than `ttl` are ignored and
  * pruned; past `max` entries the oldest are dropped.
@@ -69,8 +86,11 @@ export const storage = {
  */
 export function ttlCache(key, ttl, max, isValid) {
   const memory = new Map();
+  // An entry is fresh if it was written in the last `ttl` milliseconds. A
+  // time in the future does not count: it would keep a planted entry alive
+  // for ever.
   const fresh = (entry, now) =>
-    entry && typeof entry.t === "number" && now - entry.t < ttl && isValid(entry.v);
+    Boolean(entry) && isFreshTime(entry.t, now, ttl) && isValid(entry.v);
 
   return {
     get(id) {
