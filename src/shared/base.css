@@ -67,11 +67,45 @@ header.top h1 a {
   text-decoration: none;
 }
 
+/*
+ * The way back to the landing page, at the top left of every app: a grid of
+ * four squares and "All apps". Narrow map headers keep only the icon.
+ */
+a.home {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px 7px 8px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+a.home:hover,
+a.home:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+a.home svg {
+  width: 16px;
+  height: 16px;
+}
+
 /* The end of a long app name, dropped where the header is tight
    ("Countries and Territories" becomes "Countries"). */
 @media (max-width: 1100px) {
-  header.top h1 .long {
+  header.top h1 .long,
+  header.top a.home span {
     display: none;
+  }
+
+  header.top a.home {
+    padding: 8px;
   }
 }
 
