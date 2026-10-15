@@ -1,0 +1,253 @@
+AF|AFG|Afghanistan|S|u
+AL|ALB|Albania|E|u
+DZ|DZA|Algeria|F|u
+AD|AND|Andorra|E|u
+AO|AGO|Angola|F|u
+AG|ATG|Antigua and Barbuda|A|u
+AR|ARG|Argentina|A|u
+AM|ARM|Armenia|S|u
+AU|AUS|Australia|O|u
+AT|AUT|Austria|E|u||Österreich
+AZ|AZE|Azerbaijan|S|u
+BS|BHS|Bahamas|A|u|the Bahamas
+BH|BHR|Bahrain|S|u
+BD|BGD|Bangladesh|S|u
+BB|BRB|Barbados|A|u
+BY|BLR|Belarus|E|u
+BE|BEL|Belgium|E|u
+BZ|BLZ|Belize|A|u
+BJ|BEN|Benin|F|u
+BT|BTN|Bhutan|S|u
+BO|BOL|Bolivia|A|u
+BA|BIH|Bosnia and Herzegovina|E|u
+BW|BWA|Botswana|F|u
+BR|BRA|Brazil|A|u
+BN|BRN|Brunei|S|u
+BG|BGR|Bulgaria|E|u
+BF|BFA|Burkina Faso|F|u
+BI|BDI|Burundi|F|u
+CV|CPV|Cabo Verde|F|u|Cape Verde|Cape Verde
+KH|KHM|Cambodia|S|u
+CM|CMR|Cameroon|F|u
+CA|CAN|Canada|A|u
+CF|CAF|Central African Republic|F|u|the Central African Republic
+TD|TCD|Chad|F|u
+CL|CHL|Chile|A|u
+CN|CHN|China|S|u
+CO|COL|Colombia|A|u
+KM|COM|Comoros|F|u|the Comoros
+CG|COG|Congo (Republic)|F|u|the Republic of the Congo|Republic of the Congo,Congo-Brazzaville
+CD|COD|Congo (Democratic Republic)|F|u|the Democratic Republic of the Congo|Democratic Republic of the Congo,DR Congo,DRC,Zaire,Congo-Kinshasa
+CR|CRI|Costa Rica|A|u
+CI|CIV|Côte d'Ivoire|F|u|Ivory Coast|Ivory Coast
+HR|HRV|Croatia|E|u
+CU|CUB|Cuba|A|u
+CY|CYP|Cyprus|E|u
+CZ|CZE|Czechia|E|u|the Czech Republic|Czech Republic
+DK|DNK|Denmark|E|u
+DJ|DJI|Djibouti|F|u
+DM|DMA|Dominica|A|u
+DO|DOM|Dominican Republic|A|u|the Dominican Republic
+EC|ECU|Ecuador|A|u
+EG|EGY|Egypt|F|u
+SV|SLV|El Salvador|A|u
+GQ|GNQ|Equatorial Guinea|F|u
+ER|ERI|Eritrea|F|u
+EE|EST|Estonia|E|u
+SZ|SWZ|Eswatini|F|u|Eswatini|Swaziland
+ET|ETH|Ethiopia|F|u
+FJ|FJI|Fiji|O|u
+FI|FIN|Finland|E|u
+FR|FRA|France|E|u
+GA|GAB|Gabon|F|u
+GM|GMB|Gambia|F|u|the Gambia
+GE|GEO|Georgia|S|u|Georgia (country)
+DE|DEU|Germany|E|u||Deutschland
+GH|GHA|Ghana|F|u
+GR|GRC|Greece|E|u
+GD|GRD|Grenada|A|u
+GT|GTM|Guatemala|A|u
+GN|GIN|Guinea|F|u
+GW|GNB|Guinea-Bissau|F|u
+GY|GUY|Guyana|A|u
+HT|HTI|Haiti|A|u
+HN|HND|Honduras|A|u
+HU|HUN|Hungary|E|u
+IS|ISL|Iceland|E|u
+IN|IND|India|S|u
+ID|IDN|Indonesia|S|u
+IR|IRN|Iran|S|u
+IQ|IRQ|Iraq|S|u
+IE|IRL|Ireland|E|u
+IL|ISR|Israel|S|u
+IT|ITA|Italy|E|u
+JM|JAM|Jamaica|A|u
+JP|JPN|Japan|S|u
+JO|JOR|Jordan|S|u
+KZ|KAZ|Kazakhstan|S|u
+KE|KEN|Kenya|F|u
+KI|KIR|Kiribati|O|u
+KP|PRK|North Korea|S|u|North Korea|DPRK
+KR|KOR|South Korea|S|u|South Korea|Korea
+KW|KWT|Kuwait|S|u
+KG|KGZ|Kyrgyzstan|S|u
+LA|LAO|Laos|S|u
+LV|LVA|Latvia|E|u
+LB|LBN|Lebanon|S|u
+LS|LSO|Lesotho|F|u
+LR|LBR|Liberia|F|u
+LY|LBY|Libya|F|u
+LI|LIE|Liechtenstein|E|u
+LT|LTU|Lithuania|E|u
+LU|LUX|Luxembourg|E|u
+MG|MDG|Madagascar|F|u
+MW|MWI|Malawi|F|u
+MY|MYS|Malaysia|S|u
+MV|MDV|Maldives|S|u|the Maldives
+ML|MLI|Mali|F|u
+MT|MLT|Malta|E|u
+MH|MHL|Marshall Islands|O|u|the Marshall Islands
+MR|MRT|Mauritania|F|u
+MU|MUS|Mauritius|F|u
+MX|MEX|Mexico|A|u
+FM|FSM|Micronesia|O|u|the Federated States of Micronesia
+MD|MDA|Moldova|E|u
+MC|MCO|Monaco|E|u
+MN|MNG|Mongolia|S|u
+ME|MNE|Montenegro|E|u
+MA|MAR|Morocco|F|u
+MZ|MOZ|Mozambique|F|u
+MM|MMR|Myanmar|S|u|Myanmar|Burma
+NA|NAM|Namibia|F|u
+NR|NRU|Nauru|O|u
+NP|NPL|Nepal|S|u
+NL|NLD|Netherlands|E|u|the Netherlands|Holland
+NZ|NZL|New Zealand|O|u
+NI|NIC|Nicaragua|A|u
+NE|NER|Niger|F|u
+NG|NGA|Nigeria|F|u
+MK|MKD|North Macedonia|E|u|North Macedonia|Macedonia
+NO|NOR|Norway|E|u
+OM|OMN|Oman|S|u
+PK|PAK|Pakistan|S|u
+PW|PLW|Palau|O|u
+PA|PAN|Panama|A|u
+PG|PNG|Papua New Guinea|O|u
+PY|PRY|Paraguay|A|u
+PE|PER|Peru|A|u
+PH|PHL|Philippines|S|u|the Philippines
+PL|POL|Poland|E|u
+PT|PRT|Portugal|E|u
+QA|QAT|Qatar|S|u
+RO|ROU|Romania|E|u
+RU|RUS|Russia|E|u
+RW|RWA|Rwanda|F|u
+KN|KNA|Saint Kitts and Nevis|A|u
+LC|LCA|Saint Lucia|A|u
+VC|VCT|Saint Vincent and the Grenadines|A|u
+WS|WSM|Samoa|O|u
+SM|SMR|San Marino|E|u
+ST|STP|São Tomé and Príncipe|F|u
+SA|SAU|Saudi Arabia|S|u
+SN|SEN|Senegal|F|u
+RS|SRB|Serbia|E|u
+SC|SYC|Seychelles|F|u
+SL|SLE|Sierra Leone|F|u
+SG|SGP|Singapore|S|u
+SK|SVK|Slovakia|E|u
+SI|SVN|Slovenia|E|u
+SB|SLB|Solomon Islands|O|u|the Solomon Islands
+SO|SOM|Somalia|F|u
+ZA|ZAF|South Africa|F|u
+SS|SSD|South Sudan|F|u
+ES|ESP|Spain|E|u
+LK|LKA|Sri Lanka|S|u
+SD|SDN|Sudan|F|u
+SR|SUR|Suriname|A|u
+SE|SWE|Sweden|E|u
+CH|CHE|Switzerland|E|u||Schweiz,Suisse
+SY|SYR|Syria|S|u
+TJ|TJK|Tajikistan|S|u
+TZ|TZA|Tanzania|F|u
+TH|THA|Thailand|S|u
+TL|TLS|Timor-Leste|S|u|East Timor|East Timor
+TG|TGO|Togo|F|u
+TO|TON|Tonga|O|u
+TT|TTO|Trinidad and Tobago|A|u
+TN|TUN|Tunisia|F|u
+TR|TUR|Türkiye|S|u|Turkey|Turkey
+TM|TKM|Turkmenistan|S|u
+TV|TUV|Tuvalu|O|u
+UG|UGA|Uganda|F|u
+UA|UKR|Ukraine|E|u
+AE|ARE|United Arab Emirates|S|u|the United Arab Emirates|UAE
+GB|GBR|United Kingdom|E|u|the United Kingdom|UK,Great Britain,Britain
+US|USA|United States|A|u|the United States|USA,America
+UY|URY|Uruguay|A|u
+UZ|UZB|Uzbekistan|S|u
+VU|VUT|Vanuatu|O|u
+VE|VEN|Venezuela|A|u
+VN|VNM|Vietnam|S|u
+YE|YEM|Yemen|S|u
+ZM|ZMB|Zambia|F|u
+ZW|ZWE|Zimbabwe|F|u
+VA|VAT|Vatican City|E|o|Vatican City|Holy See,Vatican
+PS|PSE|Palestine|S|o
+TW|TWN|Taiwan|S|p
+XK|XKX|Kosovo|E|p
+EH|ESH|Western Sahara|F|p|the Sahrawi Arab Democratic Republic|Sahrawi Republic
+GB-ENG||England|E|c
+GB-SCT||Scotland|E|c
+GB-WLS||Wales|E|c
+GB-NIR||Northern Ireland|E|c|=Flag of Northern Ireland
+AX|ALA|Åland Islands|E|t|Åland|Aland
+AS|ASM|American Samoa|O|t
+AI|AIA|Anguilla|A|t
+AQ|ATA|Antarctica|N|t
+AW|ABW|Aruba|A|t
+BM|BMU|Bermuda|A|t
+IO|IOT|British Indian Ocean Territory|S|t|the British Indian Ocean Territory
+VG|VGB|British Virgin Islands|A|t|the British Virgin Islands
+KY|CYM|Cayman Islands|A|t|the Cayman Islands
+CX|CXR|Christmas Island|O|t
+CC|CCK|Cocos (Keeling) Islands|O|t|the Cocos (Keeling) Islands
+CK|COK|Cook Islands|O|t|the Cook Islands
+CW|CUW|Curaçao|A|t
+FK|FLK|Falkland Islands|A|t|the Falkland Islands|Malvinas
+FO|FRO|Faroe Islands|E|t|the Faroe Islands|Faeroe
+GF|GUF|French Guiana|A|t
+PF|PYF|French Polynesia|O|t|French Polynesia|Tahiti
+TF|ATF|French Southern and Antarctic Lands|N|t|the French Southern and Antarctic Lands
+GI|GIB|Gibraltar|E|t
+GL|GRL|Greenland|A|t
+GP|GLP|Guadeloupe|A|t
+GU|GUM|Guam|O|t
+GG|GGY|Guernsey|E|t
+HK|HKG|Hong Kong|S|t
+IM|IMN|Isle of Man|E|t|the Isle of Man
+JE|JEY|Jersey|E|t
+MO|MAC|Macau|S|t|Macau|Macao
+MQ|MTQ|Martinique|A|t
+YT|MYT|Mayotte|F|t
+MS|MSR|Montserrat|A|t
+NC|NCL|New Caledonia|O|t|=Flags of New Caledonia
+NU|NIU|Niue|O|t
+NF|NFK|Norfolk Island|O|t
+MP|MNP|Northern Mariana Islands|O|t|the Northern Mariana Islands
+PN|PCN|Pitcairn Islands|O|t|the Pitcairn Islands
+PR|PRI|Puerto Rico|A|t
+RE|REU|Réunion|F|t|Réunion|Reunion
+BL|BLM|Saint Barthélemy|A|t|Saint Barthélemy|St Barts
+SH|SHN|Saint Helena|F|t
+MF|MAF|Saint Martin|A|t|the Collectivity of Saint Martin
+PM|SPM|Saint Pierre and Miquelon|A|t
+SX|SXM|Sint Maarten|A|t
+GS|SGS|South Georgia and the South Sandwich Islands|A|t|South Georgia and the South Sandwich Islands
+TK|TKL|Tokelau|O|t
+TC|TCA|Turks and Caicos Islands|A|t|the Turks and Caicos Islands
+VI|VIR|U.S. Virgin Islands|A|t|the United States Virgin Islands|US Virgin Islands
+WF|WLF|Wallis and Futuna|O|t
+SJ|SJM|Svalbard and Jan Mayen|E|t||Svalbard,Jan Mayen
+BQ|BES|Caribbean Netherlands|A|t||Bonaire,Sint Eustatius,Saba
+BV|BVT|Bouvet Island|N|t||Bouvet
+HM|HMD|Heard Island and McDonald Islands|N|t||Heard Island

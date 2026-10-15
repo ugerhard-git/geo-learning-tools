@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' https://flagcdn.com; font-src 'self'; connect-src 'self' https://en.wikipedia.org https://www.wikidata.org https://query.wikidata.org https://api.restcountries.com; base-uri 'none'; form-action 'none'; object-src 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Flag Atlas</title>
+    <link rel="icon" href="../icons/flag-atlas.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../fonts/fonts.css" />
+    <link rel="stylesheet" href="../shared/tokens.css" />
+    <link rel="stylesheet" href="../shared/base.css" />
+    <link rel="stylesheet" href="../shared/progress.css" />
+    <link rel="stylesheet" href="../shared/dialog.css" />
+    <link rel="stylesheet" href="app.css" />
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <header class="hero wrap">
+      <h1><a href="../">Flag Atlas</a></h1>
+      <p>
+        Every UN member state, the two observer states, and the territories that fly their own
+        flags. Pick a flag to see where it belongs and what its design means.
+      </p>
+    </header>
+
+    <div class="bar">
+      <div class="wrap">
+        <label class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-4-4" />
+          </svg>
+          <input
+            id="q"
+            type="search"
+            maxlength="60"
+            placeholder="Search name or code, e.g. Réunion, PR, DEU"
+            autocomplete="off"
+            aria-label="Search by country name or code"
+          />
+        </label>
+        <select id="sort" aria-label="Sort order">
+          <optgroup label="Order">
+            <option value="name">Name A–Z</option>
+            <option value="code">Country code</option>
+            <option value="shuffle">Shuffled</option>
+          </optgroup>
+          <optgroup label="Group by">
+            <option value="region">Region</option>
+            <option value="alike">Look-alike flags</option>
+            <option value="colour">Dominant colour</option>
+            <option value="layout">Layout</option>
+            <option value="symbol">Symbols</option>
+            <option value="ncol">Number of colours</option>
+            <option value="date">Date adopted</option>
+          </optgroup>
+        </select>
+        <select id="status" aria-label="Which flags to show">
+          <option value="all">All flags</option>
+          <option value="un">UN members only</option>
+          <option value="uno">UN members + observers</option>
+          <option value="other">Territories and others</option>
+        </select>
+        <button
+          class="btn"
+          id="hide"
+          aria-pressed="false"
+          title="Blur names so you can test yourself; hover to reveal"
+        >
+          Hide names
+        </button>
+        <button class="btn primary" id="quizBtn">Start quiz</button>
+        <button class="btn" id="progBtn">Progress</button>
+        <button class="btn quiet" id="setBtn">Settings</button>
+        <div class="chips" id="regions"></div>
+      </div>
+    </div>
+
+    <main class="wrap" id="main"><p class="banner" role="status">Loading flags…</p></main>
+
+    <dialog id="detail" class="big" aria-labelledby="dname"><div class="dlg"></div></dialog>
+    <dialog id="quiz" class="big" aria-label="Flag quiz">
+      <div class="dlg" tabindex="-1"></div>
+    </dialog>
+    <dialog id="progress" class="pg" aria-label="Progress"><div class="dlg"></div></dialog>
+
+    <!-- The world map, drawn once and shown in each detail view through <use>. -->
+    <svg class="defs" width="0" height="0" aria-hidden="true">
+      <defs><g id="world"></g></defs>
+    </svg>
+  </body>
+</html>

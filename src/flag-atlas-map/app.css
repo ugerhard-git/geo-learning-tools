@@ -1,0 +1,266 @@
+/* Flag Atlas Map: countries as the things to click, dots for small places, and the quiz. */
+
+:root {
+  --panel-w: 430px;
+  --bar-w: 640px;
+}
+
+header.top h1 {
+  font-size: 1.6rem;
+  margin-right: 8px;
+}
+
+.search {
+  flex-basis: 220px;
+  max-width: 420px;
+}
+
+/* ---------------------------------------------------------- countries */
+
+.land path.nodata {
+  fill: color-mix(in srgb, var(--land) 80%, var(--border));
+}
+
+.land path.hov {
+  fill: var(--hover);
+}
+
+.land path.sel,
+.land path.target {
+  fill: var(--accent);
+  stroke: var(--accent);
+}
+
+body.explore .land path[data-i]:not(.nodata),
+body.findq .land path[data-i]:not(.nodata) {
+  cursor: pointer;
+}
+
+/* A dot for each place too small to see or hit as a shape. */
+.mk {
+  fill: var(--land);
+  stroke: var(--border);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  cursor: pointer;
+}
+
+.mk.hov {
+  fill: var(--hover);
+}
+
+.mk.sel,
+.mk.target {
+  fill: var(--accent);
+  stroke: var(--accent);
+}
+
+/* "Find it": the shortlist to choose from, the answer, and the shape picked by
+   mistake. The answer is green and the mistake red, and both carry a
+   panel-coloured seam so the border still reads when the two are neighbours. */
+.land path.cand {
+  fill: color-mix(in srgb, var(--accent) 20%, var(--land));
+  stroke: var(--accent);
+  stroke-width: 1.6;
+}
+
+.mk.cand {
+  fill: color-mix(in srgb, var(--accent) 35%, var(--land));
+  stroke: var(--accent);
+}
+
+.land path.found,
+.mk.found {
+  fill: var(--ok);
+  stroke: var(--panel);
+  stroke-width: 2;
+}
+
+.land path.miss,
+.mk.miss {
+  fill: var(--bad);
+  stroke: var(--panel);
+  stroke-width: 2;
+}
+
+/* No borders: one unbroken landmass. Country edges are painted in the land
+   colour rather than removed, so the hairline seams between neighbours do
+   not show through. */
+body.blind .land path {
+  stroke: var(--land);
+}
+
+body.blind .land path.ocean {
+  stroke: none;
+}
+
+body.blind .land path.nodata {
+  fill: var(--land);
+}
+
+body.blind .mk,
+body.blind .maphint {
+  display: none;
+}
+
+body.blind .mk.found {
+  display: inline;
+}
+
+body.blind .land path.found {
+  stroke: var(--panel);
+  stroke-width: 2;
+}
+
+.mk-guess {
+  stroke-width: 2.5;
+}
+
+.mk-line {
+  stroke-width: 2;
+}
+
+.maphint {
+  position: absolute;
+  left: 14px;
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  margin: 0;
+  background: var(--panel);
+  color: var(--muted);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  box-shadow: var(--shadow);
+  z-index: 2;
+}
+
+/* -------------------------------------------------------------- panel */
+
+.pflag {
+  background: var(--tile);
+  border-radius: 10px;
+  padding: 14px;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 3/2;
+  margin: 0 44px 14px 0;
+}
+
+.pflag img {
+  max-width: 100%;
+  max-height: 100%;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+
+#panel h2 {
+  margin-right: 0;
+}
+
+#panel h3 {
+  font-size: 1.1rem;
+  margin: 22px 0 8px;
+}
+
+#panel h4 {
+  font-size: 0.95rem;
+  margin: 14px 0 6px;
+  color: var(--muted);
+}
+
+.outline {
+  background: var(--ocean);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 6px 0 10px;
+}
+
+.outline svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.outline .sea {
+  fill: var(--ocean);
+}
+
+.outline .ring {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.prow {
+  margin: 0 0 6px;
+}
+
+.flagdesc {
+  margin: 10px 0 0;
+  font-size: 0.95rem;
+}
+
+dl.facts {
+  grid-template-columns: minmax(90px, auto) 1fr;
+}
+
+.src {
+  font-size: 0.82rem;
+}
+
+/* --------------------------------------------------------------- quiz */
+
+#quizbar {
+  padding: 16px 18px;
+}
+
+.qtop {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.qtop select {
+  padding: 6px 8px;
+  font-size: 0.9rem;
+}
+
+.qtop .seg button {
+  padding: 5px 11px;
+  font-size: 0.9rem;
+}
+
+.qscore {
+  font-size: 0.9rem;
+}
+
+.qprompt {
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+@media (max-width: 760px) {
+  header.top h1 {
+    font-size: 1.3rem;
+  }
+
+  .seg button {
+    padding: 7px 11px;
+  }
+
+  .pflag {
+    max-width: 62%;
+  }
+
+  #panel {
+    max-height: 68%;
+  }
+
+  body.quiz .zoom {
+    bottom: auto;
+    top: 10px;
+  }
+
+  .maphint {
+    display: none;
+  }
+}

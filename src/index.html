@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Atlas Trainer</title>
+    <meta
+      name="description"
+      content="Four browser apps for learning world geography: flags, countries, cities and physical features, with spaced repetition."
+    />
+    <link rel="icon" href="icons/landing.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="fonts/fonts.css" />
+    <link rel="stylesheet" href="shared/tokens.css" />
+    <link rel="stylesheet" href="shared/base.css" />
+    <link rel="stylesheet" href="landing/landing.css" />
+    <script type="module" src="landing/landing.js"></script>
+  </head>
+  <body>
+    <header class="masthead">
+      <svg
+        id="hero"
+        viewBox="900 760 18200 6900"
+        preserveAspectRatio="xMidYMid slice"
+        role="img"
+        aria-label="World map in the Equal Earth projection"
+      >
+        <g class="globe" id="globe"></g>
+      </svg>
+      <div class="veil"></div>
+      <div class="mast">
+        <p class="eyebrow">Four tools, one subject</p>
+        <h1>Atlas Trainer</h1>
+        <p>Flags, countries, cities and terrain — learned by being asked, not by being shown.</p>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <section class="today" aria-live="polite">
+        <div class="grow">
+          <h2 id="todayHead">Loading your progress…</h2>
+          <p class="sub" id="todaySub"></p>
+        </div>
+        <div class="pips" id="todayPips"></div>
+        <a class="btn primary" id="todayGo" href="flag-atlas/">Start training</a>
+      </section>
+
+      <!-- One card per app. data-store names the app's progress in localStorage;
+           landing.js reads it to fill in the counts. -->
+      <section class="tools">
+        <article class="tool reveal" data-store="flagatlas.progress.v1" data-total="242">
+          <div class="glyph">
+            <svg viewBox="0 0 300 118" aria-hidden="true">
+              <g class="frames">
+                <rect x="26" y="27" width="24" height="46" fill="#008C45" />
+                <rect x="50" y="27" width="24" height="46" fill="#F4F5F0" />
+                <rect x="74" y="27" width="24" height="46" fill="#CD212A" />
+                <rect x="26" y="27" width="72" height="46" fill="none" />
+                <rect x="114" y="27" width="72" height="15.3" fill="#111" />
+                <rect x="114" y="42.3" width="72" height="15.3" fill="#C8102E" />
+                <rect x="114" y="57.6" width="72" height="15.4" fill="#F0C419" />
+                <rect x="114" y="27" width="72" height="46" fill="none" />
+                <rect x="202" y="27" width="72" height="46" fill="#F4F5F0" />
+                <circle cx="238" cy="50" r="14" fill="#BC002D" stroke="none" />
+                <rect x="202" y="27" width="72" height="46" fill="none" />
+              </g>
+            </svg>
+          </div>
+          <div class="body">
+            <h3>Flag Atlas</h3>
+            <p class="what">Every flag in a searchable grid, with the story behind each design.</p>
+            <ul>
+              <li>Name the flag, from four options or by typing</li>
+              <li>Sorted by look-alikes, colour, layout, symbols or date adopted</li>
+              <li>Wikipedia and Wikidata notes on each design</li>
+            </ul>
+            <div class="stats"></div>
+            <div class="go"><a class="btn" href="flag-atlas/">Open</a></div>
+          </div>
+        </article>
+
+        <article class="tool reveal" data-store="flagatlasmap.progress.v1" data-total="198">
+          <div class="glyph">
+            <svg viewBox="0 0 300 118" aria-hidden="true">
+              <g class="shapes">
+                <path d="M18 74 L46 34 L96 26 L128 52 L112 88 L58 94 Z" />
+                <path class="hit" d="M134 28 L196 20 L214 56 L176 92 L130 78 Z" />
+                <path d="M222 34 L282 42 L288 86 L232 96 L214 62 Z" />
+              </g>
+              <circle class="ring" cx="172" cy="54" r="21" />
+            </svg>
+          </div>
+          <div class="body">
+            <h3>Flag Atlas Map</h3>
+            <p class="what">
+              The same countries on a zoomable world map, with the facts behind each one.
+            </p>
+            <ul>
+              <li>Name the highlighted country, from options or by typing</li>
+              <li>Or the other way round: find the country you are named on the map</li>
+              <li>An extra-hard level strips every border and measures how far off you were</li>
+              <li>Practise one region at a time, countries or territories</li>
+              <li>Geography, politics and people in every country panel</li>
+            </ul>
+            <div class="stats"></div>
+            <div class="go"><a class="btn" href="flag-atlas-map/">Open</a></div>
+          </div>
+        </article>
+
+        <article
+          class="tool reveal"
+          data-store="terrainatlas.progress.v1"
+          data-breakdown="l:Locate|n:Name it|c:From the clue"
+        >
+          <div class="glyph">
+            <svg viewBox="0 0 300 118" aria-hidden="true">
+              <path
+                class="range"
+                d="M0 96 L54 44 L82 72 L124 26 L170 78 L206 52 L246 90 L300 58 L300 118 L0 118 Z"
+              />
+              <path class="snow" d="M124 26 L104 52 L146 52 Z" />
+              <path class="river" d="M0 104 C58 88 96 112 148 96 C200 80 242 104 300 86" />
+            </svg>
+          </div>
+          <div class="body">
+            <h3>Terrain Atlas</h3>
+            <p class="what">
+              2,121 physical features — rivers, ranges, deserts, seas, straits, islands and peaks.
+            </p>
+            <ul>
+              <li>Locate a feature by clicking the map, scored by distance</li>
+              <li>Name the river, range or sea highlighted on the map</li>
+              <li>Name it from the countries it runs through</li>
+            </ul>
+            <div class="stats"></div>
+            <div class="go"><a class="btn" href="terrain-atlas/">Open</a></div>
+          </div>
+        </article>
+
+        <article
+          class="tool reveal"
+          data-store="cityatlas.progress.v1"
+          data-breakdown="l:Locate|n:Name the city|c:Capital of|r:Name the region|rl:Locate the region"
+        >
+          <div class="glyph">
+            <svg viewBox="0 0 300 118" aria-hidden="true">
+              <g class="lines">
+                <path d="M14 82 C60 58 92 96 136 70 C182 42 214 84 288 56" />
+                <path class="faint" d="M14 46 C64 26 104 60 150 38 C198 14 236 48 288 24" />
+              </g>
+              <g class="dots">
+                <circle cx="70" cy="70" r="7" />
+                <circle cx="150" cy="54" r="10" />
+                <circle cx="228" cy="68" r="6" />
+              </g>
+              <circle class="ring" cx="150" cy="54" r="21" />
+            </svg>
+          </div>
+          <div class="body">
+            <h3>City Atlas</h3>
+            <p class="what">
+              2,738 cities and 4,596 regions — capitals, regional capitals and every city over a
+              million.
+            </p>
+            <ul>
+              <li>Locate a city by clicking the map, scored by distance</li>
+              <li>Or locate a region the same way — named, then clicked</li>
+              <li>Name a city from a pin, or name a highlighted region</li>
+              <li>Capitals of countries and of regions, both directions</li>
+            </ul>
+            <div class="stats"></div>
+            <div class="go"><a class="btn" href="city-atlas/">Open</a></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="how">
+        <h2>How the training works</h2>
+        <p>
+          All four apps use the same method. Every flag, country, city and feature you are asked
+          about sits in one of five boxes. Answer it right and it moves up a box and will not come
+          round again for longer. Get it wrong and it drops straight back to the first box, due
+          immediately. What you already know gets out of the way, and what you keep missing keeps
+          coming back.
+        </p>
+        <div class="ladder">
+          <div class="rung"><b>Box 1</b><span>due straight away</span></div>
+          <div class="rung"><b>Box 2</b><span>after 2 days</span></div>
+          <div class="rung"><b>Box 3</b><span>after 5 days</span></div>
+          <div class="rung"><b>Box 4</b><span>after 12 days</span></div>
+          <div class="rung"><b>Box 5</b><span>after 30 days</span></div>
+        </div>
+        <p class="note">
+          Reaching box 4 counts as known well. Each app has its own Progress screen showing
+          coverage, the items giving you trouble, and buttons to export, import or erase everything.
+        </p>
+      </section>
+
+      <footer>
+        <h2>Where the data comes from</h2>
+        <p>
+          Country and region outlines, the city list and the physical features are Natural Earth
+          (public domain) and are served with the site. Flag images come from flagcdn.com. Geography
+          notes come from the CIA World Factbook's final edition, which was discontinued in February
+          2026 and is public domain. Politics, population and the measurements of rivers, peaks and
+          lakes come from Wikidata, which is community-edited. Country facts from REST Countries are
+          optional and need a free key.
+        </p>
+        <h2>Your progress stays here</h2>
+        <p>
+          Everything you answer is stored in this browser and is never sent anywhere. This page only
+          reads it to show you what is due. Clearing your browser data clears it, so use the Export
+          button in an app's Progress screen if you want a backup or want to move to another device.
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>

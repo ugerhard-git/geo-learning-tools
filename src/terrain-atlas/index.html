@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://www.wikidata.org https://en.wikipedia.org; base-uri 'none'; form-action 'none'; object-src 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Terrain Atlas</title>
+    <link rel="icon" href="../icons/terrain-atlas.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../fonts/fonts.css" />
+    <link rel="stylesheet" href="../shared/tokens.css" />
+    <link rel="stylesheet" href="../shared/base.css" />
+    <link rel="stylesheet" href="../shared/map.css" />
+    <link rel="stylesheet" href="../shared/drill.css" />
+    <link rel="stylesheet" href="../shared/progress.css" />
+    <link rel="stylesheet" href="../shared/dialog.css" />
+    <link rel="stylesheet" href="app.css" />
+    <script type="module" src="app.js"></script>
+  </head>
+  <body class="explore">
+    <header class="top">
+      <h1><a href="../">Terrain Atlas</a></h1>
+      <label class="search" id="searchWrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-4-4" />
+        </svg>
+        <input
+          id="q"
+          type="search"
+          list="names"
+          maxlength="60"
+          placeholder="Find a river, range, sea…"
+          autocomplete="off"
+          aria-label="Find a physical feature"
+        />
+        <datalist id="names"></datalist>
+      </label>
+      <span class="spacer"></span>
+      <div class="seg" role="group" aria-label="Mode">
+        <button data-mode="explore" aria-pressed="true">Explore</button>
+        <button data-mode="drill" aria-pressed="false">Drill</button>
+        <button data-mode="prog" aria-pressed="false">Progress</button>
+      </div>
+    </header>
+
+    <div id="stage">
+      <svg
+        id="map"
+        preserveAspectRatio="xMidYMid meet"
+        role="img"
+        aria-label="World map of physical features. Scroll or pinch to zoom, drag to move, click a feature for details."
+        tabindex="0"
+      >
+        <g id="world"></g>
+        <g id="feats"></g>
+        <g id="overlay"></g>
+      </svg>
+      <div class="projsw">
+        <div class="seg" role="group" aria-label="Map projection">
+          <button data-proj="ee" aria-pressed="true">Equal Earth</button>
+          <button data-proj="merc" aria-pressed="false">Mercator</button>
+        </div>
+        <p class="pnote"></p>
+      </div>
+      <div id="layers">
+        <h2>Show on the map</h2>
+        <div class="row" id="layerRow"></div>
+        <p class="foot" id="layerFoot"></p>
+      </div>
+      <div id="tip" hidden></div>
+      <div class="zoom">
+        <button data-zoom="in" aria-label="Zoom in">+</button>
+        <button data-zoom="out" aria-label="Zoom out">−</button>
+        <button data-zoom="home" aria-label="Show the whole world">⌂</button>
+      </div>
+      <aside id="panel" hidden aria-label="Feature details"></aside>
+      <section id="setup" class="card" hidden aria-label="Drill setup"></section>
+      <section id="drillbar" class="qbar" hidden aria-label="Drill"></section>
+      <section id="progress" class="card pg" hidden aria-label="Progress"></section>
+      <p class="page-status" id="pageStatus" role="status">Loading the map…</p>
+    </div>
+  </body>
+</html>
