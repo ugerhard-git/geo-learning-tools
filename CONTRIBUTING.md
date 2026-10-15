@@ -7,6 +7,9 @@ npm install
 npx playwright install chromium   # once, for the browser tests
 ```
 
+In VS Code, install the recommended extensions when asked; the README's
+"Editor setup" section explains the rest.
+
 ## Day-to-day commands
 
 | Command             | What it does                                         |

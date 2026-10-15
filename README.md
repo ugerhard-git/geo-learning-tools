@@ -49,6 +49,29 @@ set **Settings → Pages → Build and deployment → Source** to "GitHub Action
 once. See
 [CONTRIBUTING.md](CONTRIBUTING.md) for how the repository is put together.
 
+## Editor setup
+
+The repository comes with settings for [VS Code](https://code.visualstudio.com/):
+
+- **Extensions:** opening the folder offers the recommended ones
+  (`.vscode/extensions.json`): ESLint, Prettier, EditorConfig, Playwright Test,
+  GitHub Actions and a spell checker.
+- **Formatting:** files are formatted with Prettier when you save, and ESLint
+  applies its safe fixes, so they pass `npm run lint` before you push.
+  `dist/` opens read-only, as a reminder to edit `src/` instead.
+- **Debugging:** **F5** builds the site, starts the local server and opens
+  Chrome with the debugger attached. Breakpoints set in `src/` work, because
+  the server serves an exact copy. After changing a file, press F5 again (or
+  run the "build" task) and reload the page.
+- **Tasks:** **Terminal → Run Task** has start, build, lint, unit tests and
+  browser tests. The Testing view runs the Playwright tests one by one; build
+  first, since they test `dist/`.
+- **IntelliSense:** `jsconfig.json` gives completions and hover docs from the
+  JSDoc comments. Type checking is opt-in: add `// @ts-check` at the top of a
+  file to see type errors in it.
+
+Other editors pick up the basics from `.editorconfig` and `.prettierrc.json`.
+
 ## Project layout
 
 ```
@@ -69,6 +92,7 @@ test/unit/           Node tests of the shared modules, the drill rules and the d
 test/e2e/            Playwright browser tests, one file per app plus smoke tests
 docs/                how the code is put together, and where the data comes from
 .github/             CI and deployment workflow, Dependabot configuration
+.vscode/             editor settings, tasks and debugging (see "Editor setup")
 licenses/            licences for the bundled fonts
 ```
 
