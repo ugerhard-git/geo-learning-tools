@@ -16,25 +16,25 @@ const PAGES = [
     ready: async (page) => expect(page.locator("#globe path")).not.toHaveCount(0),
   },
   {
-    path: "flag-atlas/",
-    title: "Flag Atlas",
+    path: "flags/",
+    title: "Flags",
     ready: async (page) => expect.poll(() => page.locator(".tile").count()).toBeGreaterThan(240),
   },
   {
-    path: "flag-atlas-map/",
-    title: "Flag Atlas Map",
+    path: "countries/",
+    title: "Countries and Territories",
     ready: async (page) =>
       expect.poll(() => page.locator("#world path").count()).toBeGreaterThan(200),
   },
   {
-    path: "city-atlas/",
-    title: "City Atlas",
+    path: "cities/",
+    title: "Cities and Regions",
     ready: async (page) =>
       expect.poll(() => page.locator("#cities circle").count()).toBeGreaterThan(2000),
   },
   {
-    path: "terrain-atlas/",
-    title: "Terrain Atlas",
+    path: "terrain/",
+    title: "Terrain",
     ready: async (page) =>
       expect.poll(() => page.locator("#feats path").count()).toBeGreaterThan(500),
   },
@@ -56,17 +56,26 @@ test("every app linked from the landing page exists", async ({ page, request }) 
   const hrefs = await page
     .locator(".tool .go a")
     .evaluateAll((links) => links.map((a) => a.getAttribute("href")));
-  expect(hrefs).toEqual(["flag-atlas/", "flag-atlas-map/", "terrain-atlas/", "city-atlas/"]);
+  expect(hrefs).toEqual(["flags/", "countries/", "cities/", "terrain/"]);
   for (const href of hrefs) {
     const res = await request.get(href);
     expect(res.status(), href).toBe(200);
   }
 });
 
-test("the old single-file addresses forward to the apps", async ({ page }) => {
-  for (const app of ["flag-atlas", "flag-atlas-map", "city-atlas", "terrain-atlas"]) {
-    await openPage(page, `${app}.html`);
-    await expect(page).toHaveURL(new RegExp(`/${app}/$`));
+test("the old addresses forward to the renamed apps", async ({ page }) => {
+  const moved = {
+    "flag-atlas": "flags",
+    "flag-atlas-map": "countries",
+    "city-atlas": "cities",
+    "terrain-atlas": "terrain",
+  };
+  for (const [old, now] of Object.entries(moved)) {
+    // The single-file app's address, and the folder the apps had until the rename.
+    for (const path of [`${old}.html`, `${old}/`]) {
+      await openPage(page, path);
+      await expect(page, path).toHaveURL(new RegExp(`/${now}/$`));
+    }
   }
 });
 
@@ -74,7 +83,7 @@ test("pages refuse to run inline script injected after load", async ({ page }) =
   // The CSP allows scripts from this site's own files only, so anything
   // inline must be refused. This is the property that makes an HTML-injection
   // bug far less dangerous, so check it actually holds in a real browser.
-  await openPage(page, "flag-atlas-map/");
+  await openPage(page, "countries/");
   await page.evaluate(() => {
     const s = document.createElement("script");
     s.textContent = "window.__injected = true";

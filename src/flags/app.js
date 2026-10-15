@@ -1,5 +1,5 @@
 /**
- * Flag Atlas: every flag on one page, to browse, group, and quiz yourself on.
+ * Flags: every flag on one page, to browse, group, and quiz yourself on.
  *
  * - The page: search, filter by region and status, sort or group (by look-
  *   alikes, colour, layout, symbols, number of colours, date adopted), and
@@ -9,7 +9,7 @@
  *   Wikipedia article and Wikidata facts about the flag.
  * - The quiz: whose flag is this, from four choices or typed.
  *
- * @module flag-atlas/app
+ * @module flags/app
  */
 import { $, $$, esc } from "../shared/dom.js";
 import { loadData, str } from "../shared/net.js";
@@ -682,7 +682,7 @@ async function main() {
   const progressDlg = $("#progress");
   const progress = new ProgressView($(".dlg", progressDlg), {
     store,
-    appName: "Flag Atlas",
+    appName: "Flags",
     lead: "One record per flag, however you answered it. Items you get wrong come back sooner.",
     closeButton: true,
     drills: () => [{ label: "Flags", keys: DATA.filter(quizzable).map(keyOf) }],

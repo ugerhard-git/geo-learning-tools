@@ -1,17 +1,8 @@
-/* Flag Atlas: a page of flags with a sticky toolbar, and dialogs for details and the quiz. */
+/* Flags: a page of flags with a sticky toolbar, and dialogs for details and the quiz. */
 
 :root {
-  --ocean: #d3e1eb;
-  --border: #a9b8c6;
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --ocean: #15222f;
-    --border: #51667e;
-  }
 }
 
 html {

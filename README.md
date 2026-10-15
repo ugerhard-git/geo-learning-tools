@@ -5,12 +5,12 @@ keeps track of what you know and brings back what you don't.
 
 **Live site:** <https://ugerhard-git.github.io/geo-learning-tools/>
 
-| App                | What you practise                                                                        |
-| ------------------ | ---------------------------------------------------------------------------------------- |
-| **Flag Atlas**     | Every UN member and observer state, plus the territories that fly their own flags.       |
-| **Flag Atlas Map** | The same countries on a zoomable world map: name the one highlighted, or find it.        |
-| **City Atlas**     | 2,738 cities and 4,596 regions — capitals, regional capitals, every city over a million. |
-| **Terrain Atlas**  | 2,121 physical features: rivers, ranges, deserts, seas, straits, islands and peaks.      |
+| App                           | What you practise                                                                        |
+| ----------------------------- | ---------------------------------------------------------------------------------------- |
+| **Flags**                     | Every UN member and observer state, plus the territories that fly their own flags.       |
+| **Countries and Territories** | The same countries on a zoomable world map: name the one highlighted, or find it.        |
+| **Cities and Regions**        | 2,738 cities and 4,596 regions — capitals, regional capitals, every city over a million. |
+| **Terrain**                   | 2,121 physical features: rivers, ranges, deserts, seas, straits, islands and peaks.      |
 
 The landing page shows what is due for review in each app. Progress is kept in
 your browser only and is never sent anywhere. Opening a place's details asks
@@ -47,10 +47,10 @@ site to GitHub Pages only once they pass. See
 ```
 src/                 the site, exactly as it is served (the build copies it to dist/)
   index.html         landing page, with landing/ for its script and styles
-  flag-atlas/        one folder per app: index.html, app.js, app.css, and the
-  flag-atlas-map/      app's own modules (data decoding, drill rules)
-  city-atlas/
-  terrain-atlas/
+  flags/        one folder per app: index.html, app.js, app.css, and the
+  countries/      app's own modules (data decoding, drill rules)
+  cities/
+  terrain/
   shared/            code and styles every app uses: map view, drills, spaced
                        repetition, progress screen, outside services …
   data/              map outlines, places and features (see docs/data.md)
@@ -76,7 +76,7 @@ served with the site; facts in the detail panels are fetched live.
 | Source                                                                                                                                | Used for                                         | Licence                             |
 | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | ----------------------------------- |
 | [Natural Earth](https://www.naturalearthdata.com/)                                                                                    | Country, region and feature outlines; cities     | Public domain                       |
-| [CIA World Factbook](https://github.com/factbook/factbook.json)                                                                       | Geography facts in Flag Atlas Map                | Public domain                       |
+| [CIA World Factbook](https://github.com/factbook/factbook.json)                                                                       | Geography facts in Countries and Territories     | Public domain                       |
 | [Wikidata](https://www.wikidata.org/)                                                                                                 | Facts in the detail panels, flag adoption dates  | CC0                                 |
 | [Wikipedia](https://en.wikipedia.org/)                                                                                                | Article summaries, linked in each panel          | CC BY-SA 4.0                        |
 | [REST Countries](https://restcountries.com/)                                                                                          | Capital, population, currency (optional API key) | Per their terms                     |

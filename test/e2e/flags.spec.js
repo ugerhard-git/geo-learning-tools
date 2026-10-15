@@ -1,8 +1,8 @@
-// Flag Atlas in a real browser: browsing the flags, the detail view and the quiz.
+// Flags in a real browser: browsing the flags, the detail view and the quiz.
 import { test, expect } from "@playwright/test";
 import { cspViolations, openPage, readData } from "./helpers.js";
 
-const PAGE = "flag-atlas/";
+const PAGE = "flags/";
 
 const NAMES = new Map(
   readData("countries.txt")

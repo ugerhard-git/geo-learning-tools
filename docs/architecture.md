@@ -8,10 +8,10 @@ stylesheets and one JavaScript module, and that module imports the rest.
 ```
 src/
   index.html            landing page          → landing/landing.js
-  flag-atlas/           a grid of flags        → app.js, design.js
-  flag-atlas-map/       countries on a map     → app.js, wikidata-facts.js
-  city-atlas/           cities and regions     → app.js, data.js, drills.js
-  terrain-atlas/        physical features      → app.js, data.js, drills.js
+  flags/           a grid of flags        → app.js, design.js
+  countries/       countries on a map     → app.js, wikidata-facts.js
+  cities/           cities and regions     → app.js, data.js, drills.js
+  terrain/        physical features      → app.js, data.js, drills.js
   shared/               everything used by more than one page
   data/                 map and place data, loaded at run time
 ```
@@ -32,7 +32,7 @@ app does. The shared modules, from the bottom up:
 | `geo.js`           | Distances, compass bearings, point-in-shape, nearest point on an outline, areas                                 |
 | `projection.js`    | Equal Earth and Mercator, and the setting that remembers which one the learner picked                           |
 | `countries.js`     | The country table (`src/data/countries.txt`), regions and statuses                                              |
-| `land.js`          | Country outlines for City and Terrain Atlas (`land.json`)                                                       |
+| `land.js`          | Country outlines for the Cities and Terrain maps (`land.json`)                                                  |
 | `world.js`         | The more detailed outlines the flag apps draw (`world.json`)                                                    |
 | `mapview.js`       | `MapView`: the visible window onto the map, pan, pinch, wheel and keyboard, animated moves                      |
 | `overlay.js`       | `MarkerLayer`: rings, pins and guess lines that keep their size on screen                                       |
@@ -52,7 +52,7 @@ own `app.css`, which adds and overrides.
 
 ### A map app
 
-City, Terrain and Flag Atlas Map share one shape:
+Cities and Regions, Terrain, and Countries and Territories share one shape:
 
 1. Load the data files (`loadData`), then draw the land into the SVG.
 2. A `MapView` owns the SVG's `viewBox`. The app draws; the view only moves.
@@ -71,7 +71,7 @@ comment above `bindPointer` in `mapview.js`.
 
 ### A drill
 
-City and Terrain Atlas run drills as sessions with `DrillSession`
+Cities and Regions and Terrain run drills as sessions with `DrillSession`
 (`drill.js`). The session holds the queue and the score, records each answer,
 asks a missed item again a few questions later, and draws the question bar.
 The app supplies hooks: `ask(item)` sets the map up and describes the
@@ -90,6 +90,15 @@ Every item has a record `[box, dueDay, tries, wrong]` (`leitner.js`). A right
 answer moves it up a box, a wrong one sends it back to box 1. Boxes wait 0,
 2, 5, 12 and 30 days. A session plans about seven reviews to three new items
 and fills up with what is due before anything that is not.
+
+### Adding an app
+
+Give it a folder under `src/` and a card in `src/index.html`. The card names
+the app's progress key (`data-store`) and a short name for the "today" counts
+(`data-short`); `data-total` or `data-breakdown` add totals or per-drill
+counts. The cards sit two to a row, and an odd last card spans the row, so
+the grid needs no change. Add the page to the smoke test in
+`test/e2e/smoke.spec.js`.
 
 ## Rules the code keeps to
 
@@ -125,19 +134,19 @@ refused when framed too, so a framing page cannot trick a learner into them.
 The storage keys below, the progress key of each item and the record format
 must not change; a test in `test/e2e/` checks that old records still load.
 
-| Key                                                                             | Holds                                                      |
-| ------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| `flagatlas.progress.v1`                                                         | Flag Atlas progress, items `f:<code>`                      |
-| `flagatlasmap.progress.v1`                                                      | Flag Atlas Map progress, items `c:<code>`                  |
-| `cityatlas.progress.v1`                                                         | City Atlas: `l:`/`n:`/`c:<iso>/<name>`, `r:`/`rl:<region>` |
-| `terrainatlas.progress.v1`                                                      | Terrain Atlas: `<l\|n\|c>:<kind>/<name>`                   |
-| `flagatlas.projection`                                                          | The projection, for every map                              |
-| `flagatlas.restcountries.key`, `flagatlas.restcountries.cache.v5`               | The REST Countries key and its 3-day cache                 |
-| `flagatlasmap.wikidata.v1`                                                      | Flag Atlas Map's Wikidata cache (7 days)                   |
-| `flagatlas.adoption.v1`, `flagatlas.quizLevel`                                  | Flag Atlas: adoption dates, quiz level                     |
-| `flagatlasmap.quizDir`                                                          | Flag Atlas Map: quiz direction                             |
-| `cityatlas.type`, `.cat`, `.scope`, `.hard`, `.hint`, `.len`                    | City Atlas drill settings                                  |
-| `terrain.layers`, `terrain.level`, `.type`, `.kinds`, `.scope`, `.hard`, `.len` | Terrain Atlas layers and drill settings                    |
+| Key                                                                             | Holds                                                              |
+| ------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| `flagatlas.progress.v1`                                                         | Flags progress, items `f:<code>`                                   |
+| `flagatlasmap.progress.v1`                                                      | Countries and Territories progress, items `c:<code>`               |
+| `cityatlas.progress.v1`                                                         | Cities and Regions: `l:`/`n:`/`c:<iso>/<name>`, `r:`/`rl:<region>` |
+| `terrainatlas.progress.v1`                                                      | Terrain: `<l\|n\|c>:<kind>/<name>`                                 |
+| `flagatlas.projection`                                                          | The projection, for every map                                      |
+| `flagatlas.restcountries.key`, `flagatlas.restcountries.cache.v5`               | The REST Countries key and its 3-day cache                         |
+| `flagatlasmap.wikidata.v1`                                                      | Countries and Territories: Wikidata cache (7 days)                 |
+| `flagatlas.adoption.v1`, `flagatlas.quizLevel`                                  | Flags: adoption dates, quiz level                                  |
+| `flagatlasmap.quizDir`                                                          | Countries and Territories: quiz direction                          |
+| `cityatlas.type`, `.cat`, `.scope`, `.hard`, `.hint`, `.len`                    | Cities and Regions drill settings                                  |
+| `terrain.layers`, `terrain.level`, `.type`, `.kinds`, `.scope`, `.hard`, `.len` | Terrain layers and drill settings                                  |
 
 ## Tests
 

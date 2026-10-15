@@ -1,25 +1,25 @@
-/* Terrain Atlas: its own land colours, the palette of feature kinds, and the layer panel. */
+/* Terrain: its own land colours, the palette of feature kinds, and the layer panel. */
 
 :root {
   --panel-w: 410px;
-  --land: #f7f6f1;
-  --border: #a6b4c2;
+  --land: #fbf5e6;
+  --border: #b9a88a;
   --water: #2e7bb8;
   --marine: #3e8fc4;
   --rock: #8a5a3b;
   --sand: #c29a45;
-  --edge: #5e7186;
+  --edge: #7d6a5c;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --land: #333f4c;
-    --border: #5c6e80;
+    --land: #3a3036;
+    --border: #6e5e66;
     --water: #5fb3e8;
     --marine: #5aa8de;
     --rock: #d39b72;
     --sand: #e3c067;
-    --edge: #9fb3c6;
+    --edge: #b8a6ad;
   }
 }
 

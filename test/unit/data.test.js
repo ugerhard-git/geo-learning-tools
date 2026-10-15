@@ -5,7 +5,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { csvRings, unpack, unpackRing } from "../../src/shared/codec.js";
 import { flagArticleTitles, parseCountries } from "../../src/shared/countries.js";
-import { parseTags, NO_OWN_FLAG } from "../../src/flag-atlas/design.js";
+import { parseTags, NO_OWN_FLAG } from "../../src/flags/design.js";
 
 const read = (name) => readFileSync(new URL(`../../src/data/${name}`, import.meta.url), "utf8");
 const countries = parseCountries(read("countries.txt"));
@@ -13,7 +13,7 @@ const codes = new Set(countries.map((c) => c.code));
 
 /**
  * Codes the outlines use that the country table deliberately leaves out:
- * XD is an outline without a country of its own (Flag Atlas Map greys it
+ * XD is an outline without a country of its own (Countries and Territories greys it
  * out), UM the United States Minor Outlying Islands and -1 Natural Earth's
  * mark for disputed areas, both of which only own regions.
  */

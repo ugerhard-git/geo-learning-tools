@@ -16,9 +16,6 @@ import { unpackRing, ringsToPath } from "../shared/codec.js";
 import { PROJECTIONS } from "../shared/projection.js";
 import { KNOWN_BOX, cleanRecords, dayNumber } from "../shared/leitner.js";
 
-/** How the counts in the "today" box name each app, in card order. */
-const SHORT = ["Flags", "Countries", "Terrain", "Cities"];
-
 drawMasthead();
 showProgress();
 
@@ -52,7 +49,7 @@ function tally(records, prefix = "") {
 }
 
 function showProgress() {
-  const cards = $$(".tool").map((el, i) => {
+  const cards = $$(".tool").map((el) => {
     const raw = storage.object(el.dataset.store);
     const records = cleanRecords(raw);
     const t = tally(records);
@@ -62,7 +59,7 @@ function showProgress() {
       stored: raw !== null,
       name: $("h3", el).textContent,
       href: $(".go a", el).getAttribute("href"),
-      short: SHORT[i],
+      short: el.dataset.short ?? "",
     };
   });
 
@@ -76,24 +73,23 @@ function showProgress() {
 
   if (!anyStored) {
     head.textContent = "Nothing tracked yet";
-    sub.textContent =
-      "Pick whichever appeals. Each app remembers what you get wrong and brings it back sooner.";
+    sub.textContent = "Pick an app to begin.";
     go.textContent = "Start with flags";
     go.href = cards[0].href;
   } else if (totalDue) {
     head.textContent = `${fmtNum(totalDue)} ${totalDue === 1 ? "item is" : "items are"} due for review`;
-    sub.textContent = `Most of them are in ${most.name}. Reviewing what is due is worth more than starting something new.`;
+    sub.textContent = `Most are in ${most.name}.`;
     go.textContent = `Review in ${most.name}`;
     go.href = most.href;
   } else if (practised) {
     head.textContent = "Nothing is due right now";
-    sub.textContent = `You have practised ${fmtNum(practised)} ${practised === 1 ? "item" : "items"}. Come back when they fall due, or press on with new ones.`;
+    sub.textContent = "Come back later, or learn something new.";
     const least = cards.slice().sort((a, b) => a.t.seen - b.t.seen)[0];
     go.textContent = "Learn something new";
     go.href = least.href;
   } else {
     head.textContent = "Ready when you are";
-    sub.textContent = "Pick a tool below to begin.";
+    sub.textContent = "Pick an app to begin.";
   }
 
   $("#todayPips").innerHTML = cards

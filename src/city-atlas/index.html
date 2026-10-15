@@ -1,99 +1,19 @@
 <!doctype html>
+<!-- City Atlas lived in this folder until it was renamed Cities and Regions and moved to cities/. This page sends old links and bookmarks to the new address. -->
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' https://flagcdn.com; font-src 'self'; connect-src 'self' https://api.restcountries.com; base-uri 'none'; form-action 'none'; object-src 'none'"
+      content="default-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'"
     />
     <meta name="referrer" content="no-referrer" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>City Atlas</title>
-    <link rel="icon" href="../icons/city-atlas.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="../fonts/fonts.css" />
-    <link rel="stylesheet" href="../shared/tokens.css" />
-    <link rel="stylesheet" href="../shared/base.css" />
-    <link rel="stylesheet" href="../shared/map.css" />
-    <link rel="stylesheet" href="../shared/drill.css" />
-    <link rel="stylesheet" href="../shared/progress.css" />
-    <link rel="stylesheet" href="../shared/dialog.css" />
-    <link rel="stylesheet" href="app.css" />
-    <script type="module" src="app.js"></script>
+    <meta http-equiv="refresh" content="0; url=../cities/" />
+    <meta name="robots" content="noindex" />
+    <title>City Atlas is now Cities and Regions</title>
+    <link rel="canonical" href="../cities/" />
   </head>
-  <body class="explore">
-    <header class="top">
-      <h1><a href="../">City Atlas</a></h1>
-      <label class="search" id="searchWrap">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true">
-          <circle cx="11" cy="11" r="7" />
-          <path d="m20 20-4-4" />
-        </svg>
-        <input
-          id="q"
-          type="search"
-          list="names"
-          maxlength="60"
-          placeholder="Find a city or region"
-          autocomplete="off"
-          aria-label="Find a city or region"
-        />
-        <datalist id="names"></datalist>
-      </label>
-      <span class="spacer"></span>
-      <div class="seg" role="group" aria-label="Mode">
-        <button data-mode="explore" aria-pressed="true">Explore</button>
-        <button data-mode="drill" aria-pressed="false">Drill</button>
-        <button data-mode="prog" aria-pressed="false">Progress</button>
-      </div>
-      <button class="btn quiet settings-btn" id="setBtn" aria-label="Settings">
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          aria-hidden="true"
-        >
-          <circle cx="12" cy="12" r="3" />
-          <path
-            d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"
-          />
-        </svg>
-        <span class="lbltxt">Settings</span>
-      </button>
-    </header>
-
-    <div id="stage">
-      <svg
-        id="map"
-        preserveAspectRatio="xMidYMid meet"
-        role="img"
-        aria-label="World map. Scroll or pinch to zoom, drag to move, click a city for details."
-        tabindex="0"
-      >
-        <g id="world"></g>
-        <g id="regions"></g>
-        <g id="cities"></g>
-        <g id="overlay"></g>
-      </svg>
-      <div class="projsw">
-        <div class="seg" role="group" aria-label="Map projection">
-          <button data-proj="ee" aria-pressed="true">Equal Earth</button>
-          <button data-proj="merc" aria-pressed="false">Mercator</button>
-        </div>
-        <p class="pnote"></p>
-      </div>
-      <div class="layers"><button id="regBtn" aria-pressed="false">Region borders</button></div>
-      <div id="tip" hidden></div>
-      <div class="zoom">
-        <button data-zoom="in" aria-label="Zoom in">+</button>
-        <button data-zoom="out" aria-label="Zoom out">−</button>
-        <button data-zoom="home" aria-label="Show the whole world">⌂</button>
-      </div>
-      <aside id="panel" hidden aria-label="Details"></aside>
-      <section id="setup" class="card" hidden aria-label="Drill setup"></section>
-      <section id="drillbar" class="qbar" hidden aria-label="Drill"></section>
-      <section id="progress" class="card pg" hidden aria-label="Progress"></section>
-      <p class="page-status" id="pageStatus" role="status">Loading the map…</p>
-    </div>
+  <body>
+    <p>City Atlas is now called Cities and Regions, at <a href="../cities/">its new address</a>.</p>
   </body>
 </html>

@@ -28,7 +28,7 @@ import { esc, fmtNum } from "./dom.js";
 import { FRAMED, HttpError, getJSON, num, str } from "./net.js";
 import { shortString, storage, ttlCache } from "./storage.js";
 
-/* Storage keys. They are shared with the original Flag Atlas, whose names they keep. */
+/* Storage keys. They are shared with the original Flag Atlas (now Flags), whose names they keep. */
 const KEY_STORE = "flagatlas.restcountries.key";
 const CACHE_STORE = "flagatlas.restcountries.cache.v5";
 

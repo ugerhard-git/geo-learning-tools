@@ -1,5 +1,5 @@
 /**
- * Terrain Atlas data: 2,121 physical features from src/data/terrain.json.
+ * Terrain data: 2,121 physical features from src/data/terrain.json.
  *
  * `features` is a tab-separated table, one feature per line:
  *
@@ -11,7 +11,7 @@
  * shared/codec.js), at `scale.point` units per degree for points and
  * `scale.line` for the rest.
  *
- * @module terrain-atlas/data
+ * @module terrain/data
  */
 import { loadData } from "../shared/net.js";
 import { unpackRing } from "../shared/codec.js";

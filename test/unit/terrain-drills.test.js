@@ -1,7 +1,7 @@
 import { test, before } from "node:test";
 import assert from "node:assert/strict";
 import { serveDataFromDisk } from "./load-data.js";
-import { loadFeatures } from "../../src/terrain-atlas/data.js";
+import { loadFeatures } from "../../src/terrain/data.js";
 import {
   SCOPES,
   TerrainQuestion,
@@ -10,7 +10,7 @@ import {
   keyOf,
   nearestFeature,
   poolFor,
-} from "../../src/terrain-atlas/drills.js";
+} from "../../src/terrain/drills.js";
 
 let features;
 const feature = (name, kind) => features.find((f) => f.name === name && (!kind || f.kind === kind));

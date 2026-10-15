@@ -1,5 +1,5 @@
 /**
- * What Flag Atlas knows about the design of each flag: its colours, layout
+ * What Flags knows about the design of each flag: its colours, layout
  * and symbols (src/data/flag-tags.txt), and which flags are easily mistaken
  * for one another.
  *
@@ -11,7 +11,7 @@
  * and {@link SYMBOLS}), colours in order of how much of the flag they
  * cover; "-" means no symbols. The layout is a key of {@link LAYOUTS}.
  *
- * @module flag-atlas/design
+ * @module flags/design
  */
 import { table } from "../shared/dom.js";
 

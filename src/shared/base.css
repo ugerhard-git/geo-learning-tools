@@ -67,6 +67,14 @@ header.top h1 a {
   text-decoration: none;
 }
 
+/* The end of a long app name, dropped where the header is tight
+   ("Countries and Territories" becomes "Countries"). */
+@media (max-width: 1100px) {
+  header.top h1 .long {
+    display: none;
+  }
+}
+
 .search {
   flex: 1 1 200px;
   max-width: 380px;

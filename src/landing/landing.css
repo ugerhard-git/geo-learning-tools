@@ -1,13 +1,11 @@
 /* The landing page: a world map masthead, what is due today, and a card per app. */
 
 :root {
-  --shadow: 0 10px 34px rgba(16, 30, 48, 0.14);
+  --shadow: 0 10px 34px rgba(80, 55, 20, 0.14);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --ocean: #132132;
-    --land: #33465c;
     --shadow: 0 10px 34px rgba(0, 0, 0, 0.45);
   }
 }
@@ -77,13 +75,6 @@ a {
   align-items: center;
   text-align: center;
   padding: 20px;
-}
-
-.mast .eyebrow {
-  margin: 0;
-  font-size: 0.95rem;
-  color: var(--muted);
-  letter-spacing: 0.01em;
 }
 
 .mast p:last-child {
@@ -185,11 +176,29 @@ a {
 
 /* ------------------------------------------------------------ the apps */
 
+/*
+ * Two cards to a row, one on narrow screens. With an odd number of apps the
+ * last card takes the whole row, picture beside the text, so the grid has
+ * no gap whatever the count.
+ */
 .tools {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 20px;
   margin: 44px 0 0;
+}
+
+.tool:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  flex-direction: row;
+}
+
+.tool:last-child:nth-child(odd) .glyph {
+  flex: 0 0 42%;
+  border-bottom: 0;
+  border-right: 1px solid var(--line);
+  display: flex;
+  align-items: center;
 }
 
 .tool {
@@ -401,11 +410,6 @@ a {
   background: color-mix(in srgb, var(--ok) 18%, var(--tile));
 }
 
-.how .note {
-  margin: 14px 0 0;
-  font-size: 0.92rem;
-}
-
 footer {
   margin: 52px 0 0;
   border-top: 1px solid var(--line);
@@ -414,15 +418,35 @@ footer {
   font-size: 0.92rem;
 }
 
-footer h2 {
+footer summary {
   font: 800 1.1rem/1.2 var(--display);
   color: var(--ink);
-  margin: 0 0 8px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+footer details[open] summary {
+  margin: 0 0 10px;
 }
 
 footer p {
-  margin: 0 0 12px;
+  margin: 0 0 8px;
   max-width: 78ch;
+}
+
+@media (max-width: 720px) {
+  .tools {
+    grid-template-columns: 1fr;
+  }
+
+  .tool:last-child:nth-child(odd) {
+    flex-direction: column;
+  }
+
+  .tool:last-child:nth-child(odd) .glyph {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
 }
 
 @media (max-width: 860px) {

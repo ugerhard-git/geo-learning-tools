@@ -1,7 +1,7 @@
 /*
  * Design tokens shared by every page: colours for light and dark themes,
  * the two typefaces, and the panel shadow. Pages override a token here and
- * there in their own stylesheet (Terrain Atlas has its own land colour and
+ * there in their own stylesheet (Terrain has its own land colour and
  * feature palette), but never redefine the set.
  *
  * Dark mode follows the system setting. `data-theme="light"` on <html>
@@ -9,50 +9,52 @@
  * open for a manual switch.
  */
 :root {
-  --bg: #eef2f4;
-  --panel: #ffffff;
-  --ink: #16243a;
-  --muted: #56667a;
-  --line: #c9d4dd;
-  --ocean: #cfdde8;
-  --land: #f9faf7;
-  --border: #9fb0c0;
-  --rline: #c3d0db;
-  --hover: #f1d9dd;
-  --accent: #b3122e;
+  /* "Honey & plum": warm paper, dark plum-brown ink, a plum accent. Main
+     text is about 15:1 against the panels and secondary text above 5:1. */
+  --bg: #faf3e2;
+  --panel: #fffbf1;
+  --ink: #2a1f2b;
+  --muted: #685a64;
+  --line: #eadbbd;
+  --ocean: #d8e2e4;
+  --land: #fffaee;
+  --border: #c1ab86;
+  --rline: #e0cfae;
+  --hover: #f5dba8;
+  --accent: #8a3a5c;
   --accent-ink: #ffffff;
-  --city: #40556e;
-  --ok: #1e7b4a;
-  --bad: #b3122e;
-  --near: #b87400;
-  --tile: #e3e9ee;
-  --warn-bg: #fff4d6;
+  --city: #4e3a4a;
+  --ok: #3a7a4a;
+  --bad: #b23a3a;
+  --near: #a86b00;
+  --tile: #f2e6cc;
+  --warn-bg: #fcedc8;
   --warn-ink: #5a4300;
   --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
   --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
-  --shadow: 0 12px 40px rgba(16, 30, 48, 0.22);
+  --shadow: 0 12px 40px rgba(80, 55, 20, 0.2);
   box-sizing: border-box;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0f1620;
-    --panel: #172231;
-    --ink: #e7edf3;
-    --muted: #98a8ba;
-    --line: #2b3b50;
-    --ocean: #122030;
-    --land: #34475d;
-    --border: #5a7089;
-    --rline: #46596e;
-    --hover: #5a3a48;
-    --accent: #ff5a6e;
-    --accent-ink: #1a0006;
-    --city: #c6d6e6;
-    --ok: #4cc38a;
-    --bad: #ff5a6e;
+    --bg: #1a1519;
+    --panel: #251e24;
+    --ink: #f3ebe4;
+    --muted: #b8a9b0;
+    --line: #3d3139;
+    --ocean: #1a2227;
+    --land: #3b3138;
+    --border: #73636b;
+    --rline: #574850;
+    --hover: #5e3b4c;
+    --accent: #e394b8;
+    --accent-ink: #2a0e1c;
+    --city: #e8d8de;
+    --ok: #5cc890;
+    --bad: #ff7b72;
     --near: #e8b15c;
-    --tile: #1d2a3a;
+    --tile: #2f262d;
     --warn-bg: #3a2f10;
     --warn-ink: #f3de9c;
     --shadow: 0 12px 40px rgba(0, 0, 0, 0.5);

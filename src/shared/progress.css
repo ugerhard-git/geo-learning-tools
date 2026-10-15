@@ -1,6 +1,6 @@
 /*
  * The progress screen (shared/progress-ui.js) and the export/import dialog.
- * Every class carries a "pg-" prefix: Flag Atlas has a sticky toolbar
+ * Every class carries a "pg-" prefix: Flags has a sticky toolbar
  * called .bar, and an earlier unprefixed version of these styles collapsed it.
  */
 .pg h2 {
@@ -136,7 +136,7 @@ textarea.pg-io {
   font-size: 0.82rem;
 }
 
-/* City and Terrain show progress on a card over the map rather than in a dialog. */
+/* Cities and Terrain show progress on a card over the map rather than in a dialog. */
 .card.pg {
   width: min(760px, calc(100% - 24px));
 }

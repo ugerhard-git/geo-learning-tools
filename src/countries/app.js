@@ -1,5 +1,5 @@
 /**
- * Flag Atlas Map: every country and territory with a flag of its own, on a
+ * Countries and Territories: every country and territory with a flag of its own, on a
  * zoomable world map.
  *
  * - Explore: hover and click countries; the panel shows the flag, an outline
@@ -9,7 +9,7 @@
  *   names a country). Find it has three levels: a shortlist of four, free
  *   hand, and no borders at all, where a miss is measured but never named.
  *
- * @module flag-atlas-map/app
+ * @module countries/app
  */
 import { $, $$, esc } from "../shared/dom.js";
 import { HttpError, loadData } from "../shared/net.js";
@@ -485,7 +485,7 @@ async function main() {
   const progressDlg = $("#progress");
   const progress = new ProgressView($(".dlg", progressDlg), {
     store,
-    appName: "Flag Atlas Map",
+    appName: "Countries and Territories",
     lead: "One record per country or territory you are asked to find. Items you get wrong come back sooner.",
     closeButton: true,
     drills: () => [{ label: "Countries and territories", keys: pool().map(keyOf) }],
