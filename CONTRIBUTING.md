@@ -31,16 +31,69 @@ modules, no bundler. [docs/architecture.md](docs/architecture.md) describes
 the shared modules and how an app is put together;
 [docs/data.md](docs/data.md) describes the data files.
 
-- Code used by more than one page goes in `src/shared/`, with a module
-  comment saying what it is for and JSDoc on what it exports.
-- An app's own rules (what a drill asks, what counts as right) go in a module
-  of their own with no DOM access, so they can be unit-tested.
-- Comments say why, not what. If a choice was made for a reason that is not
-  obvious from the code (a browser quirk, a data oddity, a security concern),
-  write the reason down beside it.
-- Every change to what a learner sees or does needs a browser test in
-  `test/e2e/`; every change to shared logic or data a unit test in
-  `test/unit/`.
+Every change to what a learner sees or does needs a browser test in
+`test/e2e/`; every change to shared logic or data a unit test in
+`test/unit/`.
+
+## Code for people
+
+The code is read by the owner and by developers who don't know the project.
+Write it so they can follow it without help.
+
+- **Clear before clever.** Choose the plain version over the shortest or
+  fastest one, unless the speed matters and a comment says why.
+- **Every file explains itself.** Start with a short comment on what the file
+  does. In an app's `app.js`, also describe the flow from loading the data to
+  a drill, and what each of the app's own modules is for.
+- **Comments say why, not what.** Explain decisions, sources and edge cases
+  (a browser quirk, a data oddity, a security concern; "Box 1 waits zero
+  days, so a miss comes back at once"); the code already shows what it does.
+- **Small modules with one job each.** Data decoding, drawing and the page
+  are kept apart. An app's own rules (what a drill asks, what counts as
+  right) go in a module with no page access, so they can be unit-tested.
+- **Names a reader understands:** whole words, matching the interface where
+  possible, no private abbreviations. Stored names are the exception: keys
+  like `flagatlas.progress.v1` keep their old spelling (see "Ground rules").
+- **JSDoc types** on exported functions and shared data shapes, so editors can
+  help.
+- **Follow the existing patterns.** Reuse `src/shared/` before writing
+  something new, and move code there once a second app needs it, with a
+  module comment saying what it is for.
+- **No new tools without a reason.** Every dependency or build step is one
+  more thing to learn; propose it before adding it. The build must keep using
+  only Node's built-in modules, so the published site is built without
+  third-party packages (see the `build-pages` job in
+  `.github/workflows/ci.yml`).
+- **Keep the documentation true.** When the code changes, update its comments,
+  `README.md`, `docs/architecture.md` and `docs/data.md` in the same pull
+  request.
+
+## Interface text
+
+Plain language for learners, in sentence case ("Name the region", not "Name
+The Region"), with no jargon. This covers buttons, hints, drill prompts,
+messages, errors and the progress screen: say what happened and what to do
+("The flags could not be loaded. Check your connection and reload."), not how
+the code works.
+
+## Pull requests
+
+- **Discuss bigger changes first**, in an issue or with the owner, before
+  building them.
+- **Run the checks** before opening one:
+
+  ```sh
+  npm run lint
+  npm run test:unit
+  npm run build       # also runs the security checks on every page
+  npm test
+  ```
+
+- **Describe what changed and how it was tested.** For visual changes,
+  include before/after screenshots.
+- **Start from the latest `main`.** Once a pull request is merged, start the
+  next change on a new branch rather than adding to the merged one.
+- The owner reviews and merges.
 
 ## How changes reach the site
 
@@ -62,9 +115,15 @@ should be covered by a test.
   attributes or `on…=""` handlers: the policy refuses them, and so does the
   build. Use a class, or set a computed style from script
   (`el.style.width = …`).
+- **Don't loosen the policy to make a change work.** A new outside service
+  goes into the page's policy and into the allowed list in
+  `tools/site-checks.mjs`, and should be discussed first. `SECURITY.md` lists
+  the known limits.
 - **Saved progress must keep working.** Do not rename a storage key, change
   an item's progress key or change the record format; the table in
-  `docs/architecture.md` lists them.
+  `docs/architecture.md` lists them. This holds when an app is renamed, too.
+- **Old addresses keep working.** When an app moves, its old address
+  forwards to the new one (see the forwarding pages in `src/`).
 - **Outside data is untrusted.** Anything fetched from Wikipedia, Wikidata or
   REST Countries, and anything read back from localStorage, is validated and
   escaped before it reaches the page.
