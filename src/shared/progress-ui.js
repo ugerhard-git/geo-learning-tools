@@ -10,6 +10,14 @@
  */
 import { BOXES, KNOWN_BOX } from "./leitner.js";
 import { esc, fmtNum } from "./dom.js";
+import { FRAMED } from "./net.js";
+
+/**
+ * Erasing and importing change saved progress, so they are refused while the
+ * page is shown inside another site's frame: that site could overlay the
+ * buttons and trick a learner into clicking them.
+ */
+const FRAMED_MESSAGE = "Open this page in its own tab to change your saved progress.";
 
 /**
  * @typedef {object} DrillKeys
@@ -55,6 +63,11 @@ export class ProgressView {
   /** Two clicks are needed to erase, the first one arms the second. */
   erase() {
     const status = this.root.querySelector("[data-pstatus]");
+    if (FRAMED) {
+      status.className = "status bad";
+      status.textContent = FRAMED_MESSAGE;
+      return;
+    }
     if (status.dataset.armed !== "1") {
       status.dataset.armed = "1";
       status.className = "status bad";
@@ -98,6 +111,11 @@ export class ProgressView {
       ${this.troublesome(drills)}
       <h3>Your data</h3>
       <p class="pg-src">Progress lives in this browser only and is never sent anywhere. Export it to move it to another device or keep a backup.</p>
+      ${
+        store.saveFailed
+          ? `<p class="status bad">This browser would not save your latest answers (its storage may be full or turned off). They count for now but will be lost when the page closes.</p>`
+          : ""
+      }
       <div class="actions">
         <button class="btn" data-export>Export</button>
         <button class="btn" data-import>Import</button>
@@ -199,6 +217,10 @@ export function createTransferDialog(store, appName, onImported) {
     if (mode === "export") {
       text.select();
       say("Selected, copy it now.", "ok");
+      return;
+    }
+    if (FRAMED) {
+      say(FRAMED_MESSAGE, "bad");
       return;
     }
     const result = store.importText(text.value);

@@ -15,12 +15,18 @@
  *   typing it there.
  * - Everything in the response, and everything read back from the cache, is
  *   reduced to a few short strings and numbers before it is shown.
+ * - What this cannot protect against: on GitHub Pages every project site of
+ *   one account shares the origin `<account>.github.io`. Any page published
+ *   there can read a remembered key from localStorage, and can even capture
+ *   a key held for one tab only, by opening an app in a window it controls.
+ *   The settings dialog says so plainly. Only a domain of the site's own
+ *   would close this (see SECURITY.md).
  *
  * @module shared/restcountries
  */
 import { esc, fmtNum } from "./dom.js";
 import { FRAMED, HttpError, getJSON, num, str } from "./net.js";
-import { storage, ttlCache } from "./storage.js";
+import { shortString, storage, ttlCache } from "./storage.js";
 
 /* Storage keys. They are shared with the original Flag Atlas, whose names they keep. */
 const KEY_STORE = "flagatlas.restcountries.key";
@@ -70,11 +76,11 @@ const DEBOUNCE_MS = 450;
 export const isCountryFacts = (v) =>
   Boolean(v) &&
   typeof v === "object" &&
-  ["official", "capital", "subregion", "languages", "currency"].every(
-    (k) => typeof v[k] === "string",
+  ["official", "capital", "subregion", "languages", "currency"].every((k) =>
+    shortString(v[k], 1000),
   ) &&
-  ["population", "area"].every((k) => v[k] === null || typeof v[k] === "number") &&
-  (v.flagDesc === undefined || typeof v.flagDesc === "string");
+  ["population", "area"].every((k) => v[k] === null || Number.isFinite(v[k])) &&
+  (v.flagDesc === undefined || shortString(v.flagDesc, 2000));
 
 /** The English name of a value that may be a string or a small object of names. */
 function nameOf(x) {
@@ -300,7 +306,8 @@ export function createSettingsDialog(rc, { intro, onChange = () => {} }) {
       <button class="btn" data-show aria-pressed="false">Show</button>
     </div>
     <label class="check"><input type="checkbox" data-remember><span>Remember the key in this browser</span></label>
-    <p class="warn">A remembered key is stored unencrypted in this browser's local storage. Anyone with access to this browser profile, and any other page served from the same address, can read it. Leave this unticked on shared computers; the key is then forgotten when you close the tab.</p>
+    <p class="warn">A remembered key is stored unencrypted in this browser. Anyone with access to this browser profile can read it, so leave this unticked on shared computers; the key is then forgotten when you close the tab.</p>
+    <p class="warn">This site shares its address, ${esc(location.host)}, with every other site published from the same GitHub account. A page on any of them could read the key, remembered or not. Use a key here only if you trust them all; a free key can be replaced at restcountries.com at any time.</p>
     <div class="actions">
       <button class="btn primary" data-save>Save and test key</button>
       <button class="btn" data-clear>Clear key</button>

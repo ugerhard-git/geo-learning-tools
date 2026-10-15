@@ -375,7 +375,7 @@ async function main() {
     const extent = point ? "" : `${f.box[2].toFixed(1)}° × ${f.box[3].toFixed(1)}°`;
     panel.show(`
       <h2>${esc(f.name)}</h2>
-      <div class="meta"><span class="tag"><span class="sw k-${f.kind}"></span>${esc(KINDS[f.kind].one)}</span>
+      <div class="meta"><span class="tag"><span class="sw k-${esc(f.kind)}"></span>${esc(KINDS[f.kind].one)}</span>
         <span class="tag">${esc(CONTINENTS[f.cont] ?? "")}</span></div>
       <dl class="facts">
         ${

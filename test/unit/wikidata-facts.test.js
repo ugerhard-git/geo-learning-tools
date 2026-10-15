@@ -47,6 +47,9 @@ test("results become labelled sections, from the item with most statements", () 
   assert.deepEqual(facts.politics, [["Form of government", "federal republic"]]);
   assert.deepEqual(facts.people, [["Religions", "Christianity (50%), Islam (6.0%)"]]);
   assert.ok(isCountryWikidata(facts));
+  // Planted entries: too many rows, or text far longer than a query yields.
+  assert.ok(!isCountryWikidata({ ...facts, basic: Array(500).fill(["a", "b"]) }));
+  assert.ok(!isCountryWikidata({ ...facts, basic: [["a", "x".repeat(1e5)]] }));
 });
 
 test("unlabelled values and foreign item addresses are dropped", () => {

@@ -60,6 +60,9 @@ test("cached facts are checked; flagDesc is optional, as older entries lack it",
   assert.ok(!isCountryFacts({ ...facts, population: "many" }));
   assert.ok(!isCountryFacts({ ...facts, flagDesc: {} }));
   assert.ok(!isCountryFacts(null));
+  // Something else on the origin plants megabytes of text.
+  assert.ok(!isCountryFacts({ ...facts, capital: "x".repeat(1e6) }));
+  assert.ok(!isCountryFacts({ ...facts, area: Infinity }));
 });
 
 test("factRows leaves out empty facts and formats numbers", () => {

@@ -6,7 +6,7 @@
  */
 import { fmtNum, table } from "../shared/dom.js";
 import { str } from "../shared/net.js";
-import { ttlCache } from "../shared/storage.js";
+import { shortString, ttlCache } from "../shared/storage.js";
 import { QID, sparql } from "../shared/wikidata.js";
 
 /**
@@ -156,13 +156,13 @@ function listed(kind, vals) {
 /** Whether a cached value has the shape of {@link CountryWikidata}. */
 export const isCountryWikidata = (v) =>
   Boolean(v) &&
-  (v.qid === null || QID.test(v.qid)) &&
+  typeof v === "object" &&
+  (v.qid === null || (shortString(v.qid, 20) && QID.test(v.qid))) &&
   SECTIONS.every(
     (k) =>
       Array.isArray(v[k]) &&
-      v[k].every(
-        (r) => Array.isArray(r) && r.length === 2 && r.every((x) => typeof x === "string"),
-      ),
+      v[k].length <= 100 &&
+      v[k].every((r) => Array.isArray(r) && r.length === 2 && r.every((x) => shortString(x, 4000))),
   );
 
 const cache = ttlCache("flagatlasmap.wikidata.v1", 7 * 864e5, 80, isCountryWikidata);
