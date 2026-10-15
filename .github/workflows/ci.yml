@@ -2,6 +2,13 @@
 # the built site to GitHub Pages, so nothing reaches the site without passing
 # the checks first.
 #
+# The site that is published is built in a job of its own, build-pages, which
+# installs no npm packages at all. The check job installs the dev tooling
+# (Prettier, ESLint, Playwright and what they depend on); if one of those
+# packages were ever compromised, it could alter files in its own job but not
+# the site that goes to Pages. tools/build.mjs uses only Node's built-ins so
+# that this split is possible.
+#
 # Third-party actions are pinned to a full commit SHA rather than a tag, since
 # a tag can be moved to point at different code. Dependabot keeps the pins
 # current (see .github/dependabot.yml); the comment beside each pin records
@@ -42,8 +49,10 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
 
+      # --ignore-scripts: no package gets to run install scripts. None of
+      # the dev tooling needs them; Playwright's browser is installed below.
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Check formatting and lint
         run: npm run lint
@@ -68,8 +77,28 @@ jobs:
           path: playwright-report/
           retention-days: 7
 
+  build-pages:
+    name: Build the site for Pages
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Node only: no npm install, so no third-party code takes part.
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+
+      - name: Build
+        run: node tools/build.mjs
+
       - name: Package the site for Pages
-        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: dist/
@@ -77,7 +106,7 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    needs: check
+    needs: build-pages
     runs-on: ubuntu-latest
     timeout-minutes: 10
     # Only this job can publish, and only through the github-pages
