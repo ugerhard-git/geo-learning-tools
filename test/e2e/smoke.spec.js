@@ -63,6 +63,14 @@ test("every app linked from the landing page exists", async ({ page, request }) 
   }
 });
 
+test("every app has a way back to the landing page", async ({ page }) => {
+  for (const app of ["flags", "countries", "cities", "terrain"]) {
+    await openPage(page, `${app}/`);
+    await page.getByRole("link", { name: "All apps" }).click();
+    await expect(page, app).toHaveTitle("Atlas Trainer");
+  }
+});
+
 test("the old addresses forward to the renamed apps", async ({ page }) => {
   const moved = {
     "flag-atlas": "flags",
