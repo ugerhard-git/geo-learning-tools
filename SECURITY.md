@@ -18,6 +18,7 @@ protecting are:
 - **The integrity of the pages themselves**, which render text fetched from
   Wikipedia, Wikidata and REST Countries.
 
-Every page carries a strict Content-Security-Policy that allows only its own
-script to run and limits network access to the services listed in the
-README.
+Every page carries a strict Content-Security-Policy that allows only scripts
+and stylesheets served from the site itself, no inline code of any kind, and
+network access only to the services listed in the README. The build refuses
+a page that weakens it.

@@ -1,0 +1,295 @@
+/*
+ * Questions on a map: the bar along the bottom of the map that asks them
+ * (every map app), and the setup and end-of-session cards of the drills in
+ * City Atlas and Terrain Atlas.
+ */
+
+:root {
+  /* Widest the question bar grows. */
+  --bar-w: 680px;
+}
+
+/* ------------------------------------------------- setup and summary */
+
+.card {
+  position: absolute;
+  inset: 12px;
+  margin: auto;
+  width: min(700px, calc(100% - 24px));
+  max-height: calc(100% - 24px);
+  background: var(--panel);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  overflow: auto;
+  padding: 24px;
+  z-index: 6;
+}
+
+.card h2 {
+  font: 800 1.7rem/1.05 var(--display);
+  margin: 0 0 4px;
+  letter-spacing: -0.02em;
+}
+
+.card h3 {
+  font: 800 1.05rem/1.2 var(--display);
+  margin: 18px 0 8px;
+}
+
+.card .lead {
+  color: var(--muted);
+  margin: 0 0 18px;
+}
+
+.card .lead.note {
+  margin: 7px 0 0;
+}
+
+.fieldrow {
+  margin: 0 0 16px;
+}
+
+.flab {
+  display: block;
+  font-weight: 700;
+  margin: 0 0 7px;
+}
+
+.types {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 8px;
+}
+
+.types button {
+  text-align: left;
+  padding: 11px 13px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  cursor: pointer;
+}
+
+.types button[aria-pressed="true"] {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.types b {
+  display: block;
+  font: 700 1rem/1.2 var(--body);
+}
+
+.types span {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.selects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.selects select {
+  flex: 1 1 160px;
+  min-width: 0;
+}
+
+.due {
+  background: var(--tile);
+  border-radius: 10px;
+  padding: 11px 14px;
+  margin: 0 0 16px;
+  font-size: 0.95rem;
+}
+
+.go {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.go.end {
+  margin-top: 20px;
+}
+
+/* ------------------------------------------------------- question bar */
+
+.qbar {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  width: min(var(--bar-w), calc(100% - 90px));
+  background: var(--panel);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 15px 18px;
+  z-index: 4;
+}
+
+/* Details opened from inside a drill sit beside the bar, so the drill is
+   never left; on a narrow screen the panel covers the bar instead. */
+@media (min-width: 761px) {
+  body.withpanel .qbar {
+    left: calc(50% - var(--panel-w) / 2 - 12px);
+    width: min(var(--bar-w), calc(100% - var(--panel-w) - 114px));
+  }
+}
+
+@media (max-width: 760px) {
+  body.withpanel .qbar {
+    display: none;
+  }
+}
+
+.qtop {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 9px;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.qtop .btn {
+  padding: 4px 10px;
+  font-size: 0.85rem;
+}
+
+.qscore {
+  margin-left: auto;
+}
+
+.qprompt {
+  font: 800 1.2rem/1.25 var(--display);
+  margin: 0 0 10px;
+}
+
+.qprompt .sub {
+  display: block;
+  font: 400 0.85rem/1.4 var(--body);
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+.qprompt .sub .hintv {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.opts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.opts button {
+  padding: 11px;
+  border-radius: 10px;
+  border: 1.5px solid var(--line);
+  background: var(--panel);
+  cursor: pointer;
+  font-weight: 700;
+  text-align: left;
+}
+
+.opts button kbd {
+  font: inherit;
+  font-weight: 400;
+  color: var(--muted);
+  margin-right: 7px;
+}
+
+.opts button.right {
+  background: var(--ok);
+  border-color: var(--ok);
+  color: #fff;
+}
+
+.opts button.wrong {
+  background: var(--bad);
+  border-color: var(--bad);
+  color: #fff;
+}
+
+.opts button.right kbd,
+.opts button.wrong kbd {
+  color: inherit;
+}
+
+.typed {
+  display: flex;
+  gap: 8px;
+}
+
+.typed input {
+  flex: 1;
+  min-width: 0;
+  padding: 11px 13px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+}
+
+.aimnote {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.qfoot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 10px;
+  min-height: 40px;
+}
+
+.qfoot .msg {
+  flex: 1 1 220px;
+  font-weight: 700;
+}
+
+.msg.ok {
+  color: var(--ok);
+}
+
+.msg.bad {
+  color: var(--bad);
+}
+
+.msg.near {
+  color: var(--near);
+}
+
+@media (max-width: 760px) {
+  .qbar {
+    width: calc(100% - 20px);
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    padding: 12px;
+  }
+
+  .card {
+    inset: 0;
+    width: 100%;
+    max-height: 100%;
+    border-radius: 0;
+    padding: 18px 16px calc(18px + env(safe-area-inset-bottom, 0px));
+  }
+
+  body.drill .zoom,
+  body.prog .zoom {
+    bottom: auto;
+    top: 56px;
+  }
+
+  .opts {
+    grid-template-columns: 1fr;
+  }
+}

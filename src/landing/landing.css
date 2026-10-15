@@ -1,0 +1,470 @@
+/* The landing page: a world map masthead, what is due today, and a card per app. */
+
+:root {
+  --shadow: 0 10px 34px rgba(16, 30, 48, 0.14);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ocean: #132132;
+    --land: #33465c;
+    --shadow: 0 10px 34px rgba(0, 0, 0, 0.45);
+  }
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font: 17px/1.6 var(--body);
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline-offset: 3px;
+}
+
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ------------------------- masthead: the world as an atlas frontispiece */
+
+.masthead {
+  position: relative;
+  overflow: hidden;
+  background: var(--ocean);
+  border-bottom: 1px solid var(--line);
+}
+
+.masthead svg {
+  display: block;
+  width: 100%;
+  height: clamp(280px, 44vh, 440px);
+}
+
+.masthead .globe path {
+  fill: var(--land);
+  stroke: var(--border);
+  stroke-width: 9;
+  stroke-linejoin: round;
+}
+
+.masthead .veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--ocean) 58%, transparent) 0%,
+    color-mix(in srgb, var(--ocean) 34%, transparent) 38%,
+    color-mix(in srgb, var(--bg) 82%, transparent) 78%,
+    var(--bg) 100%
+  );
+}
+
+.mast {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.mast .eyebrow {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+}
+
+.mast p:last-child {
+  text-shadow: 0 1px 14px var(--ocean);
+}
+
+.mast h1 {
+  font: 800 clamp(2.6rem, 8.5vw, 5.4rem) / 0.92 var(--display);
+  letter-spacing: -0.04em;
+  margin: 0.12em 0 0.18em;
+  text-shadow:
+    0 2px 26px var(--ocean),
+    0 1px 3px color-mix(in srgb, var(--ocean) 70%, transparent);
+}
+
+.mast p {
+  margin: 0;
+  max-width: 44ch;
+  color: var(--ink);
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
+}
+
+/* ---------------------------------------------------------------- today */
+
+.today {
+  margin: -28px auto 0;
+  position: relative;
+  z-index: 2;
+  background: var(--panel);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 22px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 26px;
+  align-items: center;
+}
+
+.today h2 {
+  font: 800 1.45rem/1.15 var(--display);
+  margin: 0 0 4px;
+  letter-spacing: -0.02em;
+}
+
+.today .sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.97rem;
+}
+
+.today .grow {
+  flex: 1 1 300px;
+  min-width: 0;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 20px;
+  border-radius: 11px;
+  color: inherit;
+  text-decoration: none;
+  font: 700 1rem/1 var(--body);
+  white-space: nowrap;
+}
+
+.btn:hover {
+  border-color: var(--border);
+}
+
+.btn.primary:hover {
+  background: color-mix(in srgb, var(--ink) 88%, var(--accent));
+}
+
+.pips {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.pip {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  background: var(--tile);
+  border-radius: 10px;
+  padding: 8px 13px;
+  font-size: 0.92rem;
+}
+
+.pip b {
+  font: 800 1.2rem/1 var(--display);
+}
+
+.pip.zero {
+  opacity: 0.55;
+}
+
+/* ------------------------------------------------------------ the apps */
+
+.tools {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 20px;
+  margin: 44px 0 0;
+}
+
+.tool {
+  background: var(--panel);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.tool .glyph {
+  background: var(--ocean);
+  border-bottom: 1px solid var(--line);
+}
+
+.tool .glyph svg {
+  display: block;
+  width: 100%;
+  height: 118px;
+}
+
+.tool .body {
+  padding: 20px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.tool h3 {
+  font: 800 1.5rem/1.1 var(--display);
+  letter-spacing: -0.02em;
+  margin: 0 0 6px;
+}
+
+.tool .what {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 0.97rem;
+}
+
+.tool .what.breakdown {
+  margin: -8px 0 14px;
+  font-size: 0.88rem;
+}
+
+.tool ul {
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+  font-size: 0.95rem;
+}
+
+.tool li {
+  padding: 3px 0 3px 19px;
+  position: relative;
+}
+
+.tool li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.72em;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--accent);
+  opacity: 0.65;
+}
+
+.tool .stats {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0 0 16px;
+  font-size: 0.88rem;
+}
+
+.tool .stats span {
+  background: var(--tile);
+  border-radius: 8px;
+  padding: 5px 10px;
+}
+
+.tool .stats b {
+  font-weight: 700;
+}
+
+.tool .stats .due {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.tool .go {
+  margin-top: auto;
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* The little pictures at the top of each card. */
+.glyph .frames {
+  stroke: var(--border);
+  stroke-width: 1.5;
+}
+
+.glyph .shapes path {
+  fill: var(--land);
+  stroke: var(--border);
+  stroke-width: 1.5;
+}
+
+.glyph .shapes path.hit {
+  fill: var(--accent);
+  stroke: var(--accent);
+}
+
+.glyph .ring {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+
+.glyph .range {
+  fill: color-mix(in srgb, #8a5a3b 32%, transparent);
+  stroke: #8a5a3b;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.glyph .snow {
+  fill: #f4f5f0;
+  stroke: #8a5a3b;
+  stroke-width: 1.2;
+}
+
+.glyph .river {
+  fill: none;
+  stroke: #2e7bb8;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.glyph .lines path {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 1.5;
+}
+
+.glyph .lines .faint {
+  opacity: 0.5;
+}
+
+.glyph .dots {
+  fill: var(--accent);
+}
+
+/* ----------------------------------------------------------- how it works */
+
+.how {
+  margin: 52px 0 0;
+  background: var(--panel);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 26px 26px 22px;
+}
+
+.how h2 {
+  font: 800 1.6rem/1.1 var(--display);
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+}
+
+.how p {
+  margin: 0 0 16px;
+  max-width: 72ch;
+  color: var(--muted);
+}
+
+.ladder {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin: 0 0 6px;
+}
+
+.rung {
+  background: var(--tile);
+  border-radius: 10px;
+  padding: 11px 12px;
+}
+
+.rung b {
+  display: block;
+  font: 800 1.05rem/1.2 var(--display);
+}
+
+.rung span {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.rung:nth-child(1) {
+  background: color-mix(in srgb, var(--accent) 16%, var(--tile));
+}
+
+.rung:nth-child(5) {
+  background: color-mix(in srgb, var(--ok) 18%, var(--tile));
+}
+
+.how .note {
+  margin: 14px 0 0;
+  font-size: 0.92rem;
+}
+
+footer {
+  margin: 52px 0 0;
+  border-top: 1px solid var(--line);
+  padding: 26px 0 46px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+footer h2 {
+  font: 800 1.1rem/1.2 var(--display);
+  color: var(--ink);
+  margin: 0 0 8px;
+}
+
+footer p {
+  margin: 0 0 12px;
+  max-width: 78ch;
+}
+
+@media (max-width: 860px) {
+  .ladder {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .today {
+    margin-top: -18px;
+    padding: 18px;
+  }
+
+  .ladder {
+    grid-template-columns: 1fr;
+  }
+
+  .masthead svg {
+    max-height: 42vh;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+  }
+
+  .reveal:nth-child(2) {
+    animation-delay: 0.07s;
+  }
+
+  .reveal:nth-child(3) {
+    animation-delay: 0.14s;
+  }
+
+  @keyframes rise {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

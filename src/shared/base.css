@@ -1,0 +1,358 @@
+/*
+ * Page frame and controls shared by every app: the header bar, buttons,
+ * segmented switches, selects, and the small text styles used in panels
+ * and dialogs.
+ *
+ * No page uses inline style="" attributes (the Content-Security-Policy
+ * forbids them), so the few one-off adjustments that used to be written
+ * inline are the utility classes at the end of this file.
+ */
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.5 var(--body);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ------------------------------------------------------------- header */
+
+header.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  padding: calc(10px + env(safe-area-inset-top, 0px)) 16px 10px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  z-index: 4;
+}
+
+header.top h1 {
+  font: 800 1.5rem/1 var(--display);
+  letter-spacing: -0.02em;
+  margin: 0 6px 0 0;
+  white-space: nowrap;
+}
+
+header.top h1 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.search {
+  flex: 1 1 200px;
+  max-width: 380px;
+  position: relative;
+}
+
+.search input {
+  width: 100%;
+  padding: 9px 12px 9px 38px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+}
+
+.search svg {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  stroke: var(--muted);
+}
+
+.spacer {
+  flex: 1;
+}
+
+/* ------------------------------------------------------------ buttons */
+
+.seg {
+  display: inline-flex;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--panel);
+}
+
+.seg button {
+  border: 0;
+  background: none;
+  padding: 8px 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.seg button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 700;
+}
+
+.btn,
+select {
+  padding: 9px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  cursor: pointer;
+}
+
+.btn.primary {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+  font-weight: 700;
+}
+
+.btn.quiet {
+  border-color: transparent;
+  background: transparent;
+  color: var(--muted);
+}
+
+.btn[disabled] {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.linkbtn {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--ink);
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+  font-style: normal;
+}
+
+.close {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--tile);
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.settings-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.settings-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* --------------------------------------------------------- panel text */
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 14px;
+}
+
+.tag {
+  font-size: 0.85rem;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: var(--tile);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tag.code {
+  font-weight: 700;
+}
+
+dl.facts {
+  display: grid;
+  grid-template-columns: minmax(84px, auto) 1fr;
+  gap: 6px 14px;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+dl.facts dt {
+  color: var(--muted);
+}
+
+dl.facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.src {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 18px;
+}
+
+.src a,
+.shint a {
+  color: inherit;
+}
+
+.err {
+  color: var(--muted);
+  font-style: italic;
+  margin: 0;
+}
+
+.loading {
+  color: var(--muted);
+}
+
+.status {
+  min-height: 1.5em;
+  margin: 12px 0 0;
+  font-weight: 700;
+}
+
+.status.ok {
+  color: var(--ok);
+}
+
+.status.bad {
+  color: var(--bad);
+}
+
+.shint {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.shint code {
+  background: var(--tile);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* A country's flag beside its name; hidden if flagcdn.com cannot be reached. */
+.ctry {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.flagmini {
+  height: 22px;
+  width: auto;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.22);
+  flex: none;
+}
+
+.flag-failed {
+  display: none !important;
+}
+
+/* A page whose data is still loading, or failed to load. */
+.page-status {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: fit-content;
+  height: fit-content;
+  max-width: calc(100% - 32px);
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  z-index: 8;
+}
+
+/* ---------------------------------------------------------- utilities */
+
+.muted {
+  color: var(--muted);
+}
+
+.spaced {
+  margin-top: 14px;
+}
+
+.spaced-s {
+  margin-top: 10px;
+}
+
+.flush {
+  margin: 0;
+}
+
+.flush-bottom {
+  margin-bottom: 0;
+}
+
+@media (max-width: 760px) {
+  header.top {
+    gap: 8px;
+  }
+
+  header.top h1 {
+    font-size: 1.2rem;
+  }
+
+  header.top .btn.quiet {
+    padding: 8px 6px;
+  }
+
+  .settings-btn .lbltxt {
+    display: none;
+  }
+
+  .search {
+    order: 5;
+    flex-basis: 100%;
+    max-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}

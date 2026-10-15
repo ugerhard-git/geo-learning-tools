@@ -1,0 +1,274 @@
+/* Terrain Atlas: its own land colours, the palette of feature kinds, and the layer panel. */
+
+:root {
+  --panel-w: 410px;
+  --land: #f7f6f1;
+  --border: #a6b4c2;
+  --water: #2e7bb8;
+  --marine: #3e8fc4;
+  --rock: #8a5a3b;
+  --sand: #c29a45;
+  --edge: #5e7186;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --land: #333f4c;
+    --border: #5c6e80;
+    --water: #5fb3e8;
+    --marine: #5aa8de;
+    --rock: #d39b72;
+    --sand: #e3c067;
+    --edge: #9fb3c6;
+  }
+}
+
+.land path {
+  stroke-width: 0.55;
+}
+
+/* ------------------------------------------------------------ features */
+
+#feats g {
+  pointer-events: none;
+}
+
+#feats g.off {
+  display: none;
+}
+
+#feats path,
+#feats circle {
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.k-riv path,
+.k-lak path {
+  fill: none;
+  stroke: var(--water);
+  stroke-width: 1.6;
+}
+
+.k-lak path {
+  fill: color-mix(in srgb, var(--water) 42%, transparent);
+  stroke-width: 0.8;
+}
+
+.k-sea path,
+.k-gul path,
+.k-str path {
+  fill: color-mix(in srgb, var(--marine) 15%, transparent);
+  stroke: var(--marine);
+  stroke-width: 1;
+  stroke-dasharray: 5 4;
+}
+
+.k-rng path {
+  fill: color-mix(in srgb, var(--rock) 26%, transparent);
+  stroke: var(--rock);
+  stroke-width: 1;
+}
+
+.k-des path {
+  fill: color-mix(in srgb, var(--sand) 30%, transparent);
+  stroke: var(--sand);
+  stroke-width: 1;
+}
+
+.k-plt path {
+  fill: color-mix(in srgb, var(--sand) 15%, transparent);
+  stroke: var(--sand);
+  stroke-width: 0.9;
+  stroke-dasharray: 4 3;
+}
+
+.k-isl path,
+.k-pen path,
+.k-reg path {
+  fill: color-mix(in srgb, var(--edge) 12%, transparent);
+  stroke: var(--edge);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.k-pea circle {
+  fill: var(--rock);
+  stroke: var(--land);
+  stroke-width: 1;
+}
+
+/* The selected or highlighted feature, whatever its kind. */
+#feats .on {
+  stroke: var(--accent) !important;
+  stroke-width: 3 !important;
+  stroke-dasharray: none !important;
+  fill: color-mix(in srgb, var(--accent) 30%, transparent) !important;
+}
+
+#feats .k-riv .on {
+  fill: none !important;
+}
+
+#feats .k-pea .on {
+  fill: var(--accent) !important;
+  stroke-width: 2 !important;
+}
+
+/* ------------------------------------------- colour swatches of a kind */
+
+.sw {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  flex: none;
+}
+
+.sw.k-riv,
+.sw.k-lak {
+  background: var(--water);
+}
+
+.sw.k-sea,
+.sw.k-gul,
+.sw.k-str {
+  background: var(--marine);
+}
+
+.sw.k-rng,
+.sw.k-pea {
+  background: var(--rock);
+}
+
+.sw.k-des,
+.sw.k-plt {
+  background: var(--sand);
+}
+
+.sw.k-isl,
+.sw.k-pen,
+.sw.k-reg {
+  background: var(--edge);
+}
+
+.tag .sw {
+  width: 10px;
+  height: 10px;
+}
+
+/* ----------------------------------------------------------- the layers */
+
+#layers {
+  position: absolute;
+  right: 14px;
+  top: 12px;
+  z-index: 3;
+  background: var(--panel);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 10px 12px;
+  max-width: 210px;
+}
+
+#layers h2 {
+  margin: 0 0 7px;
+  font: 800 0.95rem/1.2 var(--display);
+}
+
+#layers .row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+#layers button {
+  border: 1.5px solid var(--line);
+  background: none;
+  border-radius: 8px;
+  padding: 3px 8px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#layers button[aria-pressed="true"] {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--bg);
+}
+
+#layers .foot {
+  margin: 8px 0 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+body.drill #layers,
+body.prog #layers {
+  display: none;
+}
+
+/* ---------------------------------------------------- panel and setup */
+
+dl.facts {
+  grid-template-columns: minmax(92px, auto) 1fr;
+}
+
+.prow {
+  margin: 14px 0;
+}
+
+.types {
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+
+.selects select {
+  flex: 1 1 170px;
+}
+
+.kinds {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.kinds button {
+  border: 1.5px solid var(--line);
+  background: none;
+  border-radius: 999px;
+  padding: 5px 11px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.kinds button[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 700;
+}
+
+.kinds .count {
+  opacity: 0.7;
+}
+
+.lead.below {
+  margin: 10px 0 0;
+}
+
+@media (max-width: 760px) {
+  #layers {
+    right: auto;
+    left: 12px;
+    top: auto;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    max-width: calc(100% - 76px);
+  }
+}

@@ -15,7 +15,8 @@
     "lint:format": "prettier --check .",
     "lint:js": "eslint .",
     "format": "prettier --write .",
-    "test": "playwright test"
+    "test": "playwright test",
+    "test:unit": "node --test \"test/unit/*.test.js\""
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

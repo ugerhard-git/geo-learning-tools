@@ -1,0 +1,140 @@
+# The data in `src/data/`
+
+The apps draw on a handful of data files, served with the site and loaded when
+a page opens. They are generated, not written by hand (except
+`countries.txt` and `flag-tags.txt`), and are left out of Prettier: they are
+long single-line strings that formatting would only make bigger.
+
+| File            | Used by                    | What it holds                                                                |
+| --------------- | -------------------------- | ---------------------------------------------------------------------------- |
+| `countries.txt` | every app                  | The 253 countries and territories, their names and aliases                   |
+| `world.json`    | Flag Atlas, Flag Atlas Map | Country outlines in hundredths of a degree, and each country's main landmass |
+| `factbook.json` | Flag Atlas Map             | Geography sections of the CIA World Factbook, per country                    |
+| `flag-tags.txt` | Flag Atlas                 | Each flag's colours, layout and symbols                                      |
+| `land.json`     | City Atlas, Terrain Atlas  | Simplified country outlines, and a box around each country                   |
+| `cities.json`   | City Atlas                 | 2,738 cities, 4,596 regions and the regions' outlines                        |
+| `terrain.json`  | Terrain Atlas              | 2,121 physical features with their geometry                                  |
+| `hero.txt`      | landing page               | A coarse world outline for the masthead                                      |
+
+## Formats
+
+### Packed coordinates
+
+`land.json`, `cities.json`, `terrain.json` and `hero.txt` store coordinates
+as integers (degrees times a scale given in each file), written 6 bits per
+character. Each ring is delta-encoded: the first pair is absolute, every
+later pair the change from the one before. Signs are zig-zag encoded (0, -1,
+1, -2 … become 0, 1, 2, 3 …), and a character's sixth bit says the number
+continues in the next character. The alphabet `A–Z a–z 0–9 + -` is safe in
+JSON strings, so tabs and newlines stay free as separators. The decoder is
+`unpack` in `src/shared/codec.js`; the encoder is `pack` in the generators.
+
+### `countries.txt`
+
+One place per line, fields separated by `|`:
+
+```
+code | alpha-3 | name | region | status | wiki | aliases
+NL   | NLD     | Netherlands | E | u | the Netherlands | Holland
+```
+
+Region is one of `F A S E O N` (Africa, Americas, Asia, Europe, Oceania,
+Antarctica). Status is `u` UN member, `o` observer state, `p` partially
+recognised, `t` territory, `c` constituent country. `wiki` is how English
+Wikipedia names the place in "Flag of …", or after `=` the whole title of the
+flag article; aliases are other names accepted as answers. See
+`src/shared/countries.js`.
+
+### `world.json`
+
+```json
+{ "f": [{ "r": "x,y,dx,dy,…|…", "c": ["FR"] }, …],
+  "i": { "FR": { "b": [west, south, east, north], "m": [lon, lat] }, … } }
+```
+
+`f` lists 298 outlines: rings of comma-separated integers in hundredths of a
+degree, delta-encoded, separated by `|`, with the codes of the countries each
+outline belongs to. `i` gives each country's main landmass as a box and a
+point near its middle. The outline coded `XD` belongs to no country in the
+table and is drawn greyed out.
+
+### `land.json`
+
+```json
+{ "scale": { "shape": 40, "box": 50 }, "shapes": "…", "boxes": "…" }
+```
+
+`shapes`: one outline per line, `codes <TAB> ring|ring|…`. `boxes`: one
+country per line, `code <TAB> packed`, six numbers: west, south, east, north,
+and a point near the middle of the largest piece.
+
+### `cities.json`
+
+```json
+{ "scale": { "region": 40, "city": 1000 }, "regions": "…", "regionShapes": "…", "cities": "…" }
+```
+
+- `cities`: `name <TAB> other names (;) <TAB> country <TAB> region <TAB>
+packed lon,lat <TAB> packed population in thousands <TAB> type`, where type
+  is 2 for a national capital, 1 for a regional capital and 0 otherwise.
+- `regions`: `code <TAB> name <TAB> other name <TAB> country`. A few regions
+  belong to `UM` (US Minor Outlying Islands) or `-1` (Natural Earth's code for
+  disputed areas), which are not in the country table.
+- `regionShapes`: `code <TAB> ring|ring|…`.
+
+### `terrain.json`
+
+```json
+{ "scale": { "line": 40, "point": 1000 }, "features": "…" }
+```
+
+One feature per line: `kind <TAB> name <TAB> other names (;) <TAB> continent
+<TAB> countries ( · ) <TAB> Wikidata id <TAB> extra <TAB> scalerank <TAB>
+geometry <TAB> parts (|)`. Kinds are listed in `src/terrain-atlas/data.js`.
+The continent is a region letter, or `W` for the open ocean. `extra` is a
+peak's height in metres. Geometry is `p` (area), `l` (line) or `x` (point);
+points use `scale.point`, the rest `scale.line`. Scalerank is Natural Earth's
+measure of how prominent a feature is, which the drills use as "how well
+known".
+
+### `flag-tags.txt`
+
+One flag per line: `code colours layout symbols`, e.g. `DE kry h -`. The
+letters are explained in `src/flag-atlas/design.js`.
+
+### `factbook.json`
+
+`{ "FR": [{ "l": "section title or empty", "r": [["Label", "Text"], …] }, …] }`:
+the geography sections of the CIA World Factbook entry for each country that
+has one.
+
+## Where it comes from
+
+| Data                                                                        | Source                                                                                                      | Licence       |
+| --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------- |
+| Country, region, city and feature geometry; city populations; feature ranks | [Natural Earth](https://www.naturalearthdata.com/) 1:10m (cultural and physical vectors)                    | Public domain |
+| Geography sections                                                          | [CIA World Factbook](https://github.com/factbook/factbook.json), final edition (discontinued February 2026) | Public domain |
+| Wikidata ids of features                                                    | Carried in Natural Earth's own attributes                                                                   | Public domain |
+| Country table, flag tags, look-alike groups                                 | Written for this project                                                                                    | MIT           |
+
+### How each file was made
+
+- **`land.json` and `cities.json`**: `tools/data/build_cities.py`, from Natural
+  Earth's admin-0 map units, admin-1 states and provinces, and populated
+  places. It also corrects a few capitals Natural Earth has wrong or out of
+  date. See [`tools/data/README.md`](../tools/data/README.md).
+- **`terrain.json`**: `tools/data/build_terrain.py`, from Natural Earth's
+  rivers, lakes, geography regions (polygons and elevation points) and marine
+  areas, with the admin-0 map units for the countries each feature touches.
+- **`world.json`** and **`factbook.json`**: made with earlier scripts that
+  were not kept, so they cannot be rebuilt as they stand. `world.json` is
+  Natural Earth country outlines in longitude/latitude, rounded to 0.01° (the
+  scale of the source layer was not recorded); `factbook.json` is the geography part of the factbook.json project's
+  final export, cleaned of markup. Rebuilding either means writing a new
+  generator; the formats above are what it has to produce.
+- **`hero.txt`**: a coarse outline of the same land, packed at 12 units per
+  degree.
+
+The data files were carried over unchanged from the single-file apps; the
+split into files changed the containers (`land.json` is shared by City and
+Terrain Atlas, which had identical copies), not the contents.

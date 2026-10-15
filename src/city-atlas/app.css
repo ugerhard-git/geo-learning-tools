@@ -1,0 +1,85 @@
+/* City Atlas: region borders, city dots and the layer switch. */
+
+:root {
+  --bar-w: 660px;
+}
+
+#regions {
+  visibility: hidden;
+}
+
+#regions.on {
+  visibility: visible;
+}
+
+#regions path {
+  fill: none;
+  stroke: var(--rline);
+  stroke-width: 0.5;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+/* A highlighted region shows even while the other borders are hidden. */
+#regions path.hi {
+  visibility: visible;
+  fill: color-mix(in srgb, var(--accent) 30%, transparent);
+  stroke: var(--accent);
+  stroke-width: 1.6;
+}
+
+#cities circle {
+  fill: var(--city);
+  stroke: var(--land);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  cursor: pointer;
+}
+
+#cities circle.cap {
+  fill: var(--accent);
+}
+
+#cities circle.hov {
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+#cities.off {
+  display: none;
+}
+
+.layers {
+  position: absolute;
+  right: 14px;
+  top: 12px;
+  z-index: 2;
+  display: flex;
+  gap: 6px;
+}
+
+.layers button {
+  padding: 6px 11px;
+  font-size: 0.88rem;
+  border-radius: 10px;
+  border: 1.5px solid var(--line);
+  background: var(--panel);
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+
+.layers button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+  font-weight: 700;
+}
+
+.types {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.card {
+  width: min(680px, calc(100% - 24px));
+}

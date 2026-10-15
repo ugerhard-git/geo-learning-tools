@@ -6,13 +6,7 @@ import globals from "globals";
 
 export default [
   {
-    ignores: [
-      "dist/",
-      "test-results/",
-      "playwright-report/",
-      // Imported verbatim; see .prettierignore.
-      "public/",
-    ],
+    ignores: ["dist/", "test-results/", "playwright-report/"],
   },
   js.configs.recommended,
   {
@@ -30,6 +24,13 @@ export default [
     files: ["test/e2e/**/*.js"],
     languageOptions: {
       globals: { ...globals.node, ...globals.browser },
+    },
+  },
+  {
+    // The apps themselves run in the browser.
+    files: ["src/**/*.js"],
+    languageOptions: {
+      globals: globals.browser,
     },
   },
 ];

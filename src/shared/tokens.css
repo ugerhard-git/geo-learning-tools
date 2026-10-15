@@ -1,0 +1,60 @@
+/*
+ * Design tokens shared by every page: colours for light and dark themes,
+ * the two typefaces, and the panel shadow. Pages override a token here and
+ * there in their own stylesheet (Terrain Atlas has its own land colour and
+ * feature palette), but never redefine the set.
+ *
+ * Dark mode follows the system setting. `data-theme="light"` on <html>
+ * forces the light palette; nothing sets it today, but it keeps the door
+ * open for a manual switch.
+ */
+:root {
+  --bg: #eef2f4;
+  --panel: #ffffff;
+  --ink: #16243a;
+  --muted: #56667a;
+  --line: #c9d4dd;
+  --ocean: #cfdde8;
+  --land: #f9faf7;
+  --border: #9fb0c0;
+  --rline: #c3d0db;
+  --hover: #f1d9dd;
+  --accent: #b3122e;
+  --accent-ink: #ffffff;
+  --city: #40556e;
+  --ok: #1e7b4a;
+  --bad: #b3122e;
+  --near: #b87400;
+  --tile: #e3e9ee;
+  --warn-bg: #fff4d6;
+  --warn-ink: #5a4300;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --shadow: 0 12px 40px rgba(16, 30, 48, 0.22);
+  box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1620;
+    --panel: #172231;
+    --ink: #e7edf3;
+    --muted: #98a8ba;
+    --line: #2b3b50;
+    --ocean: #122030;
+    --land: #34475d;
+    --border: #5a7089;
+    --rline: #46596e;
+    --hover: #5a3a48;
+    --accent: #ff5a6e;
+    --accent-ink: #1a0006;
+    --city: #c6d6e6;
+    --ok: #4cc38a;
+    --bad: #ff5a6e;
+    --near: #e8b15c;
+    --tile: #1d2a3a;
+    --warn-bg: #3a2f10;
+    --warn-ink: #f3de9c;
+    --shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  }
+}

@@ -1,0 +1,142 @@
+/*
+ * The progress screen (shared/progress-ui.js) and the export/import dialog.
+ * Every class carries a "pg-" prefix: Flag Atlas has a sticky toolbar
+ * called .bar, and an earlier unprefixed version of these styles collapsed it.
+ */
+.pg h2 {
+  font: 800 1.7rem/1.05 var(--display);
+  margin: 0 0 14px;
+  letter-spacing: -0.02em;
+}
+
+.pg h3 {
+  font: 800 1.05rem/1.2 var(--display);
+  margin: 22px 0 8px;
+}
+
+.pg-lead {
+  color: var(--muted);
+  margin: 0 0 16px;
+}
+
+.pg-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(88px, 1fr));
+  gap: 10px;
+  margin: 0 0 6px;
+}
+
+.pg-stat {
+  background: var(--tile);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.pg-stat b {
+  display: block;
+  font: 800 1.5rem/1.1 var(--display);
+}
+
+.pg-stat span {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.pg-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 10px;
+}
+
+.pg-bar {
+  display: block;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--tile);
+  overflow: hidden;
+  min-width: 70px;
+  flex: 1;
+}
+
+.pg-bar i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--ok);
+}
+
+.pg-bar-lab {
+  font-size: 0.9rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+table.pg-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.93rem;
+  margin: 0;
+}
+
+table.pg-table th,
+table.pg-table td {
+  text-align: left;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+table.pg-table th {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+table.pg-table td.pg-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+table.pg-table .pg-cover {
+  width: 27%;
+}
+
+.pg-src {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 10px;
+}
+
+.pg-weak {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pg-weak button {
+  border: 1.5px solid var(--line);
+  background: none;
+  border-radius: 8px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.pg-weak .pg-wn {
+  color: var(--muted);
+}
+
+textarea.pg-io {
+  width: 100%;
+  height: 130px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  padding: 10px;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.82rem;
+}
+
+/* City and Terrain show progress on a card over the map rather than in a dialog. */
+.card.pg {
+  width: min(760px, calc(100% - 24px));
+}

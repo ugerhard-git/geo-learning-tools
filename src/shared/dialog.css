@@ -1,0 +1,103 @@
+/*
+ * Modal dialogs: settings (the REST Countries key), export/import, and the
+ * Flag Atlas progress screen. They are native <dialog> elements opened with
+ * showModal(), which traps focus and closes on Escape for free.
+ */
+dialog {
+  border: 0;
+  padding: 0;
+  border-radius: 16px;
+  background: var(--panel);
+  color: var(--ink);
+  width: min(560px, 96vw);
+  max-height: 92vh;
+  box-shadow: var(--shadow);
+}
+
+dialog.wide {
+  width: min(720px, 96vw);
+}
+
+dialog::backdrop {
+  background: rgba(10, 18, 28, 0.6);
+}
+
+.dlg {
+  padding: 26px;
+  overflow: auto;
+  max-height: 92vh;
+  position: relative;
+}
+
+.dlg .close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.dlg h2 {
+  font: 800 1.8rem/1.05 var(--display);
+  margin: 0 44px 10px 0;
+  letter-spacing: -0.02em;
+}
+
+.dlg h3 {
+  font: 800 1.05rem/1.2 var(--display);
+  margin: 22px 0 8px;
+}
+
+.field {
+  display: flex;
+  gap: 8px;
+  margin: 14px 0 10px;
+}
+
+.field input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  font-family: ui-monospace, Consolas, monospace;
+}
+
+.check {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 10px 0;
+}
+
+.check input {
+  margin-top: 5px;
+  width: 18px;
+  height: 18px;
+}
+
+.warn {
+  background: var(--warn-bg);
+  color: var(--warn-ink);
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  margin: 8px 0 14px;
+}
+
+.field-label {
+  font-weight: 700;
+}
+
+@media (max-width: 760px) {
+  dialog,
+  dialog.wide {
+    width: 100vw;
+    max-height: 100vh;
+    height: 100%;
+    border-radius: 0;
+  }
+
+  .dlg {
+    max-height: 100vh;
+  }
+}

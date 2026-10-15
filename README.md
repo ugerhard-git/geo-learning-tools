@@ -24,12 +24,17 @@ npm install
 npm start        # builds the site and serves it on http://127.0.0.1:4173/
 ```
 
+The pages load their code as JavaScript modules and their maps as data files,
+which browsers only allow over HTTP, so open them through the server rather
+than straight from disk.
+
 ## Checks
 
 ```sh
-npm run lint     # Prettier formatting and ESLint
-npm run build    # builds dist/ and checks every page has its security policy
-npm test         # browser tests (run `npx playwright install chromium` once first)
+npm run lint       # Prettier formatting and ESLint
+npm run test:unit  # unit tests of the shared modules, the drills and the data files (Node only)
+npm run build      # builds dist/ and checks every page against the security rules
+npm test           # browser tests (run `npx playwright install chromium` once first)
 ```
 
 The same checks run on every pull request, and a merge to `main` deploys the
@@ -39,17 +44,33 @@ site to GitHub Pages only once they pass. See
 ## Project layout
 
 ```
-public/      the four apps and the landing page, as single self-contained HTML files
-tools/       build script and a small local web server
-test/e2e/    Playwright browser tests
-.github/     CI and deployment workflow, Dependabot configuration
-licenses/    licences for the bundled fonts
+src/                 the site, exactly as it is served (the build copies it to dist/)
+  index.html         landing page, with landing/ for its script and styles
+  flag-atlas/        one folder per app: index.html, app.js, app.css, and the
+  flag-atlas-map/      app's own modules (data decoding, drill rules)
+  city-atlas/
+  terrain-atlas/
+  shared/            code and styles every app uses: map view, drills, spaced
+                       repetition, progress screen, outside services …
+  data/              map outlines, places and features (see docs/data.md)
+  fonts/ icons/
+  *.html             forwarding pages for the apps' old single-file addresses
+tools/               build script, local web server, data generators (tools/data/)
+test/unit/           Node tests of the shared modules, the drill rules and the data
+test/e2e/            Playwright browser tests, one file per app plus smoke tests
+docs/                how the code is put together, and where the data comes from
+.github/             CI and deployment workflow, Dependabot configuration
+licenses/            licences for the bundled fonts
 ```
+
+The pages are plain HTML, CSS and JavaScript modules; there is no bundler and
+nothing to compile. [docs/architecture.md](docs/architecture.md) explains how
+the shared modules fit together.
 
 ## Data and credits
 
 The apps are built on openly licensed data. Map geometry and places are
-baked into the apps; facts in the detail panels are fetched live.
+served with the site; facts in the detail panels are fetched live.
 
 | Source                                                                                                                                | Used for                                         | Licence                             |
 | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | ----------------------------------- |
