@@ -56,7 +56,9 @@ import {
   NOT_QUIZZABLE,
   NO_OWN_FLAG,
   SYMBOLS,
+  flagColours,
   lookAlikes,
+  parseFlagColours,
   parseTags,
 } from "./design.js";
 
@@ -92,12 +94,15 @@ try {
 }
 
 async function main() {
-  const [countryText, tagText, world] = await Promise.all([
+  const [countryText, tagText, colourText, world] = await Promise.all([
     loadData("countries.txt", "text"),
     loadData("flag-tags.txt", "text"),
+    // The colour codes are a nicety: the page works without them.
+    loadData("flag-colours.txt", "text").catch(() => ""),
     loadWorld(),
   ]);
   const tags = parseTags(tagText);
+  const COLOUR_CODES = parseFlagColours(colourText);
   const ALIKE_OF = lookAlikes();
   hideFailedFlags("img");
 
@@ -529,7 +534,43 @@ async function main() {
     const symbols = d.sym.map((k) => SYMBOLS[k].toLowerCase()).join(", ");
     return `<div class="meta">${colours}</div><p class="design"><span>Layout:</span> ${esc(LAYOUTS[d.lay][0])}${
       symbols ? ` <span>· Symbols:</span> ${esc(symbols)}` : ""
-    }</p>`;
+    }</p>${colourCodes(d)}`;
+  }
+
+  /**
+   * The flag's main colours as hex codes, each a button that copies it. The
+   * swatches get their colour from script (see paintSwatches): the
+   * Content-Security-Policy refuses style="" in markup.
+   */
+  function colourCodes(d) {
+    const hexes = flagColours(d.code, COLOUR_CODES);
+    if (!hexes.length) return "";
+    return `<div class="hexes"><span class="hexes-label">Colour codes</span>${hexes
+      .map(
+        (h) =>
+          `<button class="hex" data-hex="${esc(h)}" title="Copy ${esc(h)}"><i class="hex-sw" data-sw="${esc(h)}"></i><code>${esc(h)}</code></button>`,
+      )
+      .join("")}</div>
+      <p class="hexes-note">Measured from the flag's drawing on Wikimedia Commons; official specifications may differ slightly. Click a code to copy it. <span data-copied role="status"></span></p>`;
+  }
+
+  function paintSwatches(root) {
+    for (const sw of root.querySelectorAll("[data-sw]")) {
+      if (/^#[0-9A-F]{6}$/.test(sw.dataset.sw)) sw.style.background = sw.dataset.sw;
+    }
+  }
+
+  /** Copy a colour code, or select it for the learner to copy if the browser will not. */
+  async function copyHex(button) {
+    const hex = button.dataset.hex;
+    const said = $("[data-copied]", body);
+    try {
+      await navigator.clipboard.writeText(hex);
+      said.textContent = `Copied ${hex}.`;
+    } catch {
+      getSelection().selectAllChildren($("code", button));
+      said.textContent = `Press Ctrl+C (⌘C on a Mac) to copy ${hex}.`;
+    }
   }
 
   function openDetail(code) {
@@ -568,6 +609,7 @@ async function main() {
       </div>
       <p class="src" data-src>Flag images: flagcdn.com. Map: Natural Earth (public domain).</p>`;
     highlight(code);
+    paintSwatches(body);
     if (!detail.open) detail.showModal();
     body.scrollTop = 0;
     loadFacts(d);
@@ -666,6 +708,8 @@ async function main() {
   detail.addEventListener("click", (e) => {
     if (e.target === detail || e.target.closest("[data-close]")) return detail.close();
     if (e.target.closest("[data-settings]")) return settings.open();
+    const hex = e.target.closest("[data-hex]");
+    if (hex) return copyHex(hex);
     const go = e.target.closest("[data-go]")?.dataset.go;
     if (go) return openDetail(go);
     const s = e.target.closest("[data-step]");

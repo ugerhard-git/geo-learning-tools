@@ -5,16 +5,17 @@ a page opens. They are generated, not written by hand (except
 `countries.txt` and `flag-tags.txt`), and are left out of Prettier: they are
 long single-line strings that formatting would only make bigger.
 
-| File            | Used by                          | What it holds                                                                |
-| --------------- | -------------------------------- | ---------------------------------------------------------------------------- |
-| `countries.txt` | every app                        | The 253 countries and territories, their names and aliases                   |
-| `world.json`    | Flags, Countries and Territories | Country outlines in hundredths of a degree, and each country's main landmass |
-| `factbook.json` | Countries and Territories        | Geography sections of the CIA World Factbook, per country                    |
-| `flag-tags.txt` | Flags                            | Each flag's colours, layout and symbols                                      |
-| `land.json`     | Cities and Regions, Terrain      | Simplified country outlines, and a box around each country                   |
-| `cities.json`   | Cities and Regions               | 2,738 cities, 4,596 regions and the regions' outlines                        |
-| `terrain.json`  | Terrain                          | 2,121 physical features with their geometry                                  |
-| `hero.txt`      | landing page                     | A coarse world outline for the masthead                                      |
+| File               | Used by                          | What it holds                                                                |
+| ------------------ | -------------------------------- | ---------------------------------------------------------------------------- |
+| `countries.txt`    | every app                        | The 253 countries and territories, their names and aliases                   |
+| `world.json`       | Flags, Countries and Territories | Country outlines in hundredths of a degree, and each country's main landmass |
+| `factbook.json`    | Countries and Territories        | Geography sections of the CIA World Factbook, per country                    |
+| `flag-tags.txt`    | Flags                            | Each flag's colours, layout and symbols                                      |
+| `flag-colours.txt` | Flags                            | Each flag's main colours as hex codes, measured from its drawing             |
+| `land.json`        | Cities and Regions, Terrain      | Simplified country outlines, and a box around each country                   |
+| `cities.json`      | Cities and Regions               | 2,738 cities, 4,596 regions and the regions' outlines                        |
+| `terrain.json`     | Terrain                          | 2,121 physical features with their geometry                                  |
+| `hero.txt`         | landing page                     | A coarse world outline for the masthead                                      |
 
 ## Formats
 
@@ -102,6 +103,17 @@ known".
 One flag per line: `code colours layout symbols`, e.g. `DE kry h -`. The
 letters are explained in `src/flags/design.js`.
 
+### `flag-colours.txt`
+
+One flag per line, tab-separated: `code`, the Commons file it was measured
+from, and its main colours as `#RRGGBB` codes separated by spaces, largest
+area first, e.g. `DE  Flag_of_Germany.svg  #000000 #DD0000 #FFCE00`. Lines
+starting with `#` are comments. "Main" means covering at least 2% of the flag,
+so the fine detail of a coat of arms is left out. Places that fly another
+country's flag have no line: the French territories show France's colours.
+The Cocos Islands have none either: Wikipedia's drawing for them is
+Australia's flag, not the green flag the app shows.
+
 ### `factbook.json`
 
 `{ "FR": [{ "l": "section title or empty", "r": [["Label", "Text"], …] }, …] }`:
@@ -115,6 +127,7 @@ has one.
 | Country, region, city and feature geometry; city populations; feature ranks | [Natural Earth](https://www.naturalearthdata.com/) 1:10m (cultural and physical vectors)                    | Public domain |
 | Geography sections                                                          | [CIA World Factbook](https://github.com/factbook/factbook.json), final edition (discontinued February 2026) | Public domain |
 | Wikidata ids of features                                                    | Carried in Natural Earth's own attributes                                                                   | Public domain |
+| Flag colour codes                                                           | Measured from the flag drawings on [Wikimedia Commons](https://commons.wikimedia.org/)                      | Public domain |
 | Country table, flag tags, look-alike groups                                 | Written for this project                                                                                    | MIT           |
 
 ### How each file was made
@@ -126,6 +139,13 @@ has one.
 - **`terrain.json`**: `tools/data/build_terrain.py`, from Natural Earth's
   rivers, lakes, geography regions (polygons and elevation points) and marine
   areas, with the admin-0 map units for the countries each feature touches.
+- **`flag-colours.txt`**: `tools/data/flag-colours.mjs`, run on GitHub by
+  the "Flag colours" workflow, since Commons cannot be reached from every
+  machine. It finds each flag's drawing as the lead image of its Wikipedia
+  flag article, draws it in Chromium and counts the pixels of each colour.
+  To refresh it, for example after a country changes its flag, run the
+  workflow by hand (**Actions → Flag colours → Run workflow**); it pushes a
+  `flag-colours-<date>` branch to open a pull request from.
 - **`world.json`** and **`factbook.json`**: made with earlier scripts that
   were not kept, so they cannot be rebuilt as they stand. `world.json` is
   Natural Earth country outlines in longitude/latitude, rounded to 0.01° (the

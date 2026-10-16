@@ -130,3 +130,34 @@ export function parseTags(text) {
   }
   return out;
 }
+
+/** A colour code as the measuring writes it. */
+const HEX = /^#[0-9A-F]{6}$/;
+
+/**
+ * Parse flag-colours.txt: each flag's main colours as hex codes, largest
+ * area first, measured from its drawing on Wikimedia Commons (see
+ * tools/data/flag-colours.mjs). Lines that do not fit are skipped.
+ * @param {string} text
+ * @returns {Map<string, string[]>} code → colours, e.g. "DE" → ["#000000", …]
+ */
+export function parseFlagColours(text) {
+  const out = new Map();
+  for (const line of text.split("\n")) {
+    if (!line || line.startsWith("#")) continue;
+    const [code, , colours = ""] = line.split("\t");
+    const hexes = colours.split(" ").filter((h) => HEX.test(h));
+    if (/^[A-Z]{2}(-[A-Z]{3})?$/.test(code) && hexes.length) out.set(code, hexes);
+  }
+  return out;
+}
+
+/**
+ * The colour codes to show for a flag. The French territories fly the
+ * tricolour (see {@link NOT_QUIZZABLE}), so they get France's colours.
+ * @param {string} code
+ * @param {Map<string, string[]>} colours from {@link parseFlagColours}
+ * @returns {string[]}
+ */
+export const flagColours = (code, colours) =>
+  colours.get(NOT_QUIZZABLE.has(code) ? "FR" : code) ?? [];

@@ -131,7 +131,8 @@ fails. Adding a whole app is described in
 
 The map outlines, cities, regions and physical features in `src/data/` are
 generated from Natural Earth by the scripts in `tools/data/`, which are run by
-hand when the source data changes. [docs/data.md](docs/data.md) describes
+hand when the source data changes. The flags' colour codes are measured from
+the flag drawings on Wikimedia Commons by the "Flag colours" workflow. [docs/data.md](docs/data.md) describes
 each file's format and where it comes from.
 
 ## The REST Countries key
@@ -160,7 +161,9 @@ code and third-party code running on the site. In short:
 - **Progress stays in the browser.** Nothing a learner answers is sent
   anywhere.
 - **CI** runs with read-only permissions. The site is built in a job that
-  installs no packages, and only the deploy job can publish. Every action is
+  installs no packages, and only the deploy job can publish. The one job that
+  can write to the repository commits measured flag colours, installs
+  nothing and checks the file first. Every action is
   pinned to a commit, and Dependabot proposes updates after a week's wait.
 
 [SECURITY.md](SECURITY.md) has the details, the known limits (the site
@@ -172,15 +175,16 @@ how to report a problem.
 The apps are built on openly licensed data. Map geometry and places are
 served with the site; facts in the detail panels are fetched live.
 
-| Source                                                                                                                                | Used for                                         | Licence                             |
-| ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | ----------------------------------- |
-| [Natural Earth](https://www.naturalearthdata.com/)                                                                                    | Country, region and feature outlines; cities     | Public domain                       |
-| [CIA World Factbook](https://github.com/factbook/factbook.json)                                                                       | Geography facts in Countries and Territories     | Public domain                       |
-| [Wikidata](https://www.wikidata.org/)                                                                                                 | Facts in the detail panels, flag adoption dates  | CC0                                 |
-| [Wikipedia](https://en.wikipedia.org/)                                                                                                | Article summaries, linked in each panel          | CC BY-SA 4.0                        |
-| [REST Countries](https://restcountries.com/)                                                                                          | Capital, population, currency (optional API key) | Per their terms                     |
-| [flagcdn.com](https://flagcdn.com/)                                                                                                   | Flag images                                      | Per their terms                     |
-| [Atkinson Hyperlegible](https://www.brailleinstitute.org/freefont/), [Bricolage Grotesque](https://github.com/ateliertriay/bricolage) | Typefaces                                        | SIL OFL 1.1 ([licences](licenses/)) |
+| Source                                                                                                                                | Used for                                           | Licence                             |
+| ------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ----------------------------------- |
+| [Natural Earth](https://www.naturalearthdata.com/)                                                                                    | Country, region and feature outlines; cities       | Public domain                       |
+| [CIA World Factbook](https://github.com/factbook/factbook.json)                                                                       | Geography facts in Countries and Territories       | Public domain                       |
+| [Wikidata](https://www.wikidata.org/)                                                                                                 | Facts in the detail panels, flag adoption dates    | CC0                                 |
+| [Wikipedia](https://en.wikipedia.org/)                                                                                                | Article summaries, linked in each panel            | CC BY-SA 4.0                        |
+| [REST Countries](https://restcountries.com/)                                                                                          | Capital, population, currency (optional API key)   | Per their terms                     |
+| [flagcdn.com](https://flagcdn.com/)                                                                                                   | Flag images                                        | Per their terms                     |
+| [Wikimedia Commons](https://commons.wikimedia.org/)                                                                                   | Flag colour codes, measured from the flag drawings | Public domain                       |
+| [Atkinson Hyperlegible](https://www.brailleinstitute.org/freefont/), [Bricolage Grotesque](https://github.com/ateliertriay/bricolage) | Typefaces                                          | SIL OFL 1.1 ([licences](licenses/)) |
 
 ## Licence
 
