@@ -1,0 +1,241 @@
+# Main colours of each flag, measured from its drawing on Wikimedia Commons by
+# tools/data/flag-colours.mjs. code <TAB> Commons file <TAB> colours, largest first.
+AF	Flag_of_the_Taliban.svg	#FFFFFF #000000
+AL	Flag_of_Albania.svg	#FF0000 #000000
+DZ	Flag_of_Algeria.svg	#FFFFFF #006633 #D21034
+AD	Flag_of_Andorra.svg	#10069F #D50032 #FEDD00 #C6AA76
+AO	Flag_of_Angola_using_the_specifications_prescribed_in_"Manual_Simbolos_Nacionais",_V01.05.2021D.svg	#C60C30 #1E1E1E #FECB00
+AG	Flag_of_Antigua_and_Barbuda.svg	#CE1126 #000000 #0072C6 #FFFFFF #FCD116
+AR	Flag_of_Argentina.svg	#74ACDF #FFFFFF
+AM	Flag_of_Armenia.svg	#0033A0 #D90012 #F2A800
+AU	Flag_of_Australia_(converted).svg	#012169 #FFFFFF #E4002B
+AT	Flag_of_Austria.svg	#C8102E #FFFFFF
+AZ	Flag_of_Azerbaijan.svg	#00B5E2 #509E2F #EF3340
+BS	Flag_of_the_Bahamas.svg	#00778B #000000 #FFC72C
+BH	Flag_of_Bahrain.svg	#DA291C #FFFFFF
+BD	Flag_of_Bangladesh.svg	#006747 #DA291C
+BB	Flag_of_Barbados.svg	#1F367C #F3B100 #000000
+BY	Flag_of_Belarus.svg	#CE1720 #007C30 #FFFFFF
+BE	Flag_of_Belgium.svg	#000000 #EF3340 #FDDA25
+BZ	Flag_of_Belize.svg	#171696 #D90F19 #FFFFFF #338A00
+BJ	Flag_of_Benin.svg	#008751 #E8112D #FCD116
+BT	Flag_of_Bhutan.svg	#FFCD00 #FF671F #FFFFFF
+BO	Flag_of_Bolivia.svg	#007934 #D52B1E #F9E300
+BA	Flag_of_Bosnia_and_Herzegovina.svg	#002395 #FECB00 #FFFFFF
+BW	Flag_of_Botswana.svg	#6DA9D2 #000000 #FFFFFF
+BR	Flag_of_Brazil.svg	#009440 #FFCB00 #302681
+BN	Flag_of_Brunei.svg	#F7E017 #FFFFFF #000000 #CF1126
+BG	Flag_of_Bulgaria.svg	#00966E #D62612 #FFFFFF
+BF	Flag_of_Burkina_Faso.svg	#009E49 #EF2B2D #FCD116
+BI	Flag_of_Burundi.svg	#43B02A #FFFFFF #C8102E
+CV	Flag_of_Cape_Verde_(3-2).svg	#003893 #FFFFFF #CF2027
+KH	Flag_of_Cambodia.svg	#032EA1 #E00025 #FFFFFF
+CM	Flag_of_Cameroon.svg	#FCD116 #007A5E #CE1126
+CA	Flag_of_Canada_(Pantone).svg	#D52B1E #FFFFFF
+CF	Flag_of_the_Central_African_Republic.svg	#FFCE00 #289728 #FFFFFF #003082 #D21034
+TD	Flag_of_Chad.svg	#002664 #C60C30 #FECB00
+CL	Flag_of_Chile.svg	#DA291C #FFFFFF #0032A0
+CN	Flag_of_the_People's_Republic_of_China.svg	#EE1C25 #FFFF00
+CO	Flag_of_Colombia.svg	#FFCD00 #003087 #C8102E
+KM	Flag_of_the_Comoros.svg	#003DA5 #FFD100 #009639 #FFFFFF #EF3340
+CG	Flag_of_the_Republic_of_the_Congo.svg	#009739 #DC241F #FFD100
+CD	Flag_of_the_Democratic_Republic_of_the_Congo.svg	#007FFF #CE1021 #F7D618
+CR	Flag_of_Costa_Rica.svg	#001489 #DA291C #FFFFFF
+CI	Flag_of_Côte_d'Ivoire.svg	#009A44 #FF8200 #FFFFFF
+HR	Flag_of_Croatia.svg	#FF0000 #171796 #FFFFFF
+CU	Flag_of_Cuba.svg	#002A8F #FFFFFF #CB1515
+CY	Flag_of_Cyprus.svg	#FFFFFF #D67900
+CZ	Flag_of_the_Czech_Republic.svg	#D7141A #FFFFFF #11457E
+DK	Flag_of_Denmark.svg	#C8102E #FFFFFF
+DJ	Flag_of_Djibouti.svg	#6AB2E7 #12AD2B #FFFFFF
+DM	Flag_of_Dominica.svg	#046A38 #FFCD00 #FFFFFF #000000 #D50032
+DO	Flag_of_the_Dominican_Republic.svg	#CE1126 #002D62 #FFFFFF
+EC	Flag_of_Ecuador.svg	#FFDD00 #ED1C24 #034EA2
+EG	Flag_of_Egypt.svg	#000000 #C8102E #FFFFFF
+SV	Flag_of_El_Salvador.svg	#0047AB #FFFFFF
+GQ	Flag_of_Equatorial_Guinea.svg	#3E9A00 #E32118 #FFFFFF #0073CE
+ER	Flag_of_Eritrea.svg	#E4002B #418FDE #43B02A #FFC72C
+EE	Flag_of_Estonia.svg	#0072CE #FFFFFF #000000
+SZ	Flag_of_Eswatini.svg	#3E5EB9 #B10C0C #FFD900 #000000 #FFFFFF
+ET	Flag_of_Ethiopia.svg	#078930 #DA121A #FCDD09 #0F47AF
+FJ	Flag_of_Fiji.svg	#62B5E5 #C8102E #FFFFFF #012169
+FI	Flag_of_Finland.svg	#FFFFFF #002F6C
+FR	Flag_of_France.svg	#002654 #CE1126 #FFFFFF
+GA	Flag_of_Gabon.svg	#009E60 #3A75C4 #FCD116
+GM	Flag_of_The_Gambia.svg	#3A7728 #CE1126 #0C1C8C #FFFFFF
+GE	Flag_of_Georgia.svg	#FFFFFF #FF0000
+DE	Flag_of_Germany.svg	#000000 #DD0000 #FFCE00
+GH	Flag_of_Ghana.svg	#006B3F #CE1126 #FCD116 #000000
+GR	Flag_of_Greece.svg	#0D5EAF #FFFFFF
+GD	Flag_of_Grenada.svg	#CE1126 #FCD116 #007A5E
+GT	Flag_of_Guatemala.svg	#4997D0 #FFFFFF
+GN	Flag_of_Guinea.svg	#009460 #CE1126 #FCD116
+GW	Flag_of_Guinea-Bissau.svg	#009E49 #FCD116 #CE1126
+GY	Flag_of_Guyana.svg	#2A936A #BE1E2D #FFC20E #FFFFFF #000000
+HT	Flag_of_Haiti.svg	#00209F #D21034 #FFFFFF #016A16
+HN	Flag_of_Honduras_(1949–2022,_2026–present).svg	#0D3B99 #FFFFFF
+HU	Flag_of_Hungary.svg	#477050 #CE2939 #FFFFFF
+IS	Flag_of_Iceland.svg	#02529C #DC1E35 #FFFFFF
+IN	Flag_of_India.svg	#046A38 #FF6820 #FFFFFF
+ID	Flag_of_Indonesia.svg	#FF0000 #FFFFFF
+IR	Flag_of_Iran.svg	#FFFFFF #DA0000 #239F40
+IQ	Flag_of_Iraq.svg	#000000 #CD1125 #FFFFFF #017B3D
+IE	Flag_of_Ireland.svg	#169B62 #FF883E #FFFFFF
+IL	Flag_of_Israel.svg	#FFFFFF #0038B8
+IT	Flag_of_Italy.svg	#009246 #CE2B37 #FFFFFF
+JM	Flag_of_Jamaica.svg	#FFB81C #007749 #2D2926
+JP	Flag_of_Japan.svg	#FFFFFF #BC002D
+JO	Flag_of_Jordan.svg	#000000 #007A3D #CE1126 #FFFFFF
+KZ	Flag_of_Kazakhstan.svg	#00ABC2 #FFEC2D
+KE	Flag_of_Kenya.svg	#000000 #BB0000 #006600 #FFFFFF
+KI	Flag_of_Kiribati.svg	#C81010 #FFFFFF #183070 #F8D000
+KP	Flag_of_North_Korea_(20-33).svg	#EC1D25 #034DA2 #FFFFFF
+KR	Flag_of_South_Korea.svg	#FFFFFF #000000 #CD2E3A #0047A0
+KW	Flag_of_Kuwait.svg	#007A3D #CE1126 #FFFFFF #000000
+KG	Flag_of_Kyrgyzstan.svg	#FF0000 #FFFF00
+LA	Flag_of_Laos.svg	#CE1126 #002868 #FFFFFF
+LV	Flag_of_Latvia.svg	#9D2235 #FFFFFF
+LB	Flag_of_Lebanon.svg	#D31624 #FFFFFF #008C3E
+LS	Flag_of_Lesotho.svg	#FFFFFF #001489 #009A44 #000000
+LR	Flag_of_Liberia.svg	#BF0A30 #FFFFFF #00205B
+LY	Flag_of_Libya.svg	#000000 #239E46 #E70013
+LI	Flag_of_Liechtenstein.svg	#CE1126 #002B7F
+LT	Flag_of_Lithuania.svg	#006A44 #C1272D #FDB913
+LU	Flag_of_Luxembourg.svg	#00A3E0 #EF3340 #FFFFFF
+MG	Flag_of_Madagascar.svg	#00843D #F9423A #FFFFFF
+MW	Flag_of_Malawi.svg	#C7361E #008C51 #000000
+MY	Flag_of_Malaysia.svg	#FFFFFF #CC0000 #000066 #FFCC00
+MV	Flag_of_Maldives.svg	#D21034 #007E3A
+ML	Flag_of_Mali.svg	#14B53A #CE1126 #FCD116
+MT	Flag_of_Malta.svg	#CF142B #FFFFFF
+MH	Flag_of_the_Marshall_Islands.svg	#003893 #FFFFFF #DD7500
+MR	Flag_of_Mauritania.svg	#00A95C #D01C1F #FFD700
+MU	Flag_of_Mauritius.svg	#008658 #2D3359 #D01C1F #F7B718
+MX	Flag_of_Mexico.svg	#006847 #CE1126 #FFFFFF
+FM	Flag_of_the_Federated_States_of_Micronesia.svg	#75B2DD #FFFFFF
+MD	Flag_of_Moldova.svg	#CC092F #0046AE #FFD200
+MC	Flag_of_Monaco.svg	#CE1126 #FFFFFF
+MN	Flag_of_Mongolia.svg	#DA2031 #0066B2 #FFD300
+ME	Flag_of_Montenegro.svg	#E30000 #FFC000 #D17624
+MA	Flag_of_Morocco.svg	#C1272D #006233
+MZ	Flag_of_Mozambique.svg	#FCE100 #007168 #000000 #D21034 #FFFFFF
+MM	Flag_of_Myanmar.svg	#FECB00 #EA2839 #34B233 #FFFFFF
+NA	Flag_of_Namibia.svg	#009A44 #002F6C #C8102E #FFFFFF #FFCD00
+NR	Flag_of_Nauru.svg	#012169 #FFC72C #FFFFFF
+NP	Flag_of_Nepal.svg	#DC143C #003893 #FFFFFF
+NL	Flag_of_the_Netherlands.svg	#21468B #AE1C28 #FFFFFF
+NZ	Flag_of_New_Zealand.svg	#012169 #C8102E #FFFFFF
+NI	Flag_of_Nicaragua.svg	#0067C6 #FFFFFF
+NE	Flag_of_Niger.svg	#E05206 #0DB02B #FFFFFF
+NG	Flag_of_Nigeria.svg	#008751 #FFFFFF
+MK	Flag_of_North_Macedonia.svg	#D82126 #F8E92E
+NO	Flag_of_Norway.svg	#BA0C2F #00205B #FFFFFF
+OM	Flag_of_Oman.svg	#DB171B #FFFFFF #028002
+PK	Flag_of_Pakistan.svg	#01411C #FFFFFF
+PW	Flag_of_Palau.svg	#0099FF #FFFF00
+PA	Flag_of_Panama.svg	#FFFFFF #DA121A #072357
+PG	Flag_of_Papua_New_Guinea.svg	#000000 #C8102E #FFCD00
+PY	Flag_of_Paraguay.svg	#0038A8 #D52B1E #FFFFFF
+PE	Flag_of_Peru.svg	#D91023 #FFFFFF
+PH	Flag_of_the_Philippines.svg	#CE1126 #0038A8 #FFFFFF #FCD116
+PL	Flag_of_Poland.svg	#DC143C #FFFFFF
+PT	Flag_of_Portugal_(official).svg	#ED1C24 #006035 #FFF200
+QA	Flag_of_Qatar.svg	#8A1538 #FFFFFF
+RO	Flag_of_Romania.svg	#002B7F #CE1126 #FCD116
+RU	Flag_of_Russia.svg	#D52B1E #FFFFFF #0039A6
+RW	Flag_of_Rwanda.svg	#00A3E0 #FAD201 #20603D
+KN	Flag_of_Saint_Kitts_and_Nevis.svg	#000000 #009739 #C8102E #FFCD00 #FFFFFF
+LC	Flag_of_Saint_Lucia.svg	#66CCFF #FCD116 #000000 #FFFFFF
+VC	Flag_of_Saint_Vincent_and_the_Grenadines.svg	#FCD022 #007C2E #002674
+WS	Flag_of_Samoa.svg	#CE1126 #002B7F
+SM	Flag_of_San_Marino.svg	#FFFFFF #5EB6E4
+ST	Flag_of_São_Tomé_and_Príncipe.svg	#009739 #FFD100 #EF3340 #000000
+SA	Flag_of_Saudi_Arabia.svg	#005430 #FFFFFF
+SN	Flag_of_Senegal.svg	#00853F #E31B23 #FDEF42
+RS	Flag_of_Serbia.svg	#FFFFFF #C6363C #0C4076
+SC	Flag_of_Seychelles.svg	#D22730 #002F6C #007A33 #FED141 #FFFFFF
+SL	Flag_of_Sierra_Leone.svg	#0072C6 #1EB53A #FFFFFF
+SG	Flag_of_Singapore.svg	#FFFFFF #ED2939
+SK	Flag_of_Slovakia.svg	#ED1C24 #FFFFFF #254AA5
+SI	Flag_of_Slovenia.svg	#0000FF #FF0000 #FFFFFF
+SB	Flag_of_the_Solomon_Islands.svg	#215B33 #0051BA #FCD116 #FFFFFF
+SO	Flag_of_Somalia.svg	#418FDE #FFFFFF
+ZA	Flag_of_South_Africa.svg	#007749 #E03C31 #001489 #FFFFFF #000000 #FFB81C
+SS	Flag_of_South_Sudan.svg	#00914C #000000 #00B6F2 #E22028 #FFFFFF
+ES	Flag_of_the_Kingdom_of_Spain.svg	#AD1519 #FABD00
+LK	Flag_of_Sri_Lanka.svg	#FFBE29 #8D153A #00534E #EB7400
+SD	Flag_of_Sudan.svg	#000000 #D21034 #FFFFFF #007229
+SR	Flag_of_Suriname.svg	#377E3F #B40A2D #FFFFFF #ECC81D
+SE	Flag_of_Sweden.svg	#005293 #FECB00
+CH	Flag_of_Switzerland_(Pantone).svg	#DA291C #FFFFFF
+SY	Flag_of_Syria_(2025-).svg	#000000 #007A3D #FFFFFF #CE1126
+TJ	Flag_of_Tajikistan.svg	#FFFFFF #197B30 #DC161D
+TZ	Flag_of_Tanzania.svg	#000000 #00A3DD #1EB53A #FCD116
+TH	Flag_of_Thailand.svg	#2D2A4A #A51931 #F4F5F8
+TL	Flag_of_East_Timor.svg	#DA291C #000000 #FFC72C
+TG	Flag_of_Togo.svg	#006A4E #FFCE00 #D21034 #FFFFFF
+TO	Flag_of_Tonga.svg	#C10000 #FFFFFF
+TT	Flag_of_Trinidad_and_Tobago.svg	#DA1A35 #000000 #FFFFFF
+TN	Flag_of_Tunisia.svg	#E70013 #FFFFFF
+TR	Flag_of_Turkey.svg	#E30A17 #FFFFFF
+TM	Flag_of_Turkmenistan.svg	#00843D #D22630 #FFC72C
+TV	Flag_of_Tuvalu.svg	#009CDE #C8102E #FFFFFF #012169 #FEDD00
+UG	Flag_of_Uganda.svg	#FCDC04 #000000 #D90000 #FFFFFF
+UA	Flag_of_Ukraine.svg	#0057B7 #FFD700
+AE	Flag_of_the_United_Arab_Emirates.svg	#000000 #00843D #C8102E #FFFFFF
+US	Flag_of_the_United_States_(DDD-F-416E_specifications).svg	#BF0A30 #FFFFFF #00205B
+UY	Flag_of_Uruguay.svg	#FFFFFF #0038A8 #7B3F00
+UZ	Flag_of_Uzbekistan.svg	#FFFFFF #308738 #3081F7 #EE162E
+VU	Flag_of_Vanuatu_(official).svg	#009543 #D21034 #000000 #FDCE12
+VE	Flag_of_Venezuela.svg	#CF142B #FFCC00 #00247D
+VN	Flag_of_Vietnam.svg	#DA251D #FFFF00
+YE	Flag_of_Yemen.svg	#000000 #CE1126 #FFFFFF
+ZM	Flag_of_Zambia.svg	#147F55 #F99815 #000000 #D40829
+ZW	Flag_of_Zimbabwe.svg	#006400 #FFD200 #D40000 #FFFFFF #000000
+VA	Flag_of_Vatican_City_(2023–present).svg	#FFF200 #FFFFFF
+PS	Flag_of_Palestine.svg	#000000 #009639 #FFFFFF #ED2E38
+TW	Flag_of_the_Republic_of_China.svg	#FE0000 #000094 #FFFFFF
+XK	Flag_of_Kosovo.svg	#244AA5 #D0A650
+EH	Flag_of_the_Sahrawi_Arab_Democratic_Republic.svg	#000000 #007A3D #FFFFFF #C4111B
+GB-ENG	Flag_of_England.svg	#FFFFFF #C8102E
+GB-SCT	Flag_of_Scotland.svg	#005EB8 #FFFFFF
+GB-WLS	Flag_of_Wales.svg	#FFFFFF #00B140 #C8102E #670817
+GB-NIR	Flag_of_the_United_Kingdom_(1-2).svg	#C8102E #FFFFFF #012169
+AX	Flag_of_Åland.svg	#0064AD #FFD300 #DA0E15
+AS	Flag_of_American_Samoa.svg	#00205B #FFFFFF #BF0A30 #5A3719
+AI	Flag_of_Anguilla.svg	#012169 #FFFFFF #C8102E
+AW	Flag_of_Aruba.svg	#418FDE #FFD100
+BM	Flag_of_Bermuda.svg	#C8102E #FFFFFF #012169
+IO	Flag_of_the_British_Indian_Ocean_Territory_2025.svg	#FFFFFF #012169 #C8102E #006D00
+VG	Flag_of_the_British_Virgin_Islands.svg	#012169 #FFFFFF #C8102E #006129
+KY	Flag_of_the_Cayman_Islands.svg	#012169 #C8102E #FFFFFF
+CX	Flag_of_Christmas_Island.svg	#012169 #0DB02B #F7D116
+CK	Flag_of_the_Cook_Islands.svg	#012169 #FFFFFF #C8102E
+CW	Flag_of_Curaçao.svg	#002B7F #F9E814
+FK	Flag_of_the_Falkland_Islands.svg	#012169 #FFFFFF #C8102E #2A7FFF
+FO	Flag_of_the_Faroe_Islands.svg	#FFFFFF #EF3340 #005EB8
+PF	Flag_of_French_Polynesia.svg	#CE1126 #FFFFFF #FF9C10
+TF	Flag_of_the_French_Southern_and_Antarctic_Lands.svg	#214D9B #FFFFFF #EB2E2E
+GI	Flag_of_Gibraltar.svg	#FFFFFF #DA000C #000000
+GL	Flag_of_Greenland.svg	#FFFFFF #C8102E
+GU	Flag_of_Guam.svg	#00297B #C62139 #92DBFC
+GG	Flag_of_Guernsey.svg	#FFFFFF #E8112D #F9DD16
+HK	Flag_of_Hong_Kong.svg	#EE1C25 #FFFFFF
+IM	Flag_of_the_Isle_of_Mann.svg	#CF142B #FFFFFF
+JE	Flag_of_Jersey.svg	#FFFFFF #CF142B
+MO	Flag_of_Macau.svg	#0F7562 #FFFFFF
+MS	Flag_of_Montserrat.svg	#012169 #C8102E #FFFFFF #00A2DD
+NC	Flag_of_France.svg	#002654 #CE1126 #FFFFFF
+NU	Flag_of_Niue.svg	#FEDD00 #FFFFFF #012169 #C8102E
+NF	Flag_of_Norfolk_Island.svg	#007934 #FFFFFF
+MP	Flag_of_the_Northern_Mariana_Islands.svg	#0033A1 #FFFFFF #B1B4B3
+PN	Flag_of_the_Pitcairn_Islands.svg	#012169 #C8102E #FFFFFF #337321 #F7E017
+PR	Flag_of_Puerto_Rico.svg	#EE0000 #FFFFFF #0044FF
+SH	Flag_of_Saint_Helena.svg	#012169 #C8102E #FFFFFF
+PM	Flag_of_Saint-Pierre_and_Miquelon.svg	#0092C8 #FFCF00 #FFFFFF #CC0000 #000000 #08672F
+SX	Flag_of_Sint_Maarten.svg	#012A87 #DC171D #FFFFFF
+GS	Flag_of_South_Georgia_and_the_South_Sandwich_Islands.svg	#012169 #FFFFFF #C8102E
+TK	Flag_of_Tokelau.svg	#012169 #FFD100
+TC	Flag_of_the_Turks_and_Caicos_Islands.svg	#002868 #CE1126 #FFFFFF #FCD116
+VI	Flag_of_the_United_States_Virgin_Islands.svg	#FFFFFF #F4C53D #010002 #0081C6 #162667
+WF	Flag_of_France.svg	#002654 #CE1126 #FFFFFF
