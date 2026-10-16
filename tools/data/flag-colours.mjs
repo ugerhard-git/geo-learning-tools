@@ -26,6 +26,8 @@
 // It writes the file (for a full run) and prints a report: the drawing used
 // for each flag, and anything that needs a human look.
 
+/* global Image, document -- only used inside page.evaluate(), which runs in the browser */
+
 import { readFile, writeFile } from "node:fs/promises";
 import { chromium } from "@playwright/test";
 import { parseCountries, flagArticleTitles } from "../../src/shared/countries.js";
