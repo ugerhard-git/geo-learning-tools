@@ -212,7 +212,6 @@ IO	Flag_of_the_British_Indian_Ocean_Territory_2025.svg	#FFFFFF #012169 #C8102E #
 VG	Flag_of_the_British_Virgin_Islands.svg	#012169 #FFFFFF #C8102E #006129
 KY	Flag_of_the_Cayman_Islands.svg	#012169 #C8102E #FFFFFF
 CX	Flag_of_Christmas_Island.svg	#012169 #0DB02B #F7D116
-CC	Flag_of_the_Cocos_(Keeling)_Islands.svg	#012169 #FFFFFF #E4002B
 CK	Flag_of_the_Cook_Islands.svg	#012169 #FFFFFF #C8102E
 CW	Flag_of_Curaçao.svg	#002B7F #F9E814
 FK	Flag_of_the_Falkland_Islands.svg	#012169 #FFFFFF #C8102E #2A7FFF
