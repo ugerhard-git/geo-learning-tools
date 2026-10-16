@@ -5,7 +5,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { csvRings, unpack, unpackRing } from "../../src/shared/codec.js";
 import { flagArticleTitles, parseCountries } from "../../src/shared/countries.js";
-import { parseTags, NO_OWN_FLAG } from "../../src/flags/design.js";
+import { parseTags, parseFlagColours, NO_OWN_FLAG, NOT_QUIZZABLE } from "../../src/flags/design.js";
+import { checkFlagColours } from "../../tools/data/check-flag-colours.mjs";
 
 const read = (name) => readFileSync(new URL(`../../src/data/${name}`, import.meta.url), "utf8");
 const countries = parseCountries(read("countries.txt"));
@@ -99,4 +100,16 @@ test("the shared country outlines name only known places", () => {
       assert.ok(known(code), code);
     }
   }
+});
+
+test("every flag of its own has colour codes, in a well-formed file", () => {
+  const text = read("flag-colours.txt");
+  assert.deepEqual(checkFlagColours(text, codes), []);
+  const colours = parseFlagColours(text);
+  // The Cocos Islands are left out on purpose: see tools/data/flag-colours.mjs.
+  const missing = countries
+    .map((c) => c.code)
+    .filter((c) => !NO_OWN_FLAG.has(c) && !NOT_QUIZZABLE.has(c) && c !== "CC")
+    .filter((c) => !colours.has(c));
+  assert.deepEqual(missing, []);
 });

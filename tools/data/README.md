@@ -1,13 +1,21 @@
 # Data generators
 
-Python scripts that build some of the files in `src/data/` from Natural Earth.
-They are run by hand when the source data changes, not as part of the build.
+Scripts that build some of the files in `src/data/`. They are run when the
+source data changes, not as part of the build.
 See [`docs/data.md`](../../docs/data.md) for the formats they write.
 
 | Script             | Writes                                       |
 | ------------------ | -------------------------------------------- |
 | `build_cities.py`  | `src/data/land.json`, `src/data/cities.json` |
 | `build_terrain.py` | `src/data/terrain.json`                      |
+| `flag-colours.mjs` | `src/data/flag-colours.txt`                  |
+
+`flag-colours.mjs` measures each flag's main colours from its drawing on
+Wikimedia Commons. It runs on GitHub through the "Flag colours" workflow
+(`.github/workflows/flag-colours.yml`), and `check-flag-colours.mjs`
+checks its result before the workflow commits it. See
+[`docs/data.md`](../../docs/data.md#flag-colourstxt) for the format. The rest of
+this page is about the two Python scripts.
 
 ## Running them
 

@@ -108,3 +108,33 @@ test("the quiz never asks about a flag that cannot be told from France's", async
     await page.click("#quiz [data-next]");
   }
 });
+
+test("the detail view lists the flag's colour codes, and a click copies one", async ({
+  page,
+  context,
+}) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  const problems = await openPage(page, PAGE);
+  await page.click('.tile[data-c="DE"]');
+  const codes = page.locator("#detail .hex");
+  await expect(codes).toHaveCount(3);
+  const first = await codes.first().getAttribute("data-hex");
+  expect(first).toMatch(/^#[0-9A-F]{6}$/);
+  // The swatch is painted with the code it stands beside.
+  const painted = await codes
+    .first()
+    .locator(".hex-sw")
+    .evaluate((el) => getComputedStyle(el).backgroundColor);
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(first.slice(i, i + 2), 16));
+  expect(painted).toBe(`rgb(${r}, ${g}, ${b})`);
+
+  await codes.first().click();
+  await expect(page.locator("#detail [data-copied]")).toHaveText(`Copied ${first}.`);
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(first);
+
+  // A French territory flies the tricolour, so it shows France's colours.
+  await page.locator("#detail [data-close]").first().click();
+  await page.click('.tile[data-c="GP"]');
+  await expect(page.locator("#detail .hex")).toHaveCount(3);
+  expect([...problems, ...(await cspViolations(page))]).toEqual([]);
+});
