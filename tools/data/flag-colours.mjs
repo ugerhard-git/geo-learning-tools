@@ -13,9 +13,12 @@
 //      stripes do not count as colours of their own.
 //   4. Keep the colours that cover at least 2% of the flag, largest first.
 //
-// Places that fly another country's flag (see NOT_QUIZZABLE and
-// NO_OWN_FLAG in src/flags/design.js) are left out; the app shows the
-// colours of that country's flag instead.
+// A few flag articles lead with a different flag from the one the app shows
+// (flagcdn.com's image); OVERRIDES names the right one for those.
+//
+// Places that fly another country's flag (see NOT_QUIZZABLE and NO_OWN_FLAG
+// in src/flags/design.js) are left out; the app shows the colours of that
+// country's flag instead.
 //
 // The drawings are not reachable from every machine, so this normally runs
 // on GitHub: see .github/workflows/flag-colours.yml. To run it by hand:
@@ -34,6 +37,19 @@ import { chromium } from "@playwright/test";
 import { parseCountries, flagArticleTitles } from "../../src/shared/countries.js";
 import { NO_OWN_FLAG, NOT_QUIZZABLE } from "../../src/flags/design.js";
 import { FLAG_COLOUR_LINE } from "./check-flag-colours.mjs";
+
+/**
+ * Where Wikipedia's flag article leads with another flag than the app shows:
+ * the article to take the lead image from instead, or the Commons file.
+ */
+const OVERRIDES = {
+  // "Flag of Northern Ireland" leads with the Union Flag; the app shows the
+  // Ulster Banner.
+  "GB-NIR": { article: "Ulster Banner" },
+  // "Flags of New Caledonia" leads with the French tricolour; the app shows
+  // the Kanak flag.
+  NC: { file: "Flag_of_FLNKS.svg" },
+};
 
 const ROOT = new URL("../../", import.meta.url);
 const OUT = new URL("src/data/flag-colours.txt", ROOT);
@@ -74,8 +90,8 @@ const page = await browser.newPage();
 
 for (const country of countries) {
   try {
-    const file = drawings.get(country.code);
-    const svg = await download(file);
+    const { file, url } = drawings.get(country.code);
+    const svg = await download(file, url);
     const colours = await measure(svg);
     if (!colours.length) throw new Error("no colour covers 2% of the flag");
     const line = `${country.code}\t${file}\t${colours.map((c) => c.hex).join(" ")}`;
@@ -120,35 +136,46 @@ if (!only.length) {
 if (!lines.length) process.exit(1);
 
 /**
- * The Commons file name of each place's flag drawing: the lead image of its
- * flag article (trying each likely title in turn), or failing that the
- * conventional "Flag of <name>.svg".
- * @returns {Promise<Map<string, string>>} code → file name
+ * Each place's flag drawing: the lead image of its flag article (trying each
+ * likely title in turn), or failing that the conventional Commons name
+ * "Flag of <name>.svg".
+ *
+ * The lead image comes with its address. That matters: a few flags are
+ * stored on English Wikipedia itself, under the same name as a Commons file
+ * that shows something else (the Cocos Islands' green flag on Wikipedia,
+ * Australia's on Commons).
+ * @returns {Promise<Map<string, { file: string, url: string | null }>>}
  */
 async function drawingsOf(list) {
   const found = new Map();
-  const titles = list.map((c) => flagArticleTitles(c));
+  for (const c of list) {
+    if (OVERRIDES[c.code]?.file) found.set(c.code, { file: OVERRIDES[c.code].file, url: null });
+  }
+  const titles = list.map((c) =>
+    OVERRIDES[c.code]?.article ? [OVERRIDES[c.code].article] : flagArticleTitles(c),
+  );
   for (let attempt = 0; attempt < 3; attempt++) {
     const asking = list.filter((c, i) => !found.has(c.code) && titles[i][attempt]);
     const images = await leadImages(asking.map((c) => titles[list.indexOf(c)][attempt]));
     for (const c of asking) {
-      const name = images.get(titles[list.indexOf(c)][attempt]);
+      const image = images.get(titles[list.indexOf(c)][attempt]);
       // Only a drawing of a flag will do: not a photo of one flying.
-      if (name && /^Flag.*\.svg$/i.test(name)) found.set(c.code, name);
+      if (image && /\.svg$/i.test(image.file)) found.set(c.code, image);
     }
   }
   for (const c of list) {
     if (found.has(c.code)) continue;
     const title = c.wiki.startsWith("=") ? c.wiki.slice(1) : `Flag of ${c.wiki || c.name}`;
-    found.set(c.code, `${title.replaceAll(" ", "_")}.svg`);
+    found.set(c.code, { file: `${title.replaceAll(" ", "_")}.svg`, url: null });
   }
   return found;
 }
 
 /**
- * The lead image of each of these Wikipedia articles, 50 to a request.
+ * The lead image of each of these Wikipedia articles, with its address, 50
+ * articles to a request.
  * @param {string[]} titles
- * @returns {Promise<Map<string, string>>} title as given → image file name
+ * @returns {Promise<Map<string, { file: string, url: string }>>} keyed by title as given
  */
 async function leadImages(titles) {
   const out = new Map();
@@ -156,17 +183,24 @@ async function leadImages(titles) {
     const batch = titles.slice(i, i + 50);
     const url =
       "https://en.wikipedia.org/w/api.php?action=query&format=json&formatversion=2" +
-      `&redirects=1&prop=pageimages&piprop=name&titles=${encodeURIComponent(batch.join("|"))}`;
+      `&redirects=1&prop=pageimages&piprop=name|original&titles=${encodeURIComponent(batch.join("|"))}`;
     const answer = await (await fetchPolitely(url)).json();
     // Follow each title through Wikipedia's normalising and redirects to its page.
     const step = (list) => new Map((list ?? []).map((x) => [x.from, x.to]));
     const normalised = step(answer?.query?.normalized);
     const redirected = step(answer?.query?.redirects);
-    const pages = new Map((answer?.query?.pages ?? []).map((p) => [p.title, p.pageimage]));
+    const pages = new Map((answer?.query?.pages ?? []).map((p) => [p.title, p]));
     for (const title of batch) {
       const n = normalised.get(title) ?? title;
-      const image = pages.get(redirected.get(n) ?? n);
-      if (typeof image === "string") out.set(title, image);
+      const page = pages.get(redirected.get(n) ?? n);
+      const source = page?.original?.source;
+      if (
+        typeof page?.pageimage === "string" &&
+        typeof source === "string" &&
+        source.startsWith("https://upload.wikimedia.org/")
+      ) {
+        out.set(title, { file: page.pageimage, url: source });
+      }
     }
     await sleep(1000);
   }
@@ -174,19 +208,19 @@ async function leadImages(titles) {
 }
 
 /**
- * Download a drawing straight from Commons' file server, refusing anything
- * that is not a modest SVG. Files live under the first one and two hex
- * digits of the MD5 of their name. Going there directly, rather than through
- * Commons' lookup page, halves the requests.
+ * Download a drawing, refusing anything that is not a modest SVG. Without a
+ * known address, try Commons' file server, where files live under the first
+ * one and two hex digits of the MD5 of their name, and then Commons' own
+ * lookup, which also finds renamed files.
  */
-async function download(file) {
+async function download(file, url) {
   const name = file.replaceAll(" ", "_");
   const md5 = createHash("md5").update(name).digest("hex");
-  const url = `https://upload.wikimedia.org/wikipedia/commons/${md5[0]}/${md5.slice(0, 2)}/${encodeURIComponent(name)}`;
-  // A renamed file is only found under its old name through Commons' own
-  // lookup, which follows the rename; the file server answers 404.
-  const res = await fetchPolitely(url, file).catch((e) =>
-    /answered 404/.test(e.message)
+  const direct =
+    url ??
+    `https://upload.wikimedia.org/wikipedia/commons/${md5[0]}/${md5.slice(0, 2)}/${encodeURIComponent(name)}`;
+  const res = await fetchPolitely(direct, file).catch((e) =>
+    !url && /answered 404/.test(e.message)
       ? fetchPolitely(
           `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(name)}`,
           file,
