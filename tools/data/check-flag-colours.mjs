@@ -16,7 +16,7 @@ import { fileURLToPath } from "node:url";
  * #RRGGBB, separated by spaces.
  */
 export const FLAG_COLOUR_LINE =
-  /^[A-Z]{2}(-[A-Z]{3})?\t[^\t\n<>"]{1,200}\.svg\t#[0-9A-F]{6}( #[0-9A-F]{6}){0,7}$/;
+  /^[A-Z]{2}(-[A-Z]{3})?\t[^\t\n<>]{1,200}\.svg\t#[0-9A-F]{6}( #[0-9A-F]{6}){0,7}$/;
 
 /**
  * The problems with a flag-colours file, or none.

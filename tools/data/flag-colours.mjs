@@ -28,6 +28,7 @@
 
 /* global Image, document -- only used inside page.evaluate(), which runs in the browser */
 
+import { createHash } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
 import { chromium } from "@playwright/test";
 import { parseCountries, flagArticleTitles } from "../../src/shared/countries.js";
@@ -62,6 +63,10 @@ const countries = parseCountries(await readFile(new URL("src/data/countries.txt"
 const report = [];
 const lines = [];
 
+// The drawing of every flag, looked up before any is downloaded: Wikipedia
+// answers 50 titles per request, which keeps well inside its rate limits.
+const drawings = await drawingsOf(countries);
+
 const browser = await chromium.launch({
   executablePath: process.env.PW_CHROMIUM_PATH || undefined,
 });
@@ -69,7 +74,7 @@ const page = await browser.newPage();
 
 for (const country of countries) {
   try {
-    const file = await drawingOf(country);
+    const file = drawings.get(country.code);
     const svg = await download(file);
     const colours = await measure(svg);
     if (!colours.length) throw new Error("no colour covers 2% of the flag");
@@ -83,7 +88,7 @@ for (const country of countries) {
     report.push(`${country.code}  NEEDS A LOOK: ${e.message}`);
   }
   // Be gentle with Wikimedia's servers.
-  await new Promise((r) => setTimeout(r, 200));
+  await sleep(500);
 }
 await browser.close();
 
@@ -115,35 +120,92 @@ if (!only.length) {
 if (!lines.length) process.exit(1);
 
 /**
- * The Commons file name of a place's flag drawing: the lead image of its
- * flag article, or the conventional "Flag of <name>.svg".
+ * The Commons file name of each place's flag drawing: the lead image of its
+ * flag article (trying each likely title in turn), or failing that the
+ * conventional "Flag of <name>.svg".
+ * @returns {Promise<Map<string, string>>} code → file name
  */
-async function drawingOf(country) {
-  for (const title of flagArticleTitles(country)) {
-    const url =
-      "https://en.wikipedia.org/w/api.php?action=query&format=json&formatversion=2" +
-      `&redirects=1&prop=pageimages&piprop=name&titles=${encodeURIComponent(title)}`;
-    const res = await fetch(url, { headers: HEADERS });
-    if (!res.ok) throw new Error(`Wikipedia answered ${res.status}`);
-    const name = (await res.json())?.query?.pages?.[0]?.pageimage;
-    // Only a drawing of a flag will do: not a photo of one flying.
-    if (typeof name === "string" && /^Flag.*\.svg$/i.test(name)) return name;
+async function drawingsOf(list) {
+  const found = new Map();
+  const titles = list.map((c) => flagArticleTitles(c));
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const asking = list.filter((c, i) => !found.has(c.code) && titles[i][attempt]);
+    const images = await leadImages(asking.map((c) => titles[list.indexOf(c)][attempt]));
+    for (const c of asking) {
+      const name = images.get(titles[list.indexOf(c)][attempt]);
+      // Only a drawing of a flag will do: not a photo of one flying.
+      if (name && /^Flag.*\.svg$/i.test(name)) found.set(c.code, name);
+    }
   }
-  const title = country.wiki.startsWith("=")
-    ? country.wiki.slice(1)
-    : `Flag of ${country.wiki || country.name}`;
-  return `${title.replaceAll(" ", "_")}.svg`;
+  for (const c of list) {
+    if (found.has(c.code)) continue;
+    const title = c.wiki.startsWith("=") ? c.wiki.slice(1) : `Flag of ${c.wiki || c.name}`;
+    found.set(c.code, `${title.replaceAll(" ", "_")}.svg`);
+  }
+  return found;
 }
 
-/** Download a file from Commons, refusing anything that is not a modest SVG. */
+/**
+ * The lead image of each of these Wikipedia articles, 50 to a request.
+ * @param {string[]} titles
+ * @returns {Promise<Map<string, string>>} title as given → image file name
+ */
+async function leadImages(titles) {
+  const out = new Map();
+  for (let i = 0; i < titles.length; i += 50) {
+    const batch = titles.slice(i, i + 50);
+    const url =
+      "https://en.wikipedia.org/w/api.php?action=query&format=json&formatversion=2" +
+      `&redirects=1&prop=pageimages&piprop=name&titles=${encodeURIComponent(batch.join("|"))}`;
+    const answer = await (await fetchPolitely(url)).json();
+    // Follow each title through Wikipedia's normalising and redirects to its page.
+    const step = (list) => new Map((list ?? []).map((x) => [x.from, x.to]));
+    const normalised = step(answer?.query?.normalized);
+    const redirected = step(answer?.query?.redirects);
+    const pages = new Map((answer?.query?.pages ?? []).map((p) => [p.title, p.pageimage]));
+    for (const title of batch) {
+      const n = normalised.get(title) ?? title;
+      const image = pages.get(redirected.get(n) ?? n);
+      if (typeof image === "string") out.set(title, image);
+    }
+    await sleep(1000);
+  }
+  return out;
+}
+
+/**
+ * Download a drawing straight from Commons' file server, refusing anything
+ * that is not a modest SVG. Files live under the first one and two hex
+ * digits of the MD5 of their name.
+ */
 async function download(file) {
-  const url = `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file)}`;
-  const res = await fetch(url, { headers: HEADERS });
-  if (!res.ok) throw new Error(`${file}: Commons answered ${res.status}`);
-  const text = await res.text();
+  const name = file.replaceAll(" ", "_");
+  const md5 = createHash("md5").update(name).digest("hex");
+  const url = `https://upload.wikimedia.org/wikipedia/commons/${md5[0]}/${md5.slice(0, 2)}/${encodeURIComponent(name)}`;
+  const text = await (await fetchPolitely(url, file)).text();
   if (text.length > MAX_SVG_BYTES) throw new Error(`${file}: too large`);
   if (!/<svg[\s>]/.test(text)) throw new Error(`${file}: not an SVG`);
   return text;
+}
+
+/**
+ * fetch(), but when Wikimedia says "too many requests" (429) or is briefly
+ * unavailable, wait as long as it asks (or longer each time) and try again.
+ */
+async function fetchPolitely(url, what = "Wikipedia") {
+  for (let attempt = 1; ; attempt++) {
+    const res = await fetch(url, { headers: HEADERS });
+    if (res.ok) return res;
+    if (![429, 503].includes(res.status) || attempt === 6) {
+      throw new Error(`${what}: answered ${res.status}`);
+    }
+    const wait = Number(res.headers.get("retry-after")) || 2 ** attempt;
+    await sleep(Math.min(wait, 60) * 1000);
+  }
+}
+
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
 }
 
 /**
