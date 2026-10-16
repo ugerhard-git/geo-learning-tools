@@ -49,6 +49,10 @@ const OVERRIDES = {
   // "Flags of New Caledonia" leads with the French tricolour; the app shows
   // the Kanak flag.
   NC: { file: "Flag_of_FLNKS.svg" },
+  // The app shows the islands' green flag, but Wikipedia's lead image for it
+  // is Australia's flag, and no free drawing of the green one was found.
+  // Better no colour codes than the wrong ones.
+  CC: { skip: true },
 };
 
 const ROOT = new URL("../../", import.meta.url);
@@ -74,6 +78,7 @@ const HEADERS = {
 const only = process.argv.slice(2).map((c) => c.toUpperCase());
 const countries = parseCountries(await readFile(new URL("src/data/countries.txt", ROOT), "utf8"))
   .filter((c) => !NO_OWN_FLAG.has(c.code) && !NOT_QUIZZABLE.has(c.code))
+  .filter((c) => !OVERRIDES[c.code]?.skip)
   .filter((c) => !only.length || only.includes(c.code));
 
 const report = [];
