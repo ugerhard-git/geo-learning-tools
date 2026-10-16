@@ -183,6 +183,7 @@ TV	Flag_of_Tuvalu.svg	#009CDE #C8102E #FFFFFF #012169 #FEDD00
 UG	Flag_of_Uganda.svg	#FCDC04 #000000 #D90000 #FFFFFF
 UA	Flag_of_Ukraine.svg	#0057B7 #FFD700
 AE	Flag_of_the_United_Arab_Emirates.svg	#000000 #00843D #C8102E #FFFFFF
+GB	Flag_of_the_United_Kingdom.svg	#C8102E #FFFFFF #012169
 US	Flag_of_the_United_States_(DDD-F-416E_specifications).svg	#BF0A30 #FFFFFF #00205B
 UY	Flag_of_Uruguay.svg	#FFFFFF #0038A8 #7B3F00
 UZ	Flag_of_Uzbekistan.svg	#FFFFFF #308738 #3081F7 #EE162E
@@ -204,12 +205,14 @@ GB-NIR	Flag_of_the_United_Kingdom_(1-2).svg	#C8102E #FFFFFF #012169
 AX	Flag_of_Åland.svg	#0064AD #FFD300 #DA0E15
 AS	Flag_of_American_Samoa.svg	#00205B #FFFFFF #BF0A30 #5A3719
 AI	Flag_of_Anguilla.svg	#012169 #FFFFFF #C8102E
+AQ	Flag_of_Antarctica.svg	#009EDB #FFFFFF
 AW	Flag_of_Aruba.svg	#418FDE #FFD100
 BM	Flag_of_Bermuda.svg	#C8102E #FFFFFF #012169
 IO	Flag_of_the_British_Indian_Ocean_Territory_2025.svg	#FFFFFF #012169 #C8102E #006D00
 VG	Flag_of_the_British_Virgin_Islands.svg	#012169 #FFFFFF #C8102E #006129
 KY	Flag_of_the_Cayman_Islands.svg	#012169 #C8102E #FFFFFF
 CX	Flag_of_Christmas_Island.svg	#012169 #0DB02B #F7D116
+CC	Flag_of_the_Cocos_(Keeling)_Islands.svg	#012169 #FFFFFF #E4002B
 CK	Flag_of_the_Cook_Islands.svg	#012169 #FFFFFF #C8102E
 CW	Flag_of_Curaçao.svg	#002B7F #F9E814
 FK	Flag_of_the_Falkland_Islands.svg	#012169 #FFFFFF #C8102E #2A7FFF
