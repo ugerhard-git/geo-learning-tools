@@ -1,0 +1,119 @@
+# Measures the main colours of every flag from its drawing on Wikimedia
+# Commons, and commits the result as src/data/flag-colours.txt. See
+# tools/data/flag-colours.mjs for how the colours are measured.
+#
+# It runs:
+#   - by hand (Actions → Flag colours → Run workflow), for example after a
+#     country changes its flag. The result goes to a new branch,
+#     flag-colours-<date>, to be opened as a pull request;
+#   - on a pull request that changes the measuring itself, so the effect can
+#     be reviewed there. The result is committed to that pull request.
+#
+# Two jobs, so that no third-party code ever holds a token that can write to
+# the repository: "measure" installs the npm dev tooling (Playwright draws the
+# flags) and can only read; "commit" can write, but installs nothing and only
+# runs the checker, which uses Node's built-in modules.
+
+name: Flag colours
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - tools/data/flag-colours.mjs
+      - tools/data/check-flag-colours.mjs
+      - .github/workflows/flag-colours.yml
+
+permissions: {}
+
+concurrency:
+  group: flag-colours-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  measure:
+    name: Measure the flags
+    # Pull requests from forks are measured but never committed to.
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Measure
+        run: node tools/data/flag-colours.mjs | tee flag-colours-report.txt
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: flag-colours
+          path: |
+            src/data/flag-colours.txt
+            flag-colours-report.txt
+          retention-days: 14
+
+  commit:
+    name: Commit the result
+    needs: measure
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: flag-colours
+          path: measured
+
+      # Node only, no npm install: nothing third-party runs in this job.
+      - name: Check the measured file
+        run: node tools/data/check-flag-colours.mjs measured/src/data/flag-colours.txt
+
+      - name: Commit if anything changed
+        env:
+          EVENT: ${{ github.event_name }}
+        run: |
+          cp measured/src/data/flag-colours.txt src/data/flag-colours.txt
+          {
+            echo '## Flag colours'
+            echo '```'
+            cat measured/flag-colours-report.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          if git diff --quiet -- src/data/flag-colours.txt && git ls-files --error-unmatch src/data/flag-colours.txt >/dev/null 2>&1; then
+            echo "No change in the flag colours."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ "$EVENT" = "workflow_dispatch" ]; then
+            git switch -c "flag-colours-$(date -u +%Y-%m-%d)"
+          fi
+          git add src/data/flag-colours.txt
+          git commit -m "Flag colours: measured from the Commons drawings"
+          git push origin HEAD
+          echo "Committed to $(git branch --show-current)." >> "$GITHUB_STEP_SUMMARY"
