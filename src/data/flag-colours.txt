@@ -198,10 +198,10 @@ PS	Flag_of_Palestine.svg	#000000 #009639 #FFFFFF #ED2E38
 TW	Flag_of_the_Republic_of_China.svg	#FE0000 #000094 #FFFFFF
 XK	Flag_of_Kosovo.svg	#244AA5 #D0A650
 EH	Flag_of_the_Sahrawi_Arab_Democratic_Republic.svg	#000000 #007A3D #FFFFFF #C4111B
-GB-ENG	Flag_of_England.svg	#FFFFFF #C8102E
+GB-ENG	Flag_of_England.svg	#FFFFFF #CE1124
 GB-SCT	Flag_of_Scotland.svg	#005EB8 #FFFFFF
 GB-WLS	Flag_of_Wales.svg	#FFFFFF #00B140 #C8102E #670817
-GB-NIR	Flag_of_the_United_Kingdom_(1-2).svg	#C8102E #FFFFFF #012169
+GB-NIR	Flag_of_Northern_Ireland_(1953–1972).svg	#FFFFFF #CC0000
 AX	Flag_of_Åland.svg	#0064AD #FFD300 #DA0E15
 AS	Flag_of_American_Samoa.svg	#00205B #FFFFFF #BF0A30 #5A3719
 AI	Flag_of_Anguilla.svg	#012169 #FFFFFF #C8102E
@@ -228,7 +228,7 @@ IM	Flag_of_the_Isle_of_Mann.svg	#CF142B #FFFFFF
 JE	Flag_of_Jersey.svg	#FFFFFF #CF142B
 MO	Flag_of_Macau.svg	#0F7562 #FFFFFF
 MS	Flag_of_Montserrat.svg	#012169 #C8102E #FFFFFF #00A2DD
-NC	Flag_of_France.svg	#002654 #CE1126 #FFFFFF
+NC	Flag_of_FLNKS.svg	#009543 #0035AD #ED4135 #FAE600 #000000
 NU	Flag_of_Niue.svg	#FEDD00 #FFFFFF #012169 #C8102E
 NF	Flag_of_Norfolk_Island.svg	#007934 #FFFFFF
 MP	Flag_of_the_Northern_Mariana_Islands.svg	#0033A1 #FFFFFF #B1B4B3
