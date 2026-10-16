@@ -176,13 +176,24 @@ async function leadImages(titles) {
 /**
  * Download a drawing straight from Commons' file server, refusing anything
  * that is not a modest SVG. Files live under the first one and two hex
- * digits of the MD5 of their name.
+ * digits of the MD5 of their name. Going there directly, rather than through
+ * Commons' lookup page, halves the requests.
  */
 async function download(file) {
   const name = file.replaceAll(" ", "_");
   const md5 = createHash("md5").update(name).digest("hex");
   const url = `https://upload.wikimedia.org/wikipedia/commons/${md5[0]}/${md5.slice(0, 2)}/${encodeURIComponent(name)}`;
-  const text = await (await fetchPolitely(url, file)).text();
+  // A renamed file is only found under its old name through Commons' own
+  // lookup, which follows the rename; the file server answers 404.
+  const res = await fetchPolitely(url, file).catch((e) =>
+    /answered 404/.test(e.message)
+      ? fetchPolitely(
+          `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(name)}`,
+          file,
+        )
+      : Promise.reject(e),
+  );
+  const text = await res.text();
   if (text.length > MAX_SVG_BYTES) throw new Error(`${file}: too large`);
   if (!/<svg[\s>]/.test(text)) throw new Error(`${file}: not an SVG`);
   return text;
