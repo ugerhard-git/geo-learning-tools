@@ -55,6 +55,8 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Measure
+        # bash with pipefail, so a failed run is not hidden by tee.
+        shell: bash
         run: node tools/data/flag-colours.mjs | tee flag-colours-report.txt
 
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2

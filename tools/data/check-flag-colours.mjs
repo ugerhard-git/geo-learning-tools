@@ -53,9 +53,19 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       .filter((l) => l && !l.startsWith("#"))
       .map((l) => l.split("|")[0]),
   );
-  const problems = checkFlagColours(await readFile(file, "utf8"), codes);
+  const text = await readFile(file, "utf8").catch(() => null);
+  const problems =
+    text === null
+      ? [`${file} was not written: the measuring failed`]
+      : checkFlagColours(text, codes);
   if (problems.length) {
     console.error(`${file}:\n  ${problems.join("\n  ")}`);
+    if (process.env.GITHUB_ACTIONS) {
+      const text = problems.join("\n").slice(0, 4000);
+      console.log(
+        `::error title=Flag colours::${text.replaceAll("%", "%25").replaceAll("\n", "%0A")}`,
+      );
+    }
     process.exit(1);
   }
   console.log(`${file} is well formed.`);

@@ -88,8 +88,17 @@ for (const country of countries) {
 await browser.close();
 
 console.log(report.join("\n"));
-const failed = report.filter((r) => r.includes("NEEDS A LOOK")).length;
-console.log(`\n${lines.length} flags measured, ${failed} need a look.`);
+const needLook = report.filter((r) => r.includes("NEEDS A LOOK"));
+const summary = `${lines.length} flags measured, ${needLook.length} need a look.`;
+console.log(`\n${summary}`);
+// On GitHub, also as an annotation on the run, which can be read without
+// opening the log.
+if (process.env.GITHUB_ACTIONS) {
+  const text = [summary, ...needLook].join("\n").slice(0, 4000);
+  console.log(
+    `::notice title=Flag colours::${text.replaceAll("%", "%25").replaceAll("\n", "%0A")}`,
+  );
+}
 
 if (!only.length) {
   await writeFile(
