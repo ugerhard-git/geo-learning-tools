@@ -18,14 +18,25 @@ export const readData = (name) => readFileSync(new URL(name, DATA), "utf8");
  *
  * @param {import("@playwright/test").Page} page
  * @param {string} path
- * @param {{ storage?: Record<string, string> }} [options] localStorage to start with
+ * @param {object} [options]
+ * @param {Record<string, string>} [options.storage] localStorage to start with
+ * @param {(url: URL) => unknown} [options.answers] a JSON answer for an outside
+ *   request, or undefined to block it as usual
  * @returns {Promise<string[]>} problems seen so far; keeps filling as the test runs
  */
-export async function openPage(page, path, { storage } = {}) {
+export async function openPage(page, path, { storage, answers } = {}) {
   const problems = [];
   await page.route(
     (url) => url.hostname !== "127.0.0.1",
-    (route) => route.abort("blockedbyclient"),
+    (route) => {
+      const body = answers?.(new URL(route.request().url()));
+      if (body === undefined) return route.abort("blockedbyclient");
+      return route.fulfill({
+        contentType: "application/json",
+        headers: { "Access-Control-Allow-Origin": "*" },
+        body: JSON.stringify(body),
+      });
+    },
   );
   // Map moves are animated; with reduced motion they happen at once, so a
   // test can act on the map as soon as a question is shown.
