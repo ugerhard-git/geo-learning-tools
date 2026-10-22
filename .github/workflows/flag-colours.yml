@@ -33,7 +33,6 @@ concurrency:
 jobs:
   measure:
     name: Measure the flags
-    # Pull requests from forks are measured but never committed to.
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -59,20 +58,33 @@ jobs:
         shell: bash
         run: node tools/data/flag-colours.mjs | tee flag-colours-report.txt
 
+      # The report goes on the run's summary from here, the job that made it.
+      # The commit job, which can write, does not pass on anything but the
+      # checked colour file.
+      - name: Report
+        run: |
+          {
+            echo '## Flag colours'
+            echo '```'
+            cat flag-colours-report.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: flag-colours
-          path: |
-            src/data/flag-colours.txt
-            flag-colours-report.txt
+          path: src/data/flag-colours.txt
           retention-days: 14
 
   commit:
     name: Commit the result
     needs: measure
+    # Never for pull requests from forks, and not for Dependabot's: those get
+    # a read-only token, so the push would only fail.
     if: >-
       github.event_name == 'workflow_dispatch' ||
-      github.event.pull_request.head.repo.full_name == github.repository
+      (github.event.pull_request.head.repo.full_name == github.repository &&
+       github.actor != 'dependabot[bot]')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -93,19 +105,13 @@ jobs:
 
       # Node only, no npm install: nothing third-party runs in this job.
       - name: Check the measured file
-        run: node tools/data/check-flag-colours.mjs measured/src/data/flag-colours.txt
+        run: node tools/data/check-flag-colours.mjs measured/flag-colours.txt
 
       - name: Commit if anything changed
         env:
           EVENT: ${{ github.event_name }}
         run: |
-          cp measured/src/data/flag-colours.txt src/data/flag-colours.txt
-          {
-            echo '## Flag colours'
-            echo '```'
-            cat measured/flag-colours-report.txt
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
+          cp measured/flag-colours.txt src/data/flag-colours.txt
           if git diff --quiet -- src/data/flag-colours.txt && git ls-files --error-unmatch src/data/flag-colours.txt >/dev/null 2>&1; then
             echo "No change in the flag colours."
             exit 0

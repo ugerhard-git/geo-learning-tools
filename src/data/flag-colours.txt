@@ -113,7 +113,7 @@ MR	Flag_of_Mauritania.svg	#00A95C #D01C1F #FFD700
 MU	Flag_of_Mauritius.svg	#008658 #2D3359 #D01C1F #F7B718
 MX	Flag_of_Mexico.svg	#006847 #CE1126 #FFFFFF
 FM	Flag_of_the_Federated_States_of_Micronesia.svg	#75B2DD #FFFFFF
-MD	Flag_of_Moldova.svg	#CC092F #0046AE #FFD200
+MD	Flag_of_Moldova.svg	#D10429 #0B45BB #F5D402 #B07F55
 MC	Flag_of_Monaco.svg	#CE1126 #FFFFFF
 MN	Flag_of_Mongolia.svg	#DA2031 #0066B2 #FFD300
 ME	Flag_of_Montenegro.svg	#E30000 #FFC000 #D17624
@@ -183,10 +183,10 @@ TV	Flag_of_Tuvalu.svg	#009CDE #C8102E #FFFFFF #012169 #FEDD00
 UG	Flag_of_Uganda.svg	#FCDC04 #000000 #D90000 #FFFFFF
 UA	Flag_of_Ukraine.svg	#0057B7 #FFD700
 AE	Flag_of_the_United_Arab_Emirates.svg	#000000 #00843D #C8102E #FFFFFF
-GB	Flag_of_the_United_Kingdom.svg	#C8102E #FFFFFF #012169
+GB	Flag_of_the_United_Kingdom_(1-2).svg	#C8102E #FFFFFF #012169
 US	Flag_of_the_United_States_(DDD-F-416E_specifications).svg	#BF0A30 #FFFFFF #00205B
 UY	Flag_of_Uruguay.svg	#FFFFFF #0038A8 #7B3F00
-UZ	Flag_of_Uzbekistan.svg	#FFFFFF #308738 #3081F7 #EE162E
+UZ	Flag_of_Uzbekistan.svg	#FFFFFF #1EB53A #0099B5 #CE1126
 VU	Flag_of_Vanuatu_(official).svg	#009543 #D21034 #000000 #FDCE12
 VE	Flag_of_Venezuela.svg	#CF142B #FFCC00 #00247D
 VN	Flag_of_Vietnam.svg	#DA251D #FFFF00

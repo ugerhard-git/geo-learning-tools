@@ -232,10 +232,24 @@ async function download(file, url) {
         )
       : Promise.reject(e),
   );
-  const text = await res.text();
-  if (text.length > MAX_SVG_BYTES) throw new Error(`${file}: too large`);
+  const text = await readLimited(res, file);
   if (!/<svg[\s>]/.test(text)) throw new Error(`${file}: not an SVG`);
   return text;
+}
+
+/** A response's body as text, giving up once it passes MAX_SVG_BYTES. */
+async function readLimited(res, file) {
+  if (Number(res.headers.get("content-length")) > MAX_SVG_BYTES) {
+    throw new Error(`${file}: too large`);
+  }
+  const chunks = [];
+  let size = 0;
+  for await (const chunk of res.body) {
+    size += chunk.length;
+    if (size > MAX_SVG_BYTES) throw new Error(`${file}: too large`);
+    chunks.push(chunk);
+  }
+  return Buffer.concat(chunks).toString("utf8");
 }
 
 /**

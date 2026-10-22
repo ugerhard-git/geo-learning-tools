@@ -55,8 +55,13 @@ policy is a `<meta>` tag. That cannot set `frame-ancestors`: other sites can
 frame the pages. Settings that involve the API key, erasing and importing
 are switched off inside a frame.
 
+Answers from Wikipedia, Wikidata and REST Countries are tested as if they
+were hostile: `test/e2e/hostile-answers.spec.js` fills every text they return
+with markup and checks that each app shows it as plain text.
+
 ## Security reviews
 
-| Date    | Scope                           | Result                                                                  |
-| ------- | ------------------------------- | ----------------------------------------------------------------------- |
-| 2026-10 | Whole site, build, CI and tools | Findings fixed in the pull request "Security audit: findings and fixes" |
+| Date    | Scope                                                                       | Result                                                                                                                                          |
+| ------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-10 | Whole site, build, CI and tools                                             | Findings fixed in the pull request "Security audit: findings and fixes"                                                                         |
+| 2026-10 | Second review, after the rename, the editor setup and the flag colour codes | Findings fixed in the pull request "Second security audit: findings and fixes"; two repository settings left to the owner (see CONTRIBUTING.md) |

@@ -137,8 +137,14 @@ These live in the GitHub settings rather than in files, so they are listed
 here:
 
 - **Pages:** source set to "GitHub Actions".
-- **Branch protection on `main`:** require a pull request, and require the
-  "Lint, build and test" check to pass. Without it, a direct push to `main`
-  would still deploy — but only after that same check passed, since the
-  deployment job depends on it.
+- **Branch protection on `main`:** the ruleset "Protect main" (Settings →
+  Rules → Rulesets) set to **Active**, requiring a pull request and the
+  "Lint, build and test" check. Without it, anything that can push to the
+  repository can push to `main` directly: a person, a leaked token, or a
+  workflow job with write access, such as the one that commits flag colours.
+  Such a push would still deploy only after the checks passed, since the
+  deployment job depends on them, but nobody would have reviewed it.
+- **Dependabot security updates:** on (Settings → Code security), so a
+  vulnerable dev tool gets a pull request as soon as it is known, not only in
+  the weekly round.
 - **Environment `github-pages`:** restrict deployments to the `main` branch.
