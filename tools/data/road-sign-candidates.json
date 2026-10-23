@@ -635,12 +635,6 @@
     "caption": "A51: Other dangers",
     "section": "Warning signs (1975-2027)",
     "score": 2
-   },
-   {
-    "file": "Belgian_traffic_sign_A51_KB-AR_03-06-2024.svg",
-    "caption": "A51: Other danger",
-    "section": "New road signs (2027 onwards)",
-    "score": 2
    }
   ],
   "stop": [
@@ -2726,14 +2720,6 @@
     "score": 1
    }
   ],
-  "warning": [
-   {
-    "file": "Japan_road_sign_509-5.svg",
-    "caption": "Caution",
-    "section": "Supplemental signs",
-    "score": 1
-   }
-  ],
   "stop": [
    {
     "file": "Japan_road_sign_330_(English).svg",
@@ -2950,14 +2936,6 @@
     "caption": "Diagonal pedestrian crossing",
     "section": "Information signs",
     "score": 1
-   }
-  ],
-  "warning": [
-   {
-    "file": "KZ_road_sign_3.17.2.svg",
-    "caption": "Danger",
-    "section": "Prohibitory signs",
-    "score": 2
    }
   ],
   "stop": [
@@ -4478,12 +4456,6 @@
     "caption": "Other dangers",
     "section": "Warning signs",
     "score": 2
-   },
-   {
-    "file": "Serbia_road_sign_III-80.svg",
-    "caption": "Danger",
-    "section": "Information signs",
-    "score": 2
    }
   ],
   "stop": [
@@ -4610,12 +4582,6 @@
     "file": "RU_road_sign_1.33.svg",
     "caption": "1.33 Other hazards",
     "section": "Warning signs",
-    "score": 2
-   },
-   {
-    "file": "RU_road_sign_3.17.2.svg",
-    "caption": "3.17.2 Danger",
-    "section": "Prohibitory signs",
     "score": 2
    }
   ],
@@ -5264,42 +5230,6 @@
     "caption": "Other dangers",
     "section": "Warning signs",
     "score": 2
-   },
-   {
-    "file": "UA_road_sign_7.21.1.svg",
-    "caption": "Other danger: frontal collision area",
-    "section": "Additional plates",
-    "score": 1
-   },
-   {
-    "file": "UA_road_sign_7.21.2.svg",
-    "caption": "Other danger: rear-end collision area",
-    "section": "Additional plates",
-    "score": 1
-   },
-   {
-    "file": "UA_road_sign_7.21.3.svg",
-    "caption": "Other danger: collision with pedestrian likely",
-    "section": "Additional plates",
-    "score": 1
-   },
-   {
-    "file": "UA_road_sign_7.21.4.svg",
-    "caption": "Other danger: collision with cyclist likely",
-    "section": "Additional plates",
-    "score": 1
-   },
-   {
-    "file": "UA_road_sign_7.21.5.svg",
-    "caption": "Other danger: rollover area",
-    "section": "Additional plates",
-    "score": 1
-   },
-   {
-    "file": "UA_road_sign_7.22.svg",
-    "caption": "Other danger: this section of road passes near ski slopes or trails, or other winter sports areas",
-    "section": "Additional plates",
-    "score": 1
    }
   ],
   "stop": [

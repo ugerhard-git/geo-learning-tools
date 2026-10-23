@@ -7,13 +7,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="3530"
+   width="643.20001"
    height="599.99994"
-   viewBox="-50 -30 352.9999 59.999992"
+   viewBox="-50 -30 64.319983 59.999992"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="AJAX.svg">
+   sodipodi:docname="66.svg">
   <metadata
      id="metadata14">
     <rdf:RDF>
@@ -46,8 +46,8 @@
      fit-margin-right="0"
      fit-margin-bottom="0"
      inkscape:zoom="0.3559706"
-     inkscape:cx="1237.6629"
-     inkscape:cy="-253.95763"
+     inkscape:cx="1142.2182"
+     inkscape:cy="83.148858"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
@@ -60,31 +60,13 @@
     <path
        inkscape:connector-curvature="0"
        style="fill:#000000;fill-opacity:1;stroke:none"
-       d="m 303.58183,-583.7901 3529.99987,0 0,599.99987 -3529.99987,0 z"
+       d="m 946.78181,-583.7901 -643.19998,0 0,599.99987 643.19998,0 z"
        id="rect3024"
        sodipodi:nodetypes="ccccc" />
     <path
-       style="fill:#ffffff;fill-opacity:1;stroke:none"
-       d="m 712.18183,-583.79018 -300,300.00002 300,299.99992 299.99997,-1.6e-4 -299.99997,-299.99976 299.99997,-300.00002 z"
+       style="fill:#fff008;fill-opacity:1;stroke:none"
+       d="M 646.7816,-583.79018 946.78159,-283.79016 646.7816,16.20976 346.78162,16.2096 646.7816,-283.79016 346.78162,-583.79018 z"
        id="path4089"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccccc" />
-    <path
-       sodipodi:nodetypes="ccccccc"
-       inkscape:connector-curvature="0"
-       id="path4102"
-       d="m 1603.5818,-583.79018 -300,300.00002 300,299.99992 300,-1.6e-4 -300,-299.99976 300,-300.00002 z"
-       style="fill:#ffffff;fill-opacity:1;stroke:none" />
-    <path
-       sodipodi:nodetypes="ccccccc"
-       inkscape:connector-curvature="0"
-       id="path4082"
-       d="m 3424.9817,-583.79018 300,300.00002 -300,299.99992 -300,-1.6e-4 300,-299.99976 -300,-300.00002 z"
-       style="fill:#ffffff;fill-opacity:1;stroke:none" />
-    <path
-       style="fill:#ffffff;fill-opacity:1;stroke:none"
-       d="m 2533.5817,-583.79018 300,300.00002 -300,299.99992 -300,-1.6e-4 300,-299.99976 -300,-300.00002 z"
-       id="path4084"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccc" />
   </g>
