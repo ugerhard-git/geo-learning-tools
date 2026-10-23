@@ -191,7 +191,15 @@ for (const pick of chosen) {
     continue;
   }
   const res = await fetchPolitely(info.url);
-  const svg = await res.text();
+  const original = await res.text();
+  // Drawings exported from Illustrator carry its private data in a
+  // <foreignObject>, beside the picture itself. It is not drawn, but the
+  // site allows no <foreignObject> at all, so it is taken out (and the
+  // change noted in the credit, as the licences ask).
+  const svg = original.replace(
+    /<foreignObject\b[^>]*\/>|<foreignObject\b[\s\S]*?<\/foreignObject>/gi,
+    "",
+  );
   const unsafe = [
     ...(svg.length > MAX_BYTES ? [`over ${MAX_BYTES / 1024 / 1024} MB`] : []),
     ...(/<svg[\s>]/.test(svg) ? [] : ["not an SVG"]),
@@ -210,6 +218,7 @@ for (const pick of chosen) {
     licence: info.licence,
     author: info.author,
     source: pick.article,
+    ...(svg !== original ? { changed: "editor data removed" } : {}),
   };
   await sleep(300);
 }

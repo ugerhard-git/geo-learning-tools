@@ -107,7 +107,7 @@ const signImg = (sign, alt = "", cls = "") =>
 
 /** "Drawing: author, licence" with links to the file on Commons. */
 function credit(sign) {
-  return `<a href="${esc(commonsUrl(sign))}" target="_blank" rel="noopener noreferrer">${esc(sign.commons.replaceAll("_", " "))}</a>, ${esc(sign.author || "unknown author")}, ${esc(sign.licence)}`;
+  return `<a href="${esc(commonsUrl(sign))}" target="_blank" rel="noopener noreferrer">${esc(sign.commons.replaceAll("_", " "))}</a>, ${esc(sign.author || "unknown author")}, ${esc(sign.licence)}${sign.changed ? ` (${esc(sign.changed)})` : ""}`;
 }
 
 /* =============================================================== main */

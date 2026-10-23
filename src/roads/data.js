@@ -42,6 +42,7 @@ const SIGN_FILE = /^[a-z]{2}-[a-z]+\.svg$/;
  * @property {string} licence
  * @property {string} author
  * @property {string} source the Wikipedia article it was found in
+ * @property {string} [changed] how the copy differs from the file on Commons
  */
 
 /**

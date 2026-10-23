@@ -36,6 +36,7 @@ export function checkRoadSigns(signs, files, codes) {
       for (const k of ["commons", "licence", "author", "source"]) {
         if (!isText(s?.[k], 200)) problems.push(`${where}: ${k}`);
       }
+      if (s?.changed !== undefined && !isText(s.changed, 60)) problems.push(`${where}: changed`);
       named.add(s?.file);
       const svg = files.get(s?.file);
       if (svg === undefined) problems.push(`${where}: drawing missing`);
