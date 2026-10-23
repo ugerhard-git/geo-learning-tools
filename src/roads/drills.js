@@ -127,17 +127,25 @@ function pickPreferring(candidates, preferred, n) {
 /** "On the left" or "On the right". */
 export const sideText = (drive) => (drive === "left" ? "On the left" : "On the right");
 
-/** A centre line pattern in words: "solid yellow, broken white". */
-export const linesText = (lines) =>
-  lines
-    .map((l) =>
-      l
-        .replace(/^dashed-/, "broken ")
-        .replace(/^long-dash-/, "long-dashed ")
-        .replace(/^short-dash-/, "short-dashed ")
-        .replace(/^solid-/, "solid "),
-    )
-    .join(", ");
+/**
+ * A centre line pattern in words: "solid yellow, broken white". A line whose
+ * style the source does not give is named by its colour alone.
+ */
+export function linesText(lines) {
+  const words = lines.map((l) =>
+    l
+      .replace(/^dashed-/, "broken ")
+      .replace(/^long-dash-/, "long-dashed ")
+      .replace(/^short-dash-/, "short-dashed ")
+      .replace(/^solid-/, "solid ")
+      .replace(/^line-/, ""),
+  );
+  // Two or three of the same line: "double yellow", "triple broken white".
+  if (words.length > 1 && words.every((w) => w === words[0])) {
+    return `${words.length === 2 ? "double" : "triple"} ${words[0]}`;
+  }
+  return words.join(", ");
+}
 
 /** One question. */
 export class RoadQuestion {

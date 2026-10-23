@@ -33,7 +33,10 @@ export const COLOURS = table({
 });
 
 /** One line of a centre line pattern: its style and colour. */
-export const LINE = /^(solid|dashed|long-dash|short-dash)-(white|yellow)$/;
+export const LINE = /^(solid|dashed|long-dash|short-dash|line)-(white|yellow)$/;
+
+/** Edge line styles; "line" where the source does not say solid or broken. */
+const EDGE_STYLES = ["solid", "dashed", "long-dash", "short-dash", "line"];
 
 /** A drawing's file name, as tools/data/road-signs.mjs writes them. */
 const SIGN_FILE = /^[a-z]{2}-[a-z]+\.svg$/;
@@ -54,7 +57,7 @@ const SIGN_FILE = /^[a-z]{2}-[a-z]+\.svg$/;
  * @property {string} note
  * @property {string} source a key of the sources
  * @property {boolean} [regional] only the rule for the country's part of the world is sourced
- * @property {{ lines: string[], meaning: string }[]} [patterns] the lines' styles, the usual
+ * @property {{ lines: string[], meaning: string, source?: string }[]} [patterns] the lines' styles, the usual
  *   first: each line left to right as "<solid|dashed|long-dash|short-dash>-<white|yellow>"
  * @property {string} [patternSource] a key of the sources
  */
@@ -68,6 +71,8 @@ const SIGN_FILE = /^[a-z]{2}-[a-z]+\.svg$/;
  * @property {"left" | "right"} drive
  * @property {string} driveSource a key of the sources
  * @property {Centre} [centre]
+ * @property {{ colour: "white" | "yellow" | "none", style: string, note: string, source: string }} [edge]
+ *   the edge lines: their colour ("none" for no edge lines) and usual style
  * @property {Partial<Record<string, Sign>>} signs by clue: stop, crossing, pedestrian, chevron, warning
  */
 
@@ -99,9 +104,22 @@ export function makeRoadData(roads, signs, countryText) {
       const ok =
         sources[centre.patternSource] &&
         Array.isArray(centre.patterns) &&
-        centre.patterns.every((p) => p.lines?.length <= 3 && p.lines.every((l) => LINE.test(l)));
+        centre.patterns.every(
+          (p) =>
+            p.lines?.length <= 3 &&
+            p.lines.every((l) => LINE.test(l)) &&
+            (p.source === undefined || sources[p.source]),
+        );
       if (!ok) delete centre.patterns;
     }
+    const edge =
+      r.edge &&
+      (r.edge.colour === "none" || COLOURS[r.edge.colour]) &&
+      r.edge.colour !== "both" &&
+      EDGE_STYLES.includes(r.edge.style) &&
+      sources[r.edge.source]
+        ? r.edge
+        : null;
     const own = signs[code] ?? {};
     const drawn = table({});
     for (const clue of SIGN_CLUES) {
@@ -116,6 +134,7 @@ export function makeRoadData(roads, signs, countryText) {
       drive: r.drive,
       driveSource: sources[r.driveSource] ? r.driveSource : "",
       ...(centre ? { centre } : {}),
+      ...(edge ? { edge } : {}),
       signs: drawn,
     });
   }

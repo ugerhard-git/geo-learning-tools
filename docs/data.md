@@ -172,9 +172,23 @@ usual one first, each with what it means:
 left to right, each `solid`, `dashed`, `long-dash` or `short-dash`, then
 `white` or `yellow` (up to three lines, as in the Philippines' double yellow
 either side of a broken white line). **`patternSource`** names the source.
+A style of `line` means the source gives the colour but not whether the
+line is solid or broken; the app names it by its colour ("double yellow")
+and draws it solid. A pattern may name its own **`source`** when it comes
+from a different one than the rest.
+
 The app draws the first pattern in its road scenes and lists all of them in
 a country's details; without patterns it draws the colour alone and says the
 style is not sourced.
+
+**`edge`** describes the edge lines the same way:
+`{ "colour": "yellow", "style": "line", "note": "…", "source": "…" }`, with
+`colour` `white`, `yellow` or `none` (no edge lines) and `style` as above.
+Without it the drawings show plain white edges.
+
+The sources are Wikipedia's articles and, for many countries, the
+country's [Plonk It](https://www.plonkit.net/) guide. Facts are taken from
+them and written afresh; nothing is copied.
 
 ### `signs.json` and `signs/`
 
@@ -200,7 +214,7 @@ CC0, CC BY, CC BY-SA), with its author for the credit.
 | Languages: official status, scripts, letters, words, names                  | [Unicode CLDR](https://cldr.unicode.org/) 48.2                                                              | Unicode License v3 ([text](../licenses/unicode-license-v3.txt)) |
 | Words for "street" and "city"                                               | [Wikidata](https://www.wikidata.org/) labels of Q79007 and Q515                                             | CC0                                                             |
 | Sample sentences                                                            | [UDHR in Unicode](https://www.unicode.org/udhr/), via the [udhr](https://github.com/wooorm/udhr) package    | Translations by the UN OHCHR; package MIT                       |
-| Driving side, centre line colours                                           | Wikipedia and World Standards, per country in `roads.json`                                                  | Facts; the sources are linked in the app                        |
+| Driving side, road line colours and styles                                  | Wikipedia, World Standards and the Plonk It guides, per country in `roads.json`                             | Facts; the sources are linked in the app                        |
 | Road sign drawings                                                          | [Wikimedia Commons](https://commons.wikimedia.org/), as shown in Wikipedia's "Road signs in …" articles     | Each file's own: public domain, CC0, CC BY or CC BY-SA          |
 | Country table, flag tags, look-alike groups                                 | Written for this project                                                                                    | MIT                                                             |
 
