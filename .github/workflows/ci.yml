@@ -10,7 +10,8 @@
 # that this split is possible.
 #
 # Third-party actions are pinned to a full commit SHA rather than a tag, since
-# a tag can be moved to point at different code. Dependabot keeps the pins
+# a tag can be moved to point at different code; the Playwright image the
+# checks run in is pinned to its digest for the same reason. Dependabot keeps the pins
 # current (see .github/dependabot.yml); the comment beside each pin records
 # the release it corresponds to.
 
@@ -34,13 +35,22 @@ concurrency:
 jobs:
   check:
     name: Lint, build and test
-    # Pinned rather than ubuntu-latest: from October 2026 that moves to
-    # Ubuntu 26, where installing WebKit's system packages hung until the
-    # job timed out. Move up once Playwright supports the newer image.
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     permissions:
       contents: read
+    # The job runs inside Playwright's own image, which comes with the
+    # browsers and every system package they need. Installing those on a
+    # bare runner, from Ubuntu's package servers, stalled again and again
+    # until the job timed out. The image's version must match
+    # @playwright/test in package-lock.json; the first step checks that.
+    #
+    # Pinned by digest as well as tag, as the actions are by commit: a tag
+    # can be moved, a digest cannot. To move to a new Playwright, put its
+    # version in the tag and the image's digest after it (docker pull the
+    # tag, then docker inspect it for its RepoDigests).
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble@sha256:47b510dd9230bf0b9bfc9b20102241e577ea7a99334ab4c3ca19f19770e9b8ea
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -53,9 +63,20 @@ jobs:
           cache: npm
 
       # --ignore-scripts: no package gets to run install scripts. None of
-      # the dev tooling needs them; Playwright's browser is installed below.
+      # the dev tooling needs them; the browsers come with the image.
       - name: Install dependencies
         run: npm ci --ignore-scripts
+
+      # The browsers come with the image, built for one Playwright version.
+      - name: Check the image matches Playwright
+        run: |
+          want=$(node -p 'require("./package-lock.json").packages["node_modules/@playwright/test"].version')
+          have=$(grep -o 'mcr.microsoft.com/playwright:v[0-9.]*' .github/workflows/ci.yml | head -1 | sed 's/.*:v//')
+          echo "@playwright/test in package-lock.json: $want; image: $have"
+          if [ "$want" != "$have" ]; then
+            echo "::error title=Playwright image::package-lock.json has @playwright/test $want, the image is for $have. Update the image in .github/workflows/ci.yml to v$want-noble, with its digest."
+            exit 1
+          fi
 
       - name: Check formatting and lint
         run: npm run lint
@@ -65,36 +86,6 @@ jobs:
 
       - name: Build
         run: npm run build
-
-      # Chromium, and WebKit (Safari's engine) for the layout tests (see
-      # playwright.config.js). In two steps, each with its own limit, so a
-      # hang shows which side is slow: Ubuntu's package servers, or
-      # Playwright's download servers.
-      #
-      # Ubuntu's servers sometimes stall a download for minutes. Cutting a
-      # try short from outside does not help: the package manager it started
-      # lives on and holds its lock, so the next try fails at once. Instead
-      # the package manager itself gives up on a stalled download after 20
-      # seconds and tries it again, up to five times.
-      - name: Install the browsers' system packages
-        timeout-minutes: 12
-        run: |
-          printf '%s\n' \
-            'Acquire::Retries "5";' \
-            'Acquire::http::Timeout "20";' \
-            'Acquire::https::Timeout "20";' |
-            sudo tee /etc/apt/apt.conf.d/99-stalls > /dev/null
-          npx playwright install-deps chromium webkit
-
-      - name: Install the browsers
-        timeout-minutes: 14
-        shell: bash
-        run: |
-          for try in 1 2 3; do
-            timeout 240 npx playwright install chromium webkit && exit 0
-            echo "::warning title=Browsers::Try $try stalled or failed; trying again."
-          done
-          exit 1
 
       - name: Browser tests
         run: npm test
