@@ -48,12 +48,15 @@ test("the cards sit two to a row, and an odd last card takes the whole row", asy
   const widths = () =>
     page.locator(".tool").evaluateAll((cards) => cards.map((c) => c.offsetWidth));
   const grid = await page.locator(".tools").evaluate((el) => el.clientWidth);
-  const even = await widths();
-  expect(even.every((w) => w < grid / 2)).toBe(true);
-
-  // A fifth app, as if one were added.
+  const check = async () => {
+    const all = await widths();
+    const odd = all.length % 2 === 1;
+    const paired = odd ? all.slice(0, -1) : all;
+    expect(paired.every((w) => w < grid / 2)).toBe(true);
+    if (odd) expect(all.at(-1)).toBe(grid);
+  };
+  await check();
+  // One more app, as if one were added: the count flips between odd and even.
   await page.locator(".tools").evaluate((el) => el.append(el.lastElementChild.cloneNode(true)));
-  const odd = await widths();
-  expect(odd.at(-1)).toBe(grid);
-  expect(odd.slice(0, -1).every((w) => w < grid / 2)).toBe(true);
+  await check();
 });

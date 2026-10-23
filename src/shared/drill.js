@@ -1,6 +1,7 @@
 /**
  * The drill: a session of questions shown in a bar along the bottom of the
- * map, as the Cities and Regions and the Terrain apps use it.
+ * screen. The Cities and Regions and the Terrain apps ask about a map; Scripts
+ * and Languages about a specimen of writing shown above the bar.
  *
  * The session owns what is the same in every drill: the queue, the score,
  * recording each answer, asking a missed item again a few questions later,
@@ -61,9 +62,10 @@ export const typeButtons = (drills, current) =>
 /**
  * The line under the setup that says how big the set is, and the buttons
  * that start a session.
- * @param {{ size: number, due: number, fresh: number, empty: string }} counts
+ * @param {{ size: number, due: number, fresh: number, empty: string, back?: string }} counts
+ *   `back` labels the button that leaves the drill
  */
-export function startSection({ size, due, fresh, empty }) {
+export function startSection({ size, due, fresh, empty, back = "Back to the map" }) {
   const n = (v) => v.toLocaleString("en");
   return `<p class="due">${
     size > 1
@@ -73,7 +75,7 @@ export function startSection({ size, due, fresh, empty }) {
     <div class="go">
       <button class="btn primary" data-start${size < 2 ? " disabled" : ""}>Start drill</button>
       ${due ? `<button class="btn" data-start-due>Review the ${n(due)} due</button>` : ""}
-      <button class="btn quiet" data-mode="explore">Back to the map</button>
+      <button class="btn quiet" data-mode="explore">${esc(back)}</button>
     </div>`;
 }
 
@@ -85,6 +87,7 @@ export function startSection({ size, due, fresh, empty }) {
  * @property {string} main the question itself (HTML)
  * @property {string} [sub] a line under it (HTML)
  * @property {string} [hint] held back until asked for or answered (HTML)
+ * @property {string} [hintLabel] the button that shows it; "Hint: which country?" if unset
  * @property {"click" | "choose" | "type"} answer how the learner answers
  * @property {{ label: string, correct: boolean }[]} [options] for "choose"
  * @property {string} answerText the right answer, as said in feedback (HTML)
@@ -114,8 +117,19 @@ export class DrillSession {
    * @param {(look: string) => void} options.onLook open an item's details
    * @param {() => void} options.onSetup back to the setup screen
    * @param {() => void} options.onEnd the session ended; the summary is about to show
+   * @param {string} [options.backLabel] the button in the summary that leaves the drill
    */
-  constructor({ bar, card, store, isActive, onLook, onSetup, onEnd }) {
+  constructor({
+    bar,
+    card,
+    store,
+    isActive,
+    onLook,
+    onSetup,
+    onEnd,
+    backLabel = "Back to the map",
+  }) {
+    this.backLabel = backLabel;
     this.bar = bar;
     this.card = card;
     this.store = store;
@@ -247,7 +261,7 @@ export class DrillSession {
       <div class="go end">
         <button class="btn primary" data-again>Another session</button>
         <button class="btn" data-mode="prog">See progress</button>
-        <button class="btn quiet" data-mode="explore">Back to the map</button>
+        <button class="btn quiet" data-mode="explore">${esc(this.backLabel)}</button>
       </div>`;
     this.card.hidden = false;
   }
@@ -278,7 +292,7 @@ export class DrillSession {
       q.answer !== "choose" ? `<button class="btn quiet" data-skip>Show answer</button>` : "";
     const hint =
       q.hint && !this.hintOpen
-        ? `<button class="btn quiet" data-hint>Hint: which country?</button>`
+        ? `<button class="btn quiet" data-hint>${esc(q.hintLabel ?? "Hint: which country?")}</button>`
         : "";
 
     this.bar.innerHTML = `

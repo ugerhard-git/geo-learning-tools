@@ -357,6 +357,16 @@ a {
   fill: var(--accent);
 }
 
+.glyph .letters text {
+  font: 700 56px/1 var(--body);
+  fill: var(--ink);
+  text-anchor: middle;
+}
+
+.glyph .letters .hit {
+  fill: var(--accent);
+}
+
 /* ----------------------------------------------------------- how it works */
 
 .how {

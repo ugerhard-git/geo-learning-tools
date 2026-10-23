@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' https://flagcdn.com; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Scripts and Languages</title>
+    <link rel="icon" href="../icons/languages.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../fonts/fonts.css" />
+    <link rel="stylesheet" href="../shared/tokens.css" />
+    <link rel="stylesheet" href="../shared/base.css" />
+    <link rel="stylesheet" href="../shared/drill.css" />
+    <link rel="stylesheet" href="../shared/progress.css" />
+    <link rel="stylesheet" href="../shared/dialog.css" />
+    <link rel="stylesheet" href="app.css" />
+    <script type="module" src="app.js"></script>
+  </head>
+  <body class="explore">
+    <header class="top">
+      <a class="home" href="../" title="Atlas Trainer: all apps" aria-label="All apps">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <rect x="3" y="3" width="7.5" height="7.5" rx="2" />
+          <rect x="13.5" y="3" width="7.5" height="7.5" rx="2" />
+          <rect x="3" y="13.5" width="7.5" height="7.5" rx="2" />
+          <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2" />
+        </svg>
+        <span>All apps</span>
+      </a>
+      <h1>
+        <a href="../"><span class="long">Scripts and </span>Languages</a>
+      </h1>
+      <label class="search" id="searchWrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-4-4" />
+        </svg>
+        <input
+          id="q"
+          type="search"
+          maxlength="60"
+          placeholder="Find a language, script, letter or country"
+          autocomplete="off"
+          aria-label="Find a language by its name, script, a letter or a country"
+        />
+      </label>
+      <span class="spacer"></span>
+      <div class="seg" role="group" aria-label="Mode">
+        <button data-mode="explore" aria-pressed="true">Explore</button>
+        <button data-mode="drill" aria-pressed="false">Drill</button>
+        <button data-mode="prog" aria-pressed="false">Progress</button>
+      </div>
+    </header>
+
+    <div id="stage">
+      <main id="browse" aria-label="Languages">
+        <p class="intro">
+          The official languages of the countries with Street View, and what gives each away on a
+          sign. Pick one for its letters and examples.
+        </p>
+        <div class="filters" role="group" aria-label="Script">
+          <button class="chip" data-script="all" aria-pressed="true">All scripts</button>
+        </div>
+        <div id="cards" class="cards"></div>
+      </main>
+      <section id="specimen" class="specimen" hidden aria-live="polite">
+        <p class="spec-text" id="specText"></p>
+        <p class="spec-note" id="specNote"></p>
+      </section>
+      <section id="setup" class="card" hidden aria-label="Drill setup"></section>
+      <section id="drillbar" class="qbar" hidden aria-label="Drill"></section>
+      <section id="progress" class="card pg" hidden aria-label="Progress"></section>
+      <p class="page-status" id="pageStatus" role="status">Loading the languages…</p>
+    </div>
+
+    <dialog id="detail" aria-labelledby="dName">
+      <div class="dlg" tabindex="-1"></div>
+    </dialog>
+  </body>
+</html>

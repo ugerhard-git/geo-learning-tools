@@ -11,7 +11,7 @@
     <title>Atlas Trainer</title>
     <meta
       name="description"
-      content="Learn the world's flags, countries, cities and terrain, with spaced repetition."
+      content="Learn the world's flags, countries, cities, terrain and languages, with spaced repetition."
     />
     <link rel="icon" href="icons/landing.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="fonts/fonts.css" />
@@ -34,7 +34,7 @@
       <div class="veil"></div>
       <div class="mast">
         <h1>Atlas Trainer</h1>
-        <p>Learn the world's flags, countries, cities and terrain.</p>
+        <p>Learn the world's flags, countries, cities, terrain and languages.</p>
       </div>
     </header>
 
@@ -171,6 +171,33 @@
             <div class="go"><a class="btn" href="terrain/">Open</a></div>
           </div>
         </article>
+        <article
+          class="tool reveal"
+          data-store="languages.progress.v1"
+          data-short="Languages"
+          data-breakdown="l:Which language|t:Telltale letters|s:Which script|c:Which country"
+        >
+          <div class="glyph">
+            <svg viewBox="0 0 300 118" aria-hidden="true">
+              <g class="letters">
+                <text x="45" y="80">ą</text>
+                <text x="115" y="80">Ж</text>
+                <text class="hit" x="185" y="80">ก</text>
+                <text x="255" y="80">ა</text>
+              </g>
+            </svg>
+          </div>
+          <div class="body">
+            <h3>Scripts and Languages</h3>
+            <p class="what">74 languages of the Street View countries, and what gives each away.</p>
+            <ul>
+              <li>Name the language from a sentence, or its country</li>
+              <li>Telltale letters and look-alike scripts</li>
+            </ul>
+            <div class="stats"></div>
+            <div class="go"><a class="btn" href="languages/">Open</a></div>
+          </div>
+        </article>
       </section>
 
       <section class="how">
@@ -189,8 +216,9 @@
         <details>
           <summary>About the data</summary>
           <p>
-            Data: Natural Earth, CIA World Factbook, Wikidata, flagcdn.com, and REST Countries
-            (optional, needs a free key).
+            Data: Natural Earth, CIA World Factbook, Wikidata, flagcdn.com, Unicode CLDR, the
+            Universal Declaration of Human Rights in Unicode, and REST Countries (optional, needs a
+            free key).
           </p>
           <p>
             Your progress stays in this browser. Use Export in any app's Progress screen to back it

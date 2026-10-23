@@ -5,17 +5,18 @@ a page opens. They are generated, not written by hand (except
 `countries.txt` and `flag-tags.txt`), and are left out of Prettier: they are
 long single-line strings that formatting would only make bigger.
 
-| File               | Used by                          | What it holds                                                                |
-| ------------------ | -------------------------------- | ---------------------------------------------------------------------------- |
-| `countries.txt`    | every app                        | The 253 countries and territories, their names and aliases                   |
-| `world.json`       | Flags, Countries and Territories | Country outlines in hundredths of a degree, and each country's main landmass |
-| `factbook.json`    | Countries and Territories        | Geography sections of the CIA World Factbook, per country                    |
-| `flag-tags.txt`    | Flags                            | Each flag's colours, layout and symbols                                      |
-| `flag-colours.txt` | Flags                            | Each flag's main colours as hex codes, measured from its drawing             |
-| `land.json`        | Cities and Regions, Terrain      | Simplified country outlines, and a box around each country                   |
-| `cities.json`      | Cities and Regions               | 2,738 cities, 4,596 regions and the regions' outlines                        |
-| `terrain.json`     | Terrain                          | 2,121 physical features with their geometry                                  |
-| `hero.txt`         | landing page                     | A coarse world outline for the masthead                                      |
+| File               | Used by                          | What it holds                                                                                    |
+| ------------------ | -------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `countries.txt`    | every app                        | The 253 countries and territories, their names and aliases                                       |
+| `world.json`       | Flags, Countries and Territories | Country outlines in hundredths of a degree, and each country's main landmass                     |
+| `factbook.json`    | Countries and Territories        | Geography sections of the CIA World Factbook, per country                                        |
+| `flag-tags.txt`    | Flags                            | Each flag's colours, layout and symbols                                                          |
+| `languages.json`   | Scripts and Languages            | The official languages of the Street View countries: scripts, letters, words and a sentence each |
+| `flag-colours.txt` | Flags                            | Each flag's main colours as hex codes, measured from its drawing                                 |
+| `land.json`        | Cities and Regions, Terrain      | Simplified country outlines, and a box around each country                                       |
+| `cities.json`      | Cities and Regions               | 2,738 cities, 4,596 regions and the regions' outlines                                            |
+| `terrain.json`     | Terrain                          | 2,121 physical features with their geometry                                                      |
+| `hero.txt`         | landing page                     | A coarse world outline for the masthead                                                          |
 
 ## Formats
 
@@ -120,15 +121,47 @@ Australia's flag, not the green flag the app shows.
 the geography sections of the CIA World Factbook entry for each country that
 has one.
 
+### `languages.json`
+
+```json
+{ "cldr": "48.2.0", "udhr": "6.0.0",
+  "scripts": { "Latn": "Latin", "Thai": "Thai", … },
+  "languages": [{ "id": "pl", "name": "Polish", "autonym": "polski", "script": "Latn",
+                  "countries": ["PL"], "letters": "aąbcć…", "words": ["poniedziałek", …],
+                  "sentence": "Wszyscy ludzie rodzą się wolni …" }, …],
+  "telltales": [{ "letter": "ł", "languages": ["pl"] }, …] }
+```
+
+- **Which languages:** those official, or official in practice, in a country
+  listed in `tools/data/street-view-countries.txt`, according to CLDR, less a
+  few left out on purpose (listed in `tools/data/languages.mjs`).
+- **`id`** is the CLDR locale; a language written in two scripts on signs has
+  one entry per script (`sr`, `sr-Latn`). **`script`** is an ISO 15924 code.
+- **`letters`** are CLDR's main exemplar letters, in lower case.
+- **`words`** are real words: weekday and month names, the language's name
+  for itself and its names for its countries. Words two languages share are
+  dropped, since they cannot tell them apart.
+- **`sentence`** is the first sentence of Article 1 of the Universal
+  Declaration of Human Rights.
+- **`street`** and **`city`** are the language's words for them, as seen on
+  street and town signs: the Wikidata labels of "street" (Q79007) and "city"
+  (Q515), kept in `tools/data/sign-words.json`. Missing where Wikidata has no
+  label in that language.
+- **`telltales`** are letters of the Latin and Cyrillic alphabets that four
+  languages or fewer use, at most six per language, the rarest first.
+
 ## Where it comes from
 
-| Data                                                                        | Source                                                                                                      | Licence       |
-| --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------- |
-| Country, region, city and feature geometry; city populations; feature ranks | [Natural Earth](https://www.naturalearthdata.com/) 1:10m (cultural and physical vectors)                    | Public domain |
-| Geography sections                                                          | [CIA World Factbook](https://github.com/factbook/factbook.json), final edition (discontinued February 2026) | Public domain |
-| Wikidata ids of features                                                    | Carried in Natural Earth's own attributes                                                                   | Public domain |
-| Flag colour codes                                                           | Measured from the flag drawings on [Wikimedia Commons](https://commons.wikimedia.org/)                      | Public domain |
-| Country table, flag tags, look-alike groups                                 | Written for this project                                                                                    | MIT           |
+| Data                                                                        | Source                                                                                                      | Licence                                                         |
+| --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| Country, region, city and feature geometry; city populations; feature ranks | [Natural Earth](https://www.naturalearthdata.com/) 1:10m (cultural and physical vectors)                    | Public domain                                                   |
+| Geography sections                                                          | [CIA World Factbook](https://github.com/factbook/factbook.json), final edition (discontinued February 2026) | Public domain                                                   |
+| Wikidata ids of features                                                    | Carried in Natural Earth's own attributes                                                                   | Public domain                                                   |
+| Flag colour codes                                                           | Measured from the flag drawings on [Wikimedia Commons](https://commons.wikimedia.org/)                      | Public domain                                                   |
+| Languages: official status, scripts, letters, words, names                  | [Unicode CLDR](https://cldr.unicode.org/) 48.2                                                              | Unicode License v3 ([text](../licenses/unicode-license-v3.txt)) |
+| Words for "street" and "city"                                               | [Wikidata](https://www.wikidata.org/) labels of Q79007 and Q515                                             | CC0                                                             |
+| Sample sentences                                                            | [UDHR in Unicode](https://www.unicode.org/udhr/), via the [udhr](https://github.com/wooorm/udhr) package    | Translations by the UN OHCHR; package MIT                       |
+| Country table, flag tags, look-alike groups                                 | Written for this project                                                                                    | MIT                                                             |
 
 ### How each file was made
 
@@ -146,6 +179,13 @@ has one.
   To refresh it, for example after a country changes its flag, run the
   workflow by hand (**Actions → Flag colours → Run workflow**); it pushes a
   `flag-colours-<date>` branch to open a pull request from.
+- **`languages.json`**: `tools/data/languages.mjs`, from the CLDR and udhr
+  npm packages, unpacked into a folder (see the script's header), and the
+  Wikidata labels in `tools/data/sign-words.json` (made by
+  `tools/data/sign-words.mjs`). The list of Street View countries it starts
+  from is `tools/data/street-view-countries.txt`. The "Language data"
+  workflow rebuilds both files on GitHub and commits them; see
+  [`tools/data/README.md`](../tools/data/README.md).
 - **`world.json`** and **`factbook.json`**: made with earlier scripts that
   were not kept, so they cannot be rebuilt as they stand. `world.json` is
   Natural Earth country outlines in longitude/latitude, rounded to 0.01° (the

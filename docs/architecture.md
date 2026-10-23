@@ -1,6 +1,6 @@
 # How the code is put together
 
-The site is five static pages: a landing page and four apps. There is no
+The site is six static pages: a landing page and five apps. There is no
 server-side code and no build step beyond copying `src/` to `dist/` and
 checking it (see `tools/build.mjs`). Every page is plain HTML that loads
 stylesheets and one JavaScript module, and that module imports the rest.
@@ -12,6 +12,7 @@ src/
   countries/            countries on a map    → app.js, wikidata-facts.js
   cities/               cities and regions    → app.js, data.js, drills.js
   terrain/              physical features     → app.js, data.js, drills.js
+  languages/            scripts and languages → app.js, data.js, drills.js
   shared/               everything used by more than one page
   data/                 map and place data, loaded at run time
 ```
@@ -134,19 +135,21 @@ refused when framed too, so a framing page cannot trick a learner into them.
 The storage keys below, the progress key of each item and the record format
 must not change; a test in `test/e2e/` checks that old records still load.
 
-| Key                                                                             | Holds                                                              |
-| ------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| `flagatlas.progress.v1`                                                         | Flags progress, items `f:<code>`                                   |
-| `flagatlasmap.progress.v1`                                                      | Countries and Territories progress, items `c:<code>`               |
-| `cityatlas.progress.v1`                                                         | Cities and Regions: `l:`/`n:`/`c:<iso>/<name>`, `r:`/`rl:<region>` |
-| `terrainatlas.progress.v1`                                                      | Terrain: `<l\|n\|c>:<kind>/<name>`                                 |
-| `flagatlas.projection`                                                          | The projection, for every map                                      |
-| `flagatlas.restcountries.key`, `flagatlas.restcountries.cache.v5`               | The REST Countries key and its 3-day cache                         |
-| `flagatlasmap.wikidata.v1`                                                      | Countries and Territories: Wikidata cache (7 days)                 |
-| `flagatlas.adoption.v1`, `flagatlas.quizLevel`                                  | Flags: adoption dates, quiz level                                  |
-| `flagatlasmap.quizDir`                                                          | Countries and Territories: quiz direction                          |
-| `cityatlas.type`, `.cat`, `.scope`, `.hard`, `.hint`, `.len`                    | Cities and Regions drill settings                                  |
-| `terrain.layers`, `terrain.level`, `.type`, `.kinds`, `.scope`, `.hard`, `.len` | Terrain layers and drill settings                                  |
+| Key                                                                             | Holds                                                                  |
+| ------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `flagatlas.progress.v1`                                                         | Flags progress, items `f:<code>`                                       |
+| `flagatlasmap.progress.v1`                                                      | Countries and Territories progress, items `c:<code>`                   |
+| `cityatlas.progress.v1`                                                         | Cities and Regions: `l:`/`n:`/`c:<iso>/<name>`, `r:`/`rl:<region>`     |
+| `terrainatlas.progress.v1`                                                      | Terrain: `<l\|n\|c>:<kind>/<name>`                                     |
+| `flagatlas.projection`                                                          | The projection, for every map                                          |
+| `flagatlas.restcountries.key`, `flagatlas.restcountries.cache.v5`               | The REST Countries key and its 3-day cache                             |
+| `flagatlasmap.wikidata.v1`                                                      | Countries and Territories: Wikidata cache (7 days)                     |
+| `flagatlas.adoption.v1`, `flagatlas.quizLevel`                                  | Flags: adoption dates, quiz level                                      |
+| `flagatlasmap.quizDir`                                                          | Countries and Territories: quiz direction                              |
+| `cityatlas.type`, `.cat`, `.scope`, `.hard`, `.hint`, `.len`                    | Cities and Regions drill settings                                      |
+| `terrain.layers`, `terrain.level`, `.type`, `.kinds`, `.scope`, `.hard`, `.len` | Terrain layers and drill settings                                      |
+| `languages.progress.v1`                                                         | Scripts and Languages: `l:`/`c:<language>`, `t:<letter>`, `s:<script>` |
+| `languages.type`, `.hard`, `.len`                                               | Scripts and Languages drill settings                                   |
 
 ## Tests
 

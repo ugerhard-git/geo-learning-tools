@@ -1,0 +1,271 @@
+/* Scripts and Languages: language cards, the specimen a drill question shows, and the details dialog. */
+
+/* The page fills the window: the header, then the stage, inside which the
+   cards scroll and the drill's cards and bar sit (see shared/drill.css). */
+body {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ------------------------------------------------------------ explore */
+
+#browse {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  padding: 18px 20px calc(30px + env(safe-area-inset-bottom, 0px));
+}
+
+#browse[hidden] {
+  display: none;
+}
+
+.intro {
+  max-width: 70ch;
+  color: var(--muted);
+  margin: 0 0 14px;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 16px;
+}
+
+.chip {
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.92rem;
+}
+
+.chip[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 700;
+}
+
+.chip .count {
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 12px;
+}
+
+.lcard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  text-align: left;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+}
+
+.lcard:hover,
+.lcard:focus-visible {
+  border-color: var(--accent);
+}
+
+.lcard .auto {
+  font-size: 1.5rem;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+.lcard .lname {
+  font-weight: 700;
+}
+
+.lsign {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.lsign b,
+.dsign b {
+  color: var(--ink);
+}
+
+.dsign {
+  font-size: 1.05rem;
+}
+
+.lcard .lscript {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.tells {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 6px 0 2px;
+}
+
+.tells b {
+  min-width: 1.7em;
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: var(--tile);
+  text-align: center;
+  font-size: 1.05rem;
+}
+
+.lflags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.lflags .flagmini {
+  height: 16px;
+}
+
+.more {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.empty {
+  color: var(--muted);
+}
+
+/* ----------------------------------------------------------- specimen */
+
+/* The writing a drill question asks about, above the bar. */
+.specimen {
+  position: absolute;
+  inset: 0 0 auto;
+  bottom: 230px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+}
+
+.specimen[hidden] {
+  display: none;
+}
+
+.spec-text {
+  margin: 0;
+  max-width: 34ch;
+  font-size: clamp(1.4rem, 3.4vw, 2.3rem);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.spec-text.letter {
+  font-size: clamp(5rem, 16vw, 9rem);
+  line-height: 1;
+  font-weight: 700;
+}
+
+.spec-text.words {
+  font-weight: 700;
+}
+
+.spec-note {
+  margin: 14px 0 0;
+  max-width: 60ch;
+  color: var(--muted);
+  min-height: 1.5em;
+}
+
+/* ------------------------------------------------------------ details */
+
+.dauto {
+  font-size: 1.6rem;
+  margin: -4px 0 10px;
+}
+
+.meta .flagmini {
+  height: 14px;
+  margin-right: 5px;
+}
+
+.dtells {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+}
+
+.dtells span {
+  color: var(--muted);
+}
+
+.dtells b {
+  display: inline-block;
+  min-width: 1.8em;
+  margin-right: 8px;
+  padding: 0 6px;
+  border-radius: 6px;
+  background: var(--tile);
+  color: var(--ink);
+  text-align: center;
+  font-size: 1.15rem;
+}
+
+.dsent {
+  margin: 0;
+  padding: 10px 14px;
+  border-left: 3px solid var(--accent);
+  background: var(--tile);
+  border-radius: 0 8px 8px 0;
+  font-size: 1.1rem;
+}
+
+.dwords,
+.dletters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 0;
+}
+
+.dwords span {
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--tile);
+}
+
+.dletters span {
+  min-width: 1.9em;
+  padding: 2px 4px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 760px) {
+  .specimen {
+    bottom: 300px;
+  }
+}

@@ -1,0 +1,143 @@
+# Rebuilds the data of the Scripts and Languages app, src/data/languages.json,
+# and the words for "street" and "city" it uses, tools/data/sign-words.json.
+# See tools/data/languages.mjs and tools/data/sign-words.mjs.
+#
+# It runs:
+#   - on a pull request that changes the list of Street View countries
+#     (tools/data/street-view-countries.txt) or the scripts that build the
+#     data. The result is committed to that pull request. This is how a new
+#     Street View country gets its languages: add its code, open a pull
+#     request, and this fills in the rest;
+#   - by hand (Actions → Language data → Run workflow), for example to pick
+#     up changes on Wikidata. The result goes to a new branch,
+#     language-data-<date>, to be opened as a pull request.
+#
+# Two jobs, as in the flag colours workflow: "build" fetches the data and runs
+# the scripts, and can only read; "commit" can write, but installs and runs
+# nothing except the checker, which uses Node's built-in modules. No npm
+# package is installed at all: the CLDR and udhr packages are unpacked as
+# data, without running any of their code.
+
+name: Language data
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - tools/data/street-view-countries.txt
+      - tools/data/languages.mjs
+      - tools/data/sign-words.mjs
+      - tools/data/unicode-set.mjs
+      - tools/data/check-languages.mjs
+      - .github/workflows/language-data.yml
+
+permissions: {}
+
+concurrency:
+  group: language-data-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build the language data
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+
+      # The versions the data was built from; tools/data/languages.mjs
+      # records them in the file. Change both together.
+      - name: Unpack CLDR and the UDHR translations
+        run: |
+          mkdir -p "$RUNNER_TEMP/lang"
+          cd "$RUNNER_TEMP/lang"
+          for p in cldr-core cldr-misc-full cldr-dates-full cldr-localenames-full; do
+            npm pack "$p@48.2.0" --silent
+            mkdir "$p" && tar xzf "$p-48.2.0.tgz" -C "$p" --strip-components 1
+          done
+          npm pack udhr@6.0.0 --silent
+          mkdir udhr && tar xzf udhr-6.0.0.tgz -C udhr --strip-components 1
+
+      - name: Words for street and city, from Wikidata
+        run: node tools/data/sign-words.mjs
+
+      - name: Build
+        shell: bash
+        run: node tools/data/languages.mjs "$RUNNER_TEMP/lang" | tee language-report.txt
+
+      - name: Report
+        run: |
+          {
+            echo '## Language data'
+            echo '```'
+            cat language-report.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: language-data
+          path: |
+            src/data/languages.json
+            tools/data/sign-words.json
+          retention-days: 14
+
+  commit:
+    name: Commit the result
+    needs: build
+    # Never for pull requests from forks, and not for Dependabot's: those get
+    # a read-only token, so the push would only fail.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.head.repo.full_name == github.repository &&
+       github.actor != 'dependabot[bot]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: language-data
+          path: built
+
+      # Node only, no npm install: nothing third-party runs in this job.
+      - name: Check the built files
+        run: node tools/data/check-languages.mjs built/src/data/languages.json built/tools/data/sign-words.json
+
+      - name: Commit if anything changed
+        env:
+          EVENT: ${{ github.event_name }}
+        run: |
+          cp built/src/data/languages.json src/data/languages.json
+          cp built/tools/data/sign-words.json tools/data/sign-words.json
+          if git diff --quiet -- src/data/languages.json tools/data/sign-words.json &&
+             git ls-files --error-unmatch tools/data/sign-words.json >/dev/null 2>&1; then
+            echo "No change in the language data."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ "$EVENT" = "workflow_dispatch" ]; then
+            git switch -c "language-data-$(date -u +%Y-%m-%d)"
+          fi
+          git add src/data/languages.json tools/data/sign-words.json
+          git commit -m "Language data: rebuilt from CLDR, the UDHR and Wikidata"
+          git push origin HEAD
+          echo "Committed to $(git branch --show-current)." >> "$GITHUB_STEP_SUMMARY"
