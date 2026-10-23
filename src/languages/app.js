@@ -231,7 +231,7 @@ async function main() {
         .join(
           "",
         )}${[...l.letters].length > 120 ? `<span class="more">and ${fmtNum([...l.letters].length - 120)} more</span>` : ""}</p>
-      <p class="src">Letters, months and names of countries: <a href="https://cldr.unicode.org/" target="_blank" rel="noopener noreferrer">Unicode CLDR</a>. Sentence: <a href="https://www.unicode.org/udhr/" target="_blank" rel="noopener noreferrer">UDHR in Unicode</a>. Words on signs, words in place names and capitals: <a href="https://www.wikidata.org/" target="_blank" rel="noopener noreferrer">Wikidata</a>, its labels and lexemes in this language, community-edited.</p>`;
+      <p class="src">Letters, months and names of countries: <a href="https://cldr.unicode.org/" target="_blank" rel="noopener noreferrer">Unicode CLDR</a>. Sentence: <a href="https://www.unicode.org/udhr/" target="_blank" rel="noopener noreferrer">UDHR in Unicode</a>. Words on signs, words in place names and capitals: <a href="https://www.wikidata.org/" target="_blank" rel="noopener noreferrer">Wikidata</a> labels in this language (CC0); new, old, upper, lower, big and small: <a href="https://en.wiktionary.org/" target="_blank" rel="noopener noreferrer">Wiktionary</a> translations (CC BY-SA). Both are community-edited.</p>`;
     if (!detail.open) detail.showModal();
     detailBody.scrollTop = 0;
     detailBody.focus({ preventScroll: true });

@@ -1,13 +1,14 @@
 // Builds tools/data/sign-words.json: words that show up on signs, in every
 // language Wikidata has them in, and each Street View country's capital in
-// every language. All of it is Wikidata (CC0).
+// every language: Wikidata (CC0), and Wiktionary (CC BY-SA) for adjectives.
 //
 //   - street, road, city: labels of the items Q79007, Q34442 and Q515, for the
 //     "On signs" line of each language.
 //   - words: the words of place names and directions, labels of the items in
-//     NOUNS (north, river, mountain, port…) and, for the adjectives
-//     (new, old, upper, lower), the lexemes Wikidata gives as translations of
-//     the English ones. Each keeps its English word, for the app to show.
+//     NOUNS (north, river, mountain, port…), and for the adjectives (new, old,
+//     upper, lower, big, small) the first translation table of the English
+//     word on Wiktionary (CC BY-SA). Each keeps its English word, for the app
+//     to show.
 //   - capitals: each Street View country's capital (P36), labelled in every
 //     language.
 //
@@ -51,12 +52,12 @@ const NOUNS = {
   castle: "Q23413",
   "railway station": "Q55488",
   airport: "Q1248784",
-  "town square": "Q174782",
+  square: "Q174782",
   forest: "Q4421",
 };
 
-/** Adjectives of place names, as English lemmas of Wikidata lexemes. */
-const ADJECTIVES = ["new", "old", "upper", "lower", "big", "little"];
+/** Adjectives of place names; their translations come from Wiktionary. */
+const ADJECTIVES = ["new", "old", "upper", "lower", "big", "small"];
 
 const HEADERS = {
   "User-Agent":
@@ -105,7 +106,7 @@ const sparql = (query) =>
 const report = [];
 const out = {
   source:
-    "Wikidata (CC0): item labels, lexemes translating the English adjectives, and each country's capital (P36)",
+    "Wikidata (CC0): item labels and each country's capital (P36). Wiktionary (CC BY-SA 4.0): translations of the adjectives",
 };
 
 // The "On signs" words.
@@ -117,36 +118,45 @@ const nounLabels = await labelsOf(Object.values(NOUNS));
 out.words = {};
 for (const [en, qid] of Object.entries(NOUNS)) {
   const labels = nounLabels[qid];
-  if ((labels.en ?? "").toLowerCase() !== en) {
+  // "church" is "church building"; the English word must be in the label.
+  if (!(labels.en ?? "").toLowerCase().split(/\s+/).includes(en.split(" ").at(-1))) {
     report.push(`${en}: ${qid} is "${labels.en ?? "?"}" in English; left out`);
     continue;
   }
   out.words[en] = { source: qid, labels };
 }
 
-// Adjectives: lexemes linked by "translation" (P5972) to an English one.
+// Adjectives, from Wiktionary's translation tables (CC BY-SA): the first
+// sense of each word, the one place names mean ("new" as in recently made).
 for (const en of ADJECTIVES) {
-  const json = await sparql(`
-    SELECT DISTINCT ?enLexeme ?lemma WHERE {
-      ?enLexeme dct:language wd:Q1860; wikibase:lemma "${en}"@en;
-                wikibase:lexicalCategory wd:Q34698; ontolex:sense ?enSense.
-      { ?sense wdt:P5972 ?enSense } UNION { ?enSense wdt:P5972 ?sense }
-      ?lexeme ontolex:sense ?sense; wikibase:lemma ?lemma.
-    }`);
+  let text = "";
+  for (const page of [`${en}/translations`, en]) {
+    const json = await getJson(
+      "https://en.wiktionary.org/w/api.php?action=parse&format=json&formatversion=2" +
+        `&prop=wikitext&page=${encodeURIComponent(page)}`,
+    ).catch(() => null);
+    const wt = json?.parse?.wikitext ?? "";
+    // The adjective's section, then its first translation table.
+    const adj = wt.slice(Math.max(0, wt.search(/===\s*Adjective\s*===/)));
+    const m = /\{\{trans-top[^}]*\}\}([\s\S]*?)\{\{trans-bottom\}\}/.exec(adj);
+    if (m) {
+      text = m[1];
+      break;
+    }
+  }
   const labels = {};
-  let lexeme = "";
-  for (const b of json.results?.bindings ?? []) {
-    const code = (b.lemma?.["xml:lang"] ?? "").toLowerCase();
-    const v = clean(b.lemma?.value);
-    lexeme ||= String(b.enLexeme?.value ?? "").replace(/^.*\//, "");
-    // The first lemma per language; a sign shows one word.
+  for (const t of text.matchAll(/\{\{tt?\+?\|([a-z-]{2,12})\|([^|}]+)/g)) {
+    let code = t[1];
+    const v = clean(t[2].replace(/\[\[|\]\]/g, ""));
+    // Serbo-Croatian lists both scripts under one code.
+    if (code === "sh") code = /[\u0400-\u04FF]/.test(v) ? "sr-ec" : "sh";
     if (LANG.test(code) && v && !labels[code]) labels[code] = v;
   }
-  if (Object.keys(labels).length < 5) {
-    report.push(`${en}: only ${Object.keys(labels).length} translations; left out`);
+  if (Object.keys(labels).length < 20) {
+    report.push(`${en}: only ${Object.keys(labels).length} translations on Wiktionary; left out`);
     continue;
   }
-  out.words[en] = { source: lexeme, labels };
+  out.words[en] = { source: `wiktionary:${en}`, labels };
 }
 
 // Capitals of the Street View countries.

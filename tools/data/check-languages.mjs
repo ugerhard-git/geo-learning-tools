@@ -56,7 +56,7 @@ export function checkLanguages(data, codes) {
       problems.push(`${where}: place words`);
     }
     const caps = l?.capitals ?? [];
-    if (!Array.isArray(caps) || caps.length > 10 || !caps.every((c) => isText(c, 60))) {
+    if (!Array.isArray(caps) || caps.length > 40 || !caps.every((c) => isText(c, 60))) {
       problems.push(`${where}: capitals`);
     }
     const countries = Array.isArray(l?.countries) ? l.countries : [];
@@ -98,7 +98,11 @@ export function checkSignWords(data) {
       ([code, label]) => /^[a-z]{2,3}(-[a-z0-9]{2,8})*$/.test(code) && isText(label, 40),
     );
   for (const [en, w] of Object.entries(data?.words ?? {})) {
-    if (!isText(en, 30) || !/^[QL]\d+$/.test(w?.source ?? "") || !labelsOk(w.labels)) {
+    if (
+      !isText(en, 30) ||
+      !/^(Q\d+|wiktionary:[a-z]+)$/.test(w?.source ?? "") ||
+      !labelsOk(w.labels)
+    ) {
       problems.push(`word ${en.slice(0, 30)}`);
     }
   }
