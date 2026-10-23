@@ -359,7 +359,7 @@ async function main() {
           ? ["GB"]
           : [];
     panel.show(`
-      <div class="pflag"><img data-flag src="${flagSvgUrl(d.code)}" alt="Flag of ${esc(d.name)}"></div>
+      <div class="pflag flagbox"><img data-flag src="${flagSvgUrl(d.code)}" alt="Flag of ${esc(d.name)}"></div>
       <h2>${esc(d.name)}</h2>
       <div class="meta"><span class="tag code">${esc(d.code)}</span>${
         d.a3 ? `<span class="tag code">${esc(d.a3)}</span>` : ""

@@ -25,10 +25,11 @@ export default defineConfig({
           : {},
       },
     },
-    // Safari lays some things out differently from Chrome (flags of unusual
-    // shapes once stretched the grid on iPads), so the layout tests also run
-    // in WebKit, Safari's engine. CI always runs them; locally they run with
-    // PW_WEBKIT=1, after `npx playwright install webkit`.
+    // The layout tests also run in WebKit, Safari's engine, since layout is
+    // where browsers differ most and the apps are used on iPads (flags of
+    // unusual shapes once stretched the Flags grid there). CI always runs
+    // them; locally they run with PW_WEBKIT=1, after
+    // `npx playwright install webkit`.
     ...(process.env.CI || process.env.PW_WEBKIT
       ? [{ name: "webkit", testMatch: /flag-shapes/, use: { ...devices["Desktop Safari"] } }]
       : []),

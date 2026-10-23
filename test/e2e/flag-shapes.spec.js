@@ -1,6 +1,8 @@
 // Flags come in many shapes. Whatever the shape, a flag must fit inside its
 // 3:2 box and never stretch the box or its row: Nepal is taller than wide,
-// Switzerland and Vatican City are square, Qatar is long and thin.
+// Switzerland and Vatican City are square, Qatar is long and thin. Tall and
+// square flags once grew their boxes and broke the grid (see .flagbox in
+// src/shared/base.css). Runs in Chromium and in WebKit.
 import { test, expect } from "@playwright/test";
 import { deflateSync } from "node:zlib";
 import { cspViolations, openPage } from "./helpers.js";

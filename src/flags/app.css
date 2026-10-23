@@ -167,24 +167,13 @@ main {
 }
 
 .tile .f {
-  aspect-ratio: 3/2;
   background: var(--tile);
   border-radius: 8px;
-  display: grid;
-  place-items: center;
-  padding: 12px;
   transition: background 0.15s;
 }
 
 .tile:hover .f {
   background: color-mix(in srgb, var(--tile) 70%, var(--border));
-}
-
-.tile img {
-  max-width: 100%;
-  max-height: 100%;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
-  display: block;
 }
 
 .tile .n {
@@ -284,18 +273,9 @@ dialog.big {
 }
 
 .bigflag {
+  --flag-pad: 16px;
   background: var(--tile);
   border-radius: 10px;
-  padding: 16px;
-  display: grid;
-  place-items: center;
-  aspect-ratio: 3/2;
-}
-
-.bigflag img {
-  max-width: 100%;
-  max-height: 100%;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
 }
 
 .dlg h2 {
@@ -534,18 +514,9 @@ dl.facts {
 .qflag {
   max-width: 420px;
   margin: 10px auto 18px;
-  aspect-ratio: 3/2;
+  --flag-pad: 18px;
   background: var(--tile);
   border-radius: 10px;
-  display: grid;
-  place-items: center;
-  padding: 18px;
-}
-
-.qflag img {
-  max-width: 100%;
-  max-height: 100%;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
 }
 
 .opts {

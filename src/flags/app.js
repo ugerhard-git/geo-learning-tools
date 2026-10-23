@@ -240,7 +240,7 @@ async function main() {
     const sub =
       showYear && year != null ? `Adopted ${year}` : `${d.code}${d.a3 ? ` · ${d.a3}` : ""}`;
     return `<button class="tile" data-c="${esc(d.code)}" aria-label="${st.hide ? "Hidden flag" : esc(d.name)}">
-      <span class="f"><img loading="lazy" src="${flagPng(d)}" srcset="${flagPng(d, 640)} 2x" alt=""></span>
+      <span class="f flagbox"><img loading="lazy" src="${flagPng(d)}" srcset="${flagPng(d, 640)} 2x" alt=""></span>
       <span class="n">${esc(d.name)}</span><span class="c">${esc(sub)}</span></button>`;
   }
 
@@ -582,7 +582,7 @@ async function main() {
     body.innerHTML = `
       <button class="close" aria-label="Close" data-close>×</button>
       <div class="dhead">
-        <div class="bigflag"><img src="${flagSvgUrl(d.code)}" alt="Flag of ${esc(d.name)}"></div>
+        <div class="bigflag flagbox"><img src="${flagSvgUrl(d.code)}" alt="Flag of ${esc(d.name)}"></div>
         <div>
           <h2 id="dname">${esc(d.name)}</h2>
           <div class="meta"><span class="tag code">${esc(d.code)}</span>${
@@ -836,7 +836,7 @@ async function main() {
       <h2>Whose flag is this?</h2>
       <div class="qlevel"><div class="seg" role="group" aria-label="Difficulty"><button data-level="easy" aria-pressed="${easy}">Easy: pick from four</button><button data-level="hard" aria-pressed="${!easy}">Hard: type the name</button></div></div>
       <p class="qscore">${scoreLine()}</p>
-      <div class="qflag"><img src="${flagSvgUrl(qs.ans.code)}" alt="Mystery flag"></div>
+      <div class="qflag flagbox"><img src="${flagSvgUrl(qs.ans.code)}" alt="Mystery flag"></div>
       ${answer}
       <div class="qfoot">${easy ? "" : `<button class="btn quiet" data-skip>Show answer</button>`}</div>`;
     // Keep the focus inside the quiz: replacing the markup drops it, and the

@@ -320,6 +320,36 @@ dl.facts dd {
   gap: 8px;
 }
 
+/*
+ * A flag shown whole in a 3:2 box, whatever its own shape: Nepal is taller
+ * than wide, Switzerland and Vatican City are square, Qatar is long.
+ *
+ * The image is placed absolutely and sized to the box, with object-fit
+ * keeping its proportions. Do not go back to max-width/max-height: 100% on
+ * an image inside the box: a box shaped by aspect-ratio still grows to fit
+ * its content, and a percentage height cannot hold the image to a height
+ * that itself depends on the image. A tall or square flag then grows the box
+ * and its whole row (this broke the Flags grid on iPads). An absolutely
+ * placed image takes no part in the box's size.
+ *
+ * The outline is a drop-shadow filter rather than a box-shadow, so it
+ * follows the flag itself and not the empty space beside it.
+ */
+.flagbox {
+  --flag-pad: 12px;
+  position: relative;
+  aspect-ratio: 3 / 2;
+}
+
+.flagbox > img {
+  position: absolute;
+  inset: var(--flag-pad);
+  width: calc(100% - 2 * var(--flag-pad));
+  height: calc(100% - 2 * var(--flag-pad));
+  object-fit: contain;
+  filter: drop-shadow(0 0 0.6px rgba(0, 0, 0, 0.45));
+}
+
 .flagmini {
   height: 22px;
   width: auto;
