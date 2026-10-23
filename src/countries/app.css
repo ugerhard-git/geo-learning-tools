@@ -137,19 +137,10 @@ body.blind .land path.found {
 /* -------------------------------------------------------------- panel */
 
 .pflag {
+  --flag-pad: 14px;
   background: var(--tile);
   border-radius: 10px;
-  padding: 14px;
-  display: grid;
-  place-items: center;
-  aspect-ratio: 3/2;
   margin: 0 44px 14px 0;
-}
-
-.pflag img {
-  max-width: 100%;
-  max-height: 100%;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
 }
 
 #panel h2 {

@@ -20,8 +20,10 @@ export const readData = (name) => readFileSync(new URL(name, DATA), "utf8");
  * @param {string} path
  * @param {object} [options]
  * @param {Record<string, string>} [options.storage] localStorage to start with
- * @param {(url: URL) => unknown} [options.answers] a JSON answer for an outside
- *   request, or undefined to block it as usual
+ * @param {(url: URL) => unknown} [options.answers] an answer for an outside
+ *   request: a Buffer is sent as a PNG image, a string starting "<svg" as an
+ *   SVG image, anything else as JSON, and
+ *   undefined blocks the request as usual
  * @returns {Promise<string[]>} problems seen so far; keeps filling as the test runs
  */
 export async function openPage(page, path, { storage, answers } = {}) {
@@ -31,6 +33,10 @@ export async function openPage(page, path, { storage, answers } = {}) {
     (route) => {
       const body = answers?.(new URL(route.request().url()));
       if (body === undefined) return route.abort("blockedbyclient");
+      if (Buffer.isBuffer(body)) return route.fulfill({ contentType: "image/png", body });
+      if (typeof body === "string" && body.startsWith("<svg")) {
+        return route.fulfill({ contentType: "image/svg+xml", body });
+      }
       return route.fulfill({
         contentType: "application/json",
         headers: { "Access-Control-Allow-Origin": "*" },
@@ -44,7 +50,14 @@ export async function openPage(page, path, { storage, answers } = {}) {
   await page.addInitScript((seed) => {
     window.__cspViolations = [];
     document.addEventListener("securitypolicyviolation", (e) =>
-      window.__cspViolations.push(`${e.violatedDirective} blocked ${e.blockedURI}`),
+      window.__cspViolations.push(
+        `${e.violatedDirective} blocked ${e.blockedURI}` +
+          (e.sourceFile ? ` in ${e.sourceFile}:${e.lineNumber}` : "") +
+          (e.sample ? ` (${e.sample})` : "") +
+          (e.target?.nodeName
+            ? ` on <${e.target.nodeName.toLowerCase()}${(e.target.className?.baseVal ?? e.target.className) ? ` class="${e.target.className?.baseVal ?? e.target.className}"` : ""}>`
+            : ""),
+      ),
     );
     if (seed && !sessionStorage.getItem("__seeded")) {
       sessionStorage.setItem("__seeded", "1");
@@ -52,19 +65,37 @@ export async function openPage(page, path, { storage, answers } = {}) {
     }
   }, storage ?? null);
   page.on("pageerror", (err) => problems.push(`uncaught: ${err.message}`));
+  const webkit = isWebKit(page);
   page.on("console", (msg) => {
     // A blocked outside request logs "Failed to load resource"; that is the
     // test's doing, not the page's.
-    if (msg.type() === "error" && !msg.text().startsWith("Failed to load resource")) {
-      problems.push(`console: ${msg.text()}`);
-    }
+    if (msg.type() !== "error" || msg.text().startsWith("Failed to load resource")) return;
+    // WebKit's own report of its <select> styling (see WEBKIT_SELECT).
+    if (webkit && msg.text().startsWith("Refused to apply a stylesheet")) return;
+    problems.push(`console: ${msg.text()}`);
   });
   await page.goto(path);
   return problems;
 }
 
 /** CSP violations the page has reported so far. */
-export const cspViolations = (page) => page.evaluate(() => window.__cspViolations);
+export async function cspViolations(page) {
+  const all = await page.evaluate(() => window.__cspViolations);
+  return isWebKit(page) ? all.filter((v) => v !== WEBKIT_SELECT) : all;
+}
+
+/**
+ * The WebKit build Playwright tests with styles every <select> through an
+ * inline style of its own, which the site's policy refuses: one report per
+ * <select> on the page, whatever the page does. No code of the site's sets
+ * a style on a <select>. Only this exact report is let through, and only in
+ * WebKit; anything else, such as a style attribute on any other element,
+ * still fails the test.
+ */
+const WEBKIT_SELECT = "style-src-attr blocked inline on <select>";
+
+/** @param {import("@playwright/test").Page} page */
+const isWebKit = (page) => page.context().browser()?.browserType().name() === "webkit";
 
 /**
  * Where a longitude/latitude is on screen, given the map's current view.
