@@ -21,12 +21,19 @@ test("by country, by side and by sign; search narrows them", async ({ page }) =>
 
   await page.click('.filters [data-view="stop"]');
   await expect(page.locator(".tile img").first()).toBeVisible();
-  // Every drawing has loaded from the site itself.
-  await expect
-    .poll(() =>
-      page.locator(".tile img").evaluateAll((imgs) => imgs.every((i) => i.naturalWidth > 0)),
-    )
-    .toBe(true);
+  // Every drawing in signs.json can be shown. (The tiles load theirs as they
+  // scroll into view, so each is loaded here on its own.)
+  const files = Object.values(SIGNS).flatMap((c) => Object.values(c).map((s) => s.file));
+  const broken = await page.evaluate(async (names) => {
+    const out = [];
+    for (const name of names) {
+      const img = new Image();
+      img.src = `../data/signs/${name}`;
+      await img.decode().catch(() => out.push(name));
+    }
+    return out;
+  }, files);
+  expect(broken).toEqual([]);
   expect([...problems, ...(await cspViolations(page))]).toEqual([]);
 });
 
