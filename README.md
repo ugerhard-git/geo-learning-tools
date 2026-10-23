@@ -12,6 +12,7 @@ keeps track of what you know and brings back what you don't.
 | **Cities and Regions**        | 2,738 cities and 4,596 regions — capitals, regional capitals, every city over a million.                                                         |
 | **Terrain**                   | 2,121 physical features: rivers, ranges, deserts, seas, straits, islands and peaks.                                                              |
 | **Scripts and Languages**     | The official languages of the 120 Street View countries: telltale letters, look-alike scripts, and which language or country a sentence is from. |
+| **Roads**                     | What the roads of the Street View countries give away: driving side, centre line colour, and stop, crossing, chevron and warning signs.          |
 
 The landing page shows what is due for review in each app. Progress is kept in
 your browser only and is never sent anywhere. Opening a place's details asks
@@ -83,6 +84,7 @@ src/                 the site, exactly as it is served (the build copies it to d
   cities/
   terrain/
   languages/
+  roads/
   shared/            code and styles every app uses: map view, drills, spaced
                        repetition, progress screen, outside services …
   data/              map outlines, places and features (see docs/data.md)

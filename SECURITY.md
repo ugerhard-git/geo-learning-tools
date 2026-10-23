@@ -34,6 +34,12 @@ Languages data: its build job unpacks CLDR and the UDHR translations as data
 its commit job installs nothing and checks the result with a built-ins-only
 script before committing it.
 
+The "Road signs" workflow works the same way: its fetch job reads Wikipedia
+and Commons, read-only, and leaves out any drawing that could run script;
+its commit job installs nothing, checks every drawing again with a
+built-ins-only script (`tools/data/check-road-signs.mjs`) and commits them.
+The app shows the drawings with `<img>`, which never runs script in them.
+
 The "Flag colours" workflow measures flag colours with the dev tooling in a
 read-only job. A second job, which installs nothing, checks the result with a
 built-ins-only script and commits it, to a pull request's own branch (never

@@ -49,6 +49,30 @@ pushes a `language-data-<date>` branch to open a pull request from. To run
 the scripts on your own machine instead, run `sign-words.mjs`, then
 `languages.mjs` as its header describes.
 
+## Road signs
+
+`road-signs.mjs` fetches the Roads app's sign drawings: each Street View
+country's stop sign, the two pedestrian crossing signs (the warning, and the
+sign at the crossing itself), the chevron and the general warning sign. It
+reads the country's "Road signs in …" article on Wikipedia, scores each
+drawing's caption (`road-sign-wikitext.mjs`: the sign's number taken off,
+bus stops, "stop ahead" and the like left out, drawings under historic or
+temporary headings ignored, the warning section telling the two crossing
+signs apart), and takes the best. Only drawings stored on Commons with a
+reusable licence are kept.
+
+The **Road signs** workflow (`.github/workflows/road-signs.yml`) runs it on
+a pull request that changes the Street View list, the picks or the scripts,
+and commits the drawings, `src/data/signs.json` and every candidate it
+considered, `road-sign-candidates.json`. Review the drawings after each run.
+Where a caption leads it to the wrong drawing, name the right Commons file
+in `road-sign-picks.json` (or `"-"` for none) and push; the workflow runs
+again:
+
+```json
+{ "JP": { "stop": "Japan_road_sign_330-A.svg" }, "US": { "crossing": "-" } }
+```
+
 The rest of this page is about the two Python scripts.
 
 ## Running them

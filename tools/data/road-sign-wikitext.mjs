@@ -10,7 +10,7 @@
  * "3.01 Stop"), which {@link captionText} takes off first.
  */
 /** Headings of the warning sections. */
-const WARNING = /warning|danger|caution/i;
+const WARNING = /warning|danger|caution|hazard/i;
 
 /** Headings of sections that show signs no longer, or not normally, in use. */
 const NOT_CURRENT =
@@ -49,7 +49,9 @@ export const SIGNS = {
       /other dangers?|general (warning|danger|caution)|danger ahead|^(caution|danger|warning)$|other hazards?/i,
     avoid: /plate|panel|supplement|temporary|roadworks|end of/i,
     exact: /^(other dangers?|general (warning|danger|caution)|danger|other hazards?)$/i,
-    where: (section) => !section || WARNING.test(section),
+    // Not from the prohibitory signs (Kazakhstan's "Danger") or the plates
+    // under a sign (Japan's "Caution").
+    where: (section) => !/prohibit|regulat|supplement|additional|plate/i.test(section),
   },
   stop: {
     // Not "stopping" or "Stopschild"; a number may come straight after ("StopAlt. A").
