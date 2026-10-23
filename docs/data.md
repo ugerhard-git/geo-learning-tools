@@ -129,7 +129,10 @@ has one.
 { "cldr": "48.2.0", "udhr": "6.0.0",
   "scripts": { "Latn": "Latin", "Thai": "Thai", … },
   "languages": [{ "id": "pl", "name": "Polish", "autonym": "polski", "script": "Latn",
-                  "countries": ["PL"], "letters": "aąbcć…", "words": ["poniedziałek", …],
+                  "countries": ["PL"], "letters": "aąbcć…", "words": ["północ", "Warszawa", …],
+                  "street": "ulica", "road": "droga", "city": "miasto",
+                  "placeWords": [["north", "północ"], ["river", "rzeka"], …],
+                  "capitals": ["Warszawa"],
                   "sentence": "Wszyscy ludzie rodzą się wolni …" }, …],
   "telltales": [{ "letter": "ł", "languages": ["pl"] }, …] }
 ```
@@ -140,15 +143,27 @@ has one.
 - **`id`** is the CLDR locale; a language written in two scripts on signs has
   one entry per script (`sr`, `sr-Latn`). **`script`** is an ISO 15924 code.
 - **`letters`** are CLDR's main exemplar letters, in lower case.
-- **`words`** are real words: weekday and month names, the language's name
-  for itself and its names for its countries. Words two languages share are
+- **`words`** are real words, the kind seen on signs and billboards: the
+  place words and capitals below, the language's name for itself, its names
+  for its countries, and the month names. Words two languages share are
   dropped, since they cannot tell them apart.
 - **`sentence`** is the first sentence of Article 1 of the Universal
   Declaration of Human Rights.
-- **`street`** and **`city`** are the language's words for them, as seen on
-  street and town signs: the Wikidata labels of "street" (Q79007) and "city"
-  (Q515), kept in `tools/data/sign-words.json`. Missing where Wikidata has no
-  label in that language.
+- **`street`**, **`road`** and **`city`** are the language's words for them,
+  as seen on street and town signs: the Wikidata labels of "street"
+  (Q79007), "road" (Q34442) and "city" (Q515), kept in
+  `tools/data/sign-words.json`. Missing where Wikidata has no label in that
+  language.
+- **`placeWords`** are words of town, road, region and landmark names and of
+  directions, each with its English: the compass points, village, town,
+  hill, mountain, valley, river, lake, beach, coast, island, bay, port,
+  bridge, church, castle, railway station, airport, town square and forest
+  (Wikidata item labels, each item checked against its English label), and
+  new, old, upper, lower, big and little (Wikidata lexemes linked as
+  translations of the English adjectives). The list is `NOUNS` and
+  `ADJECTIVES` in `tools/data/sign-words.mjs`.
+- **`capitals`** are the capitals (Wikidata P36) of the language's countries,
+  in the language.
 - **`telltales`** are letters of the Latin and Cyrillic alphabets that four
   languages or fewer use, at most six per language, the rarest first.
 

@@ -104,7 +104,10 @@ async function main() {
       l.name,
       l.autonym,
       l.street ?? "",
+      l.road ?? "",
       l.city ?? "",
+      ...(l.capitals ?? []),
+      ...(l.placeWords ?? []).map(([, w]) => w),
       scripts[l.script],
       ...l.countries.flatMap((c) => [countries[c].name, c, ...countries[c].aliases]),
     ].some((s) => norm(s).includes(key));
@@ -137,12 +140,11 @@ async function main() {
     </button>`;
   }
 
-  /** "street: ulica · city: miasto", where Wikidata has the words. */
+  /** "street: ulica · road: droga · city: miasto", where Wikidata has the words. */
   function signWordsLine(l, cls) {
-    const parts = [
-      l.street ? `street <b lang="${esc(l.id)}" dir="auto">${esc(l.street)}</b>` : "",
-      l.city ? `city <b lang="${esc(l.id)}" dir="auto">${esc(l.city)}</b>` : "",
-    ].filter(Boolean);
+    const parts = ["street", "road", "city"]
+      .filter((k) => l[k])
+      .map((k) => `${k} <b lang="${esc(l.id)}" dir="auto">${esc(l[k])}</b>`);
     return parts.length ? `<span class="${cls}">${parts.join(" · ")}</span>` : "";
   }
 
@@ -196,14 +198,30 @@ async function main() {
               .join("")}</p>`
           : ""
       }
-      ${l.street || l.city ? `<h3>On signs</h3><p>${signWordsLine(l, "dsign")}</p>` : ""}
+      ${l.street || l.road || l.city ? `<h3>On signs</h3><p>${signWordsLine(l, "dsign")}</p>` : ""}
+      ${
+        l.capitals?.length
+          ? `<h3>${l.capitals.length > 1 ? "Capitals" : "Capital"}</h3><p class="dcaps" lang="${esc(l.id)}" dir="auto">${esc(l.capitals.join(" · "))}</p>`
+          : ""
+      }
+      ${
+        l.placeWords?.length
+          ? `<h3>In place names</h3><dl class="dplace">${l.placeWords
+              .map(
+                ([en, w]) =>
+                  `<div><dt lang="${esc(l.id)}" dir="auto">${esc(w)}</dt><dd>${esc(en)}</dd></div>`,
+              )
+              .join("")}</dl>
+             <p class="src">Words seen in town, road, region and landmark names, with their English.</p>`
+          : ""
+      }
       <h3>A sentence</h3>
       <blockquote class="dsent" lang="${esc(l.id)}" dir="auto">${esc(l.sentence)}</blockquote>
       <p class="src">Article 1 of the Universal Declaration of Human Rights.</p>
       ${
         l.words.length
           ? `<h3>Words</h3><p class="dwords" lang="${esc(l.id)}" dir="auto">${l.words.map((w) => `<span>${esc(w)}</span>`).join("")}</p>
-             <p class="src">Weekdays, months, its own name and its names for its countries.</p>`
+             <p class="src">The words above, the capitals, its own name, its names for its countries, and the months.</p>`
           : ""
       }
       <h3>Letters</h3>
@@ -213,7 +231,7 @@ async function main() {
         .join(
           "",
         )}${[...l.letters].length > 120 ? `<span class="more">and ${fmtNum([...l.letters].length - 120)} more</span>` : ""}</p>
-      <p class="src">Letters and words: Unicode CLDR. Sentence: UDHR in Unicode. Street and city: Wikidata.</p>`;
+      <p class="src">Letters, months and names of countries: <a href="https://cldr.unicode.org/" target="_blank" rel="noopener noreferrer">Unicode CLDR</a>. Sentence: <a href="https://www.unicode.org/udhr/" target="_blank" rel="noopener noreferrer">UDHR in Unicode</a>. Words on signs, words in place names and capitals: <a href="https://www.wikidata.org/" target="_blank" rel="noopener noreferrer">Wikidata</a>, its labels and lexemes in this language, community-edited.</p>`;
     if (!detail.open) detail.showModal();
     detailBody.scrollTop = 0;
     detailBody.focus({ preventScroll: true });

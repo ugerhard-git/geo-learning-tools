@@ -6,7 +6,7 @@
  *
  * Every question shows a specimen of writing, real text in the language:
  * the first sentence of the Universal Declaration of Human Rights, or three
- * of its words (weekdays, months, country names). The learner answers by
+ * of its words (place words, capitals, country names, months). The learner answers by
  * picking one of four options or by typing.
  *
  * @module languages/drills
