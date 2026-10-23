@@ -19,6 +19,12 @@
   "DK": {
     "warning": "Denmark_road_sign_A99.svg"
   },
+  "ES": {
+    "stop": "Spain_traffic_signal_r2.svg",
+    "crossing": "Spain_traffic_signal_s13.svg",
+    "pedestrian": "Spain_traffic_signal_p20.svg",
+    "warning": "Spain_traffic_signal_p50.svg"
+  },
   "GB": {
     "stop": "UK_traffic_sign_601.1.svg",
     "crossing": "-"
