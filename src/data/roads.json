@@ -265,6 +265,31 @@
    "title": "Hong Kong: Plonk It guide",
    "url": "https://www.plonkit.net/hong-kong",
    "publisher": "Plonk It"
+  },
+  "plonkit-spain": {
+   "title": "Spain: Plonk It guide",
+   "url": "https://www.plonkit.net/spain",
+   "publisher": "Plonk It"
+  },
+  "plonkit-portugal": {
+   "title": "Portugal: Plonk It guide",
+   "url": "https://www.plonkit.net/portugal",
+   "publisher": "Plonk It"
+  },
+  "plonkit-albania": {
+   "title": "Albania: Plonk It guide",
+   "url": "https://www.plonkit.net/albania",
+   "publisher": "Plonk It"
+  },
+  "plonkit-croatia": {
+   "title": "Croatia: Plonk It guide",
+   "url": "https://www.plonkit.net/croatia",
+   "publisher": "Plonk It"
+  },
+  "plonkit-montenegro": {
+   "title": "Montenegro: Plonk It guide",
+   "url": "https://www.plonkit.net/montenegro",
+   "publisher": "Plonk It"
   }
  },
  "countries": {
@@ -301,6 +326,16 @@
     "note": "Most European countries use white for all their lines.",
     "source": "markings",
     "regional": true
+   },
+   "chevron": {
+    "styles": [
+     {
+      "bg": "black",
+      "fg": "white"
+     }
+    ],
+    "note": "White arrows on black, as in Italy, Greece and Spain. Montenegro next door uses other colours.",
+    "source": "plonkit-albania"
    }
   },
   "AR": {
@@ -716,6 +751,22 @@
     "note": "Most European countries use white for all their lines.",
     "source": "markings",
     "regional": true
+   },
+   "chevron": {
+    "styles": [
+     {
+      "bg": "black",
+      "fg": "white",
+      "arrows": 2
+     },
+     {
+      "bg": "blue",
+      "fg": "white",
+      "arrows": 2
+     }
+    ],
+    "note": "Two kinds: white arrows on black, or on blue, almost always two or four of them; a single arrow is rare. France is the only other European country with white on blue.",
+    "source": "plonkit-spain"
    }
   },
   "FI": {
@@ -790,6 +841,16 @@
      }
     ],
     "patternSource": "plonkit-france"
+   },
+   "chevron": {
+    "styles": [
+     {
+      "bg": "blue",
+      "fg": "white"
+     }
+    ],
+    "note": "White arrows on blue, anything from one to five of them. Spain is the only other European country with these colours, always with two or four.",
+    "source": "plonkit-france"
    }
   },
   "GB": {
@@ -874,6 +935,17 @@
      }
     ],
     "patternSource": "plonkit-greece"
+   },
+   "chevron": {
+    "styles": [
+     {
+      "bg": "black",
+      "fg": "white",
+      "arrows": 1
+     }
+    ],
+    "note": "White arrows on black, as in Italy and Albania; Spain has the same colours but almost always two or four arrows.",
+    "source": "plonkit-greece"
    }
   },
   "GT": {
@@ -950,6 +1022,20 @@
     "note": "Most European countries use white for all their lines.",
     "source": "markings",
     "regional": true
+   },
+   "chevron": {
+    "styles": [
+     {
+      "bg": "yellow",
+      "fg": "red"
+     },
+     {
+      "bg": "white",
+      "fg": "red"
+     }
+    ],
+    "note": "A red arrow on yellow or on white.",
+    "source": "plonkit-croatia"
    }
   },
   "HU": {
@@ -1076,6 +1162,17 @@
     "colour": "white",
     "style": "solid",
     "note": "Often solid white edge lines and no centre line.",
+    "source": "plonkit-italy"
+   },
+   "chevron": {
+    "styles": [
+     {
+      "bg": "black",
+      "fg": "white",
+      "arrows": 1
+     }
+    ],
+    "note": "White arrows on black, as in Greece, Albania and Spain; Spain's almost always have two or four arrows.",
     "source": "plonkit-italy"
    }
   },
@@ -1384,6 +1481,20 @@
     "note": "Most European countries use white for all their lines.",
     "source": "markings",
     "regional": true
+   },
+   "chevron": {
+    "styles": [
+     {
+      "bg": "white",
+      "fg": "black"
+     },
+     {
+      "bg": "yellow",
+      "fg": "red"
+     }
+    ],
+    "note": "Black on white, or red on yellow; neither is Albania's white on black.",
+    "source": "plonkit-montenegro"
    }
   },
   "MK": {
@@ -1743,6 +1854,16 @@
     "note": "Most European countries use white for all their lines.",
     "source": "markings",
     "regional": true
+   },
+   "chevron": {
+    "styles": [
+     {
+      "bg": "black",
+      "fg": "yellow"
+     }
+    ],
+    "note": "Yellow arrows on black, a colour scheme no other Mediterranean country uses.",
+    "source": "plonkit-portugal"
    }
   },
   "PY": {
@@ -1930,6 +2051,16 @@
    "centre": {
     "colour": "both",
     "note": "Mostly white, but yellow lines are not unusual.",
+    "source": "plonkit-turkey"
+   },
+   "chevron": {
+    "styles": [
+     {
+      "bg": "white",
+      "fg": "red"
+     }
+    ],
+    "note": "Usually red on white, the arrow's tip not touching the edge; there are regional variants.",
     "source": "plonkit-turkey"
    }
   },

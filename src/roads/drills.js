@@ -17,7 +17,7 @@
  * @module roads/drills
  */
 import { esc, table } from "../shared/dom.js";
-import { shuffle } from "../shared/random.js";
+import { pickOne, shuffle } from "../shared/random.js";
 import { CLUES, COLOURS, SIGN_CLUES, hasClue } from "./data.js";
 
 /** @typedef {import("./data.js").RoadCountry} RoadCountry */
@@ -82,32 +82,59 @@ export function cleanClues(list) {
 export const sceneClues = (country, clues) => clues.filter((c) => hasClue(country, c));
 
 /**
+ * Whether a country is in the part of the world picked: "all", a region
+ * letter from the country table ("E" Europe), or a UN sub-region code
+ * ("039" Southern Europe).
+ * @param {RoadCountry} country
+ * @param {string} where
+ */
+export const isIn = (country, where) =>
+  where === "all" || country.region === where || country.subregion === where;
+
+/**
  * The items a drill asks about, for the clues picked.
  * @param {RoadData} data
  * @param {string} type a key of {@link DRILLS}
  * @param {string[]} clues
+ * @param {string} [where] see {@link isIn}
  * @returns {RoadItem[]}
  */
-export function poolFor(data, type, clues) {
+export function poolFor(data, type, clues, where = "all") {
+  const countries = data.countries.filter((c) => isIn(c, where));
   if (type === "scene") {
-    return data.countries
+    return countries
       .filter((c) => sceneClues(c, clues).filter((x) => x !== "side").length >= 1)
       .filter((c) => sceneClues(c, clues).length >= 2)
       .map((c) => ({ clue: "scene", code: c.code }));
   }
   return clues.flatMap((clue) =>
-    data.countries.filter((c) => hasClue(c, clue)).map((c) => ({ clue, code: c.code })),
+    countries.filter((c) => hasClue(c, clue)).map((c) => ({ clue, code: c.code })),
   );
 }
 
 /**
- * What a clue looks like in a country, to tell countries apart by it: the
- * side, the line colour, or the drawing's file on Commons.
+ * Two drawn chevron boards that could not be told apart: the same colours,
+ * and the same number of arrows or a number not given for either.
  */
-function valueOf(country, clue) {
-  if (clue === "side") return country.drive;
-  if (clue === "lines") return country.centre?.colour ?? "";
-  return country.signs[clue]?.commons ?? "";
+const sameChevron = (a, b) =>
+  a.bg === b.bg &&
+  a.fg === b.fg &&
+  (a.arrows === undefined || b.arrows === undefined || a.arrows === b.arrows);
+
+/**
+ * Whether two countries look the same in a clue, so that one cannot be told
+ * from the other by it: the same side, line colour or drawing. Chevrons
+ * described in words look the same when any of their styles do (Italy's and
+ * Greece's white on black, for instance).
+ */
+export function looksAlike(a, b, clue) {
+  if (clue === "side") return a.drive === b.drive;
+  if (clue === "lines") return (a.centre?.colour ?? "") === (b.centre?.colour ?? "");
+  if (clue === "chevron" && a.chevron && b.chevron) {
+    return a.chevron.styles.some((x) => b.chevron.styles.some((y) => sameChevron(x, y)));
+  }
+  const fa = a.signs[clue]?.commons;
+  return Boolean(fa) && fa === b.signs[clue]?.commons;
 }
 
 /**
@@ -152,15 +179,22 @@ export class RoadQuestion {
   /**
    * @param {RoadItem} item
    * @param {RoadData} data
-   * @param {{ hard?: boolean, clues?: string[] }} [options] on hard, wrong
-   *   options come from the same part of the world; a scene shows the clues
-   *   picked
+   * @param {{ hard?: boolean, clues?: string[], where?: string }} [options] on
+   *   hard, wrong options come from the same part of the world; a scene shows
+   *   the clues picked; wrong options come from the part of the world picked
+   *   while there are enough
    */
-  constructor(item, data, { hard = false, clues = Object.keys(CLUES) } = {}) {
+  constructor(item, data, { hard = false, clues = Object.keys(CLUES), where = "all" } = {}) {
     this.item = item;
     this.data = data;
     this.hard = hard;
+    this.where = where;
     this.country = data.byCode[item.code];
+    // A chevron with no drawing on Commons is drawn from its description;
+    // where there are several, one of them, as a learner might meet it.
+    const styles = this.country.chevron?.styles ?? [];
+    /** @type {import("./data.js").ChevronStyle | null} */
+    this.chevronStyle = !this.country.signs.chevron && styles.length ? pickOne(styles) : null;
     /** The clues the question shows: a scene's, or a sign. */
     this.shows =
       item.clue === "scene"
@@ -209,29 +243,24 @@ export class RoadQuestion {
         correct: k === this.country.centre.colour,
       }));
     }
-    const mine = this.shows.map((s) => valueOf(this.country, s));
-    // A wrong option must differ from the right one in something shown, and
-    // have a value for every clue shown, or the question could not be
-    // answered.
-    const others = this.data.countries.filter(
-      (c) =>
-        c.code !== this.country.code &&
-        this.shows.every((s) => hasClue(c, s)) &&
-        this.shows.some((s, i) => valueOf(c, s) !== mine[i]),
+    // A wrong option must have every clue shown, and must look different
+    // from the right answer, and from every other option, in at least one of
+    // them, or the question could not be answered.
+    const differs = (a, b) => this.shows.some((s) => !looksAlike(a, b, s));
+    const me = this.country;
+    let candidates = this.data.countries.filter(
+      (c) => c.code !== me.code && this.shows.every((s) => hasClue(c, s)) && differs(c, me),
     );
-    // A sign is shared by countries that use the same drawing; offer at most
-    // one country per drawing, so no two options look the same.
-    const seen = new Set([mine.join("|")]);
+    // Stay within the part of the world picked while there are enough.
+    const inside = candidates.filter((c) => isIn(c, this.where));
+    if (inside.length >= 3) candidates = inside;
     const distinct = [];
-    for (const c of shuffle(others)) {
-      const v = this.shows.map((s) => valueOf(c, s)).join("|");
-      if (!seen.has(v)) {
-        seen.add(v);
-        distinct.push(c);
-      }
+    for (const c of shuffle(candidates)) {
+      if (distinct.every((d) => differs(c, d))) distinct.push(c);
     }
-    const region = this.country.region;
-    const wrong = pickPreferring(distinct, (c) => (c.region === region) === this.hard, 3);
+    // Hard: neighbours, from the same sub-region where known.
+    const near = (c) => (me.subregion ? c.subregion === me.subregion : c.region === me.region);
+    const wrong = pickPreferring(distinct, (c) => near(c) === this.hard, 3);
     return shuffle([
       { label: this.country.name, correct: true },
       ...wrong.map((c) => ({ label: c.name, correct: false })),
@@ -249,6 +278,8 @@ export class RoadQuestion {
   /** A line under the scene once answered (plain text). */
   reveal() {
     const c = this.country;
+    // A chevron question says what tells the country's chevrons apart.
+    if (this.item.clue === "chevron" && c.chevron) return `${c.name}. ${c.chevron.note}`;
     const parts = [`${c.name}: drives ${sideText(c.drive).toLowerCase()}`];
     if (c.centre) {
       const usual = c.centre.patterns?.[0];

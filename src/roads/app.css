@@ -472,3 +472,52 @@ body {
     flex: none;
   }
 }
+
+/* Chevron boards drawn from a description. */
+.chev {
+  display: block;
+  height: 36px;
+  width: auto;
+}
+
+.rsigns .chev {
+  height: 28px;
+  margin-top: 4px;
+}
+
+.tile.drawn {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tile .chev {
+  height: 52px;
+}
+
+.tile .src {
+  flex-basis: 100%;
+}
+
+.dchev {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.dchev .chev {
+  height: 48px;
+}
+
+.dsigns .chev {
+  height: 56px;
+  margin: 17px auto;
+}
+
+.ssigns .chev {
+  height: 90px;
+}
+
+.ssigns.big .chev {
+  height: min(150px, 24vh);
+}

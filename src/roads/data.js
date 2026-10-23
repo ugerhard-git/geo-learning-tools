@@ -38,6 +38,15 @@ export const LINE = /^(solid|dashed|long-dash|short-dash|line)-(white|yellow)$/;
 /** Edge line styles; "line" where the source does not say solid or broken. */
 const EDGE_STYLES = ["solid", "dashed", "long-dash", "short-dash", "line"];
 
+/** Colours a chevron can be drawn in. */
+export const CHEVRON_COLOURS = table({
+  black: "#1b1b1b",
+  white: "#ffffff",
+  blue: "#1f4fa3",
+  yellow: "#f5c400",
+  red: "#d42020",
+});
+
 /** A drawing's file name, as tools/data/road-signs.mjs writes them. */
 const SIGN_FILE = /^[a-z]{2}-[a-z]+\.svg$/;
 
@@ -74,6 +83,16 @@ const SIGN_FILE = /^[a-z]{2}-[a-z]+\.svg$/;
  * @property {{ colour: "white" | "yellow" | "none", style: string, note: string, source: string }} [edge]
  *   the edge lines: their colour ("none" for no edge lines) and usual style
  * @property {Partial<Record<string, Sign>>} signs by clue: stop, crossing, pedestrian, chevron, warning
+ * @property {{ styles: ChevronStyle[], note: string, source: string }} [chevron]
+ *   what its chevrons look like, described in words by a source; the app draws them
+ * @property {string} [subregion] its UN sub-region, e.g. "039" (Southern Europe)
+ */
+
+/**
+ * @typedef {object} ChevronStyle
+ * @property {string} bg the board's colour, a key of {@link CHEVRON_COLOURS}
+ * @property {string} fg the arrows' colour
+ * @property {number} [arrows] how many arrows, where the source says
  */
 
 /**
@@ -81,6 +100,7 @@ const SIGN_FILE = /^[a-z]{2}-[a-z]+\.svg$/;
  * @property {RoadCountry[]} countries every Street View country, by name
  * @property {Record<string, RoadCountry>} byCode
  * @property {Record<string, { title: string, url: string, publisher: string }>} sources
+ * @property {Record<string, string>} subregions sub-region code → English name
  */
 
 /**
@@ -90,7 +110,7 @@ const SIGN_FILE = /^[a-z]{2}-[a-z]+\.svg$/;
  * @param {string} countryText countries.txt
  * @returns {RoadData}
  */
-export function makeRoadData(roads, signs, countryText) {
+export function makeRoadData(roads, signs, countryText, subregions = {}) {
   const known = byCode(parseCountries(countryText));
   const sources = table(roads.sources);
   const countries = [];
@@ -120,6 +140,21 @@ export function makeRoadData(roads, signs, countryText) {
       sources[r.edge.source]
         ? r.edge
         : null;
+    const chevron =
+      r.chevron &&
+      sources[r.chevron.source] &&
+      typeof r.chevron.note === "string" &&
+      Array.isArray(r.chevron.styles) &&
+      r.chevron.styles.length &&
+      r.chevron.styles.every(
+        (s) =>
+          CHEVRON_COLOURS[s.bg] &&
+          CHEVRON_COLOURS[s.fg] &&
+          (s.arrows === undefined ||
+            (Number.isInteger(s.arrows) && s.arrows >= 1 && s.arrows <= 5)),
+      )
+        ? r.chevron
+        : null;
     const own = signs[code] ?? {};
     const drawn = table({});
     for (const clue of SIGN_CLUES) {
@@ -135,6 +170,8 @@ export function makeRoadData(roads, signs, countryText) {
       driveSource: sources[r.driveSource] ? r.driveSource : "",
       ...(centre ? { centre } : {}),
       ...(edge ? { edge } : {}),
+      ...(chevron ? { chevron } : {}),
+      ...(/^\d{3}$/.test(subregions.of?.[code] ?? "") ? { subregion: subregions.of[code] } : {}),
       signs: drawn,
     });
   }
@@ -143,6 +180,7 @@ export function makeRoadData(roads, signs, countryText) {
     countries,
     byCode: table(Object.fromEntries(countries.map((c) => [c.code, c]))),
     sources,
+    subregions: table(subregions.names ?? {}),
   };
 }
 
@@ -150,17 +188,21 @@ export function makeRoadData(roads, signs, countryText) {
 export function hasClue(country, clue) {
   if (clue === "side") return true;
   if (clue === "lines") return Boolean(country.centre);
+  // A chevron described in words is drawn by the app.
+  if (clue === "chevron") return Boolean(country.signs.chevron || country.chevron);
   return Boolean(country.signs[clue]);
 }
 
 /** Load the data files. */
 export async function loadRoadData() {
-  const [roads, signs, countryText] = await Promise.all([
+  const [roads, signs, countryText, subregions] = await Promise.all([
     loadData("roads.json"),
     loadData("signs.json"),
     loadData("countries.txt", "text"),
+    // Only the drill's filter needs it.
+    loadData("subregions.json").catch(() => ({})),
   ]);
-  return makeRoadData(roads, signs, countryText);
+  return makeRoadData(roads, signs, countryText, subregions);
 }
 
 /** Where a drawing is, from a page in src/roads/. */

@@ -11,6 +11,7 @@ long single-line strings that formatting would only make bigger.
 | `world.json`       | Flags, Countries and Territories | Country outlines in hundredths of a degree, and each country's main landmass                     |
 | `factbook.json`    | Countries and Territories        | Geography sections of the CIA World Factbook, per country                                        |
 | `quick-facts.json` | Countries and Territories        | Each place's internet domain, phone code and currency                                            |
+| `subregions.json`  | Roads                            | The UN sub-region of each place ("Southern Europe"), for the drill's filter                      |
 | `flag-tags.txt`    | Flags                            | Each flag's colours, layout and symbols                                                          |
 | `languages.json`   | Scripts and Languages            | The official languages of the Street View countries: scripts, letters, words and a sentence each |
 | `roads.json`       | Roads                            | Each Street View country's driving side and centre line colour, with sources (written by hand)   |
@@ -225,6 +226,15 @@ style is not sourced.
 `colour` `white`, `yellow` or `none` (no edge lines) and `style` as above.
 Without it the drawings show plain white edges.
 
+**`chevron`** describes a country's chevron boards in words, for countries
+whose chevrons have no drawing on Commons or are easily mixed up:
+`{ "styles": [{ "bg": "black", "fg": "white", "arrows": 2 }], "note": "…", "source": "…" }`,
+each style a board's colour, its arrows' colour and, where the source says,
+how many arrows. The app draws them from that (colours and arrows, not the
+exact shape), says so, and uses them in the drill where there is no drawing.
+Two countries whose styles share colours (and arrows, where given) are never
+offered as each other's wrong option.
+
 The sources are Wikipedia's articles and, for many countries, the
 country's [Plonk It](https://www.plonkit.net/) guide. Facts are taken from
 them and written afresh; nothing is copied.
@@ -290,6 +300,9 @@ CC0, CC BY, CC BY-SA), with its author for the credit.
   `tools/data/road-sign-picks.json`; see
   [`tools/data/README.md`](../tools/data/README.md).
 - **`roads.json`**: written by hand from the sources it names.
+- **`subregions.json`**: `tools/data/subregions.mjs`, from the CLDR packages
+  (territoryContainment, the UN M49 sub-regions). Rebuild it by hand when a
+  place is added to `countries.txt`; see the script's header.
 - **`quick-facts.json`**: `tools/data/quick-facts.mjs`, run on GitHub by the
   "Quick facts" workflow, from Wikidata and the CLDR packages. Run it by hand
   (**Actions → Quick facts → Run workflow**) to pick up changes; it pushes a
