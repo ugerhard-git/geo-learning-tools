@@ -1,4 +1,5 @@
 // Shared set-up for the browser tests.
+import { expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
 import { PROJECTIONS } from "../../src/shared/projection.js";
 
@@ -121,11 +122,33 @@ export async function screenPoint(page, lon, lat, projection = "ee") {
 }
 
 /**
+ * Wait for the map to stop moving. A question or a pan moves the map with a
+ * short animation, and a spot worked out while it moves is wrong by the time
+ * the click lands. Two equal view boxes in a row mean it has stopped.
+ * @param {import("@playwright/test").Page} page
+ */
+export async function settled(page) {
+  let last = "";
+  await expect
+    .poll(
+      async () => {
+        const now = await page.locator("#map").getAttribute("viewBox");
+        const same = now === last;
+        last = now;
+        return same;
+      },
+      { intervals: [150] },
+    )
+    .toBe(true);
+}
+
+/**
  * The place's position on screen, with the map panned first if the place
  * sits under a floating control (the projection switch, the drill bar).
  */
 export async function visiblePoint(page, lon, lat) {
   for (let tries = 0; tries < 12; tries++) {
+    await settled(page);
     const p = await screenPoint(page, lon, lat);
     const clear = await page.evaluate(
       ({ x, y }) => document.elementFromPoint(x, y)?.closest("#map") != null,

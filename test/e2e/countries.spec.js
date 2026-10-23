@@ -1,6 +1,6 @@
 // Countries and Territories in a real browser: the detail panel and every kind of quiz question.
 import { test, expect } from "@playwright/test";
-import { clickAt, cspViolations, openPage, readData, visiblePoint } from "./helpers.js";
+import { clickAt, cspViolations, openPage, readData, settled, visiblePoint } from "./helpers.js";
 import { PROJECTIONS } from "../../src/shared/projection.js";
 
 const PAGE = "countries/";
@@ -54,11 +54,6 @@ async function highlighted(page) {
 }
 
 /**
- * Wait for the map to stop moving: a question frames its candidates with a
- * short animation, and a click aimed at a country while the map still moves
- * lands on its neighbour. Two equal view boxes in a row mean it has stopped.
- */
-/**
  * Zoom in on a spot, then click it. At the scale of the whole world a small
  * country is a few pixels wide, and the dots that mark its tiny neighbours
  * (Palestine's next to Jordan) can sit over it.
@@ -71,21 +66,6 @@ async function zoomAndClick(page, lon, lat) {
     await settled(page);
   }
   await clickAt(page, lon, lat);
-}
-
-async function settled(page) {
-  let last = "";
-  await expect
-    .poll(
-      async () => {
-        const now = await page.locator("#map").getAttribute("viewBox");
-        const same = now === last;
-        last = now;
-        return same;
-      },
-      { intervals: [150] },
-    )
-    .toBe(true);
 }
 
 async function startQuiz(page, dirn, level) {
