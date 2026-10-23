@@ -142,8 +142,6 @@ function plain(html) {
 /* ------------------------------------------------------------------ run */
 
 const candidates = {};
-/** Each country's article text, to tell whether it shows a picked drawing. */
-const texts = {};
 const report = [];
 for (const code of streetView) {
   const c = byCode.get(code);
@@ -153,7 +151,6 @@ for (const code of streetView) {
     report.push(`${code}  no road sign article`);
     continue;
   }
-  texts[code] = article.text;
   const files = captionedFiles(article.text);
   const found = {};
   for (const sign of Object.keys(SIGNS)) {
@@ -171,14 +168,35 @@ for (const code of streetView) {
 }
 
 /**
- * Whether an article's wikitext shows a file. Wikitext may write a name's
- * spaces as underscores and its first letter in lower case.
+ * The files an article shows, as the rendered page lists them (so with
+ * those its templates add), their names with spaces.
+ * @param {string} title
+ * @returns {Promise<Set<string>>}
  */
-function shows(text, file) {
-  const t = text.replaceAll("_", " ");
-  const f = file.replaceAll("_", " ");
-  return t.includes(f) || t.includes(f[0].toLowerCase() + f.slice(1));
+async function shownFiles(title) {
+  const names = new Set();
+  let more = "";
+  do {
+    const url =
+      "https://en.wikipedia.org/w/api.php?action=query&format=json&formatversion=2&prop=images&imlimit=max" +
+      `&titles=${encodeURIComponent(title)}${more}`;
+    const json = await (await fetchPolitely(url)).json();
+    for (const page of json?.query?.pages ?? []) {
+      for (const image of page.images ?? []) names.add(image.title.replace(/^File:/, ""));
+    }
+    more = json?.continue?.imcontinue
+      ? `&imcontinue=${encodeURIComponent(json.continue.imcontinue)}`
+      : "";
+    await sleep(300);
+  } while (more);
+  return names;
 }
+
+/** Commons names a file with spaces and a capital first letter. */
+const fileTitle = (file) => {
+  const f = file.replaceAll("_", " ");
+  return f[0].toUpperCase() + f.slice(1);
+};
 
 // One drawing per country and sign: the person's pick, else the first
 // candidate. A country with no article can still have picks.
@@ -189,8 +207,11 @@ for (const code of [...Object.keys(candidates), ...withPicks]) {
   for (const sign of Object.keys(SIGNS)) {
     const file = picks[code]?.[sign] ?? entry[sign]?.[0]?.file;
     if (!file || file === "-") continue;
-    const article = entry.article && shows(texts[code] ?? "", file) ? entry.article : "";
-    chosen.push({ code, sign, file, article });
+    // A candidate came from the article; a pick may not be in it.
+    const candidate = entry[sign]?.some((c) => c.file === file);
+    const shown =
+      candidate || (entry.article && (await shownFiles(entry.article)).has(fileTitle(file)));
+    chosen.push({ code, sign, file, article: shown ? entry.article : "" });
   }
 }
 
