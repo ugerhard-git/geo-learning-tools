@@ -148,10 +148,18 @@ function plainWord(code, v) {
  */
 async function wiktionary(page, pos, gloss) {
   for (const title of [`${page}/translations`, page]) {
+    // Wiktionary throttles quick requests; a pause keeps it answering.
+    await new Promise((r) => setTimeout(r, 1500));
     const json = await getJson(
-      "https://en.wiktionary.org/w/api.php?action=parse&format=json&formatversion=2" +
+      "https://en.wiktionary.org/w/api.php?action=parse&format=json&formatversion=2&redirects=1" +
         `&prop=wikitext&page=${encodeURIComponent(title)}`,
-    ).catch(() => null);
+    ).catch((e) => {
+      report.push(`${title}: ${e.message}`);
+      return null;
+    });
+    // A missing page (often the /translations one) is an error in the answer.
+    if (json?.error && json.error.code !== "missingtitle")
+      report.push(`${title}: ${json.error.code}`);
     const wt = json?.parse?.wikitext ?? "";
     // The English entry's section for the part of speech, up to the next one.
     const english = wt.slice(Math.max(0, wt.search(/==\s*English\s*==/)));
