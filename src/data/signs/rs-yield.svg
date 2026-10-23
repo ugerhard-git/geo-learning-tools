@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="2267.7166"
+   height="2010.949"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   version="1.0"
+   sodipodi:docname="Slovenia_road_sign_II-1(1).svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   sodipodi:modified="true"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs4">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath2344">
+      <path
+         d="M 0,0 H 949.61 V 836.23 H 0 Z"
+         transform="translate(0.00245498,-2.4537874e-5)"
+         id="path2344" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.88518519"
+     inkscape:cx="781.75732"
+     inkscape:cy="1889.4351"
+     inkscape:document-units="px"
+     inkscape:current-layer="svg2"
+     showgrid="true"
+     showguides="true"
+     width="2700px"
+     height="1500px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1008"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     fit-margin-top="1.2"
+     fit-margin-left="1.2"
+     fit-margin-right="1.2"
+     fit-margin-bottom="1.2"
+     inkscape:window-maximized="1"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <path
+     style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#343132;stroke-width:9.07086614;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 1133.8584,2006.4315 c -44.0191,0 -86.3879,-24.5762 -107.1466,-62.6784 L 20.4693,188.0516 C 10.6558,170.1162 4.5174,147.3215 4.5174,126.079 4.5174,58.3446 58.6917,3.4315 126.3448,4.5336 h 2015.0267 c 67.6531,-1.1021 121.8278,53.811 121.8278,121.5454 0,21.2425 -6.1388,44.0372 -15.9523,61.9726 L 1241.0042,1943.7531 c -20.7583,38.1022 -63.1268,62.6784 -107.1458,62.6784 z"
+     id="path5908"
+     inkscape:connector-curvature="0"
+     sodipodi:nodetypes="sccsccsccs" />
+  <path
+     id="path5916"
+     style="fill:#eb3d00;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:4.51737"
+     d="M 126.76758 45.818359 C 98.131578 45.735359 70.622094 61.533559 56.183594 86.755859 C 41.798294 111.97816 41.878394 143.74129 56.183594 168.77539 L 1063.5566 1924.4766 C 1077.9434 1949.3226 1104.924 1965.4141 1133.8574 1965.4141 C 1162.7904 1965.4141 1189.771 1949.3226 1204.1582 1924.4766 L 2211.5312 168.77539 C 2225.8364 143.74129 2225.9165 111.97816 2211.5312 86.755859 C 2197.0932 61.533559 2169.5833 45.737859 2140.9473 45.818359 L 126.76758 45.818359 z M 406.03125 285.94141 L 1862.4902 285.94141 L 1133.1797 1546.9941 L 406.03125 285.94141 z " />
+</svg>
