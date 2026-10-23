@@ -2,7 +2,7 @@
  * Quick facts: each place's internet domain, phone code and currency, from
  * src/data/quick-facts.json (built from Wikidata and Unicode CLDR by
  * tools/data/quick-facts.mjs),
- * and the "Clues" quiz that asks for the place a fact belongs to. Nothing
+ * and the "Clues" quiz that asks for the place a domain or currency belongs to. Nothing
  * here touches the page, so it is unit-tested (test/unit/quick-facts.test.js).
  *
  * @module countries/quick-facts
@@ -17,17 +17,15 @@ import { table } from "../shared/dom.js";
  *   e.g. { code: "PLN", name: "Polish zloty", symbol: "zł" }
  */
 
-/** The kinds of clue, in the order the quiz offers them. */
+/**
+ * The kinds of clue, in the order the quiz offers them. Phone codes are
+ * shown in a place's details but not asked: they are rarely seen in the wild.
+ */
 export const CLUES = table({
   tld: {
     label: "Internet domain",
     prompt: (v) => `Find the place whose internet domain is ${v}`,
     answer: (v) => `its internet domain is ${v}`,
-  },
-  phone: {
-    label: "Phone code",
-    prompt: (v) => `Find the place whose phone code is ${v}`,
-    answer: (v) => `its phone code is ${v}`,
   },
   currency: {
     label: "Currency",
@@ -36,8 +34,12 @@ export const CLUES = table({
   },
 });
 
-/** The letter that starts each clue's progress keys ("c:" is the map quiz's). */
-const PREFIX = table({ tld: "d", phone: "p", currency: "m" });
+/**
+ * The letter that starts each clue's progress keys ("c:" is the map quiz's).
+ * "p:" was the phone code's, a clue no longer asked; it stays taken, so old
+ * records are never read as another clue's.
+ */
+const PREFIX = table({ tld: "d", currency: "m" });
 
 /**
  * The quick facts by place code, keeping only well-formed values.
@@ -82,7 +84,6 @@ export function currencyWord(name) {
 /** How a clue of each kind shows a fact. */
 const shown = {
   tld: (v) => v,
-  phone: (v) => v,
   currency: (c) => currencyWord(c.name),
 };
 

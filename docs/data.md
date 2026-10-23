@@ -186,8 +186,9 @@ has one.
   symbol, from Unicode CLDR (currencies with no end date that are legal
   tender).
 
-The Clues quiz only asks a value one place has: "+1", the euro and the
-dollar are never asked. It names a currency without its country ("the
+Phone codes are shown in a place's details but not asked in the Clues quiz.
+The quiz only asks a value one place has: the euro and the dollar are never
+asked. It names a currency without its country ("the
 zloty").
 
 ### `roads.json`

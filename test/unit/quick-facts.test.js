@@ -63,17 +63,18 @@ test("a clue is asked only where one place has it", () => {
     assert.ok(!seen.has(k), `${k} asked twice`);
     seen.add(k);
   }
-  // Shared values are never asked.
-  assert.ok(!items.some((it) => it.kind === "phone" && it.value === "+1"));
+  // Shared values are never asked, and phone codes not at all.
   assert.ok(!items.some((it) => it.kind === "currency" && it.value === "euro"));
-  assert.ok(items.some((it) => it.code === "PL" && it.kind === "phone" && it.value === "+48"));
-  assert.ok(items.length > 300);
+  assert.ok(!items.some((it) => it.kind === "phone"));
+  assert.deepEqual(Object.keys(CLUES), ["tld", "currency"]);
+  assert.ok(items.some((it) => it.code === "PL" && it.kind === "tld" && it.value === ".pl"));
+  assert.ok(items.length > 200);
 });
 
 test("clue keys differ from the map quiz's and from each other", () => {
   const keys = Object.keys(CLUES).map((kind) => clueKey({ code: "PL", kind }));
   assert.equal(new Set([...keys, "c:PL"]).size, keys.length + 1);
-  assert.ok(CLUES.phone.prompt("+48").includes("+48"));
+  assert.ok(CLUES.tld.prompt(".pl").includes(".pl"));
 });
 
 test("quickRows lists a place's facts for its details", () => {
