@@ -64,7 +64,8 @@ jobs:
         run: npm run build
 
       - name: Install browser for tests
-        run: npx playwright install --with-deps chromium
+        # WebKit, Safari's engine, for the layout tests (see playwright.config.js).
+        run: npx playwright install --with-deps chromium webkit
 
       - name: Browser tests
         run: npm test

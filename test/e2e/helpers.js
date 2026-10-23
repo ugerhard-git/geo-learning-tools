@@ -20,8 +20,9 @@ export const readData = (name) => readFileSync(new URL(name, DATA), "utf8");
  * @param {string} path
  * @param {object} [options]
  * @param {Record<string, string>} [options.storage] localStorage to start with
- * @param {(url: URL) => unknown} [options.answers] a JSON answer for an outside
- *   request, or undefined to block it as usual
+ * @param {(url: URL) => unknown} [options.answers] an answer for an outside
+ *   request: a Buffer is sent as a PNG image, anything else as JSON, and
+ *   undefined blocks the request as usual
  * @returns {Promise<string[]>} problems seen so far; keeps filling as the test runs
  */
 export async function openPage(page, path, { storage, answers } = {}) {
@@ -31,6 +32,7 @@ export async function openPage(page, path, { storage, answers } = {}) {
     (route) => {
       const body = answers?.(new URL(route.request().url()));
       if (body === undefined) return route.abort("blockedbyclient");
+      if (Buffer.isBuffer(body)) return route.fulfill({ contentType: "image/png", body });
       return route.fulfill({
         contentType: "application/json",
         headers: { "Access-Control-Allow-Origin": "*" },

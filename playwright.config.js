@@ -12,13 +12,27 @@ export default defineConfig({
   reporter: process.env.CI ? [["github"], ["html", { open: "never" }]] : "list",
   use: {
     baseURL: `http://127.0.0.1:${PORT}/`,
-    // Lets a machine with a preinstalled Chromium use it instead of
-    // downloading one (CI installs its own with `playwright install`).
-    launchOptions: process.env.PW_CHROMIUM_PATH
-      ? { executablePath: process.env.PW_CHROMIUM_PATH }
-      : {},
   },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  projects: [
+    {
+      name: "chromium",
+      use: {
+        ...devices["Desktop Chrome"],
+        // Lets a machine with a preinstalled Chromium use it instead of
+        // downloading one (CI installs its own with `playwright install`).
+        launchOptions: process.env.PW_CHROMIUM_PATH
+          ? { executablePath: process.env.PW_CHROMIUM_PATH }
+          : {},
+      },
+    },
+    // Safari lays some things out differently from Chrome (flags of unusual
+    // shapes once stretched the grid on iPads), so the layout tests also run
+    // in WebKit, Safari's engine. CI always runs them; locally they run with
+    // PW_WEBKIT=1, after `npx playwright install webkit`.
+    ...(process.env.CI || process.env.PW_WEBKIT
+      ? [{ name: "webkit", testMatch: /flag-shapes/, use: { ...devices["Desktop Safari"] } }]
+      : []),
+  ],
   webServer: {
     command: `node tools/serve.mjs --port ${PORT}`,
     url: `http://127.0.0.1:${PORT}/`,
