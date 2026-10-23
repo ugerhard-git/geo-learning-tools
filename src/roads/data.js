@@ -12,14 +12,15 @@ import { byCode, parseCountries } from "../shared/countries.js";
 import { table } from "../shared/dom.js";
 
 /** The sign drawings, in the order the app shows them. */
-export const SIGN_CLUES = ["stop", "pedestrian", "chevron", "warning"];
+export const SIGN_CLUES = ["stop", "crossing", "pedestrian", "chevron", "warning"];
 
 /** Every clue, in the order the app shows them. */
 export const CLUES = table({
   side: { label: "Driving side", short: "side" },
   lines: { label: "Centre lines", short: "lines" },
   stop: { label: "Stop signs", short: "stop" },
-  pedestrian: { label: "Pedestrian crossings", short: "crossing" },
+  crossing: { label: "Crossing here", short: "crossing" },
+  pedestrian: { label: "Crossing ahead", short: "crossing warning" },
   chevron: { label: "Chevrons", short: "chevron" },
   warning: { label: "Warning signs", short: "warning" },
 });
@@ -60,7 +61,7 @@ const SIGN_FILE = /^[a-z]{2}-[a-z]+\.svg$/;
  * @property {"left" | "right"} drive
  * @property {string} driveSource a key of the sources
  * @property {Centre} [centre]
- * @property {Partial<Record<string, Sign>>} signs by clue: stop, pedestrian, chevron, warning
+ * @property {Partial<Record<string, Sign>>} signs by clue: stop, crossing, pedestrian, chevron, warning
  */
 
 /**

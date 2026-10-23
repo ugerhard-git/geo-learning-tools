@@ -37,6 +37,7 @@ const PREFIX = table({
   side: "d",
   lines: "l",
   stop: "s",
+  crossing: "z",
   pedestrian: "p",
   chevron: "c",
   warning: "w",

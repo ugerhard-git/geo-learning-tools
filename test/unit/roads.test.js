@@ -42,6 +42,12 @@ const data = makeRoadData(roads, signs, countryText);
 
 test("captionedFiles finds drawings in galleries and in tables", () => {
   const text = [
+    "== Warning signs ==",
+    "<gallery>",
+    "File:Zeichen 101.svg|Pedestrian crossing",
+    "</gallery>",
+    "== Regulatory signs ==",
+    "=== Priority ===",
     "<gallery>",
     "File:Zeichen 206.svg|Stop and give way",
     "File:Zeichen 350-10.svg|[[Pedestrian crossing]]",
@@ -50,9 +56,13 @@ test("captionedFiles finds drawings in galleries and in tables", () => {
     "[[File:Chevron alignment.svg|thumb|Curve alignment marker]]",
   ].join("\n");
   const files = captionedFiles(text);
-  const find = (sign) => files.filter((f) => signScore(sign, f.caption)).map((f) => f.file);
+  const find = (sign) =>
+    files.filter((f) => signScore(sign, f.caption, f.file, f.section)).map((f) => f.file);
+  assert.equal(files[1].section, "Regulatory signs / Priority");
   assert.deepEqual(find("stop"), ["Zeichen_206.svg", "Japan_road_sign_330-A.svg"]);
-  assert.deepEqual(find("pedestrian"), ["Zeichen_350-10.svg"]);
+  // The same caption: the warning section's drawing is the warning sign.
+  assert.deepEqual(find("pedestrian"), ["Zeichen_101.svg"]);
+  assert.deepEqual(find("crossing"), ["Zeichen_350-10.svg"]);
   assert.deepEqual(find("chevron"), ["Chevron_alignment.svg"]);
 });
 

@@ -9,6 +9,9 @@
  * first. Captions often start with the sign's number ("R1-1Stop",
  * "3.01 Stop"), which {@link captionText} takes off first.
  */
+/** Headings of the warning sections. */
+const WARNING = /warning|danger|caution/i;
+
 export const SIGNS = {
   chevron: {
     match:
@@ -17,11 +20,23 @@ export const SIGNS = {
     exact:
       /^(chevrons?( alignment)?( marker| sign| board)?|curve alignment( marker)?|direction of (the )?(curve|bend)|sharp deviation( of route)?)( (to the )?(left|right))?$/i,
   },
+  // The pedestrian crossing has two signs in much of the world: a warning
+  // that one is coming (a red-bordered triangle, a yellow diamond), and a
+  // sign at the crossing itself (in Europe usually blue). Captions often name
+  // both the same, so the heading a drawing sits under decides.
   pedestrian: {
     match: /pedestrian crossing|zebra crossing|crosswalk/i,
     avoid:
       /\bend\b|\bno\b|prohibit|forbidden|under(pass|ground)|over(pass|bridge)|bridge|subway|signal|light|school|children|yield|use |state law|direction/i,
     exact: /^(pedestrian|zebra) crossing( ahead)?$/i,
+    where: (section, text) => WARNING.test(section) || /ahead/i.test(text),
+  },
+  crossing: {
+    match: /pedestrian crossing|zebra crossing|crosswalk/i,
+    avoid:
+      /ahead|\bend\b|\bno\b|prohibit|forbidden|under(pass|ground)|over(pass|bridge)|bridge|subway|signal|light|school|children|yield|use |state law|direction/i,
+    exact: /^(pedestrian|zebra) crossing$/i,
+    where: (section) => Boolean(section) && !WARNING.test(section),
   },
   // The general warning sign (usually an exclamation mark), which shows the
   // country's warning sign style: a red-bordered triangle, a yellow diamond…
@@ -50,11 +65,13 @@ export const captionText = (caption) =>
  * @param {keyof typeof SIGNS} sign
  * @param {string} caption
  * @param {string} [file]
+ * @param {string} [section] the headings it sits under
  */
-export function signScore(sign, caption, file = "") {
-  const { match, avoid, exact } = SIGNS[sign];
+export function signScore(sign, caption, file = "", section = "") {
+  const { match, avoid, exact, where } = SIGNS[sign];
   const text = captionText(caption);
   if (!match.test(text) || avoid.test(text)) return 0;
+  if (where && !where(section, text)) return 0;
   const old = /(^|[^0-9])(1[89]\d\d|200\d)([^0-9]|$)|(^|[^a-z])old([^a-z]|$)|former/i.test(file)
     ? 0.5
     : 0;
@@ -62,8 +79,10 @@ export function signScore(sign, caption, file = "") {
 }
 
 /**
- * Every drawing in an article with its caption: gallery lines
- * ("File:x.svg|Caption") and inline images ("[[File:x.svg|…|Caption]]").
+ * Every drawing in an article with its caption and the headings it sits
+ * under ("Warning signs / Other"): gallery lines ("File:x.svg|Caption") and
+ * inline images ("[[File:x.svg|…|Caption]]").
+ * @returns {{ file: string, caption: string, section: string }[]}
  */
 export function captionedFiles(wikitext) {
   const out = [];
@@ -73,15 +92,29 @@ export function captionedFiles(wikitext) {
       .replace(/'''?|<[^>]+>|\{\{[^}]*\}\}/g, "")
       .replace(/\s+/g, " ")
       .trim();
-  for (const m of wikitext.matchAll(/^\s*(?:File|Image):([^|\n]+?\.svg)\s*\|(.*)$/gim)) {
-    out.push({ file: m[1].trim().replaceAll(" ", "_"), caption: clean(m[2]) });
-  }
   // Inline images, as in tables: "| [[File:x.svg|80px]] || Stop". The caption
   // is the image's last parameter, unless that is only a size or position,
   // in which case it is the text that follows on the same line.
   const layout =
     /^(\d+(x\d+)?px|upright.*|thumb|frameless|center|left|right|none|alt=.*|link=.*)$/i;
+  const headings = [];
   for (const line of wikitext.split("\n")) {
+    const h = /^(={2,6})\s*(.*?)\s*\1\s*$/.exec(line);
+    if (h) {
+      headings.length = h[1].length - 2;
+      headings.push(clean(h[2]));
+      continue;
+    }
+    const section = headings.filter(Boolean).join(" / ");
+    const gallery = /^\s*(?:File|Image):([^|\n]+?\.svg)\s*\|(.*)$/i.exec(line);
+    if (gallery) {
+      out.push({
+        file: gallery[1].trim().replaceAll(" ", "_"),
+        caption: clean(gallery[2]),
+        section,
+      });
+      continue;
+    }
     for (const m of line.matchAll(/\[\[(?:File|Image):([^|\]]+?\.svg)((?:\|[^\]]*)?)\]\]/gi)) {
       const last = m[2].split("|").filter(Boolean).at(-1)?.trim() ?? "";
       const after = line
@@ -91,7 +124,7 @@ export function captionedFiles(wikitext) {
         .map((s) => s.replace(/^[\s|!]+|\s+$/g, ""))
         .find(Boolean);
       const caption = last && !layout.test(last) ? last : (after ?? "");
-      out.push({ file: m[1].trim().replaceAll(" ", "_"), caption: clean(caption) });
+      out.push({ file: m[1].trim().replaceAll(" ", "_"), caption: clean(caption), section });
     }
   }
   return out.filter((f) => f.caption && f.caption.length <= 200);

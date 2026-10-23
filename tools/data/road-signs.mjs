@@ -1,6 +1,7 @@
 // Finds and fetches the sign drawings of the Roads app: each Street View
-// country's chevron, pedestrian crossing, stop sign and general warning
-// sign, as drawn on Wikimedia Commons, with each file's licence and author.
+// country's stop sign, pedestrian crossing signs (the warning and the
+// sign at the crossing), chevron and general warning sign, as drawn on
+// Wikimedia Commons, with each file's licence and author.
 //
 // For every country in tools/data/street-view-countries.txt:
 //
@@ -148,7 +149,7 @@ for (const code of streetView) {
   for (const sign of Object.keys(SIGNS)) {
     // The best named first; a drawing listed twice counts once.
     const matching = files
-      .map((f) => ({ ...f, score: signScore(sign, f.caption, f.file) }))
+      .map((f) => ({ ...f, score: signScore(sign, f.caption, f.file, f.section) }))
       .filter((f) => f.score)
       .sort((a, b) => b.score - a.score)
       .filter((f, i, all) => all.findIndex((g) => g.file === f.file) === i);

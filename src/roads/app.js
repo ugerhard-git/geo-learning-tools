@@ -62,16 +62,6 @@ const SETTINGS = {
   len: "roads.len",
 };
 
-const pageStatus = $("#pageStatus");
-
-try {
-  await main();
-  pageStatus.remove();
-} catch (e) {
-  pageStatus.textContent = "The roads could not be loaded. Check your connection and reload.";
-  throw e;
-}
-
 /* ============================================================ drawing */
 
 /**
@@ -290,11 +280,12 @@ async function main() {
       }).join("")}</div>
       ${
         SIGN_CLUES.some((k) => c.signs[k])
-          ? `<p class="src">Drawings from Wikimedia Commons, found in the Wikipedia article ${esc(
-              [...new Set(SIGN_CLUES.map((k) => c.signs[k]?.source).filter(Boolean))].join(", "),
-            )}:</p>
+          ? `<p class="src">Each drawing is a copy of a file on Wikimedia Commons, as shown in Wikipedia's article on the country's road signs, where you can check it:</p>
              <ul class="credits">${SIGN_CLUES.filter((k) => c.signs[k])
-               .map((k) => `<li>${esc(CLUES[k].label)}: ${credit(c.signs[k])}</li>`)
+               .map(
+                 (k) =>
+                   `<li>${esc(CLUES[k].label)}: ${credit(c.signs[k])}. Shown in <a href="${esc(articleUrl(c.signs[k].source))}" target="_blank" rel="noopener noreferrer">${esc(c.signs[k].source)}</a> (Wikipedia).</li>`,
+               )
                .join("")}</ul>`
           : ""
       }`);
@@ -536,4 +527,14 @@ async function main() {
   });
 
   renderCards();
+}
+
+// Last, so everything above is defined before main runs.
+const pageStatus = $("#pageStatus");
+try {
+  await main();
+  pageStatus.remove();
+} catch (e) {
+  pageStatus.textContent = "The roads could not be loaded. Check your connection and reload.";
+  throw e;
 }
