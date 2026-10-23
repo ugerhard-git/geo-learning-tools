@@ -10,6 +10,7 @@ long single-line strings that formatting would only make bigger.
 | `countries.txt`    | every app                        | The 253 countries and territories, their names and aliases                                       |
 | `world.json`       | Flags, Countries and Territories | Country outlines in hundredths of a degree, and each country's main landmass                     |
 | `factbook.json`    | Countries and Territories        | Geography sections of the CIA World Factbook, per country                                        |
+| `quick-facts.json` | Countries and Territories        | Each place's internet domain, phone code and currency                                            |
 | `flag-tags.txt`    | Flags                            | Each flag's colours, layout and symbols                                                          |
 | `languages.json`   | Scripts and Languages            | The official languages of the Street View countries: scripts, letters, words and a sentence each |
 | `roads.json`       | Roads                            | Each Street View country's driving side and centre line colour, with sources (written by hand)   |
@@ -168,6 +169,27 @@ has one.
 - **`telltales`** are letters of the Latin and Cyrillic alphabets that four
   languages or fewer use, at most six per language, the rarest first.
 
+### `quick-facts.json`
+
+```json
+{ "source": "…",
+  "facts": { "PL": { "tld": [".pl"], "phone": ["+48"],
+                     "currency": [{ "code": "PLN", "name": "Polish zloty", "symbol": "zł" }] }, … } }
+```
+
+- **`tld`** is the place's own country-code domain, as IANA assigns them
+  (its ISO code; ".uk" for the United Kingdom), from Wikidata (P78). Other
+  domains Wikidata lists for a place (".eu", ".su", France's overseas ones)
+  are left out, since they belong to somewhere else.
+- **`phone`** is its country calling code, from Wikidata (P474).
+- **`currency`** is what it pays in now, with the English name and narrow
+  symbol, from Unicode CLDR (currencies with no end date that are legal
+  tender).
+
+The Clues quiz only asks a value one place has: "+1", the euro and the
+dollar are never asked. It names a currency without its country ("the
+zloty").
+
 ### `roads.json`
 
 ```json
@@ -233,6 +255,8 @@ CC0, CC BY, CC BY-SA), with its author for the credit.
 | Sample sentences                                                            | [UDHR in Unicode](https://www.unicode.org/udhr/), via the [udhr](https://github.com/wooorm/udhr) package    | Translations by the UN OHCHR; package MIT                       |
 | Driving side, road line colours and styles                                  | Wikipedia, World Standards and the Plonk It guides, per country in `roads.json`                             | Facts; the sources are linked in the app                        |
 | Road sign drawings                                                          | [Wikimedia Commons](https://commons.wikimedia.org/), as shown in Wikipedia's "Road signs in …" articles     | Each file's own: public domain, CC0, CC BY or CC BY-SA          |
+| Internet domains and phone codes                                            | [Wikidata](https://www.wikidata.org/) P78 and P474                                                          | CC0                                                             |
+| Currencies, their names and symbols                                         | [Unicode CLDR](https://cldr.unicode.org/) 48.2                                                              | Unicode License v3                                              |
 | Country table, flag tags, look-alike groups                                 | Written for this project                                                                                    | MIT                                                             |
 
 ### How each file was made
@@ -265,6 +289,10 @@ CC0, CC BY, CC BY-SA), with its author for the credit.
   `tools/data/road-sign-picks.json`; see
   [`tools/data/README.md`](../tools/data/README.md).
 - **`roads.json`**: written by hand from the sources it names.
+- **`quick-facts.json`**: `tools/data/quick-facts.mjs`, run on GitHub by the
+  "Quick facts" workflow, from Wikidata and the CLDR packages. Run it by hand
+  (**Actions → Quick facts → Run workflow**) to pick up changes; it pushes a
+  `quick-facts-<date>` branch.
 - **`world.json`** and **`factbook.json`**: made with earlier scripts that
   were not kept, so they cannot be rebuilt as they stand. `world.json` is
   Natural Earth country outlines in longitude/latitude, rounded to 0.01° (the

@@ -17,3 +17,6 @@ tools/data/sign-words.json
 tools/data/road-sign-candidates.json
 src/data/signs.json
 src/data/signs/
+
+# Written by tools/data/quick-facts.mjs (the Quick facts workflow).
+src/data/quick-facts.json

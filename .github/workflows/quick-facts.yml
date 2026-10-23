@@ -1,0 +1,126 @@
+# Builds the quick facts of the Countries and Territories app (each place's
+# internet domain and phone code from Wikidata, currency from CLDR), and commits
+# src/data/quick-facts.json. See tools/data/quick-facts.mjs.
+#
+# It runs:
+#   - on a pull request that changes the script or this workflow; the
+#     result is committed to that pull request;
+#   - by hand (Actions → Quick facts → Run workflow), for example after a
+#     country changes its currency; the result goes to a new branch,
+#     quick-facts-<date>.
+#
+# Two jobs, as in the other data workflows: "build" runs the script and can
+# only read; "commit" can write, but installs and runs nothing except the
+# checker, which uses Node's built-in modules. No npm package is installed.
+
+name: Quick facts
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - tools/data/quick-facts.mjs
+      - tools/data/check-quick-facts.mjs
+      - .github/workflows/quick-facts.yml
+
+permissions: {}
+
+concurrency:
+  group: quick-facts-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build the quick facts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+
+      # The CLDR version the currencies come from; the languages workflow
+      # uses the same one. Unpacked as data, without running any of it.
+      - name: Unpack CLDR
+        run: |
+          mkdir -p "$RUNNER_TEMP/cldr"
+          cd "$RUNNER_TEMP/cldr"
+          for p in cldr-core cldr-numbers-full; do
+            npm pack "$p@48.2.0" --silent
+            mkdir "$p" && tar xzf "$p-48.2.0.tgz" -C "$p" --strip-components 1
+          done
+
+      - name: Build
+        shell: bash
+        run: node tools/data/quick-facts.mjs "$RUNNER_TEMP/cldr" | tee quick-facts-report.txt
+
+      - name: Report
+        run: |
+          {
+            echo '## Quick facts'
+            echo '```'
+            cat quick-facts-report.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: quick-facts
+          path: src/data/quick-facts.json
+          retention-days: 14
+
+  commit:
+    name: Commit the result
+    needs: build
+    # Never for pull requests from forks, and not for Dependabot's: those get
+    # a read-only token, so the push would only fail.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.head.repo.full_name == github.repository &&
+       github.actor != 'dependabot[bot]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: quick-facts
+          path: built
+
+      # Node only, no npm install: nothing third-party runs in this job.
+      - name: Check the built file
+        run: node tools/data/check-quick-facts.mjs built/quick-facts.json
+
+      - name: Commit if anything changed
+        env:
+          EVENT: ${{ github.event_name }}
+        run: |
+          cp built/quick-facts.json src/data/quick-facts.json
+          git add src/data/quick-facts.json
+          if git diff --cached --quiet; then
+            echo "No change in the quick facts."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ "$EVENT" = "workflow_dispatch" ]; then
+            git switch -c "quick-facts-$(date -u +%Y-%m-%d)"
+          fi
+          git commit -m "Quick facts: rebuilt from Wikidata"
+          git push origin HEAD
+          echo "Committed to $(git branch --show-current)." >> "$GITHUB_STEP_SUMMARY"

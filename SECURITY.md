@@ -44,6 +44,10 @@ its commit job installs nothing, checks every drawing again with a
 built-ins-only script (`tools/data/check-road-signs.mjs`) and commits them.
 The app shows the drawings with `<img>`, which never runs script in them.
 
+The "Quick facts" workflow works the same way: its build job queries Wikidata
+and unpacks CLDR as data, read-only; its commit job installs nothing and
+checks the file with `tools/data/check-quick-facts.mjs` before committing it.
+
 The "Flag colours" workflow measures flag colours with the dev tooling in a
 read-only job. A second job, which installs nothing, checks the result with a
 built-ins-only script and commits it, to a pull request's own branch (never
