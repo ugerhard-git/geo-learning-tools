@@ -65,7 +65,7 @@ export function checkLanguages(data, codes) {
  */
 export function checkSignWords(data) {
   const problems = [];
-  for (const word of ["street", "city"]) {
+  for (const word of ["street", "road", "city"]) {
     const labels = data?.[word];
     if (!labels || typeof labels !== "object") {
       problems.push(`no ${word}`);

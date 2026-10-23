@@ -189,6 +189,22 @@ const WIKIDATA_CODES = {
   nb: ["nb", "no"],
 };
 
+/**
+ * Where Wikidata's label is not the word on signs. Each is the word street
+ * names and town signs use, as Wikipedia's articles on those countries'
+ * street names show.
+ */
+const SIGN_WORD_FIXES = {
+  // The label is "Innerortsstraße", the legal term; signs say "…straße".
+  de: { street: "Straße" },
+  // The label is "strada urbana"; Italian street names start "Via".
+  it: { street: "via" },
+  // The label is "nama jalan" (street name); signs say "Jalan" (Jl.).
+  id: { street: "jalan" },
+  // The label is "lielpilsēta", a large city; the word is "pilsēta".
+  lv: { city: "pilsēta" },
+};
+
 /** A letter used by more than this many of the languages gives nothing away. */
 const TELLTALE_MAX = 4;
 /** Each language keeps at most this many telltale letters. */
@@ -350,8 +366,8 @@ for (const [id, countries] of [...merged].sort()) {
     script,
     countries: countries.sort(),
     letters: [...new Set(letters)].join(""),
-    street: signWord(id, "street"),
-    city: signWord(id, "city"),
+    street: SIGN_WORD_FIXES[id]?.street ?? (signWord(id, "street") || signWord(id, "road")),
+    city: SIGN_WORD_FIXES[id]?.city ?? signWord(id, "city"),
     words: [...new Set(words)],
     sentence,
   });

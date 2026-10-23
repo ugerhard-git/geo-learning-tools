@@ -121,6 +121,9 @@ test("the checker accepts the language data and refuses what does not fit", asyn
   broken.languages[2].id = "<b>";
   const problems = checkLanguages(broken, codes);
   assert.equal(problems.length, 3, problems.join("; "));
-  assert.deepEqual(checkSignWords({ street: { pl: "ulica" }, city: { pl: "miasto" } }), []);
-  assert.equal(checkSignWords({ street: { pl: "x".repeat(50) } }).length, 2);
+  assert.deepEqual(
+    checkSignWords({ street: { pl: "ulica" }, road: { pl: "droga" }, city: { pl: "miasto" } }),
+    [],
+  );
+  assert.equal(checkSignWords({ street: { pl: "x".repeat(50) } }).length, 3);
 });

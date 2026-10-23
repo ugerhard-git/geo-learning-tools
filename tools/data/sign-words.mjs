@@ -1,7 +1,8 @@
 // Builds tools/data/sign-words.json: the words for "street" and "city" in
 // every language Wikidata has them in, words that show up on street signs
-// and town signs. They are the labels of two Wikidata items (CC0): Q79007
-// "street" and Q515 "city".
+// and town signs. They are the labels of three Wikidata items (CC0): Q79007
+// "street", Q34442 "road" (for languages with no label for "street") and
+// Q515 "city".
 //
 // tools/data/languages.mjs picks out the app's languages and merges the
 // words into src/data/languages.json, so run this first, then that. The
@@ -12,7 +13,7 @@
 
 import { writeFile } from "node:fs/promises";
 
-const ITEMS = { street: "Q79007", city: "Q515" };
+const ITEMS = { street: "Q79007", road: "Q34442", city: "Q515" };
 
 const HEADERS = {
   "User-Agent":
@@ -26,7 +27,7 @@ const res = await fetch(url, { headers: HEADERS });
 if (!res.ok) throw new Error(`Wikidata answered ${res.status}`);
 const entities = (await res.json()).entities;
 
-const out = { source: "Wikidata labels of Q79007 (street) and Q515 (city), CC0" };
+const out = { source: "Wikidata labels of Q79007 (street), Q34442 (road) and Q515 (city), CC0" };
 for (const [word, qid] of Object.entries(ITEMS)) {
   out[word] = {};
   for (const [code, label] of Object.entries(entities?.[qid]?.labels ?? {})) {
