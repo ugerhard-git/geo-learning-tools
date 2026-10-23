@@ -268,4 +268,17 @@ body {
   .specimen {
     bottom: 300px;
   }
+
+  /* On a phone the script chips scroll sideways rather than fill the screen. */
+  .filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-right: -20px;
+    padding-right: 20px;
+    scrollbar-width: none;
+  }
+
+  .chip {
+    flex: none;
+  }
 }
