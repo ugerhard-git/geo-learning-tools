@@ -12,3 +12,8 @@ src/data/
 
 # Written by tools/data/sign-words.mjs (the Language data workflow).
 tools/data/sign-words.json
+
+# Written by tools/data/road-signs.mjs (the Road signs workflow).
+tools/data/road-sign-candidates.json
+src/data/signs.json
+src/data/signs/

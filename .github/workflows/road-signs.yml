@@ -1,0 +1,129 @@
+# Finds and fetches the sign drawings of the Roads app (chevrons, pedestrian
+# crossings, stop signs) from Wikipedia and Wikimedia Commons, and commits
+# them with their licences: src/data/signs/, src/data/signs.json, and the
+# candidates for review, tools/data/road-sign-candidates.json. See
+# tools/data/road-signs.mjs.
+#
+# It runs:
+#   - on a pull request that changes the Street View countries, the choice
+#     of drawings (tools/data/road-sign-picks.json) or the scripts; the
+#     result is committed to that pull request;
+#   - by hand (Actions → Road signs → Run workflow); the result goes to a new
+#     branch, road-signs-<date>.
+#
+# Two jobs, as in the other data workflows: "fetch" runs the script and can
+# only read; "commit" can write, but installs and runs nothing except the
+# checker, which uses Node's built-in modules. No npm package is installed.
+
+name: Road signs
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - tools/data/street-view-countries.txt
+      - tools/data/street-view.mjs
+      - tools/data/road-sign-picks.json
+      - tools/data/road-signs.mjs
+      - tools/data/road-sign-wikitext.mjs
+      - tools/data/check-road-signs.mjs
+      - .github/workflows/road-signs.yml
+
+permissions: {}
+
+concurrency:
+  group: road-signs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fetch:
+    name: Fetch the sign drawings
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+
+      - name: Fetch
+        shell: bash
+        run: node tools/data/road-signs.mjs | tee road-signs-report.txt
+
+      - name: Report
+        run: |
+          {
+            echo '## Road signs'
+            echo '```'
+            cat road-signs-report.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: road-signs
+          path: |
+            src/data/signs.json
+            src/data/signs/
+            tools/data/road-sign-candidates.json
+          retention-days: 14
+
+  commit:
+    name: Commit the result
+    needs: fetch
+    # Never for pull requests from forks, and not for Dependabot's: those get
+    # a read-only token, so the push would only fail.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.head.repo.full_name == github.repository &&
+       github.actor != 'dependabot[bot]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: road-signs
+          path: fetched
+
+      # Node only, no npm install: nothing third-party runs in this job.
+      - name: Check the fetched drawings
+        run: |
+          mkdir -p fetched/src/data/signs
+          node tools/data/check-road-signs.mjs fetched/src/data
+
+      - name: Commit if anything changed
+        env:
+          EVENT: ${{ github.event_name }}
+        run: |
+          rm -rf src/data/signs
+          cp -r fetched/src/data/signs src/data/signs
+          cp fetched/src/data/signs.json src/data/signs.json
+          cp fetched/tools/data/road-sign-candidates.json tools/data/road-sign-candidates.json
+          git add -A src/data/signs src/data/signs.json tools/data/road-sign-candidates.json
+          if git diff --cached --quiet; then
+            echo "No change in the sign drawings."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ "$EVENT" = "workflow_dispatch" ]; then
+            git switch -c "road-signs-$(date -u +%Y-%m-%d)"
+          fi
+          git commit -m "Road signs: fetched from Wikipedia and Commons"
+          git push origin HEAD
+          echo "Committed to $(git branch --show-current)." >> "$GITHUB_STEP_SUMMARY"

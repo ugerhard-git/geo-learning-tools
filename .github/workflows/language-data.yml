@@ -25,6 +25,7 @@ on:
   pull_request:
     paths:
       - tools/data/street-view-countries.txt
+      - tools/data/street-view.mjs
       - tools/data/languages.mjs
       - tools/data/sign-words.mjs
       - tools/data/unicode-set.mjs
