@@ -28,6 +28,12 @@ also refuses symbolic links, file types the site does not publish, and SVGs
 that could run script. The site that is published is built in a CI job that
 installs no npm packages, so the dev tooling never touches it.
 
+The "Language data" workflow works the same way, for the Scripts and
+Languages data: its build job unpacks CLDR and the UDHR translations as data
+(no npm package is installed) and fetches words from Wikidata, read-only;
+its commit job installs nothing and checks the result with a built-ins-only
+script before committing it.
+
 The "Flag colours" workflow measures flag colours with the dev tooling in a
 read-only job. A second job, which installs nothing, checks the result with a
 built-ins-only script and commits it, to a pull request's own branch (never

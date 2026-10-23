@@ -9,13 +9,47 @@ See [`docs/data.md`](../../docs/data.md) for the formats they write.
 | `build_cities.py`  | `src/data/land.json`, `src/data/cities.json` |
 | `build_terrain.py` | `src/data/terrain.json`                      |
 | `flag-colours.mjs` | `src/data/flag-colours.txt`                  |
+| `sign-words.mjs`   | `tools/data/sign-words.json`                 |
+| `languages.mjs`    | `src/data/languages.json`                    |
 
 `flag-colours.mjs` measures each flag's main colours from its drawing on
 Wikimedia Commons. It runs on GitHub through the "Flag colours" workflow
 (`.github/workflows/flag-colours.yml`), and `check-flag-colours.mjs`
 checks its result before the workflow commits it. See
-[`docs/data.md`](../../docs/data.md#flag-colourstxt) for the format. The rest of
-this page is about the two Python scripts.
+[`docs/data.md`](../../docs/data.md#flag-colourstxt) for the format.
+
+## The languages and the Street View countries
+
+`languages.mjs` builds the data of the Scripts and Languages app from Unicode
+CLDR, the Universal Declaration of Human Rights, and the words for "street"
+and "city" that `sign-words.mjs` fetches from Wikidata. It needs no packages
+installed: its header shows how to unpack the four CLDR packages and the
+udhr package into a folder, and it reads them from there. It prints every
+language with its script, countries, words and sentence; read the report
+before committing the result.
+
+It covers the official languages of the countries in
+`street-view-countries.txt`. Google adds Street View countries now and then.
+When it does:
+
+1. Add the country's code to `street-view-countries.txt`. The list follows
+   the owner's [Map Generation Tool](https://github.com/ugerhard-git/map-generation-tool)
+   (`COVERAGE` in its `src/app.js`), so add it there too.
+2. Open a pull request with just that change. The **Language data** workflow
+   (`.github/workflows/language-data.yml`) runs on it: it unpacks CLDR and
+   the UDHR translations, fetches the Wikidata words, rebuilds the data,
+   checks it with `check-languages.mjs`, and commits it to the pull request.
+3. Read its report on the workflow run's summary page: a new country may
+   bring a new language or script, or a language CLDR has no letters for
+   (reported as left out). Then review and merge as usual.
+
+The workflow can also be run by hand (**Actions → Language data → Run
+workflow**), for example to pick up corrected labels on Wikidata; it then
+pushes a `language-data-<date>` branch to open a pull request from. To run
+the scripts on your own machine instead, run `sign-words.mjs`, then
+`languages.mjs` as its header describes.
+
+The rest of this page is about the two Python scripts.
 
 ## Running them
 

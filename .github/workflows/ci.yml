@@ -66,11 +66,17 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Install browser for tests
-        # WebKit, Safari's engine, for the layout tests (see playwright.config.js).
-        # Its own limit, so a hanging install fails here with a clear message.
-        timeout-minutes: 10
-        run: npx playwright install --with-deps chromium webkit
+      # Chromium, and WebKit (Safari's engine) for the layout tests (see
+      # playwright.config.js). In two steps, each with its own limit, so a
+      # hang shows which side is slow: Ubuntu's package servers, or
+      # Playwright's download servers.
+      - name: Install the browsers' system packages
+        timeout-minutes: 8
+        run: npx playwright install-deps chromium webkit
+
+      - name: Install the browsers
+        timeout-minutes: 8
+        run: npx playwright install chromium webkit
 
       - name: Browser tests
         run: npm test

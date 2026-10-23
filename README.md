@@ -1,16 +1,17 @@
 # Geo Learning Tools
 
-Four browser apps for learning world geography, with spaced repetition that
+Five browser apps for learning world geography, with spaced repetition that
 keeps track of what you know and brings back what you don't.
 
 **Live site:** <https://ugerhard-git.github.io/geo-learning-tools/>
 
-| App                           | What you practise                                                                        |
-| ----------------------------- | ---------------------------------------------------------------------------------------- |
-| **Flags**                     | Every UN member and observer state, plus the territories that fly their own flags.       |
-| **Countries and Territories** | The same countries on a zoomable world map: name the one highlighted, or find it.        |
-| **Cities and Regions**        | 2,738 cities and 4,596 regions — capitals, regional capitals, every city over a million. |
-| **Terrain**                   | 2,121 physical features: rivers, ranges, deserts, seas, straits, islands and peaks.      |
+| App                           | What you practise                                                                                                                                |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Flags**                     | Every UN member and observer state, plus the territories that fly their own flags.                                                               |
+| **Countries and Territories** | The same countries on a zoomable world map: name the one highlighted, or find it.                                                                |
+| **Cities and Regions**        | 2,738 cities and 4,596 regions — capitals, regional capitals, every city over a million.                                                         |
+| **Terrain**                   | 2,121 physical features: rivers, ranges, deserts, seas, straits, islands and peaks.                                                              |
+| **Scripts and Languages**     | The official languages of the 120 Street View countries: telltale letters, look-alike scripts, and which language or country a sentence is from. |
 
 The landing page shows what is due for review in each app. Progress is kept in
 your browser only and is never sent anywhere. Opening a place's details asks
@@ -81,6 +82,7 @@ src/                 the site, exactly as it is served (the build copies it to d
   countries/
   cities/
   terrain/
+  languages/
   shared/            code and styles every app uses: map view, drills, spaced
                        repetition, progress screen, outside services …
   data/              map outlines, places and features (see docs/data.md)
@@ -93,7 +95,7 @@ test/e2e/            Playwright browser tests, one file per app plus smoke tests
 docs/                how the code is put together, and where the data comes from
 .github/             CI and deployment workflow, Dependabot configuration
 .vscode/             editor settings, tasks and debugging (see "Editor setup")
-licenses/            licences for the bundled fonts
+licenses/            licences for the bundled fonts and the Unicode data
 ```
 
 The pages are plain HTML, CSS and JavaScript modules; there is no bundler and
@@ -132,7 +134,9 @@ fails. Adding a whole app is described in
 The map outlines, cities, regions and physical features in `src/data/` are
 generated from Natural Earth by the scripts in `tools/data/`, which are run by
 hand when the source data changes. The flags' colour codes are measured from
-the flag drawings on Wikimedia Commons by the "Flag colours" workflow. [docs/data.md](docs/data.md) describes
+the flag drawings on Wikimedia Commons by the "Flag colours" workflow, and
+the Scripts and Languages data is built from Unicode CLDR, the Universal
+Declaration of Human Rights and Wikidata by the "Language data" workflow. [docs/data.md](docs/data.md) describes
 each file's format and where it comes from.
 
 ## The REST Countries key
@@ -175,16 +179,18 @@ how to report a problem.
 The apps are built on openly licensed data. Map geometry and places are
 served with the site; facts in the detail panels are fetched live.
 
-| Source                                                                                                                                | Used for                                           | Licence                             |
-| ------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ----------------------------------- |
-| [Natural Earth](https://www.naturalearthdata.com/)                                                                                    | Country, region and feature outlines; cities       | Public domain                       |
-| [CIA World Factbook](https://github.com/factbook/factbook.json)                                                                       | Geography facts in Countries and Territories       | Public domain                       |
-| [Wikidata](https://www.wikidata.org/)                                                                                                 | Facts in the detail panels, flag adoption dates    | CC0                                 |
-| [Wikipedia](https://en.wikipedia.org/)                                                                                                | Article summaries, linked in each panel            | CC BY-SA 4.0                        |
-| [REST Countries](https://restcountries.com/)                                                                                          | Capital, population, currency (optional API key)   | Per their terms                     |
-| [flagcdn.com](https://flagcdn.com/)                                                                                                   | Flag images                                        | Per their terms                     |
-| [Wikimedia Commons](https://commons.wikimedia.org/)                                                                                   | Flag colour codes, measured from the flag drawings | Public domain                       |
-| [Atkinson Hyperlegible](https://www.brailleinstitute.org/freefont/), [Bricolage Grotesque](https://github.com/ateliertriay/bricolage) | Typefaces                                          | SIL OFL 1.1 ([licences](licenses/)) |
+| Source                                                                                                                                | Used for                                                    | Licence                                                         |
+| ------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | --------------------------------------------------------------- |
+| [Natural Earth](https://www.naturalearthdata.com/)                                                                                    | Country, region and feature outlines; cities                | Public domain                                                   |
+| [CIA World Factbook](https://github.com/factbook/factbook.json)                                                                       | Geography facts in Countries and Territories                | Public domain                                                   |
+| [Wikidata](https://www.wikidata.org/)                                                                                                 | Facts in the detail panels, flag adoption dates             | CC0                                                             |
+| [Wikipedia](https://en.wikipedia.org/)                                                                                                | Article summaries, linked in each panel                     | CC BY-SA 4.0                                                    |
+| [REST Countries](https://restcountries.com/)                                                                                          | Capital, population, currency (optional API key)            | Per their terms                                                 |
+| [flagcdn.com](https://flagcdn.com/)                                                                                                   | Flag images                                                 | Per their terms                                                 |
+| [Wikimedia Commons](https://commons.wikimedia.org/)                                                                                   | Flag colour codes, measured from the flag drawings          | Public domain                                                   |
+| [Unicode CLDR](https://cldr.unicode.org/) 48.2                                                                                        | Languages: where they are official, scripts, letters, words | Unicode License v3 ([licence](licenses/unicode-license-v3.txt)) |
+| [UDHR in Unicode](https://www.unicode.org/udhr/) via [udhr](https://github.com/wooorm/udhr)                                           | Sample sentences in each language                           | UN OHCHR translations; package MIT                              |
+| [Atkinson Hyperlegible](https://www.brailleinstitute.org/freefont/), [Bricolage Grotesque](https://github.com/ateliertriay/bricolage) | Typefaces                                                   | SIL OFL 1.1 ([licences](licenses/))                             |
 
 ## Licence
 
