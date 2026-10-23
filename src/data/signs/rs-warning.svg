@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="745"
+   height="655"
+   id="svg2"
+   version="1.1"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   sodipodi:docname="Serbian_road_sign_I-25.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+    <inkscape:perspective
+       id="perspective2839"
+       inkscape:persp3d-origin="375 : 220 : 1"
+       inkscape:vp_z="750 : 330 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 330 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3388"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    
+    <inkscape:perspective
+       id="perspective10221"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.34556033"
+     inkscape:cx="134.56406"
+     inkscape:cy="147.58639"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1012"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Livello 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(325.35006,-102.24117)">
+    <g
+       id="g10331">
+      <polygon
+         transform="translate(-327.85006,99.741167)"
+         style="fill:none;stroke:#000000;stroke-width:95;stroke-linejoin:round"
+         points="50,610 700,610 375,50 "
+         id="polygon2823" />
+      <polygon
+         transform="translate(-327.85006,99.741167)"
+         style="fill:none;stroke:#ffffff;stroke-width:90;stroke-linejoin:round"
+         points="50,610 700,610 375,50 "
+         id="polygon2825" />
+      <polygon
+         transform="translate(-327.85006,99.741167)"
+         style="fill:#ffffff;stroke:#cc0000;stroke-width:70;stroke-linejoin:round"
+         points="50,610 700,610 375,50 "
+         id="polygon2827" />
+    </g>
+    <path
+       d="m 48.107209,575.72934 c 19.0781,0 34.5481,15.47219 34.5481,34.55272 0,19.07961 -15.47,34.55314 -34.5481,34.55314 -19.0769,0 -34.5484,-15.47353 -34.5484,-34.55314 0,-19.08053 15.4715,-34.55272 34.5484,-34.55272 z"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.27000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2.61312604;stroke-opacity:1;stroke-dasharray:none"
+       id="path8187" />
+    <path
+       d="m 65.392909,542.11068 17.0129,-159.99299 c 2.0118,-20.85703 -13.1904,-38.63447 -34.5155,-38.65217 -20.6495,0 -36.48,18.10134 -34.0821,38.70703 l 17.0682,159.96426 c 0.9856,9.61659 8.8512,15.84605 17.0139,15.84741 8.5065,0 16.1889,-5.75696 17.5026,-15.87354 z"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.27000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2.61312604;stroke-opacity:1;stroke-dasharray:none"
+       id="path8189" />
+  </g>
+</svg>
