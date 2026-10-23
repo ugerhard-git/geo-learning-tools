@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="2102"
+   height="602"
+   viewBox="0 0 556.15415 159.27916"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   sodipodi:docname="OM road sign 151.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#000000"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="px"
+     inkscape:zoom="0.35411406"
+     inkscape:cx="182.1447"
+     inkscape:cy="317.69425"
+     inkscape:window-width="1920"
+     inkscape:window-height="1051"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-85.724996,-149.75417)">
+    <path
+       id="path1841"
+       d="M 641.61457,308.76832 H 85.989572 V 150.01875 H 641.61457"
+       style="fill:#ffc500;stroke:none;stroke-width:1.16707;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1;fill-opacity:1" />
+    <path
+       id="path1881"
+       d="m 140.87656,150.01896 h 31.25716 l -54.7624,79.31132 54.7624,79.43825 H 140.87656 L 86.114335,229.33028 Z"
+       style="fill:#000000;stroke:none;stroke-width:1.13363;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       sodipodi:nodetypes="ccccccc" />
+    <path
+       id="path1971"
+       d="m 203.39032,150.01917 h 31.38208 l -54.76237,79.31132 54.76237,79.43826 h -31.38208 l -54.76221,-79.43826 z"
+       style="fill:#000000;stroke:none;stroke-width:1.13363;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       id="path1972"
+       d="m 266.02921,150.01917 h 31.25916 l -54.76438,79.31132 54.76438,79.43826 h -31.25916 l -54.76224,-79.43826 z"
+       style="fill:#000000;stroke:none;stroke-width:1.13363;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       id="path1973"
+       d="m 328.54297,150.01917 h 31.38215 l -54.76245,79.31132 54.76245,79.43826 H 328.54297 L 273.7808,229.33049 Z"
+       style="fill:#000000;stroke:none;stroke-width:1.13363;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       id="path1974"
+       d="m 391.18372,150.01917 h 31.25695 l -54.76438,79.31132 54.76438,79.43826 h -31.25695 l -54.76224,-79.43826 z"
+       style="fill:#000000;stroke:none;stroke-width:1.13363;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       id="path1975"
+       d="m 453.69749,150.01917 h 31.38207 l -54.76238,79.31132 54.76238,79.43826 h -31.38207 l -54.76225,-79.43826 z"
+       style="fill:#000000;stroke:none;stroke-width:1.13363;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       id="path1976"
+       d="m 547.59353,308.76832 h -31.25695 l -54.76245,-79.43824 54.76245,-79.31133 h 31.25695 l -54.76224,79.31133 z"
+       style="fill:#000000;stroke:none;stroke-width:1.13363;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       id="path1977"
+       d="m 610.23242,150.01917 h -31.38208 l -54.76224,79.31132 54.76224,79.43826 h 31.38208 l -54.88737,-79.43826 z"
+       style="fill:#000000;stroke:none;stroke-width:1.13363;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       sodipodi:nodetypes="ccccccc" />
+  </g>
+</svg>
