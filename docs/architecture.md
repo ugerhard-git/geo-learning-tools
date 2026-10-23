@@ -1,6 +1,6 @@
 # How the code is put together
 
-The site is six static pages: a landing page and five apps. There is no
+The site is seven static pages: a landing page and six apps. There is no
 server-side code and no build step beyond copying `src/` to `dist/` and
 checking it (see `tools/build.mjs`). Every page is plain HTML that loads
 stylesheets and one JavaScript module, and that module imports the rest.
@@ -13,6 +13,7 @@ src/
   cities/               cities and regions    → app.js, data.js, drills.js
   terrain/              physical features     → app.js, data.js, drills.js
   languages/            scripts and languages → app.js, data.js, drills.js
+  roads/                roads and road signs  → app.js, data.js, drills.js
   shared/               everything used by more than one page
   data/                 map and place data, loaded at run time
 ```
@@ -150,6 +151,8 @@ must not change; a test in `test/e2e/` checks that old records still load.
 | `terrain.layers`, `terrain.level`, `.type`, `.kinds`, `.scope`, `.hard`, `.len` | Terrain layers and drill settings                                      |
 | `languages.progress.v1`                                                         | Scripts and Languages: `l:`/`c:<language>`, `t:<letter>`, `s:<script>` |
 | `languages.type`, `.hard`, `.len`                                               | Scripts and Languages drill settings                                   |
+| `roads.progress.v1`                                                             | Roads: `<d\|l\|s\|z\|p\|c\|w>:<code>` per clue, `x:<code>` for scenes  |
+| `roads.type`, `.clues`, `.hard`, `.len`                                         | Roads drill settings                                                   |
 
 ## Tests
 

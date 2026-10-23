@@ -34,21 +34,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { parseUnicodeSet } from "./unicode-set.mjs";
-
-/** Where the list of Street View countries is kept: one code per line. */
-const STREET_VIEW_FILE = new URL("street-view-countries.txt", import.meta.url);
-
-/**
- * Read the list of Street View countries.
- * @param {string} text the file
- * @returns {string[]} codes
- */
-export function parseCountryList(text) {
-  return text
-    .split("\n")
-    .map((l) => l.trim())
-    .filter((l) => l && !l.startsWith("#"));
-}
+import { readStreetView } from "./street-view.mjs";
 
 /**
  * Official languages left out, with the reason. Each is official somewhere
@@ -213,7 +199,7 @@ const TELLTALE_MAX = 4;
 /** Each language keeps at most this many telltale letters. */
 const TELLTALE_PER_LANGUAGE = 6;
 
-const STREET_VIEW = parseCountryList(await readFile(STREET_VIEW_FILE, "utf8"));
+const STREET_VIEW = await readStreetView();
 const dir = process.argv[2];
 if (!dir) {
   console.error("Usage: node tools/data/languages.mjs <folder with the unpacked packages>");

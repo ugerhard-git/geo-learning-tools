@@ -12,6 +12,8 @@ long single-line strings that formatting would only make bigger.
 | `factbook.json`    | Countries and Territories        | Geography sections of the CIA World Factbook, per country                                        |
 | `flag-tags.txt`    | Flags                            | Each flag's colours, layout and symbols                                                          |
 | `languages.json`   | Scripts and Languages            | The official languages of the Street View countries: scripts, letters, words and a sentence each |
+| `roads.json`       | Roads                            | Each Street View country's driving side and centre line colour, with sources (written by hand)   |
+| `signs.json`       | Roads                            | Each Street View country's sign drawings in `signs/`, with their licences, authors and sources   |
 | `flag-colours.txt` | Flags                            | Each flag's main colours as hex codes, measured from its drawing                                 |
 | `land.json`        | Cities and Regions, Terrain      | Simplified country outlines, and a box around each country                                       |
 | `cities.json`      | Cities and Regions               | 2,738 cities, 4,596 regions and the regions' outlines                                            |
@@ -150,6 +152,33 @@ has one.
 - **`telltales`** are letters of the Latin and Cyrillic alphabets that four
   languages or fewer use, at most six per language, the rarest first.
 
+### `roads.json`
+
+```json
+{ "sources": { "traffic": { "title": "Left- and right-hand traffic", "url": "https://…", "publisher": "Wikipedia" }, … },
+  "countries": { "JP": { "drive": "left", "driveSource": "traffic",
+                         "centre": { "colour": "both", "note": "…", "source": "markings" } }, … } }
+```
+
+Written by hand, one entry per Street View country. **`colour`** is
+`white`, `yellow` or `both`; **`regional: true`** marks a country covered
+only by its part of the world's rule ("most European countries use white"),
+which the app shows in italics. A country with no solid source for its lines
+has no `centre`, and the app says so rather than guess.
+
+### `signs.json` and `signs/`
+
+```json
+{ "JP": { "stop": { "file": "jp-stop.svg", "commons": "Japan_road_sign_330-A.svg",
+                    "licence": "Public domain", "author": "…", "source": "Road signs in Japan" }, … } }
+```
+
+Per country, up to five drawings: `stop`, `crossing` (the sign at a
+pedestrian crossing), `pedestrian` (the warning that one is coming),
+`chevron` and `warning` (the general warning sign). Each is a copy of a file
+on Wikimedia Commons, kept only if its licence allows reuse (public domain,
+CC0, CC BY, CC BY-SA), with its author for the credit.
+
 ## Where it comes from
 
 | Data                                                                        | Source                                                                                                      | Licence                                                         |
@@ -161,6 +190,8 @@ has one.
 | Languages: official status, scripts, letters, words, names                  | [Unicode CLDR](https://cldr.unicode.org/) 48.2                                                              | Unicode License v3 ([text](../licenses/unicode-license-v3.txt)) |
 | Words for "street" and "city"                                               | [Wikidata](https://www.wikidata.org/) labels of Q79007 and Q515                                             | CC0                                                             |
 | Sample sentences                                                            | [UDHR in Unicode](https://www.unicode.org/udhr/), via the [udhr](https://github.com/wooorm/udhr) package    | Translations by the UN OHCHR; package MIT                       |
+| Driving side, centre line colours                                           | Wikipedia and World Standards, per country in `roads.json`                                                  | Facts; the sources are linked in the app                        |
+| Road sign drawings                                                          | [Wikimedia Commons](https://commons.wikimedia.org/), as shown in Wikipedia's "Road signs in …" articles     | Each file's own: public domain, CC0, CC BY or CC BY-SA          |
 | Country table, flag tags, look-alike groups                                 | Written for this project                                                                                    | MIT                                                             |
 
 ### How each file was made
@@ -186,6 +217,13 @@ has one.
   from is `tools/data/street-view-countries.txt`. The "Language data"
   workflow rebuilds both files on GitHub and commits them; see
   [`tools/data/README.md`](../tools/data/README.md).
+- **`signs.json`** and **`signs/`**: `tools/data/road-signs.mjs`, run on
+  GitHub by the "Road signs" workflow. It reads each country's "Road signs
+  in …" article, picks drawings by caption and by the heading they sit under,
+  and fetches them from Commons with their licences. A wrong pick is fixed in
+  `tools/data/road-sign-picks.json`; see
+  [`tools/data/README.md`](../tools/data/README.md).
+- **`roads.json`**: written by hand from the sources it names.
 - **`world.json`** and **`factbook.json`**: made with earlier scripts that
   were not kept, so they cannot be rebuilt as they stand. `world.json` is
   Natural Earth country outlines in longitude/latitude, rounded to 0.01° (the

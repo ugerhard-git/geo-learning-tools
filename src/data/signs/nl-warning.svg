@@ -1,0 +1,14 @@
+<?xml version="1.0" standalone="no"?>
+<svg id="Nederlands_verkeersbord_J37_2023" width="672" height="755" xmlns="http://www.w3.org/2000/svg" version="1.1">
+	<path id="bord_rood" style="fill:#c1121c;stroke:#c1121c;stroke-width:40;stroke-linejoin:round" d="M 20.641,567 651.359,567 336,20.782 Z"/>
+	<path id="bies_wit" style="fill:#f7fbf5;stroke:#f7fbf5;stroke-width:20;stroke-linejoin:round" d="M 20.641,567 651.359,567 336,20.782 Z"/>
+	<path id="driehoek_rood" fill="#c1121c" d="M 20.641,567 651.359,567 336,20.782 Z"/>
+	<path id="driehoek_wit" fill="#f7fbf5" d="M 137.208,499.7 534.792,499.7 336,155.382 Z"/>
+	<g id="symbool_gevaar">
+		<circle id="cirkel_1_zwart" fill="#2a2d2f" cx="336" cy="260" r="22"/>
+		<rect id="rechthoek_zwart" fill="#2a2d2f" width="44" height="137" x="314" y="260"/>
+		<circle id="cirkel_2_zwart" fill="#2a2d2f" cx="336" cy="397" r="22"/>
+		<circle id="cirkel_3_zwart" fill="#2a2d2f" cx="336" cy="457" r="22"/>
+	</g>
+	<path id="onderbord_wit_zwart" style="fill:#f7fbf5;stroke:#2a2d2f;stroke-width:2" d="M 1,611 a 15,15 0 0,1 15,-15 h 640 a 15,15 0 0,1 15,15 v 128 a 15,15 0 0,1 -15,15 h -640 a 15,15 0 0,1 -15,-15 z"/>
+</svg>

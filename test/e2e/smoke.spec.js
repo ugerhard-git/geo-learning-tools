@@ -43,6 +43,11 @@ const PAGES = [
     title: "Scripts and Languages",
     ready: async (page) => expect.poll(() => page.locator(".lcard").count()).toBeGreaterThan(70),
   },
+  {
+    path: "roads/",
+    title: "Roads",
+    ready: async (page) => expect.poll(() => page.locator(".rcard").count()).toBeGreaterThan(110),
+  },
 ];
 
 for (const { path, title, ready } of PAGES) {
@@ -61,7 +66,7 @@ test("every app linked from the landing page exists", async ({ page, request }) 
   const hrefs = await page
     .locator(".tool .go a")
     .evaluateAll((links) => links.map((a) => a.getAttribute("href")));
-  expect(hrefs).toEqual(["flags/", "countries/", "cities/", "terrain/", "languages/"]);
+  expect(hrefs).toEqual(["flags/", "countries/", "cities/", "terrain/", "languages/", "roads/"]);
   for (const href of hrefs) {
     const res = await request.get(href);
     expect(res.status(), href).toBe(200);
@@ -69,7 +74,7 @@ test("every app linked from the landing page exists", async ({ page, request }) 
 });
 
 test("every app has a way back to the landing page", async ({ page }) => {
-  for (const app of ["flags", "countries", "cities", "terrain", "languages"]) {
+  for (const app of ["flags", "countries", "cities", "terrain", "languages", "roads"]) {
     await openPage(page, `${app}/`);
     await page.getByRole("link", { name: "All apps" }).click();
     await expect(page, app).toHaveTitle("Atlas Trainer");

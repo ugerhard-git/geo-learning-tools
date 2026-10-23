@@ -1,0 +1,930 @@
+{
+ "about": "Driving side and road line colours of the countries with Street View, by hand from the sources named. A country without a centre line entry has no solid source yet. See docs/data.md.",
+ "sources": {
+  "traffic": {
+   "title": "Left- and right-hand traffic",
+   "url": "https://en.wikipedia.org/wiki/Left-_and_right-hand_traffic",
+   "publisher": "Wikipedia"
+  },
+  "territories": {
+   "title": "List of left-driving countries",
+   "url": "https://www.worldstandards.eu/cars/list-of-left-driving-countries/",
+   "publisher": "World Standards"
+  },
+  "markings": {
+   "title": "Road surface marking",
+   "url": "https://en.wikipedia.org/wiki/Road_surface_marking",
+   "publisher": "Wikipedia"
+  },
+  "yellow": {
+   "title": "Yellow line (road marking)",
+   "url": "https://en.wikipedia.org/wiki/Yellow_line_(road_marking)",
+   "publisher": "Wikipedia"
+  }
+ },
+ "countries": {
+  "AD": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "AE": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "AL": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "AR": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "both",
+    "note": "White dashes where both directions may overtake, solid yellow where neither may, white and yellow together where only one may.",
+    "source": "markings"
+   }
+  },
+  "AS": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "AT": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "AU": {
+   "drive": "left",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "White lines in both directions; yellow is for no standing, roadworks and snowy areas.",
+    "source": "markings"
+   }
+  },
+  "AX": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "BA": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "BD": {
+   "drive": "left",
+   "driveSource": "traffic"
+  },
+  "BE": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "BG": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "BM": {
+   "drive": "left",
+   "driveSource": "traffic"
+  },
+  "BO": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "yellow",
+    "note": "Almost all countries of the Americas use yellow centre lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "BR": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "yellow",
+    "note": "Almost all countries of the Americas use yellow centre lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "BT": {
+   "drive": "left",
+   "driveSource": "traffic"
+  },
+  "BW": {
+   "drive": "left",
+   "driveSource": "traffic"
+  },
+  "CA": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "yellow",
+    "note": "Yellow between opposite directions, white between lanes going the same way; on one-way roads the left edge is yellow, the right white.",
+    "source": "markings"
+   }
+  },
+  "CC": {
+   "drive": "left",
+   "driveSource": "territories"
+  },
+  "CH": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "CL": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Usually white; yellow where snow is possible, in the south and on mountain roads.",
+    "source": "markings"
+   }
+  },
+  "CO": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "yellow",
+    "note": "Almost all countries of the Americas use yellow centre lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "CR": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "yellow",
+    "note": "Almost all countries of the Americas use yellow centre lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "CW": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "CX": {
+   "drive": "left",
+   "driveSource": "territories"
+  },
+  "CY": {
+   "drive": "left",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "CZ": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "DE": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "DK": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "DO": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "yellow",
+    "note": "Almost all countries of the Americas use yellow centre lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "EC": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "yellow",
+    "note": "Almost all countries of the Americas use yellow centre lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "EE": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "ES": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "FI": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "both",
+    "note": "Yellow where overtaking is not allowed, white where it is.",
+    "source": "markings"
+   }
+  },
+  "FO": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "FR": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "GB": {
+   "drive": "left",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "White centre lines, broken or solid, and solid white edge lines.",
+    "source": "markings"
+   }
+  },
+  "GE": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "GH": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "GI": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "GL": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "GR": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "GT": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "yellow",
+    "note": "Almost all countries of the Americas use yellow centre lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "GU": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "HK": {
+   "drive": "left",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Dashed white centre lines; solid yellow lines along the kerb mean no stopping.",
+    "source": "markings"
+   }
+  },
+  "HR": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "HU": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "ID": {
+   "drive": "left",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "both",
+    "note": "Yellow on national roads, white on provincial, city and local roads.",
+    "source": "markings"
+   }
+  },
+  "IE": {
+   "drive": "left",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "White centre lines; the shoulder lines are yellow.",
+    "source": "markings"
+   }
+  },
+  "IL": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "White centre lines; yellow marks the shoulder.",
+    "source": "markings"
+   }
+  },
+  "IM": {
+   "drive": "left",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "IN": {
+   "drive": "left",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "both",
+    "note": "Double yellow lines forbid overtaking; double white lines only advise against it.",
+    "source": "yellow"
+   }
+  },
+  "IS": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "IT": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "JE": {
+   "drive": "left",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "JO": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "JP": {
+   "drive": "left",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "both",
+    "note": "On two-lane roads a white centre line allows overtaking, a yellow one forbids it.",
+    "source": "markings"
+   }
+  },
+  "KE": {
+   "drive": "left",
+   "driveSource": "traffic"
+  },
+  "KG": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "KH": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "KR": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "yellow",
+    "note": "Yellow between opposite directions, white between lanes going the same way.",
+    "source": "markings"
+   }
+  },
+  "KZ": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "LA": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "LB": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "yellow",
+    "note": "Yellow centre lines: dashed where overtaking is allowed, double solid where it is not.",
+    "source": "yellow"
+   }
+  },
+  "LI": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "LK": {
+   "drive": "left",
+   "driveSource": "traffic"
+  },
+  "LS": {
+   "drive": "left",
+   "driveSource": "traffic"
+  },
+  "LT": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "LU": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "LV": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "MC": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "ME": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "MK": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "MN": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "MO": {
+   "drive": "left",
+   "driveSource": "traffic"
+  },
+  "MP": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "MT": {
+   "drive": "left",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "MX": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "yellow",
+    "note": "Almost all countries of the Americas use yellow centre lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "MY": {
+   "drive": "left",
+   "driveSource": "traffic"
+  },
+  "NA": {
+   "drive": "left",
+   "driveSource": "traffic"
+  },
+  "NG": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "NL": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "All lines are white; yellow is only for no stopping, no parking and roadworks.",
+    "source": "markings"
+   }
+  },
+  "NO": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "yellow",
+    "note": "Yellow between opposite directions and along the left edge; white between lanes going the same way and along the right edge.",
+    "source": "markings"
+   }
+  },
+  "NP": {
+   "drive": "left",
+   "driveSource": "traffic"
+  },
+  "NZ": {
+   "drive": "left",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "both",
+    "note": "A solid yellow centre line means no overtaking; dashed white lines allow it.",
+    "source": "markings"
+   }
+  },
+  "OM": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "PA": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "yellow",
+    "note": "Almost all countries of the Americas use yellow centre lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "PE": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "yellow",
+    "note": "Almost all countries of the Americas use yellow centre lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "PH": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "both",
+    "note": "Double yellow lines, usually either side of a dashed white line, forbid overtaking.",
+    "source": "yellow"
+   }
+  },
+  "PL": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "PR": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "yellow",
+    "note": "Almost all countries of the Americas use yellow centre lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "PS": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "PT": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "PY": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "yellow",
+    "note": "Almost all countries of the Americas use yellow centre lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "QA": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "RE": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "RO": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "RS": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "RU": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "White, though yellow may be used to separate oncoming traffic.",
+    "source": "markings"
+   }
+  },
+  "RW": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "SE": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "SG": {
+   "drive": "left",
+   "driveSource": "traffic"
+  },
+  "SI": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "SK": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "SM": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "SN": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "ST": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "SZ": {
+   "drive": "left",
+   "driveSource": "traffic"
+  },
+  "TH": {
+   "drive": "left",
+   "driveSource": "traffic"
+  },
+  "TN": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "TR": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "TW": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "UA": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "UG": {
+   "drive": "left",
+   "driveSource": "traffic"
+  },
+  "US": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "yellow",
+    "note": "Yellow between opposite directions, white between lanes going the same way; the right edge line is white, the left one yellow on divided highways.",
+    "source": "markings"
+   }
+  },
+  "UY": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "both",
+    "note": "White dashes where both directions may overtake, solid yellow where neither may, white and yellow together where only one may.",
+    "source": "markings"
+   }
+  },
+  "VI": {
+   "drive": "left",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "yellow",
+    "note": "Almost all countries of the Americas use yellow centre lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "VN": {
+   "drive": "right",
+   "driveSource": "traffic"
+  },
+  "XK": {
+   "drive": "right",
+   "driveSource": "traffic",
+   "centre": {
+    "colour": "white",
+    "note": "Most European countries use white for all their lines.",
+    "source": "markings",
+    "regional": true
+   }
+  },
+  "ZA": {
+   "drive": "left",
+   "driveSource": "traffic"
+  }
+ }
+}

@@ -1,0 +1,53 @@
+{
+  "AS": {
+    "crossing": "-"
+  },
+  "BD": {
+    "chevron": "Bangladesh_road_sign_B55_R_1.svg"
+  },
+  "BM": {
+    "stop": "UK_traffic_sign_601.1.svg",
+    "crossing": "-"
+  },
+  "CO": {
+    "crossing": "-"
+  },
+  "DE": {
+    "crossing": "Zeichen_350-10_-_Fußgängerüberweg_(rechts),_StVO_1992.svg"
+  },
+  "GB": {
+    "stop": "UK_traffic_sign_601.1.svg",
+    "crossing": "-"
+  },
+  "GI": {
+    "stop": "UK_traffic_sign_601.1.svg",
+    "crossing": "-"
+  },
+  "GU": {
+    "crossing": "-"
+  },
+  "IM": {
+    "stop": "UK_traffic_sign_601.1.svg",
+    "crossing": "-"
+  },
+  "JE": {
+    "stop": "UK_traffic_sign_601.1.svg",
+    "crossing": "-"
+  },
+  "JP": {
+    "stop": "Japan_road_sign_330-A.svg",
+    "warning": "Japan_road_sign_215.svg"
+  },
+  "MP": {
+    "crossing": "-"
+  },
+  "NL": {
+    "stop": "Nederlands_verkeersbord_B7.svg"
+  },
+  "SG": {
+    "warning": "Singapore_road_sign_-_Warning_-_Other_danger.svg"
+  },
+  "US": {
+    "crossing": "-"
+  }
+}

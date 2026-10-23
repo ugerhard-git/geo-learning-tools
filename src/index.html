@@ -11,7 +11,7 @@
     <title>Atlas Trainer</title>
     <meta
       name="description"
-      content="Learn the world's flags, countries, cities, terrain and languages, with spaced repetition."
+      content="Learn the world's flags, countries, cities, terrain, languages and roads, with spaced repetition."
     />
     <link rel="icon" href="icons/landing.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="fonts/fonts.css" />
@@ -34,7 +34,7 @@
       <div class="veil"></div>
       <div class="mast">
         <h1>Atlas Trainer</h1>
-        <p>Learn the world's flags, countries, cities, terrain and languages.</p>
+        <p>Learn the world's flags, countries, cities, terrain, languages and roads.</p>
       </div>
     </header>
 
@@ -196,6 +196,38 @@
             </ul>
             <div class="stats"></div>
             <div class="go"><a class="btn" href="languages/">Open</a></div>
+          </div>
+        </article>
+        <article
+          class="tool reveal"
+          data-store="roads.progress.v1"
+          data-short="Roads"
+          data-breakdown="d:Driving side|l:Centre lines|s:Stop signs|p:Pedestrian crossings|c:Chevrons|w:Warning signs|x:Which country"
+        >
+          <div class="glyph">
+            <svg viewBox="0 0 300 118" aria-hidden="true">
+              <g class="roadway">
+                <path class="tarmac" d="M70 118 L142 14 L158 14 L230 118 Z" />
+                <path class="centre" d="M150 118 L150 14" />
+              </g>
+              <g class="signs">
+                <path class="warn" d="M55 30 L80 74 L30 74 Z" />
+                <path
+                  class="stop hit"
+                  d="M232 30 L250 30 L263 43 L263 61 L250 74 L232 74 L219 61 L219 43 Z"
+                />
+              </g>
+            </svg>
+          </div>
+          <div class="body">
+            <h3>Roads</h3>
+            <p class="what">What the roads of the Street View countries give away.</p>
+            <ul>
+              <li>Driving side and centre line colours</li>
+              <li>Stop, crossing, chevron and warning signs</li>
+            </ul>
+            <div class="stats"></div>
+            <div class="go"><a class="btn" href="roads/">Open</a></div>
           </div>
         </article>
       </section>

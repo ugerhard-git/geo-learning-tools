@@ -367,6 +367,29 @@ a {
   fill: var(--accent);
 }
 
+.glyph .tarmac {
+  fill: var(--border);
+  opacity: 0.55;
+}
+
+.glyph .centre {
+  fill: none;
+  stroke: #e2b52b;
+  stroke-width: 3;
+  stroke-dasharray: 12 9;
+}
+
+.glyph .warn {
+  fill: var(--land);
+  stroke: #c0392b;
+  stroke-width: 5;
+  stroke-linejoin: round;
+}
+
+.glyph .stop.hit {
+  fill: var(--accent);
+}
+
 /* ----------------------------------------------------------- how it works */
 
 .how {

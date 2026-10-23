@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="681"
+   height="602.12"
+   fill-rule="evenodd"
+   version="1.1"
+   id="svg12"
+   sodipodi:docname="UK_traffic_sign_500.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs16" />
+  <sodipodi:namedview
+     id="namedview14"
+     pagecolor="#ffffff"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     showgrid="false"
+     inkscape:zoom="0.84436621"
+     inkscape:cx="211.40117"
+     inkscape:cy="262.32694"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg12" />
+  <path
+     d="M46.019,601.088 7.048,533.588 301.529,23.532 379.471,23.532 673.952,533.588 634.981,601.088"
+     fill="#e31017"
+     stroke="none"
+     id="path2"
+     style="fill:#de0029;fill-opacity:1" />
+  <circle
+     cx="340.5"
+     cy="46.032"
+     r="45"
+     fill="#e31017"
+     stroke="none"
+     id="circle4"
+     style="fill:#de0029;fill-opacity:1" />
+  <circle
+     cx="634.981"
+     cy="556.088"
+     r="45"
+     fill="#e31017"
+     stroke="none"
+     id="circle6"
+     style="fill:#de0029;fill-opacity:1" />
+  <circle
+     cx="46.019"
+     cy="556.088"
+     r="45"
+     fill="#e31017"
+     stroke="none"
+     id="circle8"
+     style="fill:#de0029;fill-opacity:1" />
+  <path
+     d="M72,541.088 340.5,76.032 609,541.088"
+     fill="#fff"
+     stroke="none"
+     id="path10" />
+  <path
+     id="rect268"
+     style="fill:#000000;fill-rule:evenodd;stroke:none;stroke-width:5.55252"
+     d="m 165.5,426.088 v 10 h 30 v -10 z m 40,0 v 10 h 30 v -10 z m 40,0 v 10 h 30 v -10 z m 40,0 v 10 h 30 v -10 z m 40,0 v 10 h 30 v -10 z m 40,0 v 10 h 30 v -10 z m 40,0 v 10 h 30 v -10 z m 40,0 v 10 h 30 v -10 z m 40,0 v 10 h 30 v -10 z m -360,90 v 10 h 30 v -10 z m 40,0 v 10 h 30 v -10 z m 40,0 v 10 h 30 v -10 z m 40,0 v 10 h 30 v -10 z m 40,0 v 10 h 30 v -10 z m 40,0 v 10 h 30 v -10 z m 40,0 v 10 h 30 v -10 z m 40,0 v 10 h 30 v -10 z m 40,0 v 10 h 30 v -10 z m 40,0 v 10 h 30 v -10 z m 40,0 v 10 h 30 v -10 z" />
+  <path
+     d="m 400.47212,492.288 -4.0316,-70.63141 -29.19178,-79.6459 4.29776,-49.65503 11.69613,12.77942 37.80667,32.15875 9.2807,-14.92875 -32.6911,-30.00986 -9.67977,-28.65969 h 0.16119 c 0,0 -9.74384,-28.50838 -43.20484,-30.39353 -12.24679,-0.16665 -29.9707,0.78123 -44.80016,23.94213 l -13.57844,21.52794 -11.98082,67.13233 16.01244,6.44698 15.87964,-64.69804 10.63083,-10.36451 -35.5246,135.32958 -31.07437,49.65503 15.32838,16.14541 55.0366,-74.11178 16.01258,-38.35854 30.40887,54.35249 13.17921,71.9817 z"
+     style="display:inline;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:19.0175"
+     id="path1246"
+     sodipodi:nodetypes="ccccccccccccccccccccccccc" />
+  <circle
+     style="fill:#000000;fill-rule:evenodd;stroke:none;stroke-width:3.53555"
+     id="path4553"
+     cx="348.10001"
+     cy="197.98799"
+     r="25.5" />
+</svg>
