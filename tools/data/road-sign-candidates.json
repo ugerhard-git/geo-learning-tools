@@ -1509,7 +1509,43 @@
   ]
  },
  "DK": {
-  "article": "Road signs in Denmark"
+  "article": "Road signs in Denmark",
+  "pedestrian": [
+   {
+    "file": "Denmark_road_sign_A17.svg",
+    "caption": "A17: Pedestrian crossing",
+    "section": "Warning signs",
+    "score": 2
+   }
+  ],
+  "crossing": [
+   {
+    "file": "Denmark_road_sign_E17.svg",
+    "caption": "E17: Pedestrian crossing. (Variant: 30px)",
+    "section": "Special regulation signs",
+    "score": 1
+   }
+  ],
+  "stop": [
+   {
+    "file": "Denmark_road_sign_B13.svg",
+    "caption": "B13: Stop",
+    "section": "Priority signs",
+    "score": 2
+   },
+   {
+    "file": "Denmark_road_sign_C92.svg",
+    "caption": "C92: Continuing without stop prohibited",
+    "section": "Prohibitory signs",
+    "score": 1
+   },
+   {
+    "file": "Denmark_road_sign_E30.svg",
+    "caption": "E30: Light rail stop",
+    "section": "Special regulation signs",
+    "score": 1
+   }
+  ]
  },
  "EC": {
   "article": "Road signs in Ecuador",
@@ -1890,7 +1926,43 @@
   ]
  },
  "GL": {
-  "article": "Road signs in Denmark"
+  "article": "Road signs in Denmark",
+  "pedestrian": [
+   {
+    "file": "Denmark_road_sign_A17.svg",
+    "caption": "A17: Pedestrian crossing",
+    "section": "Warning signs",
+    "score": 2
+   }
+  ],
+  "crossing": [
+   {
+    "file": "Denmark_road_sign_E17.svg",
+    "caption": "E17: Pedestrian crossing. (Variant: 30px)",
+    "section": "Special regulation signs",
+    "score": 1
+   }
+  ],
+  "stop": [
+   {
+    "file": "Denmark_road_sign_B13.svg",
+    "caption": "B13: Stop",
+    "section": "Priority signs",
+    "score": 2
+   },
+   {
+    "file": "Denmark_road_sign_C92.svg",
+    "caption": "C92: Continuing without stop prohibited",
+    "section": "Prohibitory signs",
+    "score": 1
+   },
+   {
+    "file": "Denmark_road_sign_E30.svg",
+    "caption": "E30: Light rail stop",
+    "section": "Special regulation signs",
+    "score": 1
+   }
+  ]
  },
  "GR": {
   "article": "Road signs in Greece",
@@ -2368,6 +2440,12 @@
     "file": "IE_road_sign_RUS-067.svg",
     "caption": "RUS 067Parallel/Combined Zebra Crossing",
     "section": "Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "IE_road_sign_WK-082.svg",
+    "caption": "WK 082Temporary Pedestrian Crossing",
+    "section": "Roadwork signs",
     "score": 1
    }
   ],
@@ -3655,7 +3733,29 @@
   ]
  },
  "MX": {
-  "article": "Road signs in Mexico"
+  "article": "Road signs in Mexico",
+  "chevron": [
+   {
+    "file": "MX_road_sign_OD-5_(D).svg",
+    "caption": "OD-5: Pass either side chevron",
+    "section": "Vertical signage / Hazard markers",
+    "score": 1
+   }
+  ],
+  "stop": [
+   {
+    "file": "MX_road_sign_SR-6.svg",
+    "caption": "SR-6: Stop",
+    "section": "Vertical signage / Regulatory signs",
+    "score": 2
+   },
+   {
+    "file": "MX_road_sign_SP-11A.svg",
+    "caption": "SP-11A: Crossroads (4-way stop)",
+    "section": "Vertical signage / Warning signs",
+    "score": 1
+   }
+  ]
  },
  "MY": {
   "article": "Road signs in Malaysia",
@@ -5261,6 +5361,38 @@
  },
  "UG": {
   "article": "Road signs in Uganda",
+  "chevron": [
+   {
+    "file": "UG_road_sign_W61-L.svg",
+    "caption": "Long chevron",
+    "section": "Warning signs / Hazard marker signs",
+    "score": 1
+   },
+   {
+    "file": "UG_road_sign_W61-R.svg",
+    "caption": "Long chevron",
+    "section": "Warning signs / Hazard marker signs",
+    "score": 1
+   },
+   {
+    "file": "UG_road_sign_W62-L.svg",
+    "caption": "Short chevron",
+    "section": "Warning signs / Hazard marker signs",
+    "score": 1
+   },
+   {
+    "file": "UG_road_sign_W62-R.svg",
+    "caption": "Short chevron",
+    "section": "Warning signs / Hazard marker signs",
+    "score": 1
+   },
+   {
+    "file": "UG_road_sign_W63.svg",
+    "caption": "T-intersection chevron",
+    "section": "Warning signs / Hazard marker signs",
+    "score": 1
+   }
+  ],
   "pedestrian": [
    {
     "file": "UG_road_sign_W43.svg",
