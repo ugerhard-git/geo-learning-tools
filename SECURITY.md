@@ -28,6 +28,10 @@ also refuses symbolic links, file types the site does not publish, and SVGs
 that could run script. The site that is published is built in a CI job that
 installs no npm packages, so the dev tooling never touches it.
 
+The checks run inside Playwright's container image (browsers and their system
+packages included), pinned to its digest in `.github/workflows/ci.yml`. It
+holds only a read-only token, like the rest of the check job.
+
 The "Language data" workflow works the same way, for the Scripts and
 Languages data: its build job unpacks CLDR and the UDHR translations as data
 (no npm package is installed) and fetches words from Wikidata, read-only;

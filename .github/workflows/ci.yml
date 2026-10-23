@@ -10,7 +10,8 @@
 # that this split is possible.
 #
 # Third-party actions are pinned to a full commit SHA rather than a tag, since
-# a tag can be moved to point at different code. Dependabot keeps the pins
+# a tag can be moved to point at different code; the Playwright image the
+# checks run in is pinned to its digest for the same reason. Dependabot keeps the pins
 # current (see .github/dependabot.yml); the comment beside each pin records
 # the release it corresponds to.
 
@@ -43,8 +44,13 @@ jobs:
     # bare runner, from Ubuntu's package servers, stalled again and again
     # until the job timed out. The image's version must match
     # @playwright/test in package-lock.json; the first step checks that.
+    #
+    # Pinned by digest as well as tag, as the actions are by commit: a tag
+    # can be moved, a digest cannot. To move to a new Playwright, put its
+    # version in the tag and the image's digest after it (docker pull the
+    # tag, then docker inspect it for its RepoDigests).
     container:
-      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      image: mcr.microsoft.com/playwright:v1.64.1-noble@sha256:47b510dd9230bf0b9bfc9b20102241e577ea7a99334ab4c3ca19f19770e9b8ea
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -91,18 +97,6 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 7
-
-  # TEMPORARY: reports the image's digest, to pin it. Removed before merging.
-  image-digest:
-    name: Report the image digest
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    permissions: {}
-    steps:
-      - run: |
-          docker pull -q mcr.microsoft.com/playwright:v1.64.1-noble > /dev/null
-          d=$(docker inspect --format '{{index .RepoDigests 0}}' mcr.microsoft.com/playwright:v1.64.1-noble)
-          echo "::notice title=Image digest::$d"
 
   build-pages:
     name: Build the site for Pages
