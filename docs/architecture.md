@@ -157,7 +157,7 @@ must not change; a test in `test/e2e/` checks that old records still load.
 | `languages.progress.v1`                                                         | Scripts and Languages: `l:`/`c:<language>`, `t:<letter>`, `s:<script>`                                                                   |
 | `languages.type`, `.hard`, `.len`                                               | Scripts and Languages drill settings                                                                                                     |
 | `roads.progress.v1`                                                             | Roads: `<d\|l\|s\|z\|p\|c\|w>:<code>` per clue, `x:<code>` for scenes                                                                    |
-| `roads.type`, `.clues`, `.hard`, `.len`                                         | Roads drill settings                                                                                                                     |
+| `roads.type`, `.clues`, `.hard`, `.len`, `.where`                               | Roads drill settings                                                                                                                     |
 
 ## Tests
 

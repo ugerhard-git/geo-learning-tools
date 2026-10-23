@@ -23,7 +23,8 @@
     "stop": "Spain_traffic_signal_r2.svg",
     "crossing": "Spain_traffic_signal_s13.svg",
     "pedestrian": "Spain_traffic_signal_p20.svg",
-    "warning": "Spain_traffic_signal_p50.svg"
+    "warning": "Spain_traffic_signal_p50.svg",
+    "chevron": "-"
   },
   "GB": {
     "stop": "UK_traffic_sign_601.1.svg",
@@ -32,6 +33,9 @@
   "GI": {
     "stop": "UK_traffic_sign_601.1.svg",
     "crossing": "-"
+  },
+  "GR": {
+    "chevron": "Road-sign-π75a.svg"
   },
   "GU": {
     "crossing": "-"
@@ -53,6 +57,9 @@
   },
   "NL": {
     "stop": "Nederlands_verkeersbord_B7.svg"
+  },
+  "PT": {
+    "chevron": "Portugal_road_sign_O6a.svg"
   },
   "SG": {
     "warning": "Singapore_road_sign_-_Warning_-_Other_danger.svg"

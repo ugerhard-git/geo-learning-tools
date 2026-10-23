@@ -44,6 +44,7 @@ import {
   typeButtons,
 } from "../shared/drill.js";
 import {
+  CHEVRON_COLOURS,
   CLUES,
   COLOURS,
   LINE,
@@ -63,6 +64,7 @@ import {
   poolFor,
   sideText,
 } from "./drills.js";
+import { REGIONS } from "../shared/countries.js";
 
 /** Where the drill settings are remembered. */
 const SETTINGS = {
@@ -70,6 +72,7 @@ const SETTINGS = {
   clues: "roads.clues",
   hard: "roads.hard",
   len: "roads.len",
+  where: "roads.where",
 };
 
 /* ============================================================ drawing */
@@ -154,6 +157,23 @@ function sceneLabel({ drive, colour, lines, edge }) {
   ]
     .filter(Boolean)
     .join(", ");
+}
+
+/**
+ * A chevron board drawn from its description: its colours, and its number of
+ * arrows where the source gives one (one is drawn where it does not).
+ * @param {import("./data.js").ChevronStyle} style
+ * @param {string} [label] what it is, for screen readers
+ */
+function chevronSvg(style, label = "") {
+  const n = style.arrows ?? 1;
+  const w = 30 + n * 40;
+  const arrows = Array.from(
+    { length: n },
+    (_, i) =>
+      `<path d="M${25 + i * 40} 15 L${50 + i * 40} 50 L${25 + i * 40} 85 L${45 + i * 40} 85 L${70 + i * 40} 50 L${45 + i * 40} 15 Z" fill="${CHEVRON_COLOURS[style.fg]}"/>`,
+  ).join("");
+  return `<svg class="chev" viewBox="0 0 ${w} 100" role="img" aria-label="${esc(label || `${style.fg} arrows on ${style.bg}`)}"><rect x="2" y="2" width="${w - 4}" height="96" rx="6" fill="${CHEVRON_COLOURS[style.bg]}" stroke="#888" stroke-width="2"/>${arrows}</svg>`;
 }
 
 /** A drawing. `alt` is left empty where the text beside it already says what it is. */
@@ -254,7 +274,13 @@ async function main() {
     return `<button class="rcard" data-code="${esc(c.code)}">
       <span class="rname">${flagMini(c.code, c.name)}${esc(c.name)}</span>
       <span class="rfacts">Drives ${esc(sideText(c.drive).toLowerCase())} · ${esc(lines)}</span>
-      <span class="rsigns">${SIGN_CLUES.map((k) => (c.signs[k] ? signImg(c.signs[k], CLUES[k].label) : "")).join("")}</span>
+      <span class="rsigns">${SIGN_CLUES.map((k) =>
+        c.signs[k]
+          ? signImg(c.signs[k], CLUES[k].label)
+          : k === "chevron" && c.chevron
+            ? chevronSvg(c.chevron.styles[0], CLUES[k].label)
+            : "",
+      ).join("")}</span>
     </button>`;
   }
 
@@ -272,11 +298,18 @@ async function main() {
       if (!byFile.has(s.commons)) byFile.set(s.commons, { sign: s, countries: [] });
       byFile.get(s.commons).countries.push(c);
     }
-    const missing = list.filter((c) => !c.signs[clue]);
+    // Chevrons with no drawing are drawn from their description.
+    const described = clue === "chevron" ? list.filter((c) => !c.signs.chevron && c.chevron) : [];
+    const missing = list.filter((c) => !c.signs[clue] && !described.includes(c));
     return `<div class="tiles">${[...byFile.values()]
       .map(
         ({ sign, countries: cs }) =>
           `<figure class="tile">${signImg(sign)}<figcaption>${cs.map((c) => countryChip(c)).join("")}</figcaption></figure>`,
+      )
+      .join("")}${described
+      .map(
+        (c) =>
+          `<figure class="tile drawn">${c.chevron.styles.map((st) => chevronSvg(st)).join("")}<figcaption>${countryChip(c)}<span class="src">Drawn from a description</span></figcaption></figure>`,
       )
       .join("")}</div>
       ${missing.length ? `<section class="group"><h2>No drawing yet <span class="count">${missing.length}</span></h2><div class="cchips">${missing.map((c) => countryChip(c)).join("")}</div></section>` : ""}`;
@@ -350,8 +383,24 @@ async function main() {
       <h3>Signs</h3>
       <div class="dsigns">${SIGN_CLUES.map((k) => {
         const s = c.signs[k];
-        return `<figure>${s ? signImg(s, `${CLUES[k].label}, ${c.name}`) : `<span class="nosign">No drawing yet</span>`}<figcaption>${esc(CLUES[k].label)}</figcaption></figure>`;
+        const art = s
+          ? signImg(s, `${CLUES[k].label}, ${c.name}`)
+          : k === "chevron" && c.chevron
+            ? chevronSvg(
+                c.chevron.styles[0],
+                `${CLUES[k].label}, ${c.name}, drawn from a description`,
+              )
+            : `<span class="nosign">No drawing yet</span>`;
+        return `<figure>${art}<figcaption>${esc(CLUES[k].label)}</figcaption></figure>`;
       }).join("")}</div>
+      ${
+        c.chevron
+          ? `<h3>Chevrons</h3>
+             <div class="dchev">${c.chevron.styles.map((st) => chevronSvg(st)).join("")}</div>
+             <p>${esc(c.chevron.note)}</p>
+             <p class="src">Source: ${sourceLink(c.chevron.source)}. The boards above are drawn by this app from that description: their colours${c.chevron.styles.some((st) => st.arrows) ? " and number of arrows" : ""}, not their exact shape.</p>`
+          : ""
+      }
       ${
         SIGN_CLUES.some((k) => c.signs[k])
           ? `<p class="src">Each drawing is a copy of a file on Wikimedia Commons, as shown in Wikipedia's article on the country's road signs, where you can check it:</p>
@@ -405,11 +454,32 @@ async function main() {
     clues: cleanClues(String(storage.get(SETTINGS.clues) ?? "").split(",")),
     hard: storage.get(SETTINGS.hard) === "1",
     len: cleanLength(storage.get(SETTINGS.len)),
+    where: String(storage.get(SETTINGS.where) ?? "all"),
   };
+  if (!placeName(ds.where)) ds.where = "all";
   const save = (name, value) => storage.set(SETTINGS[name], String(value));
   /** @type {RoadQuestion | null} */
   let current = null;
   let mode = "explore";
+
+  /** The name of a part of the world the drill can be limited to, or "". */
+  function placeName(where) {
+    if (where === "all") return "Everywhere";
+    return REGIONS[where] ?? data.subregions[where] ?? "";
+  }
+
+  /** "Everywhere", the continents, then the sub-regions with countries in them. */
+  function whereSelect() {
+    const regions = [...new Set(countries.map((c) => c.region))].sort((a, b) =>
+      REGIONS[a].localeCompare(REGIONS[b]),
+    );
+    const subs = [...new Set(countries.map((c) => c.subregion).filter(Boolean))].sort((a, b) =>
+      data.subregions[a].localeCompare(data.subregions[b]),
+    );
+    const opt = (v) =>
+      `<option value="${esc(v)}"${v === ds.where ? " selected" : ""}>${esc(placeName(v))}</option>`;
+    return `<select id="dWhere" aria-label="Where">${opt("all")}<optgroup label="Continents">${regions.map(opt).join("")}</optgroup><optgroup label="Parts of continents">${subs.map(opt).join("")}</optgroup></select>`;
+  }
 
   function clueButtons() {
     return `<div class="chips" role="group" aria-label="Clues">${Object.entries(CLUES)
@@ -423,7 +493,7 @@ async function main() {
   function renderSetup() {
     session.stop();
     sceneEl.hidden = true;
-    const items = poolFor(data, ds.type, ds.clues);
+    const items = poolFor(data, ds.type, ds.clues, ds.where);
     const due = items.filter((it) => store.isDueReview(keyOf(it))).length;
     const fresh = items.filter((it) => store.isNew(keyOf(it))).length;
     setupEl.dataset.view = "setup";
@@ -435,6 +505,7 @@ async function main() {
         <div class="selects">
           ${difficultySwitch(ds.hard, "Easy: far-apart options", "Hard: neighbours")}
           ${lengthSelect(ds.len)}
+          ${whereSelect()}
         </div>
       </div>
       ${startSection({
@@ -479,6 +550,11 @@ async function main() {
   });
 
   setupEl.addEventListener("change", (e) => {
+    if (e.target.id === "dWhere") {
+      ds.where = placeName(e.target.value) ? e.target.value : "all";
+      save("where", ds.where);
+      return renderSetup();
+    }
     if (e.target.id !== "dLen") return;
     ds.len = cleanLength(e.target.value);
     save("len", ds.len);
@@ -497,9 +573,9 @@ async function main() {
   });
 
   function startDrill(dueOnly) {
-    const items = poolFor(data, ds.type, ds.clues);
+    const items = poolFor(data, ds.type, ds.clues, ds.where);
     if (items.length < 2) return;
-    const settings = { hard: ds.hard, clues: ds.clues.slice() };
+    const settings = { hard: ds.hard, clues: ds.clues.slice(), where: ds.where };
     const queue = planSession(items, keyOf, store, { length: ds.len, dueOnly });
     session.start(queue, ds.len, {
       label: DRILLS[ds.type].label,
@@ -521,6 +597,12 @@ async function main() {
     };
   }
 
+  /** A sign in a question: its drawing, or a chevron drawn from its description. */
+  const signArt = (c, k) =>
+    k === "chevron" && current.chevronStyle
+      ? chevronSvg(current.chevronStyle, CLUES[k].label)
+      : signImg(c.signs[k], CLUES[k].label);
+
   /** Draw a question's scene and describe the question to the drill bar. */
   function ask(it, settings) {
     current = new RoadQuestion(it, data, settings);
@@ -536,9 +618,9 @@ async function main() {
       });
       const signs = SIGN_CLUES.filter((k) => shows.includes(k));
       art.innerHTML = `${shows.includes("side") || shows.includes("lines") ? `<div class="sroad">${road}</div>` : ""}
-        ${signs.length ? `<div class="ssigns">${signs.map((k) => `<figure>${signImg(c.signs[k], CLUES[k].label)}<figcaption>${esc(CLUES[k].label)}</figcaption></figure>`).join("")}</div>` : ""}`;
+        ${signs.length ? `<div class="ssigns">${signs.map((k) => `<figure>${signArt(c, k)}<figcaption>${esc(CLUES[k].label)}</figcaption></figure>`).join("")}</div>` : ""}`;
     } else if (SIGN_CLUES.includes(it.clue)) {
-      art.innerHTML = `<div class="ssigns big"><figure>${signImg(c.signs[it.clue], CLUES[it.clue].label)}</figure></div>`;
+      art.innerHTML = `<div class="ssigns big"><figure>${signArt(c, it.clue)}</figure></div>`;
     } else {
       art.innerHTML = `<p class="sname">${flagMini(c.code, c.name)}${esc(c.name)}</p>`;
     }

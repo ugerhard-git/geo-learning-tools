@@ -158,7 +158,9 @@ test("progress is saved in the established format and shown on the progress scre
     JSON.parse(localStorage.getItem("cityatlas.progress.v1")),
   );
   const key = `l:${city.iso}/${city.name}`;
-  expect(saved[key]).toEqual([expect.any(Number), expect.any(Number), expect.any(Number), 0]);
+  // A right answer adds no miss; Paris keeps the one its old record had.
+  const misses = key === "l:FR/Paris" ? old[key][3] : 0;
+  expect(saved[key]).toEqual([expect.any(Number), expect.any(Number), expect.any(Number), misses]);
   expect(saved["l:FR/Paris"]).toEqual(city.name === "Paris" ? saved[key] : [3, 0, 4, 1]);
   expect(saved["junk:x"]).toBeUndefined();
 });

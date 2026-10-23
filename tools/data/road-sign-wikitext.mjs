@@ -96,7 +96,10 @@ export function captionedFiles(wikitext) {
   const clean = (s) =>
     s
       .replace(/\[\[(?:[^|\]]*\|)?([^\]]*)\]\]/g, "$1")
-      .replace(/'''?|<[^>]+>|\{\{[^}]*\}\}/g, "")
+      // Layout templates keep their text: "{{center|'''R-2'''<br />Stop}}".
+      .replace(/\{\{\s*(?:center|centre|nowrap|small|big)\s*\|/gi, "")
+      .replace(/<br\s*\/?>/gi, " ")
+      .replace(/'''?|<[^>]+>|\{\{[^}]*\}\}|\}\}/g, "")
       .replace(/\s+/g, " ")
       .trim();
   // Inline images, as in tables: "| [[File:x.svg|80px]] || Stop". The caption
@@ -125,7 +128,14 @@ export function captionedFiles(wikitext) {
     if (gallery) {
       out.push({
         file: gallery[1].trim().replaceAll(" ", "_"),
-        caption: clean(gallery[2]),
+        // Parameters such as "alt=" come before the caption; the caption is
+        // what is left.
+        caption: clean(
+          gallery[2]
+            .split("|")
+            .filter((p) => !/^\s*(alt|link|class|upright|lang)\s*=/i.test(p))
+            .join("|"),
+        ),
         section,
       });
       continue;

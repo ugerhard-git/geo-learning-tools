@@ -14,6 +14,7 @@ import {
   itemOfKey,
   keyOf,
   linesText,
+  looksAlike,
   poolFor,
 } from "../../src/roads/drills.js";
 
@@ -39,7 +40,8 @@ const signs = {
   MX: { stop: sign("MX", "stop", "Mexico_alto.svg"), warning: sign("MX", "warning", "MX.svg") },
   FR: { stop: sign("FR", "stop", "France_AB4.svg"), warning: sign("FR", "warning", "A14.svg") },
 };
-const data = makeRoadData(roads, signs, countryText);
+const subregions = JSON.parse(read("src/data/subregions.json"));
+const data = makeRoadData(roads, signs, countryText, subregions);
 
 test("captionedFiles finds drawings in galleries and in tables", () => {
   const text = [
@@ -53,6 +55,8 @@ test("captionedFiles finds drawings in galleries and in tables", () => {
     "File:Zeichen 206.svg|Stop and give way",
     "File:Zeichen 350-10.svg|[[Pedestrian crossing]]",
     "Denmark road sign B13.svg|B13 Stop",
+    "File:Spain traffic signal r2.svg|{{center|'''R-2'''<br />Stop}}",
+    "File:SeñalTB-1.svg|alt=|'''TB-1'''<br/>Wide directional panel}}",
     "</gallery>",
     "Not in a gallery.svg|Stop",
     "| [[File:Japan road sign 330-A.svg|80px]] || Stop || 止まれ",
@@ -66,12 +70,19 @@ test("captionedFiles finds drawings in galleries and in tables", () => {
   assert.deepEqual(find("stop"), [
     "Zeichen_206.svg",
     "Denmark_road_sign_B13.svg",
+    "Spain_traffic_signal_r2.svg",
     "Japan_road_sign_330-A.svg",
   ]);
   // The same caption: the warning section's drawing is the warning sign.
   assert.deepEqual(find("pedestrian"), ["Zeichen_101.svg"]);
   assert.deepEqual(find("crossing"), ["Zeichen_350-10.svg"]);
+  // Spain's "directional panels" are its roadworks boards, not chevrons.
   assert.deepEqual(find("chevron"), ["Chevron_alignment.svg"]);
+  // Layout templates and "alt=" leave the caption's own text.
+  assert.equal(
+    files.find((f) => f.file === "SeñalTB-1.svg").caption,
+    "TB-1 Wide directional panel",
+  );
 });
 
 test("signScore takes the sign's number off and ranks the plain name first", () => {
@@ -230,4 +241,39 @@ test("a scene's wrong options differ in something it shows", () => {
       );
     }
   }
+});
+
+test("chevrons described in words: drawn, compared by colour and arrows", () => {
+  const [es, it, gr, pt] = ["ES", "IT", "GR", "PT"].map((c) => data.byCode[c]);
+  assert.ok(hasClue(es, "chevron"), "Spain is drawn from its description");
+  // Italy and Greece: white on black, one arrow; never offered together.
+  assert.ok(looksAlike(it, gr, "chevron"));
+  // Spain's have two arrows, Greece's one; Italy's number is not given, so
+  // Spain and Italy are not offered together. Portugal's yellow is its own.
+  assert.ok(!looksAlike(es, gr, "chevron"));
+  assert.ok(looksAlike(es, it, "chevron"));
+  assert.ok(!looksAlike(pt, it, "chevron"));
+  for (let i = 0; i < 20; i++) {
+    const q = new RoadQuestion({ clue: "chevron", code: "ES" }, data, { where: "039" });
+    assert.ok(q.chevronStyle, "a style to draw");
+    const names = q.options().map((o) => o.label);
+    const offered = names.map((n) => data.countries.find((c) => c.name === n));
+    for (const a of offered) {
+      for (const b of offered)
+        if (a !== b) assert.ok(!looksAlike(a, b, "chevron"), `${a.code} ${b.code}`);
+    }
+  }
+  assert.match(new RoadQuestion({ clue: "chevron", code: "PT" }, data).reveal(), /yellow/i);
+});
+
+test("a drill can be limited to a part of the world", () => {
+  assert.equal(data.subregions["039"], "Southern Europe");
+  const pool = poolFor(data, "clue", ["chevron"], "039");
+  const codes = pool.map((it) => it.code);
+  for (const c of ["IT", "GR", "ES", "PT"]) assert.ok(codes.includes(c), c);
+  assert.ok(pool.every((it) => data.byCode[it.code].subregion === "039"));
+  // A continent works as well.
+  assert.ok(
+    poolFor(data, "clue", ["side"], "E").every((it) => data.byCode[it.code].region === "E"),
+  );
 });
