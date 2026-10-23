@@ -607,7 +607,7 @@ async function main() {
         <div><h3>At a glance</h3><div data-facts class="loading">Loading country facts…</div><div data-flagfacts></div></div>
         <div class="wiki"><h3>About the flag</h3><div data-wiki class="loading">Loading Wikipedia…</div></div>
       </div>
-      <p class="src" data-src>Flag images: flagcdn.com. Map: Natural Earth (public domain).</p>`;
+      <p class="src" data-src>Flag images: flagcdn.com. Map: Natural Earth (public domain). Colours, layout and symbols: described for this app; colour codes measured from the flag drawings on Wikimedia Commons.</p>`;
     highlight(code);
     paintSwatches(body);
     if (!detail.open) detail.showModal();
@@ -672,7 +672,7 @@ async function main() {
         `${paragraphs.map((p) => `<p>${esc(p)}</p>`).join("")}<p><a href="${wikipediaUrl(w.title)}" target="_blank" rel="noopener noreferrer">Read “${esc(w.title)}” on Wikipedia</a></p>`,
       );
       $("[data-src]", body).textContent =
-        "Flag images: flagcdn.com. Map: Natural Earth. Text: Wikipedia (CC BY-SA). Facts: REST Countries and Wikidata.";
+        "Flag images: flagcdn.com. Map: Natural Earth. Text: Wikipedia (CC BY-SA). Facts: REST Countries and Wikidata. Colours, layout and symbols: described for this app; colour codes measured from the flag drawings on Wikimedia Commons.";
       if (w.qid) {
         const rows = await flagFacts(w.qid);
         if (current !== d.code || !rows.length) return;

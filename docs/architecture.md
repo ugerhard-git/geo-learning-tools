@@ -104,6 +104,11 @@ the grid needs no change. Add the page to the smoke test in
 
 ## Rules the code keeps to
 
+**Sources on screen.** Every fact, drawing, word or figure an app shows
+names its source where the learner sees it, usually as a small line in the
+details (`.src`), with a link wherever there is one. See "Ground rules" in
+`CONTRIBUTING.md`.
+
 **Nothing inline.** Each page's Content-Security-Policy allows scripts and
 styles from the site's own files only (`script-src 'self'; style-src 'self'`),
 with no `'unsafe-inline'`. So there are no `<script>` bodies, no `style=""`
