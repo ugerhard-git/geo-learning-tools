@@ -9,3 +9,6 @@ package-lock.json
 # Map data and other generated inputs: long single-line strings that
 # formatting would only make bigger. See docs/data.md.
 src/data/
+
+# Written by tools/data/sign-words.mjs (the Language data workflow).
+tools/data/sign-words.json

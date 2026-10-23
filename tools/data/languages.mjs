@@ -203,6 +203,9 @@ const SIGN_WORD_FIXES = {
   id: { street: "jalan" },
   // The label is "lielpilsēta", a large city; the word is "pilsēta".
   lv: { city: "pilsēta" },
+  // Bosnian has no label for "street" and its word for "road" is "put";
+  // street signs say "ulica", as in Croatian and Serbian.
+  bs: { street: "ulica" },
 };
 
 /** A letter used by more than this many of the languages gives nothing away. */
