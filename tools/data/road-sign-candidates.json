@@ -7,31 +7,31 @@
   "chevron": [
    {
     "file": "SADC_road_sign_W406.svg",
-    "caption": "alt=|Single chevron - left",
+    "caption": "Single chevron - left",
     "section": "Gallery / Hazard markers and additional panels",
     "score": 1
    },
    {
     "file": "SADC_road_sign_W405.svg",
-    "caption": "alt=|Single chevron - right",
+    "caption": "Single chevron - right",
     "section": "Gallery / Hazard markers and additional panels",
     "score": 1
    },
    {
     "file": "SADC_road_sign_W408.svg",
-    "caption": "alt=|Multiple chevron - left",
+    "caption": "Multiple chevron - left",
     "section": "Gallery / Hazard markers and additional panels",
     "score": 1
    },
    {
     "file": "SADC_road_sign_W407.svg",
-    "caption": "alt=|Multiple chevron - right",
+    "caption": "Multiple chevron - right",
     "section": "Gallery / Hazard markers and additional panels",
     "score": 1
    },
    {
     "file": "SADC_road_sign_W409.svg",
-    "caption": "alt=|T junctions chevron",
+    "caption": "T junctions chevron",
     "section": "Gallery / Hazard markers and additional panels",
     "score": 1
    }
@@ -74,9 +74,9 @@
   "stop": [
    {
     "file": "Italian_traffic_signs_-_fermarsi_e_dare_precedenza_-_stop.svg",
-    "caption": "alt=Stop and give way(formerly used )|Stop and give way",
+    "caption": "Stop and give way",
     "section": "Regulatory signs / Priority signs",
-    "score": 1
+    "score": 2
    },
    {
     "file": "Albanian_traffic_sign_-_ndal_-_stacion.svg",
@@ -110,19 +110,19 @@
   "chevron": [
    {
     "file": "MUTCD_W1-8R.svg",
-    "caption": "W1-8RChevron (right)",
+    "caption": "W1-8R Chevron (right)",
     "section": "Warning signs / W1 series: Horizontal alignment",
     "score": 1
    },
    {
     "file": "MUTCD_W1-8L.svg",
-    "caption": "W1-8LChevron (left)",
+    "caption": "W1-8L Chevron (left)",
     "section": "Warning signs / W1 series: Horizontal alignment",
     "score": 1
    },
    {
     "file": "MUTCD_OM3-C.svg",
-    "caption": "OM3-CChevron Object Marker",
+    "caption": "OM3-C Chevron Object Marker",
     "section": "Warning signs / Object markers",
     "score": 1
    }
@@ -130,49 +130,49 @@
   "crossing": [
    {
     "file": "MUTCD_R1-6_(yellow).svg",
-    "caption": "R1-6In-street pedestrian crossing",
+    "caption": "R1-6 In-street pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-6.svg",
-    "caption": "R1-6In-street pedestrian crossing",
+    "caption": "R1-6 In-street pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-6a_(yellow).svg",
-    "caption": "R1-6aIn-street pedestrian crossing",
+    "caption": "R1-6a In-street pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-6a.svg",
-    "caption": "R1-6aIn-street pedestrian crossing",
+    "caption": "R1-6a In-street pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-9.svg",
-    "caption": "R1-9Overhead pedestrian crossing",
+    "caption": "R1-9 Overhead pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-9_(fluorescent).svg",
-    "caption": "R1-9Overhead pedestrian crossing",
+    "caption": "R1-9 Overhead pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-9a.svg",
-    "caption": "R1-9aOverhead pedestrian crossing",
+    "caption": "R1-9a Overhead pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-9a_(fluorescent).svg",
-    "caption": "R1-9aOverhead pedestrian crossing",
+    "caption": "R1-9a Overhead pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    }
@@ -180,49 +180,49 @@
   "stop": [
    {
     "file": "MUTCD_R1-1.svg",
-    "caption": "R1-1Stop",
+    "caption": "R1-1 Stop",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 2
    },
    {
+    "file": "MUTCD_R1-5bR.svg",
+    "caption": "R1-5bR Stop here for pedestrians (right)",
+    "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R1-5bL.svg",
+    "caption": "R1-5bL Stop here for pedestrians (left)",
+    "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 1
+   },
+   {
     "file": "MUTCD_R8-10.svg",
-    "caption": "R8-10Stop here when flashing",
+    "caption": "R8-10 Stop here when flashing",
     "section": "Regulatory signs / R8 series: Parking and emergency restrictions",
     "score": 1
    },
    {
     "file": "MUTCD_R8-10a.svg",
-    "caption": "R8-10aStop here when flashing (alternative)",
+    "caption": "R8-10a Stop here when flashing (alternative)",
     "section": "Regulatory signs / R8 series: Parking and emergency restrictions",
     "score": 1
    },
    {
     "file": "MUTCD_R10-14.svg",
-    "caption": "R10-14Emergency signal - stop on flashing red",
+    "caption": "R10-14 Emergency signal - stop on flashing red",
     "section": "Regulatory signs / R10 series: Traffic signal",
     "score": 1
    },
    {
     "file": "MUTCD_R10-14a.svg",
-    "caption": "R10-14aEmergency signal - stop on flashing red (overhead)",
+    "caption": "R10-14a Emergency signal - stop on flashing red (overhead)",
     "section": "Regulatory signs / R10 series: Traffic signal",
     "score": 1
    },
    {
     "file": "MUTCD_R10-14b.svg",
-    "caption": "R10-14bStop here on flashing red",
-    "section": "Regulatory signs / R10 series: Traffic signal",
-    "score": 1
-   },
-   {
-    "file": "MUTCD_R10-15a.svg",
-    "caption": "R10-15aTurning vehicles stop for pedestrians",
-    "section": "Regulatory signs / R10 series: Traffic signal",
-    "score": 1
-   },
-   {
-    "file": "MUTCD_R10-27.svg",
-    "caption": "R10-27Left turn yield on flashing red arrow after stop",
+    "caption": "R10-14b Stop here on flashing red",
     "section": "Regulatory signs / R10 series: Traffic signal",
     "score": 1
    }
@@ -577,9 +577,9 @@
   "crossing": [
    {
     "file": "Bangladesh_road_sign_C2.svg",
-    "caption": "alt=Pedestrian crossing|Pedestrian crossing",
+    "caption": "Pedestrian crossing",
     "section": "Indication signs",
-    "score": 1
+    "score": 2
    }
   ],
   "warning": [
@@ -669,7 +669,7 @@
   "pedestrian": [
    {
     "file": "Bulgaria_road_sign_А18.svg",
-    "caption": "А18Pedestrian crossing",
+    "caption": "А18 Pedestrian crossing",
     "section": "Warning signs",
     "score": 2
    }
@@ -677,7 +677,7 @@
   "warning": [
    {
     "file": "BG_road_sign_А39.svg",
-    "caption": "А39Other dangers",
+    "caption": "А39 Other dangers",
     "section": "Warning signs",
     "score": 2
    }
@@ -685,7 +685,7 @@
   "stop": [
    {
     "file": "BG_road_sign_Б2.svg",
-    "caption": "Б2Stop",
+    "caption": "Б2 Stop",
     "section": "Priority signs",
     "score": 2
    }
@@ -851,7 +851,7 @@
   "pedestrian": [
    {
     "file": "CA-MUTCDC_WC-002-R.svg",
-    "caption": "WC-2Pedestrian crossing ahead",
+    "caption": "WC-2 Pedestrian crossing ahead",
     "section": "Canadian road signs / Gallery of other signs",
     "score": 2
    },
@@ -895,7 +895,7 @@
   "crossing": [
    {
     "file": "CA-MUTCDC_RA-004-R.svg",
-    "caption": "RA-4Pedestrian crossing",
+    "caption": "RA-4 Pedestrian crossing",
     "section": "Canadian road signs / Gallery of other signs",
     "score": 2
    },
@@ -919,7 +919,7 @@
    },
    {
     "file": "CA-MUTCDC_RA-005-R.svg",
-    "caption": "RA-5Overhead pedestrian crossing",
+    "caption": "RA-5 Overhead pedestrian crossing",
     "section": "Canadian road signs / Gallery of other signs",
     "score": 1
    },
@@ -1158,7 +1158,7 @@
   "pedestrian": [
    {
     "file": "CL_road_sign_PO-8-FYG.svg",
-    "caption": "PO-8Pedestrian crossing ahead",
+    "caption": "PO-8 Pedestrian crossing ahead",
     "section": "Warning signs / Other signs",
     "score": 2
    }
@@ -1166,7 +1166,7 @@
   "warning": [
    {
     "file": "CL_road_sign_PE-12.svg",
-    "caption": "PE-12Danger",
+    "caption": "PE-12 Danger",
     "section": "Warning signs / Special signs",
     "score": 2
    }
@@ -1174,7 +1174,7 @@
   "stop": [
    {
     "file": "CL_road_sign_RPI-2.svg",
-    "caption": "RPI-2Stop",
+    "caption": "RPI-2 Stop",
     "section": "Regulatory signs / Priority signs",
     "score": 2
    }
@@ -1224,7 +1224,7 @@
   "chevron": [
    {
     "file": "SIECA_road_sign_P-1-9.svg",
-    "caption": "P-1-9Chevron sign",
+    "caption": "P-1-9 Chevron sign",
     "section": "Warning signs",
     "score": 2
    }
@@ -1232,13 +1232,13 @@
   "pedestrian": [
    {
     "file": "SIECA_road_sign_P-9-1.svg",
-    "caption": "P-9-1Pedestrian crossing",
+    "caption": "P-9-1 Pedestrian crossing",
     "section": "Warning signs",
     "score": 2
    },
    {
     "file": "SIECA_road_sign_P-9-4.svg",
-    "caption": "P-9-4Pedestrian crosswalk",
+    "caption": "P-9-4 Pedestrian crosswalk",
     "section": "Warning signs",
     "score": 1
    }
@@ -1246,13 +1246,13 @@
   "stop": [
    {
     "file": "SIECA_road_sign_R-1-1.svg",
-    "caption": "R-1-1Stop sign",
+    "caption": "R-1-1 Stop sign",
     "section": "Regulatory signs",
     "score": 2
    },
    {
     "file": "SIECA_road_sign_assembly_R1-1_+_R1-5.svg",
-    "caption": "R1-1 and R1-5Stop/Yield to Pedestrians",
+    "caption": "R1-1 and R1-5 Stop/Yield to Pedestrians",
     "section": "Regulatory signs / Sign Assemblies",
     "score": 1
    }
@@ -1462,13 +1462,13 @@
   "pedestrian": [
    {
     "file": "Zeichen_101-11_-_Fußgängerüberweg,_StVO_2017.svg",
-    "caption": "Sign 101-11Pedestrian crossing",
+    "caption": "Sign 101-11 Pedestrian crossing",
     "section": "Danger signs",
     "score": 2
    },
    {
     "file": "Zeichen_101-21_-_Fußgängerüberweg,_Aufstellung_links,_StVO_2017.svg",
-    "caption": "Sign 101-21Pedestrian crossing",
+    "caption": "Sign 101-21 Pedestrian crossing",
     "section": "Danger signs",
     "score": 2
    }
@@ -1476,25 +1476,25 @@
   "crossing": [
    {
     "file": "Zeichen_293_-_Fußgängerüberweg,_StVO_1970.svg",
-    "caption": "Sign 293Pedestrian crossing",
+    "caption": "Sign 293 Pedestrian crossing",
     "section": "Regulatory signs",
     "score": 2
    },
    {
     "file": "Zeichen_350-10_-_Fußgängerüberweg_(rechts),_StVO_1992.svg",
-    "caption": "Sign 350-10Pedestrian crossing",
+    "caption": "Sign 350-10 Pedestrian crossing",
     "section": "Directional signs",
     "score": 2
    },
    {
     "file": "Zeichen_350-20_-_Fußgängerüberweg_(Linksaufstellung)_einseitig,_StVO_1992.svg",
-    "caption": "Sign 350-20Pedestrian crossing",
+    "caption": "Sign 350-20 Pedestrian crossing",
     "section": "Directional signs",
     "score": 2
    },
    {
     "file": "Zeichen_356_-_Verkehrshelfer,_StVO_1992.svg",
-    "caption": "Sign 356Pedestrian crossing patrol",
+    "caption": "Sign 356 Pedestrian crossing patrol",
     "section": "Directional signs",
     "score": 1
    }
@@ -1502,7 +1502,7 @@
   "stop": [
    {
     "file": "Zeichen_206.svg",
-    "caption": "Sign 206Stop",
+    "caption": "Sign 206 Stop",
     "section": "Regulatory signs",
     "score": 2
    }
@@ -1552,7 +1552,7 @@
   "pedestrian": [
    {
     "file": "Ecuador_road_sign_P3-4.svg",
-    "caption": "P3-4Pedestrian crossing ahead",
+    "caption": "P3-4 Pedestrian crossing ahead",
     "section": "Warning signs / P3: Traffic control device approach series",
     "score": 2
    }
@@ -1560,25 +1560,25 @@
   "crossing": [
    {
     "file": "Ecuador_road_sign_R7-3a.svg",
-    "caption": "R7-3aPedestrian crossing",
+    "caption": "R7-3a Pedestrian crossing",
     "section": "Regulatory signs / R7: Miscellaneous series",
     "score": 2
    },
    {
     "file": "Ecuador_road_sign_R7-3b.svg",
-    "caption": "R7-3bPedestrian crossing",
+    "caption": "R7-3b Pedestrian crossing",
     "section": "Regulatory signs / R7: Miscellaneous series",
     "score": 2
    },
    {
     "file": "Ecuador_road_sign_R7-4I.svg",
-    "caption": "R7-4IPedestrian crossing tunnel on the left",
+    "caption": "R7-4I Pedestrian crossing tunnel on the left",
     "section": "Regulatory signs / R7: Miscellaneous series",
     "score": 1
    },
    {
     "file": "Ecuador_road_sign_R7-4D.svg",
-    "caption": "R7-4DPedestrian crossing tunnel on the right",
+    "caption": "R7-4D Pedestrian crossing tunnel on the right",
     "section": "Regulatory signs / R7: Miscellaneous series",
     "score": 1
    }
@@ -1586,7 +1586,7 @@
   "stop": [
    {
     "file": "Ecuador_road_sign_R1-1.svg",
-    "caption": "R1-1Stop",
+    "caption": "R1-1 Stop",
     "section": "Regulatory signs / R1: Priority series",
     "score": 2
    }
@@ -1628,7 +1628,51 @@
   ]
  },
  "ES": {
-  "article": "Road signs in Spain"
+  "article": "Road signs in Spain",
+  "pedestrian": [
+   {
+    "file": "Spain_traffic_signal_P-20b_(2023).svg",
+    "caption": "P-20b Pedestrian crossing",
+    "section": "General danger signs",
+    "score": 2
+   }
+  ],
+  "crossing": [
+   {
+    "file": "Spain_traffic_signal_s13,_2023_set.svg",
+    "caption": "S-13 Pedestrian crossing",
+    "section": "Indication signs / General indication signs",
+    "score": 2
+   }
+  ],
+  "warning": [
+   {
+    "file": "Spain_traffic_sign_p50.svg",
+    "caption": "P-50 Other dangers",
+    "section": "General danger signs",
+    "score": 2
+   }
+  ],
+  "stop": [
+   {
+    "file": "Spain_traffic_signal_r2,_2023_set.svg",
+    "caption": "R-2 Stop",
+    "section": "Regulatory signs / Priority signs",
+    "score": 2
+   },
+   {
+    "file": "Spain_traffic_signal_s49.svg",
+    "caption": "S-49 Advanced stop for bicycles and motorcycles",
+    "section": "Indication signs / General indication signs",
+    "score": 1
+   },
+   {
+    "file": "Spain_traffic_signal_s840.svg",
+    "caption": "S-840 STOP presignaling",
+    "section": "Indication signs / Additional panels",
+    "score": 1
+   }
+  ]
  },
  "FI": {
   "article": "Road signs in Finland",
@@ -1969,7 +2013,7 @@
   "pedestrian": [
    {
     "file": "Traffic_Sign_GR_-_KOK_2009_-_K-15.svg",
-    "caption": "K-15Pedestrian crossing ahead",
+    "caption": "K-15 Pedestrian crossing ahead",
     "section": "Categorization / Warning signs (ΚΟΚ series Κ)",
     "score": 2
    }
@@ -1977,25 +2021,25 @@
   "crossing": [
    {
     "file": "Traffic_Sign_GR_-_KOK_2009_-_P-21.svg",
-    "caption": "Π-21Pedestrian crossing",
+    "caption": "Π-21 Pedestrian crossing",
     "section": "Categorization / Information signs (ΚΟΚ series Π)",
     "score": 2
    },
    {
     "file": "Traffic_Sign_GR_-_KOK_2009_-_Π-21G.svg",
-    "caption": "Π-21Pedestrian crossing",
+    "caption": "Π-21 Pedestrian crossing",
     "section": "Categorization / Other signs",
     "score": 2
    },
    {
     "file": "Traffic_Sign_GR_-_KOK_2009_-_Π-93.svg",
-    "caption": "Π-93Pedestrian crossing patrol",
+    "caption": "Π-93 Pedestrian crossing patrol",
     "section": "Categorization / Information signs (ΚΟΚ series Π)",
     "score": 1
    },
    {
     "file": "Traffic_Sign_GR_-_KOK_2009_-_Continuous_Pedestrian_Crossings.svg",
-    "caption": "N/AContinuous pedestrian crossings",
+    "caption": "N/A Continuous pedestrian crossings",
     "section": "Categorization / Other signs",
     "score": 1
    }
@@ -2003,7 +2047,7 @@
   "warning": [
    {
     "file": "Traffic_Sign_GR_-_KOK_2009_-_K-25.svg",
-    "caption": "K-25Other dangers",
+    "caption": "K-25 Other dangers",
     "section": "Categorization / Warning signs (ΚΟΚ series Κ)",
     "score": 2
    }
@@ -2011,7 +2055,7 @@
   "stop": [
    {
     "file": "Traffic_Sign_GR_-_KOK_2009_-_R-2.svg",
-    "caption": "Ρ-2Stop",
+    "caption": "Ρ-2 Stop",
     "section": "Categorization / Regulatory signs (ΚΟΚ series Ρ)",
     "score": 2
    }
@@ -2022,7 +2066,7 @@
   "chevron": [
    {
     "file": "SIECA_road_sign_P-1-9.svg",
-    "caption": "P-1-9Chevron sign",
+    "caption": "P-1-9 Chevron sign",
     "section": "Warning signs",
     "score": 2
    }
@@ -2030,13 +2074,13 @@
   "pedestrian": [
    {
     "file": "SIECA_road_sign_P-9-1.svg",
-    "caption": "P-9-1Pedestrian crossing",
+    "caption": "P-9-1 Pedestrian crossing",
     "section": "Warning signs",
     "score": 2
    },
    {
     "file": "SIECA_road_sign_P-9-4.svg",
-    "caption": "P-9-4Pedestrian crosswalk",
+    "caption": "P-9-4 Pedestrian crosswalk",
     "section": "Warning signs",
     "score": 1
    }
@@ -2044,13 +2088,13 @@
   "stop": [
    {
     "file": "SIECA_road_sign_R-1-1.svg",
-    "caption": "R-1-1Stop sign",
+    "caption": "R-1-1 Stop sign",
     "section": "Regulatory signs",
     "score": 2
    },
    {
     "file": "SIECA_road_sign_assembly_R1-1_+_R1-5.svg",
-    "caption": "R1-1 and R1-5Stop/Yield to Pedestrians",
+    "caption": "R1-1 and R1-5 Stop/Yield to Pedestrians",
     "section": "Regulatory signs / Sign Assemblies",
     "score": 1
    }
@@ -2061,19 +2105,19 @@
   "chevron": [
    {
     "file": "MUTCD_W1-8R.svg",
-    "caption": "W1-8RChevron (right)",
+    "caption": "W1-8R Chevron (right)",
     "section": "Warning signs / W1 series: Horizontal alignment",
     "score": 1
    },
    {
     "file": "MUTCD_W1-8L.svg",
-    "caption": "W1-8LChevron (left)",
+    "caption": "W1-8L Chevron (left)",
     "section": "Warning signs / W1 series: Horizontal alignment",
     "score": 1
    },
    {
     "file": "MUTCD_OM3-C.svg",
-    "caption": "OM3-CChevron Object Marker",
+    "caption": "OM3-C Chevron Object Marker",
     "section": "Warning signs / Object markers",
     "score": 1
    }
@@ -2081,49 +2125,49 @@
   "crossing": [
    {
     "file": "MUTCD_R1-6_(yellow).svg",
-    "caption": "R1-6In-street pedestrian crossing",
+    "caption": "R1-6 In-street pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-6.svg",
-    "caption": "R1-6In-street pedestrian crossing",
+    "caption": "R1-6 In-street pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-6a_(yellow).svg",
-    "caption": "R1-6aIn-street pedestrian crossing",
+    "caption": "R1-6a In-street pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-6a.svg",
-    "caption": "R1-6aIn-street pedestrian crossing",
+    "caption": "R1-6a In-street pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-9.svg",
-    "caption": "R1-9Overhead pedestrian crossing",
+    "caption": "R1-9 Overhead pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-9_(fluorescent).svg",
-    "caption": "R1-9Overhead pedestrian crossing",
+    "caption": "R1-9 Overhead pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-9a.svg",
-    "caption": "R1-9aOverhead pedestrian crossing",
+    "caption": "R1-9a Overhead pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-9a_(fluorescent).svg",
-    "caption": "R1-9aOverhead pedestrian crossing",
+    "caption": "R1-9a Overhead pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    }
@@ -2131,49 +2175,49 @@
   "stop": [
    {
     "file": "MUTCD_R1-1.svg",
-    "caption": "R1-1Stop",
+    "caption": "R1-1 Stop",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 2
    },
    {
+    "file": "MUTCD_R1-5bR.svg",
+    "caption": "R1-5bR Stop here for pedestrians (right)",
+    "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R1-5bL.svg",
+    "caption": "R1-5bL Stop here for pedestrians (left)",
+    "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 1
+   },
+   {
     "file": "MUTCD_R8-10.svg",
-    "caption": "R8-10Stop here when flashing",
+    "caption": "R8-10 Stop here when flashing",
     "section": "Regulatory signs / R8 series: Parking and emergency restrictions",
     "score": 1
    },
    {
     "file": "MUTCD_R8-10a.svg",
-    "caption": "R8-10aStop here when flashing (alternative)",
+    "caption": "R8-10a Stop here when flashing (alternative)",
     "section": "Regulatory signs / R8 series: Parking and emergency restrictions",
     "score": 1
    },
    {
     "file": "MUTCD_R10-14.svg",
-    "caption": "R10-14Emergency signal - stop on flashing red",
+    "caption": "R10-14 Emergency signal - stop on flashing red",
     "section": "Regulatory signs / R10 series: Traffic signal",
     "score": 1
    },
    {
     "file": "MUTCD_R10-14a.svg",
-    "caption": "R10-14aEmergency signal - stop on flashing red (overhead)",
+    "caption": "R10-14a Emergency signal - stop on flashing red (overhead)",
     "section": "Regulatory signs / R10 series: Traffic signal",
     "score": 1
    },
    {
     "file": "MUTCD_R10-14b.svg",
-    "caption": "R10-14bStop here on flashing red",
-    "section": "Regulatory signs / R10 series: Traffic signal",
-    "score": 1
-   },
-   {
-    "file": "MUTCD_R10-15a.svg",
-    "caption": "R10-15aTurning vehicles stop for pedestrians",
-    "section": "Regulatory signs / R10 series: Traffic signal",
-    "score": 1
-   },
-   {
-    "file": "MUTCD_R10-27.svg",
-    "caption": "R10-27Left turn yield on flashing red arrow after stop",
+    "caption": "R10-14b Stop here on flashing red",
     "section": "Regulatory signs / R10 series: Traffic signal",
     "score": 1
    }
@@ -2223,16 +2267,62 @@
   "pedestrian": [
    {
     "file": "HR_road_sign_A21.svg",
-    "caption": "|alt=A21Pedestrian crossing ahead",
+    "caption": "A21 Pedestrian crossing",
     "section": "Warning signs",
+    "score": 2
+   }
+  ],
+  "crossing": [
+   {
+    "file": "HR_road_sign_C02.svg",
+    "caption": "C02 Pedestrian crossing",
+    "section": "Information signs",
     "score": 2
    }
   ],
   "warning": [
    {
     "file": "HR_road_sign_A01.svg",
-    "caption": "|alt=A01Other danger ahead",
+    "caption": "A01 Other dangers",
     "section": "Warning signs",
+    "score": 2
+   }
+  ],
+  "stop": [
+   {
+    "file": "HR_road_sign_B02.svg",
+    "caption": "B02 Stop and give way",
+    "section": "Regulatory signs",
+    "score": 2
+   },
+   {
+    "file": "HR_road_sign_C55.svg",
+    "caption": "C55 Rest stop",
+    "section": "Information signs",
+    "score": 1
+   },
+   {
+    "file": "HR_road_sign_C93.svg",
+    "caption": "C93 Rest stop",
+    "section": "Information signs",
+    "score": 1
+   },
+   {
+    "file": "HR_road_sign_C93-1.svg",
+    "caption": "C93-1 Rest stop",
+    "section": "Information signs",
+    "score": 1
+   },
+   {
+    "file": "HR_road_sign_C119.svg",
+    "caption": "C119 STOP! Wrong way",
+    "section": "Information signs",
+    "score": 1
+   },
+   {
+    "file": "Croatia_road_sign_E36.svg",
+    "caption": "E14-1 Priority road direction (with Give way or Stop and give way)",
+    "section": "Additional panels",
     "score": 1
    }
   ]
@@ -2242,43 +2332,43 @@
   "chevron": [
    {
     "file": "Hungary_road_sign_F-022.svg",
-    "caption": "F-022Chevron (left)",
+    "caption": "F-022 Chevron (left)",
     "section": "Indication signs",
     "score": 1
    },
    {
     "file": "Hungary_road_sign_F-023.svg",
-    "caption": "F-023Chevron (right)",
+    "caption": "F-023 Chevron (right)",
     "section": "Indication signs",
     "score": 1
    },
    {
     "file": "Hungary_road_sign_F-024.svg",
-    "caption": "F-024Chevron (left)",
+    "caption": "F-024 Chevron (left)",
     "section": "Indication signs",
     "score": 1
    },
    {
     "file": "Hungary_road_sign_F-025.svg",
-    "caption": "F-025Chevron (right)",
+    "caption": "F-025 Chevron (right)",
     "section": "Indication signs",
     "score": 1
    },
    {
     "file": "Hungary_road_sign_F-026.svg",
-    "caption": "F-026Vertical chevron",
+    "caption": "F-026 Vertical chevron",
     "section": "Indication signs",
     "score": 1
    },
    {
     "file": "Hungary_road_sign_F-027.svg",
-    "caption": "F-027Vertical chevron",
+    "caption": "F-027 Vertical chevron",
     "section": "Indication signs",
     "score": 1
    },
    {
     "file": "Hungary_road_sign_F-028.svg",
-    "caption": "F-028Vertical chevron",
+    "caption": "F-028 Vertical chevron",
     "section": "Indication signs",
     "score": 1
    },
@@ -2292,7 +2382,7 @@
   "pedestrian": [
    {
     "file": "Hungary_road_sign_A-020.svg",
-    "caption": "A-020Pedestrian crossing",
+    "caption": "A-020 Pedestrian crossing",
     "section": "Warning signs",
     "score": 2
    }
@@ -2300,7 +2390,7 @@
   "crossing": [
    {
     "file": "Hungary_road_sign_E-038.svg",
-    "caption": "E-038Pedestrian crossing",
+    "caption": "E-038 Pedestrian crossing",
     "section": "Information signs",
     "score": 2
    }
@@ -2308,7 +2398,7 @@
   "warning": [
    {
     "file": "Hungary_road_sign_A-053.svg",
-    "caption": "A-053Other dangers",
+    "caption": "A-053 Other dangers",
     "section": "Warning signs",
     "score": 2
    }
@@ -2316,7 +2406,7 @@
   "stop": [
    {
     "file": "Hungary_road_sign_B-002.svg",
-    "caption": "B-002Stop",
+    "caption": "B-002 Stop",
     "section": "Priority signs",
     "score": 2
    }
@@ -2326,32 +2416,32 @@
   "article": "Road signs in Indonesia",
   "chevron": [
    {
+    "file": "ID_Rambu_peringatan_11d.svg",
+    "caption": "Chevron marker",
+    "section": "Warning signs",
+    "score": 2
+   },
+   {
+    "file": "ID_Rambu_peringatan_11e.svg",
+    "caption": "Chevron marker",
+    "section": "Warning signs",
+    "score": 2
+   },
+   {
     "file": "ID_Rambu_peringatan_11a.svg",
-    "caption": "alt=|Hazard marker",
+    "caption": "Hazard marker",
     "section": "Warning signs",
     "score": 1
    },
    {
     "file": "ID_Rambu_peringatan_11b.svg",
-    "caption": "alt=|Hazard marker",
+    "caption": "Hazard marker",
     "section": "Warning signs",
     "score": 1
    },
    {
     "file": "ID_Rambu_peringatan_11c.svg",
-    "caption": "alt=|Hazard marker",
-    "section": "Warning signs",
-    "score": 1
-   },
-   {
-    "file": "ID_Rambu_peringatan_11d.svg",
-    "caption": "alt=|Chevron marker",
-    "section": "Warning signs",
-    "score": 1
-   },
-   {
-    "file": "ID_Rambu_peringatan_11e.svg",
-    "caption": "alt=|Chevron marker",
+    "caption": "Hazard marker",
     "section": "Warning signs",
     "score": 1
    }
@@ -2359,9 +2449,9 @@
   "pedestrian": [
    {
     "file": "ID_Rambu_peringatan_6a.svg",
-    "caption": "alt=|Pedestrian crossing",
+    "caption": "Pedestrian crossing",
     "section": "Warning signs",
-    "score": 1
+    "score": 2
    }
   ],
   "crossing": [
@@ -2375,17 +2465,17 @@
   "warning": [
    {
     "file": "ID_Rambu_peringatan_8a.svg",
-    "caption": "alt=|Other danger",
+    "caption": "Other danger",
     "section": "Warning signs",
-    "score": 1
+    "score": 2
    }
   ],
   "stop": [
    {
     "file": "Indonesia_road_sign_(Prohibitory)_1a.svg",
-    "caption": "alt=|Stop",
+    "caption": "Stop",
     "section": "Prohibitory signs",
-    "score": 1
+    "score": 2
    }
   ]
  },
@@ -2394,37 +2484,37 @@
   "chevron": [
    {
     "file": "IE_road_sign_W-061-L.svg",
-    "caption": "W 061LSingle Chevron - Left",
+    "caption": "W 061L Single Chevron - Left",
     "section": "Warning signs",
     "score": 1
    },
    {
     "file": "IE_road_sign_W-061-R.svg",
-    "caption": "W 061RSingle Chevron - Right",
+    "caption": "W 061R Single Chevron - Right",
     "section": "Warning signs",
     "score": 1
    },
    {
     "file": "IE_road_sign_W-062-L.svg",
-    "caption": "W 062LMultiple Chevrons (Two) - Left",
+    "caption": "W 062L Multiple Chevrons (Two) - Left",
     "section": "Warning signs",
     "score": 1
    },
    {
     "file": "IE_road_sign_W-062-R.svg",
-    "caption": "W 062RMultiple Chevrons (Two) - Right",
+    "caption": "W 062R Multiple Chevrons (Two) - Right",
     "section": "Warning signs",
     "score": 1
    },
    {
     "file": "IE_road_sign_W-063-L.svg",
-    "caption": "W 063LMultiple Chevrons (Three) - Left",
+    "caption": "W 063L Multiple Chevrons (Three) - Left",
     "section": "Warning signs",
     "score": 1
    },
    {
     "file": "IE_road_sign_W-063-R.svg",
-    "caption": "W 063RMultiple Chevrons (Three) - Right",
+    "caption": "W 063R Multiple Chevrons (Three) - Right",
     "section": "Warning signs",
     "score": 1
    }
@@ -2432,19 +2522,19 @@
   "crossing": [
    {
     "file": "IE_road_sign_RUS-066.svg",
-    "caption": "RUS 066Pedestrian Crossing",
+    "caption": "RUS 066 Pedestrian Crossing",
     "section": "Regulatory signs",
     "score": 1
    },
    {
     "file": "IE_road_sign_RUS-067.svg",
-    "caption": "RUS 067Parallel/Combined Zebra Crossing",
+    "caption": "RUS 067 Parallel/Combined Zebra Crossing",
     "section": "Regulatory signs",
     "score": 1
    },
    {
     "file": "IE_road_sign_WK-082.svg",
-    "caption": "WK 082Temporary Pedestrian Crossing",
+    "caption": "WK 082 Temporary Pedestrian Crossing",
     "section": "Roadwork signs",
     "score": 1
    }
@@ -2452,7 +2542,7 @@
   "warning": [
    {
     "file": "IE_road_sign_W-170.svg",
-    "caption": "W 170Other Hazard",
+    "caption": "W 170 Other Hazard",
     "section": "Warning signs",
     "score": 1
    }
@@ -2460,7 +2550,7 @@
   "stop": [
    {
     "file": "IE_road_sign_RUS-027.svg",
-    "caption": "RUS 027Stop",
+    "caption": "RUS 027 Stop",
     "section": "Regulatory signs",
     "score": 1
    }
@@ -2673,7 +2763,7 @@
   "pedestrian": [
    {
     "file": "Italian_traffic_signs_-_attraversamento_pericoloso.svg",
-    "caption": "Pedestrian crossing ahead(formerly used 30px)",
+    "caption": "Pedestrian crossing ahead (formerly used 30px)",
     "section": "Gallery / Warning signs",
     "score": 1
    },
@@ -2701,7 +2791,7 @@
   "warning": [
    {
     "file": "Italian_traffic_signs_-_altri_pericoli.svg",
-    "caption": "Other dangers(formerly used 30px)",
+    "caption": "Other dangers (formerly used 30px)",
     "section": "Gallery / Warning signs",
     "score": 1
    }
@@ -2709,7 +2799,7 @@
   "stop": [
    {
     "file": "Italian_traffic_signs_-_fermarsi_e_dare_precedenza_-_stop.svg",
-    "caption": "Stop and give way(formerly used 30px)",
+    "caption": "Stop and give way (formerly used 30px)",
     "section": "Gallery / Regulatory signs / Priority signs",
     "score": 1
    },
@@ -2721,7 +2811,7 @@
    },
    {
     "file": "Italian_traffic_signs_-_divieto_di_fermata.svg",
-    "caption": "No stopping on the side where sign is placed(formerly used 30px; the additional inscription \"DIVIETO DI FERMATA\" means \"NO STOPPING\" )",
+    "caption": "No stopping on the side where sign is placed (formerly used 30px; the additional inscription \"DIVIETO DI FERMATA\" means \"NO STOPPING\" )",
     "section": "Gallery / Regulatory signs / Prohibition signs",
     "score": 1
    },
@@ -2793,7 +2883,7 @@
   "crossing": [
    {
     "file": "Japan_road_sign_407-A.svg",
-    "caption": "CrosswalkAlt. A",
+    "caption": "Crosswalk Alt. A",
     "section": "Principal signs / Instruction signs",
     "score": 1
    },
@@ -3337,25 +3427,25 @@
   "chevron": [
    {
     "file": "Serbian_road_sign_III-63.svg",
-    "caption": "III-68Chevrons",
+    "caption": "III-68 Chevrons",
     "section": "Information signs",
     "score": 2
    },
    {
     "file": "Serbia_road_sign_III-63.1.svg",
-    "caption": "III-68.1Chevrons",
+    "caption": "III-68.1 Chevrons",
     "section": "Information signs",
     "score": 2
    },
    {
     "file": "Serbia_road_sign_III-63.2.svg",
-    "caption": "III-68.2Chevrons",
+    "caption": "III-68.2 Chevrons",
     "section": "Information signs",
     "score": 2
    },
    {
     "file": "Serbia_road_sign_III-63.3.svg",
-    "caption": "III-68.3Chevrons",
+    "caption": "III-68.3 Chevrons",
     "section": "Information signs",
     "score": 2
    }
@@ -3363,7 +3453,7 @@
   "pedestrian": [
    {
     "file": "MK_road_sign_123.svg",
-    "caption": "I-14Pedestrian crossing",
+    "caption": "I-14 Pedestrian crossing",
     "section": "Warning signs",
     "score": 2
    }
@@ -3371,7 +3461,7 @@
   "crossing": [
    {
     "file": "Serbia_road_sign_III-6.svg",
-    "caption": "III-6Pedestrian crossing",
+    "caption": "III-6 Pedestrian crossing",
     "section": "Information signs",
     "score": 2
    }
@@ -3379,7 +3469,7 @@
   "warning": [
    {
     "file": "MK_road_sign_101.svg",
-    "caption": "I-25Other dangers",
+    "caption": "I-25 Other dangers",
     "section": "Warning signs",
     "score": 2
    }
@@ -3387,7 +3477,7 @@
   "stop": [
    {
     "file": "ME_road_sign_II-2.svg",
-    "caption": "II-2Stop",
+    "caption": "II-2 Stop",
     "section": "Order signs / Prohibitory signs",
     "score": 2
    }
@@ -3579,19 +3669,19 @@
   "chevron": [
    {
     "file": "MUTCD_W1-8R.svg",
-    "caption": "W1-8RChevron (right)",
+    "caption": "W1-8R Chevron (right)",
     "section": "Warning signs / W1 series: Horizontal alignment",
     "score": 1
    },
    {
     "file": "MUTCD_W1-8L.svg",
-    "caption": "W1-8LChevron (left)",
+    "caption": "W1-8L Chevron (left)",
     "section": "Warning signs / W1 series: Horizontal alignment",
     "score": 1
    },
    {
     "file": "MUTCD_OM3-C.svg",
-    "caption": "OM3-CChevron Object Marker",
+    "caption": "OM3-C Chevron Object Marker",
     "section": "Warning signs / Object markers",
     "score": 1
    }
@@ -3599,49 +3689,49 @@
   "crossing": [
    {
     "file": "MUTCD_R1-6_(yellow).svg",
-    "caption": "R1-6In-street pedestrian crossing",
+    "caption": "R1-6 In-street pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-6.svg",
-    "caption": "R1-6In-street pedestrian crossing",
+    "caption": "R1-6 In-street pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-6a_(yellow).svg",
-    "caption": "R1-6aIn-street pedestrian crossing",
+    "caption": "R1-6a In-street pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-6a.svg",
-    "caption": "R1-6aIn-street pedestrian crossing",
+    "caption": "R1-6a In-street pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-9.svg",
-    "caption": "R1-9Overhead pedestrian crossing",
+    "caption": "R1-9 Overhead pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-9_(fluorescent).svg",
-    "caption": "R1-9Overhead pedestrian crossing",
+    "caption": "R1-9 Overhead pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-9a.svg",
-    "caption": "R1-9aOverhead pedestrian crossing",
+    "caption": "R1-9a Overhead pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-9a_(fluorescent).svg",
-    "caption": "R1-9aOverhead pedestrian crossing",
+    "caption": "R1-9a Overhead pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    }
@@ -3649,49 +3739,49 @@
   "stop": [
    {
     "file": "MUTCD_R1-1.svg",
-    "caption": "R1-1Stop",
+    "caption": "R1-1 Stop",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 2
    },
    {
+    "file": "MUTCD_R1-5bR.svg",
+    "caption": "R1-5bR Stop here for pedestrians (right)",
+    "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R1-5bL.svg",
+    "caption": "R1-5bL Stop here for pedestrians (left)",
+    "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 1
+   },
+   {
     "file": "MUTCD_R8-10.svg",
-    "caption": "R8-10Stop here when flashing",
+    "caption": "R8-10 Stop here when flashing",
     "section": "Regulatory signs / R8 series: Parking and emergency restrictions",
     "score": 1
    },
    {
     "file": "MUTCD_R8-10a.svg",
-    "caption": "R8-10aStop here when flashing (alternative)",
+    "caption": "R8-10a Stop here when flashing (alternative)",
     "section": "Regulatory signs / R8 series: Parking and emergency restrictions",
     "score": 1
    },
    {
     "file": "MUTCD_R10-14.svg",
-    "caption": "R10-14Emergency signal - stop on flashing red",
+    "caption": "R10-14 Emergency signal - stop on flashing red",
     "section": "Regulatory signs / R10 series: Traffic signal",
     "score": 1
    },
    {
     "file": "MUTCD_R10-14a.svg",
-    "caption": "R10-14aEmergency signal - stop on flashing red (overhead)",
+    "caption": "R10-14a Emergency signal - stop on flashing red (overhead)",
     "section": "Regulatory signs / R10 series: Traffic signal",
     "score": 1
    },
    {
     "file": "MUTCD_R10-14b.svg",
-    "caption": "R10-14bStop here on flashing red",
-    "section": "Regulatory signs / R10 series: Traffic signal",
-    "score": 1
-   },
-   {
-    "file": "MUTCD_R10-15a.svg",
-    "caption": "R10-15aTurning vehicles stop for pedestrians",
-    "section": "Regulatory signs / R10 series: Traffic signal",
-    "score": 1
-   },
-   {
-    "file": "MUTCD_R10-27.svg",
-    "caption": "R10-27Left turn yield on flashing red arrow after stop",
+    "caption": "R10-14b Stop here on flashing red",
     "section": "Regulatory signs / R10 series: Traffic signal",
     "score": 1
    }
@@ -3718,7 +3808,7 @@
   "warning": [
    {
     "file": "Italian_traffic_signs_-_altri_pericoli.svg",
-    "caption": "Other dangers(also uses 35px)",
+    "caption": "Other dangers (also uses 35px)",
     "section": "Gallery / Warning signs",
     "score": 1
    }
@@ -3726,7 +3816,7 @@
   "stop": [
    {
     "file": "Italian_traffic_signs_-_fermarsi_e_dare_precedenza_-_stop.svg",
-    "caption": "Stop(also used 35px)",
+    "caption": "Stop (also used 35px)",
     "section": "Gallery / Regulatory signs",
     "score": 1
    }
@@ -3868,9 +3958,9 @@
   "crossing": [
    {
     "file": "Nederlands_verkeersbord_L2.svg",
-    "caption": "alt=Pedestrian crossing|L2: Pedestrian crossing",
+    "caption": "L2: Pedestrian crossing",
     "section": "Series L: Information",
-    "score": 1
+    "score": 2
    }
   ],
   "warning": [
@@ -4158,7 +4248,7 @@
   "pedestrian": [
    {
     "file": "PL_road_sign_A-16.svg",
-    "caption": "A-16 \" pedestrian crossing ahead\"(formerly used 30px)",
+    "caption": "A-16 \" pedestrian crossing ahead\" (formerly used 30px)",
     "section": "Vertical signs / Warning signs",
     "score": 1
    },
@@ -4198,7 +4288,7 @@
   "warning": [
    {
     "file": "PL_road_sign_A-30.svg",
-    "caption": "A-30 \"other danger\"(formerly used 30px)",
+    "caption": "A-30 \"other danger\" (formerly used 30px)",
     "section": "Vertical signs / Warning signs",
     "score": 1
    }
@@ -4206,7 +4296,7 @@
   "stop": [
    {
     "file": "PL_road_sign_B-20.svg",
-    "caption": "B-20 \"stop\"(Mandatory stop)(formerly used 30px)",
+    "caption": "B-20 \"stop\" (Mandatory stop) (formerly used 30px)",
     "section": "Vertical signs / Prohibitory signs",
     "score": 1
    },
@@ -4218,7 +4308,7 @@
    },
    {
     "file": "Sygnalizator_S-2.svg",
-    "caption": "S-2 \"traffic light with a signal permitting turning in the direction indicated by arrow\"(when displayed with red light, you have to stop before the traffic light!)",
+    "caption": "S-2 \"traffic light with a signal permitting turning in the direction indicated by arrow\" (when displayed with red light, you have to stop before the traffic light!)",
     "section": "Traffic signals / Traffic signals for drivers and pedestrians",
     "score": 1
    }
@@ -4229,31 +4319,31 @@
   "chevron": [
    {
     "file": "MUTCD_R6-4.svg",
-    "caption": "R6-4Chevron roundabout directional",
+    "caption": "R6-4 Chevron roundabout directional",
     "section": "Regulatory signs / R6 series: One way and divided highway",
     "score": 1
    },
    {
     "file": "MUTCD_R6-4a.svg",
-    "caption": "R6-4aChevron roundabout (three chevrons)",
+    "caption": "R6-4a Chevron roundabout (three chevrons)",
     "section": "Regulatory signs / R6 series: One way and divided highway",
     "score": 1
    },
    {
     "file": "MUTCD_R6-4b.svg",
-    "caption": "R6-4bChevron roundabout (four chevrons)",
+    "caption": "R6-4b Chevron roundabout (four chevrons)",
     "section": "Regulatory signs / R6 series: One way and divided highway",
     "score": 1
    },
    {
     "file": "MUTCD_W1-8R.svg",
-    "caption": "W1-8 (D)Right chevron",
+    "caption": "W1-8 (D) Right chevron",
     "section": "Warning signs / W1 series: Horizontal alignment",
     "score": 1
    },
    {
     "file": "MUTCD_W1-8L.svg",
-    "caption": "W1-8 (I)Left chevron",
+    "caption": "W1-8 (I) Left chevron",
     "section": "Warning signs / W1 series: Horizontal alignment",
     "score": 1
    }
@@ -4261,7 +4351,7 @@
   "stop": [
    {
     "file": "MUTCD-PR_R1-1.svg",
-    "caption": "R1-1Stop sign",
+    "caption": "R1-1 Stop sign",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 2
    }
@@ -4319,7 +4409,7 @@
   "crossing": [
    {
     "file": "Paraguay_road_sign_I-40.svg",
-    "caption": "I-40Pedestrian crossing",
+    "caption": "I-40 Pedestrian crossing",
     "section": "Information signs",
     "score": 2
    }
@@ -4327,7 +4417,7 @@
   "stop": [
    {
     "file": "Paraguay_road_sign_R-01.svg",
-    "caption": "R-01Stop",
+    "caption": "R-01 Stop",
     "section": "Regulatory signs",
     "score": 2
    }
@@ -4830,19 +4920,19 @@
    },
    {
     "file": "9_1.svg",
-    "caption": "Standard & arrow Red: Stop.Red + yellow: The light is turning to green.Green: Proceed.Yellow: Stop, but only if safe to do so.",
+    "caption": "Standard & arrow Red: Stop. Red + yellow: The light is turning to green. Green: Proceed. Yellow: Stop, but only if safe to do so.",
     "section": "Traffic light signals",
     "score": 1
    },
    {
     "file": "Swedish_road_sign_10_1.svg",
-    "caption": "Public transport lights.\"S\": Stop.\"S\" + \"–\": The light is turning to \"I\" / arrow.\"I\" (or arrow): Proceed (for indicated direction).\"–\": Stop, but only if safe to do so.",
+    "caption": "Public transport lights. \"S\": Stop. \"S\" + \"–\": The light is turning to \"I\" / arrow. \"I\" (or arrow): Proceed (for indicated direction). \"–\": Stop, but only if safe to do so.",
     "section": "Traffic light signals",
     "score": 1
    },
    {
     "file": "Sweden_road_sign_SIG16.svg",
-    "caption": "Light signals at opening or swing bridges, ferries, airfields, emergency service stations etc.Flashing reds: Stop.",
+    "caption": "Light signals at opening or swing bridges, ferries, airfields, emergency service stations etc. Flashing reds: Stop.",
     "section": "Traffic light signals",
     "score": 1
    }
@@ -4898,7 +4988,31 @@
   ]
  },
  "SI": {
-  "article": "Road signs in Slovenia"
+  "article": "Road signs in Slovenia",
+  "pedestrian": [
+   {
+    "file": "Slovenia_road_sign_I-14.svg",
+    "caption": "I-14 Pedestrian crossing ahead",
+    "section": "Warning signs",
+    "score": 2
+   }
+  ],
+  "crossing": [
+   {
+    "file": "Slovenia_road_sign_III-6.svg",
+    "caption": "III-6 Pedestrian crossing.",
+    "section": "Information signs",
+    "score": 1
+   }
+  ],
+  "warning": [
+   {
+    "file": "Slovenia_road_sign_I-25.svg",
+    "caption": "I-25 Other dangers ahead",
+    "section": "Warning signs",
+    "score": 1
+   }
+  ]
  },
  "SK": {
   "article": "Road signs in Slovakia",
@@ -4972,7 +5086,7 @@
   "pedestrian": [
    {
     "file": "Italian_traffic_signs_-_attraversamento_pericoloso.svg",
-    "caption": "Pedestrian crossing ahead(formerly used 30px)",
+    "caption": "Pedestrian crossing ahead (formerly used 30px)",
     "section": "Gallery / Warning signs",
     "score": 1
    },
@@ -5000,7 +5114,7 @@
   "warning": [
    {
     "file": "Italian_traffic_signs_-_altri_pericoli.svg",
-    "caption": "Other dangers(formerly used 30px)",
+    "caption": "Other dangers (formerly used 30px)",
     "section": "Gallery / Warning signs",
     "score": 1
    }
@@ -5008,7 +5122,7 @@
   "stop": [
    {
     "file": "Italian_traffic_signs_-_fermarsi_e_dare_precedenza_-_stop.svg",
-    "caption": "Stop and give way(formerly used 30px)",
+    "caption": "Stop and give way (formerly used 30px)",
     "section": "Gallery / Regulatory signs / Priority signs",
     "score": 1
    },
@@ -5020,7 +5134,7 @@
    },
    {
     "file": "Italian_traffic_signs_-_divieto_di_fermata.svg",
-    "caption": "No stopping on the side where sign is placed(formerly used 30px; the additional inscription \"DIVIETO DI FERMATA\" means \"NO STOPPING\" )",
+    "caption": "No stopping on the side where sign is placed (formerly used 30px; the additional inscription \"DIVIETO DI FERMATA\" means \"NO STOPPING\" )",
     "section": "Gallery / Regulatory signs / Prohibition signs",
     "score": 1
    },
@@ -5431,19 +5545,19 @@
   "chevron": [
    {
     "file": "MUTCD_W1-8R.svg",
-    "caption": "W1-8RChevron (right)",
+    "caption": "W1-8R Chevron (right)",
     "section": "Warning signs / W1 series: Horizontal alignment",
     "score": 1
    },
    {
     "file": "MUTCD_W1-8L.svg",
-    "caption": "W1-8LChevron (left)",
+    "caption": "W1-8L Chevron (left)",
     "section": "Warning signs / W1 series: Horizontal alignment",
     "score": 1
    },
    {
     "file": "MUTCD_OM3-C.svg",
-    "caption": "OM3-CChevron Object Marker",
+    "caption": "OM3-C Chevron Object Marker",
     "section": "Warning signs / Object markers",
     "score": 1
    }
@@ -5451,49 +5565,49 @@
   "crossing": [
    {
     "file": "MUTCD_R1-6_(yellow).svg",
-    "caption": "R1-6In-street pedestrian crossing",
+    "caption": "R1-6 In-street pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-6.svg",
-    "caption": "R1-6In-street pedestrian crossing",
+    "caption": "R1-6 In-street pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-6a_(yellow).svg",
-    "caption": "R1-6aIn-street pedestrian crossing",
+    "caption": "R1-6a In-street pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-6a.svg",
-    "caption": "R1-6aIn-street pedestrian crossing",
+    "caption": "R1-6a In-street pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-9.svg",
-    "caption": "R1-9Overhead pedestrian crossing",
+    "caption": "R1-9 Overhead pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-9_(fluorescent).svg",
-    "caption": "R1-9Overhead pedestrian crossing",
+    "caption": "R1-9 Overhead pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-9a.svg",
-    "caption": "R1-9aOverhead pedestrian crossing",
+    "caption": "R1-9a Overhead pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    },
    {
     "file": "MUTCD_R1-9a_(fluorescent).svg",
-    "caption": "R1-9aOverhead pedestrian crossing",
+    "caption": "R1-9a Overhead pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 1
    }
@@ -5501,49 +5615,49 @@
   "stop": [
    {
     "file": "MUTCD_R1-1.svg",
-    "caption": "R1-1Stop",
+    "caption": "R1-1 Stop",
     "section": "Regulatory signs / R1 series: Stop and yield",
     "score": 2
    },
    {
+    "file": "MUTCD_R1-5bR.svg",
+    "caption": "R1-5bR Stop here for pedestrians (right)",
+    "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R1-5bL.svg",
+    "caption": "R1-5bL Stop here for pedestrians (left)",
+    "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 1
+   },
+   {
     "file": "MUTCD_R8-10.svg",
-    "caption": "R8-10Stop here when flashing",
+    "caption": "R8-10 Stop here when flashing",
     "section": "Regulatory signs / R8 series: Parking and emergency restrictions",
     "score": 1
    },
    {
     "file": "MUTCD_R8-10a.svg",
-    "caption": "R8-10aStop here when flashing (alternative)",
+    "caption": "R8-10a Stop here when flashing (alternative)",
     "section": "Regulatory signs / R8 series: Parking and emergency restrictions",
     "score": 1
    },
    {
     "file": "MUTCD_R10-14.svg",
-    "caption": "R10-14Emergency signal - stop on flashing red",
+    "caption": "R10-14 Emergency signal - stop on flashing red",
     "section": "Regulatory signs / R10 series: Traffic signal",
     "score": 1
    },
    {
     "file": "MUTCD_R10-14a.svg",
-    "caption": "R10-14aEmergency signal - stop on flashing red (overhead)",
+    "caption": "R10-14a Emergency signal - stop on flashing red (overhead)",
     "section": "Regulatory signs / R10 series: Traffic signal",
     "score": 1
    },
    {
     "file": "MUTCD_R10-14b.svg",
-    "caption": "R10-14bStop here on flashing red",
-    "section": "Regulatory signs / R10 series: Traffic signal",
-    "score": 1
-   },
-   {
-    "file": "MUTCD_R10-15a.svg",
-    "caption": "R10-15aTurning vehicles stop for pedestrians",
-    "section": "Regulatory signs / R10 series: Traffic signal",
-    "score": 1
-   },
-   {
-    "file": "MUTCD_R10-27.svg",
-    "caption": "R10-27Left turn yield on flashing red arrow after stop",
+    "caption": "R10-14b Stop here on flashing red",
     "section": "Regulatory signs / R10 series: Traffic signal",
     "score": 1
    }
