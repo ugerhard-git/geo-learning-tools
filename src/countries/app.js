@@ -6,8 +6,8 @@
  *   map, facts from REST Countries (with a key), Wikidata, and the
  *   geography sections of the CIA World Factbook.
  * - Quiz: "Name it" (the map points at a country), "Find it" (the quiz
- *   names a country) or "Clues" (the quiz gives an internet domain, phone
- *   code or currency and the learner finds its place). Find it and Clues
+ *   names a country) or "Clues" (the quiz gives an internet domain or
+ *   currency and the learner finds its place). Find it and Clues
  *   have three levels: a shortlist of four, free hand, and no borders at
  *   all, where a miss is measured but never named.
  *
@@ -531,12 +531,10 @@ async function main() {
     ],
     describe: (key) => {
       const d = BY[key.slice(2)];
-      const kind = { d: "tld", p: "phone", m: "currency" }[key[0]];
+      // "p:" records are from the phone code clue, no longer asked.
+      const what = { d: "internet domain", p: "phone code", m: "currency" }[key[0]];
       if (!d) return null;
-      return {
-        label: kind ? `${d.name}: ${CLUES[kind].label.toLowerCase()}` : d.name,
-        look: d.code,
-      };
+      return { label: what ? `${d.name}: ${what}` : d.name, look: d.code };
     },
     onLook: (code) => {
       progressDlg.close();
@@ -635,7 +633,7 @@ async function main() {
 
   /**
    * Three ways: name the country the map points at, find the country the
-   * quiz names, or find the country a clue (a domain, phone code or
+   * quiz names, or find the country a clue (an internet domain or a
    * currency) belongs to.
    */
   function setDirn(d) {
@@ -916,7 +914,7 @@ async function main() {
     }, 3000);
   }
 
-  /** For a clue, what tied the place to it: ": its phone code is +48". */
+  /** For a clue, what tied the place to it: ": its internet domain is .pl". */
   const because = (t, sep) =>
     t.clue ? `${sep}${esc(CLUES[t.clue.kind].answer(t.clue.value))}` : "";
 

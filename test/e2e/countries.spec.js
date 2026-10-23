@@ -179,28 +179,30 @@ test("answers are saved under the established key and counted in the progress di
   expect(saved[`c:${target.code}`]).toEqual([1, expect.any(Number), 1, 1]);
 });
 
-test("clues: a phone code names no place, and finding its place is right", async ({ page }) => {
+test("clues: a domain names no place, and finding its place is right", async ({ page }) => {
   const FACTS = JSON.parse(readData("quick-facts.json")).facts;
   const problems = await openPage(page, PAGE);
   await page.click('header [data-mode="quiz"]');
   await page.click('[data-dirn="clue"]');
-  await page.selectOption("#qClue", "phone");
+  // Phone codes are not asked.
+  await expect(page.locator('#qClue option[value="phone"]')).toHaveCount(0);
+  await page.selectOption("#qClue", "tld");
   // The shortlist frames four places closely, so the click cannot slip over a border.
   await page.click('[data-level="easy"]');
   const prompt = await page.locator("#qPrompt").textContent();
-  const phone = prompt.match(/^Find the place whose phone code is (\+[\d ]+)$/)[1];
+  const tld = prompt.match(/^Find the place whose internet domain is (\.[a-z]{2})$/)[1];
   // The prompt and the note under it never name the place.
-  const code = Object.keys(FACTS).find((c) => FACTS[c].phone.includes(phone));
+  const code = Object.keys(FACTS).find((c) => FACTS[c].tld.includes(tld));
   const name = COUNTRIES.find((c) => c.code === code).name;
   await expect(page.locator("#quizbar")).not.toContainText(name);
   const [lon, lat] = await inside(page, code);
   await settled(page);
   await zoomAndClick(page, lon, lat);
-  await expect(page.locator("#qFoot .msg")).toHaveText(`Correct: its phone code is ${phone}.`);
+  await expect(page.locator("#qFoot .msg")).toHaveText(`Correct: its internet domain is ${tld}.`);
   // Saved under the clue's own key.
   await expect
     .poll(() => page.evaluate(() => localStorage.getItem("flagatlasmap.progress.v1") ?? ""))
-    .toContain(`"p:${code}"`);
+    .toContain(`"d:${code}"`);
   expect([...problems, ...(await cspViolations(page))]).toEqual([]);
 });
 
