@@ -158,7 +158,7 @@ has one.
   directions, each with its English: the compass points, village, town,
   hill, mountain, valley, river, lake, beach, coast, island, bay, port,
   bridge, church, castle, station, airport, square, forest, new, old, upper,
-  lower, big and small. Each comes from the English word's translation table
+  lower and small. Each comes from the English word's translation table
   on Wiktionary (the sense place names mean), which gives the plain word a
   sign uses ("Kirche", not "Kirchengebäude"); where Wiktionary has none, from
   the label of a Wikidata item, checked against its English label. The list

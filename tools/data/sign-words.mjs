@@ -61,8 +61,6 @@ const WORDS = {
   old: { pos: "Adjective" },
   upper: { pos: "Adjective" },
   lower: { pos: "Adjective" },
-  // "big" first means grown-up on Wiktionary; "large" is the size.
-  big: { page: "large", pos: "Adjective" },
   small: { pos: "Adjective" },
 };
 
