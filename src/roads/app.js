@@ -46,13 +46,23 @@ import {
 import {
   CLUES,
   COLOURS,
+  LINE,
   SIGN_CLUES,
   articleUrl,
   commonsUrl,
   loadRoadData,
   signUrl,
 } from "./data.js";
-import { DRILLS, RoadQuestion, cleanClues, itemOfKey, keyOf, poolFor, sideText } from "./drills.js";
+import {
+  DRILLS,
+  RoadQuestion,
+  cleanClues,
+  itemOfKey,
+  keyOf,
+  linesText,
+  poolFor,
+  sideText,
+} from "./drills.js";
 
 /** Where the drill settings are remembered. */
 const SETTINGS = {
@@ -65,37 +75,66 @@ const SETTINGS = {
 /* ============================================================ drawing */
 
 /**
- * A road seen from the driver's seat: the centre line in its colour, and a
- * car ahead on the side the country drives on, with one coming the other way.
- * @param {{ drive?: "left" | "right", colour?: string }} what leave one out to not show it
+ * A road seen from the driver's seat: its centre line, and a car ahead on
+ * the side the country drives on, with one coming the other way.
+ *
+ * The centre line is drawn from `lines` (a pattern such as
+ * ["solid-yellow", "dashed-white"], left to right) where its style is
+ * known; otherwise from `colour` alone, as plain solid lines.
+ * @param {{ drive?: "left" | "right", colour?: string, lines?: string[] }} what
+ *   leave one out to not show it
  */
-function roadSvg({ drive, colour }) {
-  const centre = {
-    white: `<path class="ln-white dash" d="M160 180 L160 30"/>`,
-    yellow: `<path class="ln-yellow" d="M160 180 L160 30"/>`,
-    both: `<path class="ln-yellow" d="M156 180 L159 30"/><path class="ln-white dash" d="M164 180 L161 30"/>`,
-  };
+function roadSvg({ drive, colour, lines }) {
+  const pattern =
+    lines ??
+    (colour === "both" ? ["solid-yellow", "solid-white"] : colour ? [`solid-${colour}`] : []);
+  // Side by side, 8 units apart where the road is nearest, closing in towards
+  // the horizon like the road.
+  const centre = pattern
+    .map((line, i) => {
+      const [, style, hue] = LINE.exec(line) ?? [];
+      if (!style) return "";
+      const off = i - (pattern.length - 1) / 2;
+      return `<path class="ln-${hue} ${style}" d="M${160 + off * 8} 180 L${160 + off * 1.2} 30"/>`;
+    })
+    .join("");
   // Cars are drawn from behind (ours, going away) and from the front (the
   // other, coming towards us), each in its lane.
   const car = (x, y, s, cls) =>
     `<g class="${cls}" transform="translate(${x} ${y}) scale(${s})"><rect x="-22" y="-16" width="44" height="22" rx="6"/><rect class="glass" x="-15" y="-13" width="30" height="8" rx="3"/><rect class="tyre" x="-20" y="6" width="9" height="6" rx="2"/><rect class="tyre" x="11" y="6" width="9" height="6" rx="2"/></g>`;
   const ours = drive === "left" ? 108 : 212;
   const theirs = drive === "left" ? 172 : 148;
-  return `<svg viewBox="0 0 320 180" role="img" aria-label="${esc(sceneLabel({ drive, colour }))}">
+  return `<svg viewBox="0 0 320 180" role="img" aria-label="${esc(sceneLabel({ drive, colour, lines }))}">
     <rect class="sky" width="320" height="34"/>
     <rect class="verge" y="30" width="320" height="150"/>
     <path class="road" d="M20 180 L150 30 L170 30 L300 180 Z"/>
-    <path class="ln-white" d="M34 180 L151 32"/><path class="ln-white" d="M286 180 L169 32"/>
-    ${colour ? centre[colour] : ""}
+    <path class="ln-white solid" d="M34 180 L151 32"/><path class="ln-white solid" d="M286 180 L169 32"/>
+    ${centre}
     ${drive ? car(theirs, 64, 0.55, "car them") + car(ours, 150, 1.3, "car us") : ""}
   </svg>`;
 }
 
+/**
+ * A close look at a centre line pattern, from above: the lines run up the
+ * picture, left to right as listed.
+ * @param {string[]} lines
+ */
+function linesSvg(lines) {
+  const paths = lines
+    .map((line, i) => {
+      const [, style, hue] = LINE.exec(line) ?? [];
+      const x = 60 + (i - (lines.length - 1) / 2) * 9;
+      return style ? `<path class="ln-${hue} ${style} wide" d="M${x} 0 V64"/>` : "";
+    })
+    .join("");
+  return `<svg viewBox="0 0 120 64" role="img" aria-label="${esc(linesText(lines))}"><rect class="road" width="120" height="64"/>${paths}</svg>`;
+}
+
 /** What a road scene shows, said in words. */
-function sceneLabel({ drive, colour }) {
+function sceneLabel({ drive, colour, lines }) {
   return [
     drive ? `Traffic drives ${sideText(drive).toLowerCase()}` : "",
-    colour ? `${COLOURS[colour]} centre line` : "",
+    lines ? `centre line: ${linesText(lines)}` : colour ? `${COLOURS[colour]} centre line` : "",
   ]
     .filter(Boolean)
     .join(", ");
@@ -261,13 +300,25 @@ async function main() {
   function openDetail(code) {
     const c = byCode[code];
     if (!c) return;
+    const pats = c.centre?.patterns ?? [];
     const centre = c.centre
       ? `<p>${esc(COLOURS[c.centre.colour])}. ${esc(c.centre.note)}</p>
-         <p class="src">${c.centre.regional ? "The rule for this part of the world; the country's own is not sourced. " : ""}Source: ${sourceLink(c.centre.source)}.</p>`
+         <p class="src">${c.centre.regional ? "The rule for this part of the world; the country's own is not sourced. " : ""}Source: ${sourceLink(c.centre.source)}.</p>
+         ${
+           pats.length
+             ? `<ul class="patterns">${pats
+                 .map(
+                   (p) =>
+                     `<li><span class="pat">${linesSvg(p.lines)}</span><span><b>${esc(linesText(p.lines))}</b><br>${esc(p.meaning)}</span></li>`,
+                 )
+                 .join("")}</ul>
+               <p class="src">Styles: ${sourceLink(c.centre.patternSource)}. The drawing above shows the first.</p>`
+             : `<p class="src">The style of the lines (broken or solid, single or double) is not sourced yet; the drawings show their colour only.</p>`
+         }`
       : `<p class="empty">No solid source yet.</p>`;
     showDialog(`
       <h2 id="dName">${flagMini(c.code, c.name)}${esc(c.name)}</h2>
-      <div class="dscene">${roadSvg({ drive: c.drive, colour: c.centre?.colour })}</div>
+      <div class="dscene">${roadSvg({ drive: c.drive, colour: c.centre?.colour, lines: pats[0]?.lines })}</div>
       <h3>Driving side</h3>
       <p>${esc(sideText(c.drive))}.</p>
       <p class="src">Source: ${sourceLink(c.driveSource)}.</p>
@@ -457,6 +508,7 @@ async function main() {
       const road = roadSvg({
         drive: shows.includes("side") ? c.drive : undefined,
         colour: shows.includes("lines") ? c.centre.colour : undefined,
+        lines: shows.includes("lines") ? c.centre.patterns?.[0].lines : undefined,
       });
       const signs = SIGN_CLUES.filter((k) => shows.includes(k));
       art.innerHTML = `${shows.includes("side") || shows.includes("lines") ? `<div class="sroad">${road}</div>` : ""}

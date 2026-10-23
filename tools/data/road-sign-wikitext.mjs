@@ -105,7 +105,11 @@ export function captionedFiles(wikitext) {
   const layout =
     /^(\d+(x\d+)?px|upright.*|thumb|frameless|center|left|right|none|alt=.*|link=.*)$/i;
   const headings = [];
+  // Inside <gallery> the "File:" in front of a name may be left out.
+  let inGallery = false;
   for (const line of wikitext.split("\n")) {
+    if (/<gallery\b/i.test(line)) inGallery = true;
+    if (/<\/gallery>/i.test(line)) inGallery = false;
     const h = /^(={2,6})\s*(.*?)\s*\1\s*$/.exec(line);
     if (h) {
       headings.length = h[1].length - 2;
@@ -113,7 +117,11 @@ export function captionedFiles(wikitext) {
       continue;
     }
     const section = headings.filter(Boolean).join(" / ");
-    const gallery = /^\s*(?:File|Image):([^|\n]+?\.svg)\s*\|(.*)$/i.exec(line);
+    const gallery = (
+      inGallery
+        ? /^\s*(?:(?:File|Image):)?([^|\n<>[\]]+?\.svg)\s*\|(.*)$/i
+        : /^\s*(?:File|Image):([^|\n]+?\.svg)\s*\|(.*)$/i
+    ).exec(line);
     if (gallery) {
       out.push({
         file: gallery[1].trim().replaceAll(" ", "_"),

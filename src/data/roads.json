@@ -53,7 +53,29 @@
    "centre": {
     "colour": "both",
     "note": "White dashes where both directions may overtake, solid yellow where neither may, white and yellow together where only one may.",
-    "source": "markings"
+    "source": "markings",
+    "patterns": [
+     {
+      "lines": [
+       "dashed-white"
+      ],
+      "meaning": "Both directions may overtake."
+     },
+     {
+      "lines": [
+       "solid-yellow"
+      ],
+      "meaning": "Neither direction may overtake."
+     },
+     {
+      "lines": [
+       "dashed-white",
+       "solid-yellow"
+      ],
+      "meaning": "Only one direction may overtake."
+     }
+    ],
+    "patternSource": "markings"
    }
   },
   "AS": {
@@ -76,7 +98,23 @@
    "centre": {
     "colour": "white",
     "note": "White lines in both directions; yellow is for no standing, roadworks and snowy areas.",
-    "source": "markings"
+    "source": "markings",
+    "patterns": [
+     {
+      "lines": [
+       "dashed-white"
+      ],
+      "meaning": "May be crossed to overtake, change lanes or turn."
+     },
+     {
+      "lines": [
+       "solid-white",
+       "solid-white"
+      ],
+      "meaning": "On busy roads; may not be crossed except to avoid an obstruction (in New South Wales and Western Australia also to enter or leave the road)."
+     }
+    ],
+    "patternSource": "markings"
    }
   },
   "AX": {
@@ -155,7 +193,29 @@
    "centre": {
     "colour": "yellow",
     "note": "Yellow between opposite directions, white between lanes going the same way; on one-way roads the left edge is yellow, the right white.",
-    "source": "markings"
+    "source": "markings",
+    "patterns": [
+     {
+      "lines": [
+       "dashed-yellow"
+      ],
+      "meaning": "Passing allowed, as in the United States."
+     },
+     {
+      "lines": [
+       "solid-yellow"
+      ],
+      "meaning": "In Ontario, may be crossed on a straight road away from bridges and railway crossings."
+     },
+     {
+      "lines": [
+       "solid-yellow",
+       "solid-yellow"
+      ],
+      "meaning": "In British Columbia, may not be crossed except to avoid an obstruction or to enter or leave the road."
+     }
+    ],
+    "patternSource": "markings"
    }
   },
   "CC": {
@@ -324,7 +384,36 @@
    "centre": {
     "colour": "white",
     "note": "White centre lines, broken or solid, and solid white edge lines.",
-    "source": "markings"
+    "source": "markings",
+    "patterns": [
+     {
+      "lines": [
+       "long-dash-white"
+      ],
+      "meaning": "Long gaps: the centre of the road."
+     },
+     {
+      "lines": [
+       "short-dash-white"
+      ],
+      "meaning": "Short gaps: a hazard ahead."
+     },
+     {
+      "lines": [
+       "solid-white",
+       "solid-white"
+      ],
+      "meaning": "May not be crossed."
+     },
+     {
+      "lines": [
+       "solid-white",
+       "dashed-white"
+      ],
+      "meaning": "May be crossed by traffic on the broken line's side."
+     }
+    ],
+    "patternSource": "markings"
    }
   },
   "GE": {
@@ -379,7 +468,30 @@
    "centre": {
     "colour": "white",
     "note": "Dashed white centre lines; solid yellow lines along the kerb mean no stopping.",
-    "source": "markings"
+    "source": "markings",
+    "patterns": [
+     {
+      "lines": [
+       "long-dash-white"
+      ],
+      "meaning": "Opposing traffic, or a hazard."
+     },
+     {
+      "lines": [
+       "solid-white",
+       "solid-white"
+      ],
+      "meaning": "In every tunnel and underpass."
+     },
+     {
+      "lines": [
+       "solid-white",
+       "dashed-white"
+      ],
+      "meaning": "May be crossed from the side of the broken line."
+     }
+    ],
+    "patternSource": "markings"
    }
   },
   "HR": {
@@ -417,7 +529,36 @@
    "centre": {
     "colour": "white",
     "note": "White centre lines; the shoulder lines are yellow.",
-    "source": "markings"
+    "source": "markings",
+    "patterns": [
+     {
+      "lines": [
+       "dashed-white"
+      ],
+      "meaning": "Overtaking allowed."
+     },
+     {
+      "lines": [
+       "dashed-white",
+       "dashed-white"
+      ],
+      "meaning": "Overtaking allowed."
+     },
+     {
+      "lines": [
+       "solid-white"
+      ],
+      "meaning": "No overtaking."
+     },
+     {
+      "lines": [
+       "solid-white",
+       "solid-white"
+      ],
+      "meaning": "No overtaking."
+     }
+    ],
+    "patternSource": "markings"
    }
   },
   "IL": {
@@ -482,7 +623,30 @@
    "centre": {
     "colour": "both",
     "note": "On two-lane roads a white centre line allows overtaking, a yellow one forbids it.",
-    "source": "markings"
+    "source": "markings",
+    "patterns": [
+     {
+      "lines": [
+       "solid-yellow"
+      ],
+      "meaning": "Yellow lines are always solid: no passing."
+     },
+     {
+      "lines": [
+       "solid-yellow",
+       "dashed-white"
+      ],
+      "meaning": "On expressways: passing allowed from the side of the broken white line."
+     },
+     {
+      "lines": [
+       "solid-yellow",
+       "solid-white"
+      ],
+      "meaning": "On expressways: no entry from the lane beside it; passing with caution."
+     }
+    ],
+    "patternSource": "markings"
    }
   },
   "KE": {
@@ -503,7 +667,29 @@
    "centre": {
     "colour": "yellow",
     "note": "Yellow between opposite directions, white between lanes going the same way.",
-    "source": "markings"
+    "source": "markings",
+    "patterns": [
+     {
+      "lines": [
+       "solid-yellow"
+      ],
+      "meaning": "Do not cross. Almost every rural two-lane road."
+     },
+     {
+      "lines": [
+       "solid-yellow",
+       "solid-yellow"
+      ],
+      "meaning": "The same, with more emphasis."
+     },
+     {
+      "lines": [
+       "dashed-yellow"
+      ],
+      "meaning": "Rarer: may be crossed briefly to overtake."
+     }
+    ],
+    "patternSource": "markings"
    }
   },
   "KZ": {
@@ -520,7 +706,36 @@
    "centre": {
     "colour": "yellow",
     "note": "Yellow centre lines: dashed where overtaking is allowed, double solid where it is not.",
-    "source": "yellow"
+    "source": "yellow",
+    "patterns": [
+     {
+      "lines": [
+       "dashed-yellow"
+      ],
+      "meaning": "Passing allowed."
+     },
+     {
+      "lines": [
+       "solid-yellow"
+      ],
+      "meaning": "Passing not advised, but allowed with great care."
+     },
+     {
+      "lines": [
+       "solid-yellow",
+       "solid-yellow"
+      ],
+      "meaning": "No passing."
+     },
+     {
+      "lines": [
+       "dashed-yellow",
+       "dashed-yellow"
+      ],
+      "meaning": "Passing only when no oncoming traffic is in sight."
+     }
+    ],
+    "patternSource": "yellow"
    }
   },
   "LI": {
@@ -651,7 +866,31 @@
    "centre": {
     "colour": "white",
     "note": "All lines are white; yellow is only for no stopping, no parking and roadworks.",
-    "source": "markings"
+    "source": "markings",
+    "patterns": [
+     {
+      "lines": [
+       "dashed-white",
+       "dashed-white"
+      ],
+      "meaning": "Usually a double line; broken lines allow overtaking."
+     },
+     {
+      "lines": [
+       "solid-white",
+       "dashed-white"
+      ],
+      "meaning": "Overtaking only from the side of the broken line."
+     },
+     {
+      "lines": [
+       "solid-white",
+       "solid-white"
+      ],
+      "meaning": "No overtaking. Expressways always have a double centre line."
+     }
+    ],
+    "patternSource": "markings"
    }
   },
   "NO": {
@@ -660,7 +899,29 @@
    "centre": {
     "colour": "yellow",
     "note": "Yellow between opposite directions and along the left edge; white between lanes going the same way and along the right edge.",
-    "source": "markings"
+    "source": "markings",
+    "patterns": [
+     {
+      "lines": [
+       "dashed-yellow"
+      ],
+      "meaning": "Short dashes: passing allowed."
+     },
+     {
+      "lines": [
+       "long-dash-yellow"
+      ],
+      "meaning": "Long dashes: passing allowed but dangerous."
+     },
+     {
+      "lines": [
+       "solid-yellow",
+       "solid-yellow"
+      ],
+      "meaning": "No passing."
+     }
+    ],
+    "patternSource": "markings"
    }
   },
   "NP": {
@@ -673,7 +934,22 @@
    "centre": {
     "colour": "both",
     "note": "A solid yellow centre line means no overtaking; dashed white lines allow it.",
-    "source": "markings"
+    "source": "markings",
+    "patterns": [
+     {
+      "lines": [
+       "dashed-white"
+      ],
+      "meaning": "3 m dashes, 7 m gaps: passing allowed."
+     },
+     {
+      "lines": [
+       "solid-yellow"
+      ],
+      "meaning": "No passing."
+     }
+    ],
+    "patternSource": "markings"
    }
   },
   "OM": {
@@ -706,7 +982,18 @@
    "centre": {
     "colour": "both",
     "note": "Double yellow lines, usually either side of a dashed white line, forbid overtaking.",
-    "source": "yellow"
+    "source": "yellow",
+    "patterns": [
+     {
+      "lines": [
+       "solid-yellow",
+       "dashed-white",
+       "solid-yellow"
+      ],
+      "meaning": "Double yellow lines either side of a broken white line: no overtaking, often on blind curves and bridges."
+     }
+    ],
+    "patternSource": "yellow"
    }
   },
   "PL": {
@@ -886,7 +1173,30 @@
    "centre": {
     "colour": "yellow",
     "note": "Yellow between opposite directions, white between lanes going the same way; the right edge line is white, the left one yellow on divided highways.",
-    "source": "markings"
+    "source": "markings",
+    "patterns": [
+     {
+      "lines": [
+       "dashed-yellow"
+      ],
+      "meaning": "Passing allowed in either direction."
+     },
+     {
+      "lines": [
+       "solid-yellow",
+       "solid-yellow"
+      ],
+      "meaning": "No passing in either direction."
+     },
+     {
+      "lines": [
+       "solid-yellow",
+       "dashed-yellow"
+      ],
+      "meaning": "Passing allowed only from the side with the broken line."
+     }
+    ],
+    "patternSource": "markings"
    }
   },
   "UY": {
@@ -895,7 +1205,29 @@
    "centre": {
     "colour": "both",
     "note": "White dashes where both directions may overtake, solid yellow where neither may, white and yellow together where only one may.",
-    "source": "markings"
+    "source": "markings",
+    "patterns": [
+     {
+      "lines": [
+       "dashed-white"
+      ],
+      "meaning": "Both directions may overtake."
+     },
+     {
+      "lines": [
+       "solid-yellow"
+      ],
+      "meaning": "Neither direction may overtake."
+     },
+     {
+      "lines": [
+       "dashed-white",
+       "solid-yellow"
+      ],
+      "meaning": "Only one direction may overtake."
+     }
+    ],
+    "patternSource": "markings"
    }
   },
   "VI": {

@@ -32,6 +32,9 @@ export const COLOURS = table({
   both: "White and yellow",
 });
 
+/** One line of a centre line pattern: its style and colour. */
+export const LINE = /^(solid|dashed|long-dash|short-dash)-(white|yellow)$/;
+
 /** A drawing's file name, as tools/data/road-signs.mjs writes them. */
 const SIGN_FILE = /^[a-z]{2}-[a-z]+\.svg$/;
 
@@ -51,6 +54,9 @@ const SIGN_FILE = /^[a-z]{2}-[a-z]+\.svg$/;
  * @property {string} note
  * @property {string} source a key of the sources
  * @property {boolean} [regional] only the rule for the country's part of the world is sourced
+ * @property {{ lines: string[], meaning: string }[]} [patterns] the lines' styles, the usual
+ *   first: each line left to right as "<solid|dashed|long-dash|short-dash>-<white|yellow>"
+ * @property {string} [patternSource] a key of the sources
  */
 
 /**
@@ -87,7 +93,15 @@ export function makeRoadData(roads, signs, countryText) {
     const c = known[code];
     if (!c || (r.drive !== "left" && r.drive !== "right")) continue;
     const centre =
-      r.centre && COLOURS[r.centre.colour] && sources[r.centre.source] ? r.centre : null;
+      r.centre && COLOURS[r.centre.colour] && sources[r.centre.source] ? { ...r.centre } : null;
+    // Line patterns the app can draw, from a known source; none otherwise.
+    if (centre) {
+      const ok =
+        sources[centre.patternSource] &&
+        Array.isArray(centre.patterns) &&
+        centre.patterns.every((p) => p.lines?.length <= 3 && p.lines.every((l) => LINE.test(l)));
+      if (!ok) delete centre.patterns;
+    }
     const own = signs[code] ?? {};
     const drawn = table({});
     for (const clue of SIGN_CLUES) {

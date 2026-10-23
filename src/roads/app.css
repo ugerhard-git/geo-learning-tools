@@ -255,8 +255,17 @@ body {
   stroke: #f2c230;
 }
 
-.ln-white.dash {
+.ln-white.dashed,
+.ln-yellow.dashed {
   stroke-dasharray: 14 12;
+}
+
+.long-dash {
+  stroke-dasharray: 28 10;
+}
+
+.short-dash {
+  stroke-dasharray: 6 12;
 }
 
 .car rect {
@@ -390,6 +399,46 @@ body {
   font-size: 0.85rem;
   border: 1px dashed var(--line);
   border-radius: 8px;
+}
+
+.patterns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.patterns li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* From above, the dashes in proportion: a lane is about 3.5 m. */
+.ln-white.wide,
+.ln-yellow.wide {
+  stroke-width: 3.5;
+}
+
+.dashed.wide {
+  stroke-dasharray: 12 12;
+}
+
+.long-dash.wide {
+  stroke-dasharray: 24 8;
+}
+
+.short-dash.wide {
+  stroke-dasharray: 5 10;
+}
+
+.pat svg {
+  display: block;
+  width: 96px;
+  height: auto;
+  border-radius: 6px;
 }
 
 .credits {

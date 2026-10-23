@@ -6,13 +6,14 @@ import { readFileSync } from "node:fs";
 import { captionedFiles, captionText, signScore } from "../../tools/data/road-sign-wikitext.mjs";
 import { checkRoadSigns } from "../../tools/data/check-road-signs.mjs";
 import { parseCountryList } from "../../tools/data/street-view.mjs";
-import { CLUES, hasClue, makeRoadData } from "../../src/roads/data.js";
+import { CLUES, LINE, hasClue, makeRoadData } from "../../src/roads/data.js";
 import {
   DRILLS,
   RoadQuestion,
   cleanClues,
   itemOfKey,
   keyOf,
+  linesText,
   poolFor,
 } from "../../src/roads/drills.js";
 
@@ -51,7 +52,9 @@ test("captionedFiles finds drawings in galleries and in tables", () => {
     "<gallery>",
     "File:Zeichen 206.svg|Stop and give way",
     "File:Zeichen 350-10.svg|[[Pedestrian crossing]]",
+    "Denmark road sign B13.svg|B13 Stop",
     "</gallery>",
+    "Not in a gallery.svg|Stop",
     "| [[File:Japan road sign 330-A.svg|80px]] || Stop || 止まれ",
     "[[File:Chevron alignment.svg|thumb|Curve alignment marker]]",
   ].join("\n");
@@ -59,7 +62,12 @@ test("captionedFiles finds drawings in galleries and in tables", () => {
   const find = (sign) =>
     files.filter((f) => signScore(sign, f.caption, f.file, f.section)).map((f) => f.file);
   assert.equal(files[1].section, "Regulatory signs / Priority");
-  assert.deepEqual(find("stop"), ["Zeichen_206.svg", "Japan_road_sign_330-A.svg"]);
+  // In a gallery the "File:" may be left out; outside one it may not.
+  assert.deepEqual(find("stop"), [
+    "Zeichen_206.svg",
+    "Denmark_road_sign_B13.svg",
+    "Japan_road_sign_330-A.svg",
+  ]);
   // The same caption: the warning section's drawing is the warning sign.
   assert.deepEqual(find("pedestrian"), ["Zeichen_101.svg"]);
   assert.deepEqual(find("crossing"), ["Zeichen_350-10.svg"]);
@@ -111,6 +119,22 @@ test("roads.json covers every Street View country, with sources", () => {
       assert.ok(["white", "yellow", "both"].includes(r.centre.colour), code);
       assert.ok(roads.sources[r.centre.source], `${code}: line source`);
       assert.ok(r.centre.note.length > 10, code);
+      if (r.centre.patterns) {
+        assert.ok(roads.sources[r.centre.patternSource], `${code}: pattern source`);
+        for (const p of r.centre.patterns) {
+          assert.ok(p.lines.length >= 1 && p.lines.length <= 3, code);
+          assert.ok(
+            p.lines.every((l) => LINE.test(l)),
+            `${code}: ${p.lines}`,
+          );
+          assert.ok(p.meaning.length > 5, code);
+        }
+        // Every pattern's colours agree with the country's colour.
+        const hues = new Set(
+          r.centre.patterns.flatMap((p) => p.lines.map((l) => l.split("-").at(-1))),
+        );
+        if (r.centre.colour !== "both") assert.ok(hues.has(r.centre.colour), code);
+      }
     }
   }
   for (const s of Object.values(roads.sources)) assert.match(s.url, /^https:\/\//);
@@ -130,6 +154,12 @@ test("progress keys are distinct per clue and read back", () => {
   assert.deepEqual(itemOfKey("s:JP"), { clue: "stop", code: "JP" });
   assert.deepEqual(itemOfKey("x:DE"), { clue: "scene", code: "DE" });
   assert.equal(itemOfKey("q:DE"), null);
+});
+
+test("linesText says a pattern in words, left to right", () => {
+  assert.equal(linesText(["solid-yellow", "dashed-white"]), "solid yellow, broken white");
+  assert.equal(linesText(["long-dash-white"]), "long-dashed white");
+  assert.ok(data.byCode.PH.centre.patterns[0].lines.length === 3);
 });
 
 test("cleanClues keeps known clues in order, and falls back to all", () => {

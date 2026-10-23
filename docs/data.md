@@ -166,6 +166,16 @@ only by its part of the world's rule ("most European countries use white"),
 which the app shows in italics. A country with no solid source for its lines
 has no `centre`, and the app says so rather than guess.
 
+Where a source describes the lines' style, **`patterns`** lists them, the
+usual one first, each with what it means:
+`{ "lines": ["solid-yellow", "dashed-white"], "meaning": "…" }`, the lines
+left to right, each `solid`, `dashed`, `long-dash` or `short-dash`, then
+`white` or `yellow` (up to three lines, as in the Philippines' double yellow
+either side of a broken white line). **`patternSource`** names the source.
+The app draws the first pattern in its road scenes and lists all of them in
+a country's details; without patterns it draws the colour alone and says the
+style is not sourced.
+
 ### `signs.json` and `signs/`
 
 ```json
