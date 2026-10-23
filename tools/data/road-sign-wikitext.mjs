@@ -3,17 +3,63 @@
 // wikitext. Pure functions, used by tools/data/road-signs.mjs and tested in
 // test/unit/roads.test.js.
 
-/** The signs, and the caption words that find each in an article's galleries. */
+/**
+ * The signs, and how a caption names each: `match` must be in it, `avoid`
+ * must not, and a caption that is only the sign's name (`exact`) ranks
+ * first. Captions often start with the sign's number ("R1-1Stop",
+ * "3.01 Stop"), which {@link captionText} takes off first.
+ */
 export const SIGNS = {
-  chevron:
-    /chevron|direction of (the )?(curve|bend)|curve (alignment|marker)|sharp (curve|bend|deviation)/i,
-  pedestrian: /pedestrian crossing|zebra crossing|crosswalk/i,
+  chevron: {
+    match:
+      /chevron|curve alignment|alignment marker|direction of (the )?(curve|bend)|sharp deviation|deviation of (the )?(route|road)|hazard marker/i,
+    avoid: /end of|roadworks|temporary/i,
+    exact:
+      /^(chevrons?( alignment)?( marker| sign| board)?|curve alignment( marker)?|direction of (the )?(curve|bend)|sharp deviation( of route)?)( (to the )?(left|right))?$/i,
+  },
+  pedestrian: {
+    match: /pedestrian crossing|zebra crossing|crosswalk/i,
+    avoid:
+      /\bend\b|\bno\b|prohibit|forbidden|under(pass|ground)|over(pass|bridge)|bridge|subway|signal|light|school|children|yield|use |state law|direction/i,
+    exact: /^(pedestrian|zebra) crossing( ahead)?$/i,
+  },
   // The general warning sign (usually an exclamation mark), which shows the
   // country's warning sign style: a red-bordered triangle, a yellow diamond…
-  warning:
-    /other dangers?|general (warning|danger|caution)|danger ahead|^(caution|danger|warning)$|other hazards?/i,
-  stop: /^(stop|stop sign|stop and give way)\b|\bstop\b(?! ahead| line| sign ahead)/i,
+  warning: {
+    match:
+      /other dangers?|general (warning|danger|caution)|danger ahead|^(caution|danger|warning)$|other hazards?/i,
+    avoid: /plate|panel|supplement|temporary|roadworks|end of/i,
+    exact: /^(other dangers?|general (warning|danger|caution)|danger|other hazards?)$/i,
+  },
+  stop: {
+    match: /(?<![a-z])stop(?![a-z])/i,
+    avoid:
+      /ahead|bus|tram|taxi|truck|lrt|parking|wait|do not|don't|police|customs|control|announce|\d+ ?m\b|distance|prepared|line|crossing|children|manual|temporary|school|old|previous|\b(18|19|20)\d\d\b|on red|patrol|\bgo\b|tracks|end of|repetition|validity/i,
+    exact: /^stop( sign)?( and give way)?$/i,
+  },
 };
+
+/** A caption without the sign's number in front: "R1-1Stop" → "Stop". */
+export const captionText = (caption) =>
+  caption.replace(/^(?:[Ss]ign\s+)?\S*\d[^\s:]*?\s*:?\s*(?=\p{Lu})/u, "").trim();
+
+/**
+ * How well a drawing's caption names a sign: 0 not at all, 1 it mentions
+ * it, 2 it is the sign's name. A drawing whose file name says it is an old
+ * design ranks half a point lower.
+ * @param {keyof typeof SIGNS} sign
+ * @param {string} caption
+ * @param {string} [file]
+ */
+export function signScore(sign, caption, file = "") {
+  const { match, avoid, exact } = SIGNS[sign];
+  const text = captionText(caption);
+  if (!match.test(text) || avoid.test(text)) return 0;
+  const old = /(^|[^0-9])(1[89]\d\d|200\d)([^0-9]|$)|(^|[^a-z])old([^a-z]|$)|former/i.test(file)
+    ? 0.5
+    : 0;
+  return (exact.test(text) ? 2 : 1) - old;
+}
 
 /**
  * Every drawing in an article with its caption: gallery lines

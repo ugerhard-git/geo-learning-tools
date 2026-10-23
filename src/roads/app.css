@@ -1,0 +1,425 @@
+/* Roads: country cards, clue groups, sign tiles, the road scene a drill question shows, and the details dialog. */
+
+/* The page fills the window: the header, then the stage, inside which the
+   cards scroll and the drill's cards and bar sit (see shared/drill.css). */
+body {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ------------------------------------------------------------ explore */
+
+#browse {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  padding: 18px 20px calc(30px + env(safe-area-inset-bottom, 0px));
+}
+
+#browse[hidden] {
+  display: none;
+}
+
+.intro {
+  max-width: 70ch;
+  color: var(--muted);
+  margin: 0 0 14px;
+}
+
+.filters,
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.filters {
+  margin: 0 0 16px;
+}
+
+.chip {
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.92rem;
+}
+
+.chip[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 700;
+}
+
+.count {
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+.empty {
+  color: var(--muted);
+}
+
+/* By country */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 12px;
+}
+
+.rcard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  text-align: left;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+}
+
+.rcard:hover,
+.rcard:focus-visible,
+.cchip:hover,
+.cchip:focus-visible {
+  border-color: var(--accent);
+}
+
+.rname {
+  font-weight: 700;
+}
+
+.rname .flagmini,
+.cchip .flagmini,
+.sname .flagmini,
+#dName .flagmini {
+  height: 0.9em;
+  margin-right: 6px;
+  vertical-align: -0.05em;
+}
+
+.rfacts {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.rsigns {
+  display: flex;
+  gap: 6px;
+  min-height: 36px;
+}
+
+.rsigns img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+/* By clue: groups of countries */
+
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.group h2 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+}
+
+.ghead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.gart svg {
+  display: block;
+  width: 120px;
+  height: auto;
+  border-radius: 8px;
+}
+
+.cchips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.cchip {
+  padding: 3px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.cchip.regional {
+  font-style: italic;
+}
+
+/* By clue: sign drawings */
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.tile {
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+}
+
+.tile img {
+  display: block;
+  width: 100%;
+  height: 110px;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+.tile figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tile .cchip {
+  font-size: 0.82rem;
+  padding: 2px 7px;
+}
+
+.credits-line {
+  margin: 26px 0 0;
+}
+
+.linkish {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+}
+
+/* ------------------------------------------------------- the road scene */
+
+.road {
+  fill: #6b6b6b;
+}
+
+.verge {
+  fill: #7d9a5a;
+}
+
+.sky {
+  fill: #a9cbe6;
+}
+
+.ln-white,
+.ln-yellow {
+  fill: none;
+  stroke-width: 3;
+}
+
+.ln-white {
+  stroke: #f5f5f5;
+}
+
+.ln-yellow {
+  stroke: #f2c230;
+}
+
+.ln-white.dash {
+  stroke-dasharray: 14 12;
+}
+
+.car rect {
+  fill: #c33d3d;
+}
+
+.car.them rect {
+  fill: #3d6fc3;
+}
+
+.car .glass {
+  fill: #23313f;
+}
+
+.car .tyre {
+  fill: #1c1c1c;
+}
+
+/* The scene or sign a drill question shows, above the bar. */
+.scene {
+  position: absolute;
+  inset: 0 0 auto;
+  bottom: 230px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+}
+
+.scene[hidden] {
+  display: none;
+}
+
+.scene-art {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  max-height: 100%;
+  min-height: 0;
+}
+
+.sroad svg {
+  display: block;
+  width: min(420px, 80vw);
+  height: auto;
+  border-radius: 12px;
+}
+
+.ssigns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+
+.ssigns figure {
+  margin: 0;
+}
+
+.ssigns img {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+}
+
+.ssigns.big img {
+  width: min(220px, 50vw);
+  height: min(220px, 34vh);
+}
+
+.ssigns figcaption {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.sname {
+  margin: 0;
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  font-weight: 700;
+}
+
+.scene-note {
+  margin: 14px 0 0;
+  max-width: 60ch;
+  color: var(--muted);
+  min-height: 1.5em;
+}
+
+/* ------------------------------------------------------------ details */
+
+.dscene svg {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  border-radius: 10px;
+}
+
+.dsigns {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 10px;
+}
+
+.dsigns figure {
+  margin: 0;
+  text-align: center;
+}
+
+.dsigns img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+}
+
+.dsigns figcaption {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.nosign {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+}
+
+.credits {
+  margin: 4px 0 0;
+  padding-left: 1.2em;
+  font-size: 0.88rem;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 760px) {
+  .scene {
+    bottom: 300px;
+  }
+
+  .ssigns img {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* On a phone the view chips scroll sideways rather than fill the screen. */
+  .filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-right: -20px;
+    padding-right: 20px;
+    scrollbar-width: none;
+  }
+
+  .filters .chip {
+    flex: none;
+  }
+}

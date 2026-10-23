@@ -1,7 +1,6 @@
 // Finds and fetches the sign drawings of the Roads app: each Street View
 // country's chevron, pedestrian crossing, stop sign and general warning
-// sign, as drawn on
-// Wikimedia Commons, with each file's licence and author.
+// sign, as drawn on Wikimedia Commons, with each file's licence and author.
 //
 // For every country in tools/data/street-view-countries.txt:
 //
@@ -28,7 +27,7 @@
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { parseCountries } from "../../src/shared/countries.js";
 import { readStreetView } from "./street-view.mjs";
-import { SIGNS, captionedFiles } from "./road-sign-wikitext.mjs";
+import { SIGNS, captionedFiles, signScore } from "./road-sign-wikitext.mjs";
 import { checkSvg } from "../site-checks.mjs";
 
 /** Licences that allow reuse, as Commons names them (LicenseShortName). */
@@ -146,9 +145,14 @@ for (const code of streetView) {
   }
   const files = captionedFiles(article.text);
   const found = {};
-  for (const [sign, words] of Object.entries(SIGNS)) {
-    const matching = files.filter((f) => words.test(f.caption));
-    if (matching.length) found[sign] = matching.slice(0, 6);
+  for (const sign of Object.keys(SIGNS)) {
+    // The best named first; a drawing listed twice counts once.
+    const matching = files
+      .map((f) => ({ ...f, score: signScore(sign, f.caption, f.file) }))
+      .filter((f) => f.score)
+      .sort((a, b) => b.score - a.score)
+      .filter((f, i, all) => all.findIndex((g) => g.file === f.file) === i);
+    if (matching.length) found[sign] = matching.slice(0, 8);
   }
   candidates[code] = { article: article.title, ...found };
   report.push(`${code}  ${article.title}: ${Object.keys(found).join(", ") || "nothing captioned"}`);
