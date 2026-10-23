@@ -107,6 +107,15 @@ should be covered by a test.
 
 ## Ground rules
 
+- **Show where every fact comes from.** Whatever an app shows or drills on
+  (a fact, a drawing, a word, a map, a figure) names its source where the
+  learner sees it, as a link wherever one exists, so they can check it
+  themselves. Name what was copied and under which licence (an author and
+  licence for each Commons file, for example), and say when something rests
+  on a weaker source (a rule for a whole region, a community guide) or has
+  none: "No solid source yet" is better than a guess. Data written for this
+  project says so. A new data file lists its sources in `docs/data.md`.
+
 - **No third-party scripts, stylesheets or fonts at runtime.** Everything the
   pages execute is served from this repository. Each page's
   Content-Security-Policy enforces this, and the build fails if a page has
