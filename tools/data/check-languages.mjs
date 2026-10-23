@@ -100,8 +100,10 @@ export function checkSignWords(data) {
   for (const [en, w] of Object.entries(data?.words ?? {})) {
     if (
       !isText(en, 30) ||
-      !/^(Q\d+|wiktionary:[a-z]+)$/.test(w?.source ?? "") ||
-      !labelsOk(w.labels)
+      !w?.source ||
+      !/^(wiktionary:[a-z_]+)?( ?Q\d+)?$/.test(w.source) ||
+      !labelsOk(w.wiktionary) ||
+      !labelsOk(w.wikidata)
     ) {
       problems.push(`word ${en.slice(0, 30)}`);
     }

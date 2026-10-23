@@ -4,11 +4,11 @@
 //
 //   - street, road, city: labels of the items Q79007, Q34442 and Q515, for the
 //     "On signs" line of each language.
-//   - words: the words of place names and directions, labels of the items in
-//     NOUNS (north, river, mountain, port…), and for the adjectives (new, old,
-//     upper, lower, big, small) the first translation table of the English
-//     word on Wiktionary (CC BY-SA). Each keeps its English word, for the app
-//     to show.
+//   - words: the words of place names and directions (north, river,
+//     mountain, port, new, old…), from the English word's translation table
+//     on Wiktionary (CC BY-SA), which gives the plain word signs use, and the
+//     labels of a Wikidata item as a fallback. Each keeps its English word,
+//     for the app to show. The list is WORDS.
 //   - capitals: each Street View country's capital (P36), labelled in every
 //     language.
 //
@@ -27,37 +27,43 @@ const ITEMS = { street: "Q79007", road: "Q34442", city: "Q515" };
 
 /**
  * Words of town, road, region and landmark names, and of directions: the
- * English word and its Wikidata item. The item's English label must match,
- * or the word is left out (and reported), so a wrong id cannot slip in.
+ * English word, its Wiktionary entry (page, part of speech, and words the
+ * gloss of the right sense contains, where the first sense is not the one
+ * place names mean) and, for nouns, the Wikidata item as a fallback. The
+ * item's English label must contain the word, or it is not used, so a wrong
+ * id cannot slip in.
  */
-const NOUNS = {
-  north: "Q659",
-  south: "Q667",
-  east: "Q684",
-  west: "Q679",
-  village: "Q532",
-  town: "Q3957",
-  hill: "Q54050",
-  mountain: "Q8502",
-  valley: "Q39816",
-  river: "Q4022",
-  lake: "Q23397",
-  beach: "Q40080",
-  coast: "Q93352",
-  island: "Q23442",
-  bay: "Q39594",
-  port: "Q44782",
-  bridge: "Q12280",
-  church: "Q16970",
-  castle: "Q23413",
-  "railway station": "Q55488",
-  airport: "Q1248784",
-  square: "Q174782",
-  forest: "Q4421",
+const WORDS = {
+  north: { pos: "Noun", gloss: /compass|direction/, qid: "Q659" },
+  south: { pos: "Noun", gloss: /compass|direction/, qid: "Q667" },
+  east: { pos: "Noun", gloss: /compass|direction/, qid: "Q684" },
+  west: { pos: "Noun", gloss: /compass|direction/, qid: "Q679" },
+  village: { pos: "Noun", qid: "Q532" },
+  town: { pos: "Noun", qid: "Q3957" },
+  hill: { pos: "Noun", qid: "Q54050" },
+  mountain: { pos: "Noun", qid: "Q8502" },
+  valley: { pos: "Noun", qid: "Q39816" },
+  river: { pos: "Noun", qid: "Q4022" },
+  lake: { pos: "Noun", qid: "Q23397" },
+  beach: { pos: "Noun", qid: "Q40080" },
+  coast: { pos: "Noun", qid: "Q93352" },
+  island: { pos: "Noun", qid: "Q23442" },
+  bay: { pos: "Noun", gloss: /water|coast|sea/, qid: "Q39594" },
+  port: { pos: "Noun", gloss: /harbou?r|ships|dock/, qid: "Q44782" },
+  bridge: { pos: "Noun", qid: "Q12280" },
+  church: { pos: "Noun", gloss: /worship|building/, qid: "Q16970" },
+  castle: { pos: "Noun", qid: "Q23413" },
+  station: { page: "railway station", pos: "Noun", qid: "Q55488" },
+  airport: { pos: "Noun", qid: "Q1248784" },
+  square: { page: "town square", pos: "Noun", qid: "Q174782" },
+  forest: { pos: "Noun", qid: "Q4421" },
+  new: { pos: "Adjective" },
+  old: { pos: "Adjective" },
+  upper: { pos: "Adjective" },
+  lower: { pos: "Adjective", gloss: /low|beneath|under|below/ },
+  big: { pos: "Adjective" },
+  small: { pos: "Adjective" },
 };
-
-/** Adjectives of place names; their translations come from Wiktionary. */
-const ADJECTIVES = ["new", "old", "upper", "lower", "big", "small"];
 
 const HEADERS = {
   "User-Agent":
@@ -106,57 +112,81 @@ const sparql = (query) =>
 const report = [];
 const out = {
   source:
-    "Wikidata (CC0): item labels and each country's capital (P36). Wiktionary (CC BY-SA 4.0): translations of the adjectives",
+    "Wiktionary (CC BY-SA 4.0): translation tables of the place words. Wikidata (CC0): item labels and each country's capital (P36)",
 };
 
 // The "On signs" words.
 const signLabels = await labelsOf(Object.values(ITEMS));
 for (const [word, qid] of Object.entries(ITEMS)) out[word] = signLabels[qid];
 
-// Nouns, checked against their English label.
-const nounLabels = await labelsOf(Object.values(NOUNS));
-out.words = {};
-for (const [en, qid] of Object.entries(NOUNS)) {
-  const labels = nounLabels[qid];
-  // "church" is "church building"; the English word must be in the label.
-  if (!(labels.en ?? "").toLowerCase().split(/\s+/).includes(en.split(" ").at(-1))) {
-    report.push(`${en}: ${qid} is "${labels.en ?? "?"}" in English; left out`);
-    continue;
-  }
-  out.words[en] = { source: qid, labels };
-}
-
-// Adjectives, from Wiktionary's translation tables (CC BY-SA): the first
-// sense of each word, the one place names mean ("new" as in recently made).
-for (const en of ADJECTIVES) {
-  let text = "";
-  for (const page of [`${en}/translations`, en]) {
+/**
+ * The translations in an entry's translation table on Wiktionary: the first
+ * table of the part of speech whose gloss matches, if a gloss is given.
+ * @returns {Promise<Record<string, string>>} language code → word
+ */
+async function wiktionary(page, pos, gloss) {
+  for (const title of [`${page}/translations`, page]) {
     const json = await getJson(
       "https://en.wiktionary.org/w/api.php?action=parse&format=json&formatversion=2" +
-        `&prop=wikitext&page=${encodeURIComponent(page)}`,
+        `&prop=wikitext&page=${encodeURIComponent(title)}`,
     ).catch(() => null);
     const wt = json?.parse?.wikitext ?? "";
-    // The adjective's section, then its first translation table.
-    const adj = wt.slice(Math.max(0, wt.search(/===\s*Adjective\s*===/)));
-    const m = /\{\{trans-top[^}]*\}\}([\s\S]*?)\{\{trans-bottom\}\}/.exec(adj);
-    if (m) {
-      text = m[1];
-      break;
+    // The English entry's section for the part of speech, up to the next one.
+    const english = wt.slice(Math.max(0, wt.search(/==\s*English\s*==/)));
+    const start = english.search(new RegExp(`===+\\s*${pos}\\s*===+`));
+    const section = start < 0 ? english : english.slice(start);
+    for (const m of section.matchAll(/\{\{trans-top\|([^}]*)\}\}([\s\S]*?)\{\{trans-bottom\}\}/g)) {
+      if (gloss && !gloss.test(m[1])) continue;
+      const labels = {};
+      for (const t of m[2].matchAll(/\{\{tt?\+?\|([a-z-]{2,12})\|([^|}]+)/g)) {
+        let code = t[1];
+        let v = clean(t[2].replace(/\[\[|\]\]/g, ""));
+        // Serbo-Croatian dictionaries mark pitch and length on vowels (and
+        // syllabic r); signs do not. Consonants keep theirs (ć, č, š, ž).
+        if (["sh", "sr", "hr", "bs"].includes(code)) {
+          v = v
+            .normalize("NFD")
+            .replace(
+              /([aeiourAEIOUR\u0430\u0435\u0438\u043e\u0443\u0440])[\u0300-\u0304\u030f\u0311]+/g,
+              "$1",
+            )
+            .normalize("NFC");
+        }
+        // Serbo-Croatian lists both scripts under one code.
+        if (code === "sh") code = /[\u0400-\u04FF]/.test(v) ? "sr-ec" : "sh";
+        if (LANG.test(code) && v && !labels[code]) labels[code] = v;
+      }
+      return labels;
     }
   }
-  const labels = {};
-  for (const t of text.matchAll(/\{\{tt?\+?\|([a-z-]{2,12})\|([^|}]+)/g)) {
-    let code = t[1];
-    const v = clean(t[2].replace(/\[\[|\]\]/g, ""));
-    // Serbo-Croatian lists both scripts under one code.
-    if (code === "sh") code = /[\u0400-\u04FF]/.test(v) ? "sr-ec" : "sh";
-    if (LANG.test(code) && v && !labels[code]) labels[code] = v;
+  return {};
+}
+
+out.words = {};
+const itemLabels = await labelsOf(Object.values(WORDS).flatMap((w) => (w.qid ? [w.qid] : [])));
+for (const [en, w] of Object.entries(WORDS)) {
+  const fromWiktionary = await wiktionary(w.page ?? en, w.pos, w.gloss);
+  let fromWikidata = {};
+  if (w.qid) {
+    const labels = itemLabels[w.qid];
+    // "church" is "church building"; the English word must be in the label.
+    if ((labels.en ?? "").toLowerCase().split(/\s+/).includes(en)) fromWikidata = labels;
+    else report.push(`${en}: ${w.qid} is "${labels.en ?? "?"}" in English; its labels not used`);
   }
-  if (Object.keys(labels).length < 20) {
-    report.push(`${en}: only ${Object.keys(labels).length} translations on Wiktionary; left out`);
+  const n = Object.keys(fromWiktionary).length;
+  if (n < 20) report.push(`${en}: ${n} translations on Wiktionary`);
+  if (n + Object.keys(fromWikidata).length < 20) {
+    report.push(`${en}: left out`);
     continue;
   }
-  out.words[en] = { source: `wiktionary:${en}`, labels };
+  out.words[en] = {
+    source: [n ? `wiktionary:${(w.page ?? en).replaceAll(" ", "_")}` : "", w.qid ?? ""]
+      .filter(Boolean)
+      .join(" "),
+    wiktionary: fromWiktionary,
+    wikidata: fromWikidata,
+  };
+  await new Promise((r) => setTimeout(r, 300));
 }
 
 // Capitals of the Street View countries.

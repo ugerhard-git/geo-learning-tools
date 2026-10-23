@@ -259,9 +259,13 @@ const signWord = (id, word) => labelIn(id, signWords[word]);
  */
 function placeWords(id) {
   if (id.split("-")[0] === "en") return [];
-  return Object.entries(signWords.words ?? {})
-    .map(([en, w]) => [en, labelIn(id, w.labels)])
-    .filter(([, w]) => w);
+  return (
+    Object.entries(signWords.words ?? {})
+      // Wiktionary has the plain word ("Kirche"); a Wikidata label can be the
+      // name of the concept ("Kirchengebäude"), so it only fills gaps.
+      .map(([en, w]) => [en, labelIn(id, w.wiktionary) || labelIn(id, w.wikidata)])
+      .filter(([, w]) => w)
+  );
 }
 
 /** The capitals of these countries, as the language writes them. */

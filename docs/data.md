@@ -157,11 +157,12 @@ has one.
 - **`placeWords`** are words of town, road, region and landmark names and of
   directions, each with its English: the compass points, village, town,
   hill, mountain, valley, river, lake, beach, coast, island, bay, port,
-  bridge, church, castle, railway station, airport, square and forest
-  (Wikidata item labels, each item checked against its English label), and
-  new, old, upper, lower, big and small (the first translation table of the
-  English word on Wiktionary). The list is `NOUNS` and `ADJECTIVES` in
-  `tools/data/sign-words.mjs`.
+  bridge, church, castle, station, airport, square, forest, new, old, upper,
+  lower, big and small. Each comes from the English word's translation table
+  on Wiktionary (the sense place names mean), which gives the plain word a
+  sign uses ("Kirche", not "Kirchengebäude"); where Wiktionary has none, from
+  the label of a Wikidata item, checked against its English label. The list
+  is `WORDS` in `tools/data/sign-words.mjs`.
 - **`capitals`** are the capitals (Wikidata P36) of the language's countries,
   in the language.
 - **`telltales`** are letters of the Latin and Cyrillic alphabets that four
@@ -227,8 +228,8 @@ CC0, CC BY, CC BY-SA), with its author for the credit.
 | Wikidata ids of features                                                    | Carried in Natural Earth's own attributes                                                                   | Public domain                                                   |
 | Flag colour codes                                                           | Measured from the flag drawings on [Wikimedia Commons](https://commons.wikimedia.org/)                      | Public domain                                                   |
 | Languages: official status, scripts, letters, words, names                  | [Unicode CLDR](https://cldr.unicode.org/) 48.2                                                              | Unicode License v3 ([text](../licenses/unicode-license-v3.txt)) |
-| Words on signs, words in place names, capitals                              | [Wikidata](https://www.wikidata.org/) item labels, and capitals (P36)                                       | CC0                                                             |
-| New, old, upper, lower, big, small in each language                         | [Wiktionary](https://en.wiktionary.org/) translation tables                                                 | CC BY-SA 4.0                                                    |
+| Words on signs, capitals, some place words                                  | [Wikidata](https://www.wikidata.org/) item labels, and capitals (P36)                                       | CC0                                                             |
+| Words in place names                                                        | [Wiktionary](https://en.wiktionary.org/) translation tables                                                 | CC BY-SA 4.0                                                    |
 | Sample sentences                                                            | [UDHR in Unicode](https://www.unicode.org/udhr/), via the [udhr](https://github.com/wooorm/udhr) package    | Translations by the UN OHCHR; package MIT                       |
 | Driving side, road line colours and styles                                  | Wikipedia, World Standards and the Plonk It guides, per country in `roads.json`                             | Facts; the sources are linked in the app                        |
 | Road sign drawings                                                          | [Wikimedia Commons](https://commons.wikimedia.org/), as shown in Wikipedia's "Road signs in …" articles     | Each file's own: public domain, CC0, CC BY or CC BY-SA          |
