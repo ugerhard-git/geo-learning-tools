@@ -185,6 +185,13 @@ function credit(sign) {
   return `<a href="${esc(commonsUrl(sign))}" target="_blank" rel="noopener noreferrer">${esc(sign.commons.replaceAll("_", " "))}</a>, ${esc(sign.author || "unknown author")}, ${esc(sign.licence)}${sign.changed ? ` (${esc(sign.changed)})` : ""}`;
 }
 
+/** Where a drawing is shown: the Wikipedia article, or only its Commons page. */
+function signSource(sign) {
+  return sign.source
+    ? `Shown in <a href="${esc(articleUrl(sign.source))}" target="_blank" rel="noopener noreferrer">${esc(sign.source)}</a> (Wikipedia).`
+    : "Not shown in a Wikipedia article; its Commons page is the source.";
+}
+
 /* =============================================================== main */
 
 async function main() {
@@ -403,11 +410,11 @@ async function main() {
       }
       ${
         SIGN_CLUES.some((k) => c.signs[k])
-          ? `<p class="src">Each drawing is a copy of a file on Wikimedia Commons, as shown in Wikipedia's article on the country's road signs, where you can check it:</p>
+          ? `<p class="src">Each drawing is a copy of a file on Wikimedia Commons, where its page describes it. Most are also shown in Wikipedia's article on the country's road signs, where you can check them:</p>
              <ul class="credits">${SIGN_CLUES.filter((k) => c.signs[k])
                .map(
                  (k) =>
-                   `<li>${esc(CLUES[k].label)}: ${credit(c.signs[k])}. Shown in <a href="${esc(articleUrl(c.signs[k].source))}" target="_blank" rel="noopener noreferrer">${esc(c.signs[k].source)}</a> (Wikipedia).</li>`,
+                   `<li>${esc(CLUES[k].label)}: ${credit(c.signs[k])}. ${signSource(c.signs[k])}</li>`,
                )
                .join("")}</ul>`
           : ""

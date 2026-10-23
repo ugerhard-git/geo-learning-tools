@@ -18,7 +18,10 @@
 //      those are often not free.
 //   4. Download the kept drawings into src/data/signs/ and write
 //      src/data/signs.json: per country and sign, the file, its licence,
-//      its author and the article it came from.
+//      its author and the article that shows it. A picked drawing the
+//      article does not show (one found on Commons instead, or for a
+//      country with no article) has no article; its Commons page is its
+//      source.
 //
 // Wikipedia and Commons cannot be reached from every machine, so this
 // normally runs on GitHub: see .github/workflows/road-signs.yml.
@@ -164,12 +167,51 @@ for (const code of streetView) {
   await sleep(300);
 }
 
-// One drawing per country and sign: the person's pick, else the first candidate.
+/**
+ * The files an article shows, as the rendered page lists them (so with
+ * those its templates add), their names with spaces.
+ * @param {string} title
+ * @returns {Promise<Set<string>>}
+ */
+async function shownFiles(title) {
+  const names = new Set();
+  let more = "";
+  do {
+    const url =
+      "https://en.wikipedia.org/w/api.php?action=query&format=json&formatversion=2&prop=images&imlimit=max" +
+      `&titles=${encodeURIComponent(title)}${more}`;
+    const json = await (await fetchPolitely(url)).json();
+    for (const page of json?.query?.pages ?? []) {
+      for (const image of page.images ?? []) names.add(image.title.replace(/^File:/, ""));
+    }
+    more = json?.continue?.imcontinue
+      ? `&imcontinue=${encodeURIComponent(json.continue.imcontinue)}`
+      : "";
+    await sleep(300);
+  } while (more);
+  return names;
+}
+
+/** Commons names a file with spaces and a capital first letter. */
+const fileTitle = (file) => {
+  const f = file.replaceAll("_", " ");
+  return f[0].toUpperCase() + f.slice(1);
+};
+
+// One drawing per country and sign: the person's pick, else the first
+// candidate. A country with no article can still have picks.
 const chosen = [];
-for (const [code, entry] of Object.entries(candidates)) {
+const withPicks = [...streetView].filter((code) => picks[code] && !candidates[code]);
+for (const code of [...Object.keys(candidates), ...withPicks]) {
+  const entry = candidates[code] ?? {};
   for (const sign of Object.keys(SIGNS)) {
     const file = picks[code]?.[sign] ?? entry[sign]?.[0]?.file;
-    if (file && file !== "-") chosen.push({ code, sign, file, article: entry.article });
+    if (!file || file === "-") continue;
+    // A candidate came from the article; a pick may not be in it.
+    const candidate = entry[sign]?.some((c) => c.file === file);
+    const shown =
+      candidate || (entry.article && (await shownFiles(entry.article)).has(fileTitle(file)));
+    chosen.push({ code, sign, file, article: shown ? entry.article : "" });
   }
 }
 
@@ -217,7 +259,7 @@ for (const pick of chosen) {
     commons: pick.file,
     licence: info.licence,
     author: info.author,
-    source: pick.article,
+    ...(pick.article ? { source: pick.article } : {}),
     ...(svg !== original ? { changed: "editor data removed" } : {}),
   };
   await sleep(300);

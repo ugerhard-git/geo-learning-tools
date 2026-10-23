@@ -73,6 +73,11 @@ again:
 { "JP": { "stop": "Japan_road_sign_330-A.svg" }, "US": { "crossing": "-" } }
 ```
 
+A pick need not be in the article: it can be any drawing on Commons, and a
+country with no article can have picks too. The app then names the drawing's
+Commons page as its source instead of the article, so pick a file whose
+Commons page says which country's sign it is.
+
 The rest of this page is about the two Python scripts.
 
 ## Running them
