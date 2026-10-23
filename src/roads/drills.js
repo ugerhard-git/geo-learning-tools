@@ -127,6 +127,18 @@ function pickPreferring(candidates, preferred, n) {
 /** "On the left" or "On the right". */
 export const sideText = (drive) => (drive === "left" ? "On the left" : "On the right");
 
+/** A centre line pattern in words: "solid yellow, broken white". */
+export const linesText = (lines) =>
+  lines
+    .map((l) =>
+      l
+        .replace(/^dashed-/, "broken ")
+        .replace(/^long-dash-/, "long-dashed ")
+        .replace(/^short-dash-/, "short-dashed ")
+        .replace(/^solid-/, "solid "),
+    )
+    .join(", ");
+
 /** One question. */
 export class RoadQuestion {
   /**
@@ -230,7 +242,14 @@ export class RoadQuestion {
   reveal() {
     const c = this.country;
     const parts = [`${c.name}: drives ${sideText(c.drive).toLowerCase()}`];
-    if (c.centre) parts.push(`${COLOURS[c.centre.colour].toLowerCase()} centre lines`);
+    if (c.centre) {
+      const usual = c.centre.patterns?.[0];
+      parts.push(
+        usual
+          ? `centre line usually ${linesText(usual.lines)}`
+          : `${COLOURS[c.centre.colour].toLowerCase()} centre lines`,
+      );
+    }
     return `${parts.join(", ")}.${c.centre ? ` ${c.centre.note}` : ""}`;
   }
 }
