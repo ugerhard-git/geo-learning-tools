@@ -107,12 +107,14 @@
           <div class="seg" role="group" aria-label="What the quiz asks">
             <button data-dirn="name" aria-pressed="true">Name it</button>
             <button data-dirn="find" aria-pressed="false">Find it</button>
+            <button data-dirn="clue" aria-pressed="false">Clues</button>
           </div>
           <div class="seg" role="group" aria-label="Difficulty">
             <button data-level="easy" aria-pressed="true">Easy</button>
             <button data-level="hard" aria-pressed="false">Hard</button>
             <button data-level="blind" aria-pressed="false" hidden>No borders</button>
           </div>
+          <select id="qClue" aria-label="Which clue" hidden></select>
           <select id="qRegion" aria-label="Region to practise"></select>
           <select id="qScope" aria-label="What to include">
             <option value="countries">Countries only</option>

@@ -1,17 +1,22 @@
 // Builds src/data/quick-facts.json: each country's and territory's internet
-// domain, phone code and currency, from Wikidata (CC0). They show up on
+// domain and phone code, from Wikidata (CC0), and currency, from CLDR. They show up on
 // signs, shopfronts and adverts, and the Countries and Territories app shows
 // and drills them.
 //
 // For every place in src/data/countries.txt, found on Wikidata by its ISO
 // code (P297): its country-code top-level domain (P78), its country calling
-// code (P474) and its currency (P38) with its ISO 4217 code (P498), leaving
-// out values Wikidata marks as ended (P582).
+// code (P474), leaving out values Wikidata marks as ended (P582); and from
+// Unicode CLDR (Unicode License v3), the currencies it uses now, with their
+// English names and symbols.
 //
 // Wikidata cannot be reached from every machine, so this normally runs on
 // GitHub: see .github/workflows/quick-facts.yml.
 //
-//   node tools/data/quick-facts.mjs
+//   mkdir -p /tmp/cldr && cd /tmp/cldr
+//   for p in cldr-core cldr-numbers-full; do
+//     npm pack $p@48.2.0 && mkdir $p && tar xzf $p-48.2.0.tgz -C $p --strip-components 1
+//   done
+//   node tools/data/quick-facts.mjs /tmp/cldr
 
 import { readFile, writeFile } from "node:fs/promises";
 import { parseCountries } from "../../src/shared/countries.js";
@@ -53,8 +58,13 @@ const add = (iso, key, value) => {
 for (const b of await sparql(`SELECT ?iso ?name WHERE { ${values} ?c wdt:P297 ?iso.
     ${current("P78")} ?v rdfs:label ?name. FILTER(LANG(?name) = "en") }`)) {
   const tld = text(b.name?.value, 30).toLowerCase();
-  // Country-code domains in Latin letters: ".pl", ".uk".
-  if (/^\.[a-z]{2}$/.test(tld)) add(b.iso.value, "tld", tld);
+  const iso = b.iso.value;
+  // A place's own country-code domain, as IANA assigns them: its ISO code,
+  // except the United Kingdom's ".uk". Wikidata also lists domains a place
+  // uses or once used (France's ".re", the EU's ".eu", ".su"), which belong
+  // to somewhere else.
+  const own = iso === "GB" ? ".uk" : `.${iso.toLowerCase()}`;
+  if (tld === own) add(iso, "tld", tld);
 }
 
 for (const b of await sparql(
@@ -64,11 +74,26 @@ for (const b of await sparql(
   if (/^\+\d{1,4}( \d{1,4})?$/.test(phone)) add(b.iso.value, "phone", phone);
 }
 
-for (const b of await sparql(`SELECT ?iso ?code ?name WHERE { ${values} ?c wdt:P297 ?iso.
-    ${current("P38")} ?v wdt:P498 ?code; rdfs:label ?name. FILTER(LANG(?name) = "en") }`)) {
-  const code = text(b.code?.value, 3);
-  const name = text(b.name?.value);
-  if (/^[A-Z]{3}$/.test(code) && name) add(b.iso.value, "currency", { code, name });
+// Currencies from CLDR: those each place uses now (no end date, legal tender),
+// with the English name and the narrow symbol.
+const cldr = process.argv[2];
+if (!cldr) throw new Error("Give the folder CLDR is unpacked in (see the header).");
+const readJson = async (...parts) => JSON.parse(await readFile([cldr, ...parts].join("/"), "utf8"));
+const regions = (await readJson("cldr-core", "supplemental", "currencyData.json")).supplemental
+  .currencyData.region;
+const names = (await readJson("cldr-numbers-full", "main", "en", "currencies.json")).main.en.numbers
+  .currencies;
+for (const c of codes) {
+  for (const entry of regions[c] ?? []) {
+    for (const [code, when] of Object.entries(entry)) {
+      if (when._to || when._tender === "false" || !/^[A-Z]{3}$/.test(code)) continue;
+      const n = names[code] ?? {};
+      const name = text(n["displayName-count-one"] ?? n.displayName);
+      const symbol = text(n["symbol-alt-narrow"] ?? "", 6);
+      if (name)
+        add(c, "currency", symbol && symbol !== code ? { code, name, symbol } : { code, name });
+    }
+  }
 }
 
 const facts = {};
@@ -90,7 +115,7 @@ console.log(
     `${Object.keys(facts).length} places: ${count("tld")} with a domain, ${count("phone")} with a phone code, ${count("currency")} with a currency.`,
   ].join("\n"),
 );
-if (count("tld") < 200 || count("phone") < 200 || count("currency") < 180) {
+if (count("tld") < 200 || count("phone") < 200 || count("currency") < 200) {
   console.error("Too few facts; not writing the file.");
   process.exit(1);
 }

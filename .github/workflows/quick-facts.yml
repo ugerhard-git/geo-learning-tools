@@ -1,5 +1,5 @@
 # Builds the quick facts of the Countries and Territories app (each place's
-# internet domain, phone code and currency) from Wikidata, and commits
+# internet domain and phone code from Wikidata, currency from CLDR), and commits
 # src/data/quick-facts.json. See tools/data/quick-facts.mjs.
 #
 # It runs:
@@ -45,9 +45,20 @@ jobs:
         with:
           node-version-file: .nvmrc
 
+      # The CLDR version the currencies come from; the languages workflow
+      # uses the same one. Unpacked as data, without running any of it.
+      - name: Unpack CLDR
+        run: |
+          mkdir -p "$RUNNER_TEMP/cldr"
+          cd "$RUNNER_TEMP/cldr"
+          for p in cldr-core cldr-numbers-full; do
+            npm pack "$p@48.2.0" --silent
+            mkdir "$p" && tar xzf "$p-48.2.0.tgz" -C "$p" --strip-components 1
+          done
+
       - name: Build
         shell: bash
-        run: node tools/data/quick-facts.mjs | tee quick-facts-report.txt
+        run: node tools/data/quick-facts.mjs "$RUNNER_TEMP/cldr" | tee quick-facts-report.txt
 
       - name: Report
         run: |

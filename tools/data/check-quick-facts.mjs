@@ -31,7 +31,11 @@ export function checkQuickFacts(data, codes) {
     if (
       !Array.isArray(f?.currency) ||
       !f.currency.every(
-        (c) => /^[A-Z]{3}$/.test(c?.code) && typeof c.name === "string" && c.name.length <= 60,
+        (c) =>
+          /^[A-Z]{3}$/.test(c?.code) &&
+          typeof c.name === "string" &&
+          c.name.length <= 60 &&
+          (c.symbol === undefined || (typeof c.symbol === "string" && c.symbol.length <= 6)),
       )
     ) {
       problems.push(`${where}: currency`);

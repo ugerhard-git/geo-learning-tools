@@ -5,9 +5,11 @@
  * - Explore: hover and click countries; the panel shows the flag, an outline
  *   map, facts from REST Countries (with a key), Wikidata, and the
  *   geography sections of the CIA World Factbook.
- * - Quiz: "Name it" (the map points at a country) or "Find it" (the quiz
- *   names a country). Find it has three levels: a shortlist of four, free
- *   hand, and no borders at all, where a miss is measured but never named.
+ * - Quiz: "Name it" (the map points at a country), "Find it" (the quiz
+ *   names a country) or "Clues" (the quiz gives an internet domain, phone
+ *   code or currency and the learner finds its place). Find it and Clues
+ *   have three levels: a shortlist of four, free hand, and no borders at
+ *   all, where a miss is measured but never named.
  *
  * How it runs: `main` loads the world outlines and the country table, draws
  * the map, and starts loading the Factbook in the background (a panel needs
@@ -20,6 +22,8 @@
  *
  * The files:
  * - app.js (this file): the map, the panel, the quiz and progress.
+ * - quick-facts.js: the quick facts (domain, phone code, currency) and the
+ *   clues the Clues quiz asks. Unit-tested.
  * - wikidata-facts.js: the one Wikidata query behind a panel's politics,
  *   people and symbols, with its cache. Its parsing is unit-tested.
  * - Shared code does the rest: the map view, outlines, distances, spaced
@@ -38,6 +42,7 @@ import { MapView } from "../shared/mapview.js";
 import { MarkerLayer } from "../shared/overlay.js";
 import { Tooltip, projectionSwitch } from "../shared/map-ui.js";
 import { DetailPanel } from "../shared/panel.js";
+import { CLUES, clueItems, clueKey, makeQuickFacts, quickRows } from "./quick-facts.js";
 import { flagSvgUrl, hideFailedFlags } from "../shared/flags.js";
 import { REGIONS, STATUS, byCode, parseCountries } from "../shared/countries.js";
 import { RestCountries, createSettingsDialog, factRows } from "../shared/restcountries.js";
@@ -58,6 +63,8 @@ const RING_BELOW = 700;
 const AIM_MIN_KM2 = 5000;
 /** The quiz direction, remembered between visits. */
 const DIRECTION_KEY = "flagatlasmap.quizDir";
+/** Which kind of clue the "Clues" quiz asks: one of CLUES, or "any". */
+const CLUE_KEY = "flagatlasmap.quizClue";
 
 const pageStatus = $("#pageStatus");
 try {
@@ -69,7 +76,13 @@ try {
 }
 
 async function main() {
-  const [world, countryText] = await Promise.all([loadWorld(), loadData("countries.txt", "text")]);
+  const [world, countryText, quickJson] = await Promise.all([
+    loadWorld(),
+    loadData("countries.txt", "text"),
+    // Small, and only the panels and the Clues quiz need it, so a failure is not fatal.
+    loadData("quick-facts.json").catch(() => null),
+  ]);
+  const quick = makeQuickFacts(quickJson);
   // The factbook is only needed once a panel opens, so the map does not wait for it.
   let factbook = null;
   const factbookLoad = loadData("factbook.json").then((fb) => (factbook = fb));
@@ -283,7 +296,7 @@ async function main() {
     if (mode === "quiz") {
       if (qs.answered) {
         if (c) select(c, false);
-      } else if (qs.dirn === "find") findPick(c, x, y);
+      } else if (finding()) findPick(c, x, y);
       return;
     }
     if (c) select(c, false);
@@ -417,6 +430,8 @@ async function main() {
             : esc(r.message);
       h += `<p class="err spaced-s">${note}</p>`;
     }
+    const quickFacts = quickRows(quick[d.code]);
+    if (quickFacts.length) h += `<h3>Quick facts</h3>${dl(quickFacts)}`;
     if (wd.state === "ok") {
       const v = wd.v;
       if (v.politics.length) h += `<h3>Politics</h3>${dl(v.politics)}`;
@@ -437,7 +452,7 @@ async function main() {
       h += `<p class="err">The CIA World Factbook has no separate entry for ${esc(d.name)}${covered}.</p>`;
     }
     const qid = wd.state === "ok" ? wd.v.qid : "";
-    h += `<p class="src">Geography: CIA World Factbook, final edition (discontinued February 2026, public domain). Politics and people: <a href="${wikidataUrl(qid ?? "")}" target="_blank" rel="noopener noreferrer">Wikidata</a>, community-edited and sometimes incomplete. ${
+    h += `<p class="src">Geography: CIA World Factbook, final edition (discontinued February 2026, public domain). Politics and people, internet domain and phone code: <a href="${wikidataUrl(qid ?? "")}" target="_blank" rel="noopener noreferrer">Wikidata</a>, community-edited and sometimes incomplete. Currency: <a href="https://cldr.unicode.org/" target="_blank" rel="noopener noreferrer">Unicode CLDR</a>. ${
       r.state === "ok" ? "At a glance: REST Countries. " : ""
     }Flag: flagcdn.com. Map: Natural Earth. <a href="${wikipediaSearchUrl(d.name)}" target="_blank" rel="noopener noreferrer">Read about ${esc(d.name)} on Wikipedia</a>.</p>`;
     el.innerHTML = h;
@@ -497,17 +512,31 @@ async function main() {
   const store = new ProgressStore({ storageKey: "flagatlasmap.progress.v1", app: "flagatlasmap" });
   const keyOf = (d) => `c:${d.code}`;
   const picker = createPicker(store, keyOf);
+  const cluePicker = createPicker(store, clueKey);
+  /** A question's progress key: the place's, or the clue's. */
+  const keyFor = (t) => (t.clue ? clueKey(t.clue) : keyOf(t));
 
   const progressDlg = $("#progress");
   const progress = new ProgressView($(".dlg", progressDlg), {
     store,
     appName: "Countries and Territories",
-    lead: "One record per country or territory you are asked to find. Items you get wrong come back sooner.",
+    lead: "One record per country or territory you are asked to find, and one per clue. Items you get wrong come back sooner.",
     closeButton: true,
-    drills: () => [{ label: "Countries and territories", keys: pool().map(keyOf) }],
+    drills: () => [
+      { label: "Countries and territories", keys: pool().map(keyOf) },
+      ...Object.entries(CLUES).map(([kind, c]) => ({
+        label: c.label,
+        keys: clueItems(pool(), quick, [kind]).map(clueKey),
+      })),
+    ],
     describe: (key) => {
       const d = BY[key.slice(2)];
-      return d ? { label: d.name, look: d.code } : null;
+      const kind = { d: "tld", p: "phone", m: "currency" }[key[0]];
+      if (!d) return null;
+      return {
+        label: kind ? `${d.name}: ${CLUES[kind].label.toLowerCase()}` : d.name,
+        look: d.code,
+      };
     },
     onLook: (code) => {
       progressDlg.close();
@@ -529,7 +558,10 @@ async function main() {
   /** The quiz's state. */
   const qs = {
     level: "easy",
-    dirn: storage.get(DIRECTION_KEY) === "find" ? "find" : "name",
+    dirn: ["find", "clue"].includes(storage.get(DIRECTION_KEY))
+      ? storage.get(DIRECTION_KEY)
+      : "name",
+    clue: CLUES[storage.get(CLUE_KEY)] ? storage.get(CLUE_KEY) : "any",
     region: "all",
     scope: "countries",
     target: null,
@@ -558,6 +590,8 @@ async function main() {
    * direction and back does not lose it.
    */
   const lvl = () => (qs.dirn === "name" && qs.level === "blind" ? "hard" : qs.level);
+  /** Find it and Clues are both answered on the map. */
+  const finding = () => qs.dirn !== "name";
 
   function setMode(m) {
     mode = m;
@@ -583,7 +617,7 @@ async function main() {
   function setLevel(level, quiet) {
     const was = lvl();
     qs.level = ["easy", "hard", "blind"].includes(level) ? level : "easy";
-    const find = qs.dirn === "find";
+    const find = finding();
     const [easy, hard, blind] = $$("[data-level]", quizBar);
     easy.textContent = find ? "Shortlist" : "Easy";
     hard.textContent = find ? "Free hand" : "Hard";
@@ -599,19 +633,24 @@ async function main() {
     renderQ();
   }
 
-  /** Two ways round: name the country the map points at, or find the country the quiz names. */
+  /**
+   * Three ways: name the country the map points at, find the country the
+   * quiz names, or find the country a clue (a domain, phone code or
+   * currency) belongs to.
+   */
   function setDirn(d) {
-    qs.dirn = d === "find" ? "find" : "name";
+    qs.dirn = ["find", "clue"].includes(d) ? d : "name";
     storage.set(DIRECTION_KEY, qs.dirn);
     for (const b of $$("[data-dirn]", quizBar)) {
       b.setAttribute("aria-pressed", String(b.dataset.dirn === qs.dirn));
     }
+    $("#qClue").hidden = qs.dirn !== "clue";
     setLevel(qs.level, true); // the level buttons mean something different in each direction
     if (mode === "quiz") nextQ();
   }
 
   function syncFind() {
-    const find = mode === "quiz" && qs.dirn === "find";
+    const find = mode === "quiz" && finding();
     document.body.classList.toggle("findq", find);
     document.body.classList.toggle("blind", find && lvl() === "blind");
   }
@@ -628,6 +667,19 @@ async function main() {
     qs.region = REGIONS[e.target.value] ? e.target.value : "all";
     nextQ();
   });
+  $("#qClue").innerHTML =
+    `<option value="any">Any clue</option>` +
+    Object.entries(CLUES)
+      .map(([k, c]) => `<option value="${esc(k)}">${esc(c.label)}</option>`)
+      .join("");
+  $("#qClue").value = qs.clue;
+  $("#qClue").addEventListener("change", (e) => {
+    qs.clue = CLUES[e.target.value] ? e.target.value : "any";
+    storage.set(CLUE_KEY, qs.clue);
+    nextQ();
+  });
+  /** The clues the Clues quiz can ask, as its selects say. */
+  const clues = () => clueItems(pool(), quick, qs.clue === "any" ? Object.keys(CLUES) : [qs.clue]);
   $("#qScope").addEventListener("change", (e) => {
     qs.scope = e.target.value === "all" ? "all" : "countries";
     nextQ();
@@ -652,7 +704,7 @@ async function main() {
    */
   function questionPool() {
     const p = pool();
-    if (!(qs.dirn === "find" && lvl() === "blind")) return p;
+    if (!(finding() && lvl() === "blind")) return p;
     landSizes ??= largestPieces(world.shapes);
     const big = p.filter((d) => (landSizes.get(d.code) ?? 0) >= AIM_MIN_KM2);
     return big.length >= 4 ? big : p;
@@ -685,7 +737,7 @@ async function main() {
       markers.set(mode === "explore" && selCode ? ringAround(selCode) : []);
       return;
     }
-    if (qs.dirn !== "find") {
+    if (!finding()) {
       markCls(t.code, "target", true);
       markers.set(ringAround(t.code));
       return;
@@ -733,15 +785,31 @@ async function main() {
   function nextQ() {
     clearTarget();
     if (selCode) panel.close();
-    const p = questionPool();
-    const t = picker.next(p);
+    let p = questionPool();
+    let t;
+    if (qs.dirn === "clue") {
+      // Only places with a clue to ask; the question is the clue, and the
+      // place it belongs to is the answer.
+      const items = clues().filter((it) => p.some((d) => d.code === it.code));
+      if (!items.length) {
+        $("#qPrompt").textContent = "No clues to ask here. Choose another region or clue.";
+        $("#qBody").innerHTML = "";
+        $("#qFoot").innerHTML = "";
+        return;
+      }
+      const item = cluePicker.next(items);
+      t = { ...BY[item.code], clue: item };
+      qs.due = dueCount(items, clueKey, store);
+    } else {
+      t = picker.next(p);
+      qs.due = dueCount(p, keyOf, store);
+    }
     qs.target = t;
     qs.answered = false;
-    qs.due = dueCount(p, keyOf, store);
     // Wrong options are nearby places, so the choice tests real knowledge of the area.
     const [tx, ty] = placeOf.get(t.code).middle;
     const near = p
-      .filter((d) => d !== t)
+      .filter((d) => d.code !== t.code)
       .map((d) => ({
         d,
         k: Math.hypot(placeOf.get(d.code).middle[0] - tx, placeOf.get(d.code).middle[1] - ty),
@@ -750,7 +818,7 @@ async function main() {
       .slice(0, 8)
       .map((x) => x.d);
     qs.opts = shuffle([t, ...shuffle(near).slice(0, 3)]);
-    if (qs.dirn === "find") {
+    if (finding()) {
       stageFind();
       renderQ();
       return;
@@ -777,15 +845,19 @@ async function main() {
     const t = qs.target;
     if (!t) return;
     scoreLine();
-    if (qs.dirn === "find") {
+    if (finding()) {
       const kind = t.status === "t" ? "territory" : "country";
-      $("#qPrompt").textContent = `Find ${t.name} on the map`;
+      // A clue names the fact, never the place.
+      const it = t.clue ? "the right place" : esc(t.name);
+      $("#qPrompt").textContent = t.clue
+        ? CLUES[t.clue.kind].prompt(t.clue.value)
+        : `Find ${t.name} on the map`;
       $("#qBody").innerHTML = `<p class="aimnote">${
         lvl() === "easy"
-          ? `Four shapes are outlined. Click the one that is ${esc(t.name)}.`
+          ? `Four shapes are outlined. Click the one that is ${it}.`
           : lvl() === "blind"
-            ? `No borders on this map. Click the spot where you think ${esc(t.name)} is — anywhere inside it counts.`
-            : `Click the ${kind} itself. Drag and zoom first if you need to; small places show as a dot.`
+            ? `No borders on this map. Click the spot where you think ${it} is — anywhere inside it counts.`
+            : `Click the ${t.clue ? "place" : kind} itself. Drag and zoom first if you need to; small places show as a dot.`
       }</p>`;
       $("#qFoot").innerHTML = SKIP;
       return;
@@ -822,12 +894,12 @@ async function main() {
   function finish(ok, msg) {
     qs.answered = true;
     qs.total++;
-    if (qs.target) store.record(keyOf(qs.target), ok);
+    if (qs.target) store.record(keyFor(qs.target), ok);
     if (ok) {
       qs.right++;
       qs.streak++;
     } else qs.streak = 0;
-    qs.due = dueCount(pool(), keyOf, store);
+    qs.due = qs.target?.clue ? dueCount(clues(), clueKey, store) : dueCount(pool(), keyOf, store);
     scoreLine();
     $("#qFoot").innerHTML =
       `<span class="msg ${ok ? "ok" : "bad"}">${msg}</span><button class="btn" data-details>Details</button><button class="btn primary" data-next>Next</button>`;
@@ -840,9 +912,13 @@ async function main() {
     clearTimeout(nudgeTimer);
     $("#qFoot").innerHTML = `<span class="msg">${esc(msg)}</span>${SKIP}`;
     nudgeTimer = setTimeout(() => {
-      if (!qs.answered && qs.dirn === "find") $("#qFoot").innerHTML = SKIP;
+      if (!qs.answered && finding()) $("#qFoot").innerHTML = SKIP;
     }, 3000);
   }
+
+  /** For a clue, what tied the place to it: ": its phone code is +48". */
+  const because = (t, sep) =>
+    t.clue ? `${sep}${esc(CLUES[t.clue.kind].answer(t.clue.value))}` : "";
 
   function revealTarget(picked) {
     const t = qs.target;
@@ -874,8 +950,8 @@ async function main() {
     finish(
       ok,
       ok
-        ? "Correct."
-        : `You picked ${esc(BY[c].name)}, in red. ${esc(t.name)} is the one in green.`,
+        ? `Correct${because(t, ": ")}.`
+        : `You picked ${esc(BY[c].name)}, in red. ${esc(t.name)} is the one in green${because(t, ": ")}.`,
     );
   }
 
@@ -894,7 +970,7 @@ async function main() {
     if (c === t.code) {
       markers.set(ringAround(t.code, "ok"));
       frameCode(t.code, 2.6, 300);
-      finish(true, `Correct — that is inside ${esc(t.name)}.`);
+      finish(true, `Correct — that is inside ${esc(t.name)}${because(t, "; ")}.`);
       return;
     }
     qs.guess = [lon, lat];
@@ -909,7 +985,7 @@ async function main() {
     // One bearing, always read the same way: where the country lies as seen from the click.
     finish(
       false,
-      `Not quite. ${esc(t.name)} is about ${esc(formatKm(km))} km ${esc(bearing(lon, lat, line.lon2, line.lat2))} of where you clicked.`,
+      `Not quite. ${esc(t.name)} is about ${esc(formatKm(km))} km ${esc(bearing(lon, lat, line.lon2, line.lat2))} of where you clicked${because(t, "; ")}.`,
     );
   }
 
@@ -927,8 +1003,8 @@ async function main() {
     }
     if (e.target.closest("[data-check]") && !qs.answered) checkTyped();
     if (e.target.closest("[data-skip]") && !qs.answered) {
-      if (qs.dirn === "find") revealTarget();
-      finish(false, `It's ${esc(t.name)}.`);
+      if (finding()) revealTarget();
+      finish(false, `It's ${esc(t.name)}${because(t, ": ")}.`);
     }
     if (e.target.closest("[data-next]")) nextQ();
     if (e.target.closest("[data-details]")) showDetails(t.code);
