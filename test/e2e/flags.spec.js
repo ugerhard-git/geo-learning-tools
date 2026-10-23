@@ -43,6 +43,8 @@ test("the page lists every flag, and search and filters narrow it", async ({ pag
 
 test("dates adopted say so when Wikidata cannot be reached", async ({ page }) => {
   await openPage(page, PAGE);
+  // Once the flags are in; until then the banner says they are loading.
+  await expect(page.locator(".tile")).toHaveCount(249);
   await page.selectOption("#sort", "date");
   await expect(page.locator("#main .banner")).toHaveText(
     "Adoption dates couldn't be loaded from Wikidata. Check your connection, then pick this sort again.",

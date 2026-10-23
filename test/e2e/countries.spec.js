@@ -27,21 +27,34 @@ async function inside(page, code) {
     const area = (p) => p.getBBox().width * p.getBBox().height;
     const path = paths.sort((a, b) => area(b) - area(a))[0];
     const b = path.getBBox();
-    const n = 30;
-    const pts = [];
-    for (let gx = -1; gx <= n + 1; gx++) {
-      for (let gy = -1; gy <= n + 1; gy++) {
-        const pt = new DOMPoint(b.x + (b.width * gx) / n, b.y + (b.height * gy) / n);
-        pts.push({ x: pt.x, y: pt.y, in: path.isPointInFill(pt) });
+    // A finer grid where a coarse one misses a thin or scattered shape (an
+    // island chain whose box is mostly sea).
+    for (const n of [30, 120, 400]) {
+      const pts = [];
+      for (let gx = -1; gx <= n + 1; gx++) {
+        for (let gy = -1; gy <= n + 1; gy++) {
+          const pt = new DOMPoint(b.x + (b.width * gx) / n, b.y + (b.height * gy) / n);
+          pts.push({ x: pt.x, y: pt.y, in: path.isPointInFill(pt) });
+        }
       }
+      const inner = pts.filter((q) => q.in);
+      if (!inner.length) continue;
+      // Measure clearance against nearby outside points only, to stay quick.
+      const outside = pts.filter((q) => !q.in);
+      const step = Math.max(b.width, b.height) / n;
+      let best = null;
+      for (const p of inner) {
+        const near = outside.filter(
+          (o) => Math.abs(o.x - p.x) < step * 8 && Math.abs(o.y - p.y) < step * 8,
+        );
+        const clear = near.length
+          ? Math.min(...near.map((o) => Math.hypot(o.x - p.x, o.y - p.y)))
+          : step * 8;
+        if (!best || clear > best.clear) best = { clear, p: [p.x, p.y] };
+      }
+      return best.p;
     }
-    const outside = pts.filter((p) => !p.in);
-    let best = null;
-    for (const p of pts.filter((q) => q.in)) {
-      const clear = Math.min(...outside.map((o) => Math.hypot(o.x - p.x, o.y - p.y)));
-      if (!best || clear > best.clear) best = { clear, p: [p.x, p.y] };
-    }
-    return best.p;
+    throw new Error("no point found inside the shape");
   }, shapes);
   return PROJECTIONS.ee.inv(mx, my);
 }

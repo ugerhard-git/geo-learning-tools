@@ -40,7 +40,7 @@ test("by country, by side and by sign; search narrows them", async ({ page }) =>
 test("a country's details link every fact to its source", async ({ page }) => {
   const problems = await openPage(page, PAGE);
   await page.fill("#q", "United States");
-  await page.click(".rcard");
+  await page.click('.rcard[data-code="US"]');
   const detail = page.locator("#detail");
   await expect(detail.locator("h2")).toHaveText("United States");
   await expect(detail).toContainText("On the right.");
@@ -130,11 +130,24 @@ test("the scene drill draws the road and the signs picked", async ({ page }) => 
 test("Spain's chevrons are drawn from their description, with its source", async ({ page }) => {
   const problems = await openPage(page, PAGE);
   await page.fill("#q", "Spain");
-  await page.click(".rcard");
+  await page.click('.rcard[data-code="ES"]');
   const detail = page.locator("#detail");
   await expect(detail.locator(".dchev svg")).toHaveCount(2);
   await expect(detail).toContainText("drawn by this app from that description");
   await expect(detail.getByRole("link", { name: "Spain: Plonk It guide" }).first()).toBeVisible();
+  expect([...problems, ...(await cspViolations(page))]).toEqual([]);
+});
+
+test("New Zealand's give way sign is shown, its licence linked to NZTA's terms", async ({
+  page,
+}) => {
+  const problems = await openPage(page, PAGE);
+  await page.fill("#q", "New Zealand");
+  await page.click('.rcard[data-code="NZ"]');
+  const detail = page.locator("#detail");
+  await expect(detail.locator("figure", { hasText: "Give way" }).locator("img")).toBeVisible();
+  const terms = detail.getByRole("link", { name: SIGNS.NZ.yield.licence }).first();
+  await expect(terms).toHaveAttribute("href", SIGNS.NZ.yield.terms);
   expect([...problems, ...(await cspViolations(page))]).toEqual([]);
 });
 
