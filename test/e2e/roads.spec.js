@@ -48,7 +48,12 @@ test("a country's details link every fact to its source", async ({ page }) => {
     "href",
     ROADS.sources.traffic.url,
   );
-  await expect(detail.getByRole("link", { name: "Road surface marking" })).toBeVisible();
+  // The colour and the style of the centre line each name their source.
+  await expect(detail.getByRole("link", { name: "Road surface marking" })).toHaveCount(2);
+  await expect(detail.locator(".patterns li")).toHaveCount(
+    ROADS.countries.US.centre.patterns.length,
+  );
+  await expect(detail.locator(".patterns li").first()).toContainText("broken yellow");
   if (SIGNS.US?.stop) {
     await expect(
       detail.locator(`a[href^="https://commons.wikimedia.org/wiki/File:"]`).first(),
