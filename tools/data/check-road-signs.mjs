@@ -14,7 +14,7 @@ import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 import { checkSvg } from "../site-checks.mjs";
 
-const SIGN_NAMES = ["chevron", "pedestrian", "stop"];
+const SIGN_NAMES = ["chevron", "pedestrian", "stop", "warning"];
 const isText = (v, max) => typeof v === "string" && v.length <= max;
 
 /**

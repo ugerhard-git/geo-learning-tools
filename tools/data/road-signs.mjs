@@ -1,5 +1,6 @@
 // Finds and fetches the sign drawings of the Roads app: each Street View
-// country's chevron, pedestrian crossing and stop sign, as drawn on
+// country's chevron, pedestrian crossing, stop sign and general warning
+// sign, as drawn on
 // Wikimedia Commons, with each file's licence and author.
 //
 // For every country in tools/data/street-view-countries.txt:

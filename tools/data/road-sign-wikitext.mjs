@@ -8,6 +8,10 @@ export const SIGNS = {
   chevron:
     /chevron|direction of (the )?(curve|bend)|curve (alignment|marker)|sharp (curve|bend|deviation)/i,
   pedestrian: /pedestrian crossing|zebra crossing|crosswalk/i,
+  // The general warning sign (usually an exclamation mark), which shows the
+  // country's warning sign style: a red-bordered triangle, a yellow diamond…
+  warning:
+    /other dangers?|general (warning|danger|caution)|danger ahead|^(caution|danger|warning)$|other hazards?/i,
   stop: /^(stop|stop sign|stop and give way)\b|\bstop\b(?! ahead| line| sign ahead)/i,
 };
 
