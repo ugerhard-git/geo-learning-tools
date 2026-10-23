@@ -1,4 +1,7 @@
 {
+  "AD": {
+    "chevron": "Andorra traffic signal III.27.svg"
+  },
   "AS": {
     "crossing": "-"
   },
@@ -9,15 +12,22 @@
     "stop": "UK_traffic_sign_601.1.svg",
     "crossing": "-"
   },
+  "BW": {
+    "chevron": "SADC road sign W407.svg"
+  },
   "CO": {
     "crossing": "-"
   },
   "DE": {
     "crossing": "Zeichen_350-10_-_Fußgängerüberweg_(rechts),_StVO_1992.svg",
-    "warning": "Zeichen_101_-_Gefahrstelle,_StVO_1970.svg"
+    "warning": "Zeichen_101_-_Gefahrstelle,_StVO_1970.svg",
+    "chevron": "Zeichen 625-10 bis 13 - Richtungstafel in Kurven (links), StVO 2013.svg"
   },
   "DK": {
     "warning": "Denmark_road_sign_A99.svg"
+  },
+  "EE": {
+    "chevron": "Estonia road sign 681.svg"
   },
   "ES": {
     "stop": "Spain_traffic_signal_r2.svg",
@@ -40,6 +50,9 @@
   "GU": {
     "crossing": "-"
   },
+  "IL": {
+    "chevron": "Israel road sign 107.svg"
+  },
   "IM": {
     "stop": "UK_traffic_sign_601.1.svg",
     "crossing": "-"
@@ -52,19 +65,61 @@
     "stop": "Japan_road_sign_330-A.svg",
     "warning": "Japan_road_sign_215.svg"
   },
+  "LS": {
+    "chevron": "SADC road sign W407.svg"
+  },
+  "LU": {
+    "chevron": "Luxembourg road sign E,24b-2L.svg"
+  },
+  "LV": {
+    "chevron": "LV road sign 901.svg"
+  },
   "MP": {
     "crossing": "-"
+  },
+  "NA": {
+    "chevron": "SADC road sign W407.svg"
   },
   "NL": {
     "stop": "Nederlands_verkeersbord_B7.svg"
   },
+  "NO": {
+    "chevron": "Norwegian-road-sign-902.0H.svg"
+  },
+  "NP": {
+    "chevron": "Nepal road sign B13-L1.svg"
+  },
+  "OM": {
+    "chevron": "OM road sign 151.svg"
+  },
+  "PL": {
+    "chevron": "U-3a Polish road sign.svg"
+  },
   "PT": {
     "chevron": "Portugal_road_sign_O6a.svg"
+  },
+  "RO": {
+    "chevron": "RO road sign A05-R.svg"
+  },
+  "SE": {
+    "chevron": "SE road sign X1 (1 chevron, left).svg"
   },
   "SG": {
     "warning": "Singapore_road_sign_-_Warning_-_Other_danger.svg"
   },
+  "SI": {
+    "chevron": "Slovenia road sign III-107.1 (L).svg"
+  },
+  "SZ": {
+    "chevron": "SADC road sign W407.svg"
+  },
+  "TW": {
+    "chevron": "Taiwan road sign a2 right.svg"
+  },
   "US": {
     "crossing": "-"
+  },
+  "ZA": {
+    "chevron": "SADC road sign W407.svg"
   }
 }

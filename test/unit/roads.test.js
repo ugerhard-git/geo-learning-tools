@@ -119,6 +119,13 @@ test("checkRoadSigns accepts a good set and names what is wrong with a bad one",
   assert.match(problems, /DE flag: unknown sign/);
   assert.match(problems, /event handler/);
   assert.match(problems, /zz-extra.svg: not in signs.json/);
+
+  // A drawing picked on Commons that no article shows has no article.
+  const { source, ...picked } = good.DE.stop;
+  assert.ok(source);
+  assert.deepEqual(checkRoadSigns({ DE: { stop: picked } }, files, codes), []);
+  const odd = { DE: { stop: { ...picked, source: 7 } } };
+  assert.match(checkRoadSigns(odd, files, codes).join("\n"), /DE stop: source/);
 });
 
 test("roads.json covers every Street View country, with sources", () => {

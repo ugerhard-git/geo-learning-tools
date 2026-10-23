@@ -33,9 +33,11 @@ export function checkRoadSigns(signs, files, codes) {
       const where = `${code} ${sign}`;
       if (!SIGN_NAMES.includes(sign)) problems.push(`${where}: unknown sign`);
       if (s?.file !== `${code.toLowerCase()}-${sign}.svg`) problems.push(`${where}: file name`);
-      for (const k of ["commons", "licence", "author", "source"]) {
+      for (const k of ["commons", "licence", "author"]) {
         if (!isText(s?.[k], 200)) problems.push(`${where}: ${k}`);
       }
+      // The article that shows it; none for a drawing picked on Commons.
+      if (s?.source !== undefined && !isText(s.source, 200)) problems.push(`${where}: source`);
       if (s?.changed !== undefined && !isText(s.changed, 60)) problems.push(`${where}: changed`);
       named.add(s?.file);
       const svg = files.get(s?.file);

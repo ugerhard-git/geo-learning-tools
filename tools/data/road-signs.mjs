@@ -18,7 +18,10 @@
 //      those are often not free.
 //   4. Download the kept drawings into src/data/signs/ and write
 //      src/data/signs.json: per country and sign, the file, its licence,
-//      its author and the article it came from.
+//      its author and the article that shows it. A picked drawing the
+//      article does not show (one found on Commons instead, or for a
+//      country with no article) has no article; its Commons page is its
+//      source.
 //
 // Wikipedia and Commons cannot be reached from every machine, so this
 // normally runs on GitHub: see .github/workflows/road-signs.yml.
@@ -139,6 +142,8 @@ function plain(html) {
 /* ------------------------------------------------------------------ run */
 
 const candidates = {};
+/** Each country's article text, to tell whether it shows a picked drawing. */
+const texts = {};
 const report = [];
 for (const code of streetView) {
   const c = byCode.get(code);
@@ -148,6 +153,7 @@ for (const code of streetView) {
     report.push(`${code}  no road sign article`);
     continue;
   }
+  texts[code] = article.text;
   const files = captionedFiles(article.text);
   const found = {};
   for (const sign of Object.keys(SIGNS)) {
@@ -164,12 +170,27 @@ for (const code of streetView) {
   await sleep(300);
 }
 
-// One drawing per country and sign: the person's pick, else the first candidate.
+/**
+ * Whether an article's wikitext shows a file. Wikitext may write a name's
+ * spaces as underscores and its first letter in lower case.
+ */
+function shows(text, file) {
+  const t = text.replaceAll("_", " ");
+  const f = file.replaceAll("_", " ");
+  return t.includes(f) || t.includes(f[0].toLowerCase() + f.slice(1));
+}
+
+// One drawing per country and sign: the person's pick, else the first
+// candidate. A country with no article can still have picks.
 const chosen = [];
-for (const [code, entry] of Object.entries(candidates)) {
+const withPicks = [...streetView].filter((code) => picks[code] && !candidates[code]);
+for (const code of [...Object.keys(candidates), ...withPicks]) {
+  const entry = candidates[code] ?? {};
   for (const sign of Object.keys(SIGNS)) {
     const file = picks[code]?.[sign] ?? entry[sign]?.[0]?.file;
-    if (file && file !== "-") chosen.push({ code, sign, file, article: entry.article });
+    if (!file || file === "-") continue;
+    const article = entry.article && shows(texts[code] ?? "", file) ? entry.article : "";
+    chosen.push({ code, sign, file, article });
   }
 }
 
@@ -217,7 +238,7 @@ for (const pick of chosen) {
     commons: pick.file,
     licence: info.licence,
     author: info.author,
-    source: pick.article,
+    ...(pick.article ? { source: pick.article } : {}),
     ...(svg !== original ? { changed: "editor data removed" } : {}),
   };
   await sleep(300);
