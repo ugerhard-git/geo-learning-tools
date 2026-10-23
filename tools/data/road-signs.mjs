@@ -31,8 +31,12 @@ import { readStreetView } from "./street-view.mjs";
 import { SIGNS, captionedFiles, signScore } from "./road-sign-wikitext.mjs";
 import { checkSvg } from "../site-checks.mjs";
 
-/** Licences that allow reuse, as Commons names them (LicenseShortName). */
-const FREE = /^(public domain|pd\b|cc0|cc[- ]by(-sa)?[- ]?\d|cc by(-sa)? \d)/i;
+/**
+ * Licences that allow reuse, as Commons names them (LicenseShortName): public
+ * domain, CC0, CC BY, CC BY-SA, and the UK's Open Government Licence (which,
+ * like CC BY, asks only for credit).
+ */
+const FREE = /^(public domain|pd\b|cc0|cc[- ]by(-sa)?[- ]?\d|cc by(-sa)? \d|ogl v\d)/i;
 
 /** No sign drawing is anywhere near this big. */
 const MAX_BYTES = 2 * 1024 * 1024;
@@ -188,8 +192,13 @@ for (const pick of chosen) {
   }
   const res = await fetchPolitely(info.url);
   const svg = await res.text();
-  if (svg.length > MAX_BYTES || !/<svg[\s>]/.test(svg) || checkSvg(svg).length) {
-    report.push(`${pick.code} ${pick.sign}: ${pick.file} left out (not a plain, modest SVG)`);
+  const unsafe = [
+    ...(svg.length > MAX_BYTES ? [`over ${MAX_BYTES / 1024 / 1024} MB`] : []),
+    ...(/<svg[\s>]/.test(svg) ? [] : ["not an SVG"]),
+    ...checkSvg(svg),
+  ];
+  if (unsafe.length) {
+    report.push(`${pick.code} ${pick.sign}: ${pick.file} left out (${unsafe.join("; ")})`);
     continue;
   }
   const name = `${pick.code.toLowerCase()}-${pick.sign}.svg`;
