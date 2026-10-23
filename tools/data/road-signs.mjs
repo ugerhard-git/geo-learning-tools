@@ -217,6 +217,12 @@ console.log(report.join("\n"));
 console.log(`\nKept: ${counts.join(", ")}.`);
 if (process.env.GITHUB_ACTIONS) {
   console.log(`::notice title=Road signs::Kept ${counts.join(", ")}.`);
+  // What was left out and why, where the pull request shows it.
+  const left = report.filter((l) => l.includes("left out"));
+  if (left.length) {
+    const text = left.slice(0, 80).join("\n").replaceAll("%", "%25").replaceAll("\n", "%0A");
+    console.log(`::warning title=Road signs left out::${text}`);
+  }
 }
 
 /** fetch(), waiting and retrying when Wikimedia asks for it (429/503). */
