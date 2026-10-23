@@ -48,7 +48,7 @@ import {
   wikidataUrl,
   wikipediaUrl,
 } from "../shared/wikidata.js";
-import { drawWorld, loadWorld, projectPlace } from "../shared/world.js";
+import { drawWorld, fillWorldCopies, loadWorld, projectPlace } from "../shared/world.js";
 import {
   ALIKE,
   COLOURS,
@@ -365,7 +365,7 @@ async function main() {
   let pathsOf = new Map();
   let drawnFor = null;
 
-  /** Draw the world once per projection; every detail view shows it through <use>. */
+  /** Draw the world once per projection; each detail view shows copies of it. */
   function drawMap() {
     if (drawnFor === projKey) return;
     drawnFor = projKey;
@@ -395,7 +395,7 @@ async function main() {
     } = projectPlace(proj, info);
     const small = Math.max(bw, bh) < 700;
     const frame = worldFrame(proj, info.box[1]);
-    const whole = `<svg viewBox="${frame.join(" ")}" role="img" aria-label="${esc(d.name)} on a world map, ${proj.name} projection"><use href="#world"/>${
+    const whole = `<svg viewBox="${frame.join(" ")}" role="img" aria-label="${esc(d.name)} on a world map, ${proj.name} projection"><g data-world></g>${
       small ? `<circle class="ring" cx="${mx}" cy="${my}" r="260"/>` : ""
     }</svg>`;
     const cx = bx + bw / 2;
@@ -403,7 +403,7 @@ async function main() {
     const w = Math.max(bw * 1.3, (bh * 1.3 * 4) / 3, 320);
     const h = (w * 3) / 4;
     const tiny = Math.max(bw, bh) < w * 0.06;
-    const outline = `<svg viewBox="${cx - w / 2} ${cy - h / 2} ${w} ${h}" role="img" aria-label="Outline of ${esc(d.name)}"><rect x="${cx - w}" y="${cy - h}" width="${w * 2}" height="${h * 2}" class="sea"/><use href="#world"/>${
+    const outline = `<svg viewBox="${cx - w / 2} ${cy - h / 2} ${w} ${h}" role="img" aria-label="Outline of ${esc(d.name)}"><rect x="${cx - w}" y="${cy - h}" width="${w * 2}" height="${h * 2}" class="sea"/><g data-world></g>${
       tiny ? `<circle class="ring" cx="${mx}" cy="${my}" r="${w * 0.05}"/>` : ""
     }</svg>`;
     return `${bar}<div class="maps"><div class="map">${whole}<span class="lbl">World</span></div><div class="map">${outline}<span class="lbl">Outline and neighbours</span></div></div>`;
@@ -418,6 +418,7 @@ async function main() {
     if (wrap && current) {
       wrap.innerHTML = mapsHTML(BY[current]);
       highlight(current);
+      fillWorldCopies(wrap, $("#world"));
       wrap.querySelector(`[data-proj="${k}"]`)?.focus();
     }
   }
@@ -609,6 +610,7 @@ async function main() {
       </div>
       <p class="src" data-src>Flag images: flagcdn.com. Map: Natural Earth (public domain).</p>`;
     highlight(code);
+    fillWorldCopies(body, $("#world"));
     paintSwatches(body);
     if (!detail.open) detail.showModal();
     body.scrollTop = 0;

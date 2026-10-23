@@ -437,12 +437,12 @@ dialog.big {
   border-radius: 5px;
 }
 
-/* The world, drawn once in a hidden <svg> and shown through <use>. */
+/* The world, drawn once in a hidden <svg> and copied into each detail view. */
 svg.defs {
   position: absolute;
 }
 
-#world path {
+.world path {
   fill: var(--land);
   stroke: var(--border);
   stroke-width: 0.6;
@@ -450,13 +450,13 @@ svg.defs {
   stroke-linejoin: round;
 }
 
-#world path.ocean,
+.world path.ocean,
 .map .sea {
   fill: var(--ocean);
   stroke: none;
 }
 
-#world path.hl {
+.world path.hl {
   fill: var(--accent);
   stroke: var(--accent);
 }

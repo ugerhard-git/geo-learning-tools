@@ -44,7 +44,13 @@ import { RestCountries, createSettingsDialog, factRows } from "../shared/restcou
 import { ProgressStore, createPicker, dueCount } from "../shared/leitner.js";
 import { ProgressView } from "../shared/progress-ui.js";
 import { wikidataUrl, wikipediaSearchUrl } from "../shared/wikidata.js";
-import { drawWorld, largestPieces, loadWorld, projectPlace } from "../shared/world.js";
+import {
+  drawWorld,
+  fillWorldCopies,
+  largestPieces,
+  loadWorld,
+  projectPlace,
+} from "../shared/world.js";
 import { countryFacts } from "./wikidata-facts.js";
 
 /** Below this size, in map units, a place gets a dot: its shape is too small to see or hit. */
@@ -213,7 +219,10 @@ async function main() {
       repaint();
       view.centreAt(lon, lat);
       const outline = panel.part("[data-outline]");
-      if (outline && selCode) outline.innerHTML = outlineSVG(BY[selCode]);
+      if (outline && selCode) {
+        outline.innerHTML = outlineSVG(BY[selCode]);
+        fillWorldCopies(outline, gWorld);
+      }
     },
   });
 
@@ -345,7 +354,7 @@ async function main() {
     const w = Math.max(bw * 1.3, (bh * 1.3 * 4) / 3, 320);
     const h = (w * 3) / 4;
     const tiny = Math.max(bw, bh) < w * 0.06;
-    return `<div class="outline"><svg viewBox="${cx - w / 2} ${cy - h / 2} ${w} ${h}" role="img" aria-label="Outline of ${esc(d.name)} and its neighbours"><rect class="sea" x="${cx - w}" y="${cy - h}" width="${w * 2}" height="${h * 2}"/><use href="#world"/>${
+    return `<div class="outline"><svg viewBox="${cx - w / 2} ${cy - h / 2} ${w} ${h}" role="img" aria-label="Outline of ${esc(d.name)} and its neighbours"><rect class="sea" x="${cx - w}" y="${cy - h}" width="${w * 2}" height="${h * 2}"/><g data-world></g>${
       tiny ? `<circle class="ring" cx="${mx}" cy="${my}" r="${w * 0.05}"/>` : ""
     }</svg></div>`;
   }
@@ -369,6 +378,7 @@ async function main() {
         .map((p) => `<button class="btn" data-go="${esc(p)}">${esc(BY[p].name)}</button>`)
         .join("")}</div>
       <div data-facts></div>`);
+    fillWorldCopies(panelEl, gWorld);
     facts = { code: d.code, rc: { state: "loading" }, wd: { state: "loading" } };
     renderFacts();
     loadRestCountries(d);

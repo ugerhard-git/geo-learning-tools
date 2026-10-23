@@ -71,6 +71,29 @@ export function drawWorld(group, shapes, proj, hasData = () => true) {
 }
 
 /**
+ * Fill each `<g data-world>` placeholder under `root` with a copy of a drawn
+ * world group, for a small map beside the main one: a detail view's world
+ * and outline maps.
+ *
+ * A copy rather than `<use href="#world">`: Safari styles what `<use>` shows
+ * by adding a stylesheet of its own, which the Content-Security-Policy
+ * refuses, so on iPads and iPhones those maps lost their colours. A copy is
+ * ordinary markup that the site's own stylesheets reach. It shows the drawing
+ * as it is now, highlighted country included, without the pointer's hover.
+ * @param {ParentNode} root
+ * @param {Element} group the drawn world
+ */
+export function fillWorldCopies(root, group) {
+  for (const spot of root.querySelectorAll("g[data-world]")) {
+    const copy = /** @type {Element} */ (group.cloneNode(true));
+    copy.removeAttribute("id");
+    copy.setAttribute("aria-hidden", "true");
+    for (const p of copy.querySelectorAll(".hov")) p.classList.remove("hov");
+    spot.replaceWith(copy);
+  }
+}
+
+/**
  * A place's main landmass in map units: its box, and the point that marks it.
  * @param {import("./projection.js").Projection} proj
  * @param {PlaceInfo} place

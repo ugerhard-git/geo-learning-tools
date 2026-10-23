@@ -47,6 +47,12 @@ function png(width, height) {
 /** flagcdn.com, answered with stand-in images of each flag's real shape. */
 function flagImages(url) {
   if (url.hostname !== "flagcdn.com") return undefined;
+  const svg = url.pathname.match(/^\/([a-z-]+)\.svg$/)?.[1];
+  if (svg) {
+    // Like flagcdn's drawings: a viewBox in the flag's own proportions.
+    const height = Math.round(300 / (SHAPES[svg] ?? 1.5));
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 ${height}"><rect width="300" height="${height}" fill="#c33"/></svg>`;
+  }
   const [, size, code] = url.pathname.match(/^\/w(\d+)\/([a-z-]+)\.png$/) ?? [];
   if (!size) return undefined;
   const width = Math.min(Number(size), 640);
@@ -92,6 +98,23 @@ for (const viewport of [
     // The detail view's big flag, too.
     await page.click('.tile[data-c="NP"]');
     await expect(page.locator("#detail h2")).toHaveText("Nepal");
+    await expect(page.locator("#detail .bigflag img")).toHaveJSProperty("complete", true);
+    await expectContained(page.locator("#detail .bigflag"));
+    // The detail view's maps are copies of the world drawing (see fillWorldCopies).
+    await expect(page.locator("#detail .map svg .world path.hl")).not.toHaveCount(0);
     expect([...problems, ...(await cspViolations(page))]).toEqual([]);
   });
 }
+
+test("the Countries panel fits a tall flag and draws its outline map", async ({ page }) => {
+  const problems = await openPage(page, "countries/", { answers: flagImages });
+  await page.fill("#q", "Nepal");
+  await page.press("#q", "Enter");
+  const panel = page.locator("#panel");
+  await expect(panel.locator("h2")).toHaveText("Nepal");
+  await expectContained(panel.locator(".pflag"));
+  // The outline map is a copy of the world drawing, styled by the site's
+  // own stylesheets (Safari refused the styles of a <use> copy).
+  await expect(panel.locator(".outline svg .land path.sel")).not.toHaveCount(0);
+  expect([...problems, ...(await cspViolations(page))]).toEqual([]);
+});

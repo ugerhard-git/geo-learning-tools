@@ -34,7 +34,7 @@ test("the panel shows a country's flag, outline and factbook geography", async (
   await page.press("#q", "Enter");
   const panel = page.locator("#panel");
   await expect(panel.locator("h2")).toHaveText("Malta");
-  await expect(panel.locator(".outline svg use")).toHaveCount(1);
+  await expect(panel.locator(".outline svg .land")).toHaveCount(1);
   await expect(panel.locator("h3", { hasText: "Geography" })).toBeVisible();
   await expect(panel).toContainText("Location");
   // No key and no network: the panel says what is missing rather than failing.
