@@ -1,11 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg id="Nederlandse_Wegenverkeersregeling_1941_figuur_73" width="828" height="730"
-xmlns="http://www.w3.org/2000/svg" version="1.1">
-  <path
-     id="driehoek_blauw_met_rode_rand"
-     d="M 50.6,50 777.4,50 414,679.42 Z"
-	 style="fill:#0e518d;stroke:#c1121c;stroke-width:100px;stroke-linejoin:round" />
-  <path id="tekst_HALT_wit"
-     d="M 269 160 L 269 300 L 289 300 L 289 240 L 319 240 L 319 300 L 339 300 L 339 160 L 319 160 L 319 220 L 289 220 L 289 160 L 269 160 z M 383.7 160 L 348.7 300 L 369.3 300 L 376.8 270 L 411.2 270 L 418.7 300 L 439.3 300 L 404.3 160 L 383.7 160 z M 449 160 L 449 300 L 519 300 L 519 280 L 469 280 L 469 160 L 449 160 z M 509 160 L 509 180 L 539 180 L 539 300 L 559 300 L 559 180 L 589 180 L 589 160 L 509 160 z M 394 201.2 L 406.2 250 L 381.8 250 L 394 201.2 z"
-     style="fill:#f7fbf5" />
+<?xml version="1.0" standalone="no"?>
+<svg id="Nederlands_verkeersbord_F10_2023" width="600" height="600" xmlns="http://www.w3.org/2000/svg" version="1.1">
+	<circle id="witte_cirkel_met_rode_rand" cx="300" cy="300" r="256.35" fill="#f7fbf5" stroke="#c1121c" stroke-width="87.3"/>
+	<circle id="bies_wit" cx="300" cy="300" r="285" fill="none" stroke="#f7fbf5" stroke-width="10"/>
+	<path id="symbool_zwart" fill="#2a2d2f" d="M 435,270 a30,30 0 0,1 0,60 h-270 a30,30 0 0,1 0,-60z"/>
 </svg>
