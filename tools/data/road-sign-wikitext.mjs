@@ -12,6 +12,10 @@
 /** Headings of the warning sections. */
 const WARNING = /warning|danger|caution/i;
 
+/** Headings of sections that show signs no longer, or not normally, in use. */
+const NOT_CURRENT =
+  /histor|retired|obsolete|former|old |pre-|temporary|construction|roadworks|road markings|markings/i;
+
 export const SIGNS = {
   chevron: {
     match:
@@ -47,7 +51,8 @@ export const SIGNS = {
     exact: /^(other dangers?|general (warning|danger|caution)|danger|other hazards?)$/i,
   },
   stop: {
-    match: /(?<![a-z])stop(?![a-z])/i,
+    // Not "stopping" or "Stopschild"; a number may come straight after ("StopAlt. A").
+    match: /(?<![A-Za-z])(?:[Ss]top|STOP)(?![a-z])/,
     avoid:
       /ahead|bus|tram|taxi|truck|lrt|parking|wait|do not|don't|police|customs|control|announce|\d+ ?m\b|distance|prepared|line|crossing|children|manual|temporary|school|old|previous|\b(18|19|20)\d\d\b|on red|patrol|\bgo\b|tracks|end of|repetition|validity/i,
     exact: /^stop( sign)?( and give way)?$/i,
@@ -60,8 +65,9 @@ export const captionText = (caption) =>
 
 /**
  * How well a drawing's caption names a sign: 0 not at all, 1 it mentions
- * it, 2 it is the sign's name. A drawing whose file name says it is an old
- * design ranks half a point lower.
+ * it, 2 it is the sign's name. Drawings under a heading for signs no longer
+ * in use (historic, retired, temporary) never count, and one whose file name
+ * says it is an old design ranks half a point lower.
  * @param {keyof typeof SIGNS} sign
  * @param {string} caption
  * @param {string} [file]
@@ -70,11 +76,9 @@ export const captionText = (caption) =>
 export function signScore(sign, caption, file = "", section = "") {
   const { match, avoid, exact, where } = SIGNS[sign];
   const text = captionText(caption);
-  if (!match.test(text) || avoid.test(text)) return 0;
+  if (!match.test(text) || avoid.test(text) || NOT_CURRENT.test(section)) return 0;
   if (where && !where(section, text)) return 0;
-  const old = /(^|[^0-9])(1[89]\d\d|200\d)([^0-9]|$)|(^|[^a-z])old([^a-z]|$)|former/i.test(file)
-    ? 0.5
-    : 0;
+  const old = /(^|[^a-z])old([^a-z]|$)|former/i.test(file) ? 0.5 : 0;
   return (exact.test(text) ? 2 : 1) - old;
 }
 

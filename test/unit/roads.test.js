@@ -75,7 +75,10 @@ test("signScore takes the sign's number off and ranks the plain name first", () 
   assert.equal(signScore("stop", "Stop sign ahead"), 0);
   assert.equal(signScore("stop", "R7-107No parking, bus stop"), 0);
   assert.equal(signScore("stop", "No stopping"), 0);
-  assert.equal(signScore("stop", "Stop", "Bild_30a_StVO_1938.svg"), 1.5);
+  assert.equal(signScore("stop", "StopAlt. A"), 1);
+  assert.equal(signScore("stop", "Stop", "Old_stop.svg"), 1.5);
+  assert.equal(signScore("stop", "Stop", "x.svg", "Historic signs / 1955 road signs"), 0);
+  assert.equal(signScore("stop", "Ρ-2Stop", "x.svg", "Categorization / Temporary signs"), 0);
   assert.equal(signScore("pedestrian", "State law yield to pedestrians in crosswalk"), 0);
   assert.equal(signScore("chevron", "Sharp curve to the left"), 0);
   assert.equal(signScore("warning", "A32Other dangers"), 2);
