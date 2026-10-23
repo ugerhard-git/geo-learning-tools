@@ -41,8 +41,8 @@ const WORDS = {
   village: { pos: "Noun", qid: "Q532" },
   town: { pos: "Noun", qid: "Q3957" },
   hill: { pos: "Noun", qid: "Q54050" },
-  mountain: { pos: "Noun", qid: "Q8502" },
-  valley: { pos: "Noun", qid: "Q39816" },
+  mountain: { pos: "Noun", gloss: /elevation|landform|earth|rock|summit/, qid: "Q8502" },
+  valley: { pos: "Noun", gloss: /hills|mountains|between|depression/, qid: "Q39816" },
   river: { pos: "Noun", qid: "Q4022" },
   lake: { pos: "Noun", qid: "Q23397" },
   beach: { pos: "Noun", qid: "Q40080" },
@@ -60,8 +60,8 @@ const WORDS = {
   new: { pos: "Adjective" },
   old: { pos: "Adjective" },
   upper: { pos: "Adjective" },
-  lower: { pos: "Adjective", gloss: /low|beneath|under|below/ },
-  big: { pos: "Adjective" },
+  lower: { pos: "Adjective" },
+  big: { pos: "Adjective", gloss: /size|large/ },
   small: { pos: "Adjective" },
 };
 
@@ -120,9 +120,30 @@ const signLabels = await labelsOf(Object.values(ITEMS));
 for (const [word, qid] of Object.entries(ITEMS)) out[word] = signLabels[qid];
 
 /**
+ * A dictionary's word as a sign writes it: without the marks dictionaries
+ * add to help pronounce it. Serbo-Croatian pitch and length on vowels (and
+ * syllabic r; consonants keep theirs, ć č š ž), stress on Cyrillic vowels,
+ * Arabic vowel marks and Hebrew points.
+ */
+function plainWord(code, v) {
+  let w = v.normalize("NFD");
+  if (["sh", "sr", "hr", "bs"].includes(code)) {
+    w = w.replace(
+      /([aeiourAEIOUR\u0430\u0435\u0438\u043e\u0443\u0440])[\u0300-\u0304\u030f\u0311]+/g,
+      "$1",
+    );
+  }
+  w = w
+    .replace(/([\u0400-\u04FF])[\u0300\u0301]/g, "$1")
+    .replace(/[\u064B-\u065F\u0670]/g, "")
+    .replace(/[\u0591-\u05BD\u05BF-\u05C7]/g, "");
+  return w.normalize("NFC");
+}
+
+/**
  * The translations in an entry's translation table on Wiktionary: the first
  * table of the part of speech whose gloss matches, if a gloss is given.
- * @returns {Promise<Record<string, string>>} language code → word
+ * @returns {Promise<Record<string, string[]>>} language code → its words, as listed
  */
 async function wiktionary(page, pos, gloss) {
   for (const title of [`${page}/translations`, page]) {
@@ -140,21 +161,11 @@ async function wiktionary(page, pos, gloss) {
       const labels = {};
       for (const t of m[2].matchAll(/\{\{tt?\+?\|([a-z-]{2,12})\|([^|}]+)/g)) {
         let code = t[1];
-        let v = clean(t[2].replace(/\[\[|\]\]/g, ""));
-        // Serbo-Croatian dictionaries mark pitch and length on vowels (and
-        // syllabic r); signs do not. Consonants keep theirs (ć, č, š, ž).
-        if (["sh", "sr", "hr", "bs"].includes(code)) {
-          v = v
-            .normalize("NFD")
-            .replace(
-              /([aeiourAEIOUR\u0430\u0435\u0438\u043e\u0443\u0440])[\u0300-\u0304\u030f\u0311]+/g,
-              "$1",
-            )
-            .normalize("NFC");
-        }
+        // "vár#Hungarian" links to a section; the word is before the #.
+        const v = plainWord(code, clean(t[2].replace(/\[\[|\]\]/g, "").replace(/#.*$/, "")));
         // Serbo-Croatian lists both scripts under one code.
         if (code === "sh") code = /[\u0400-\u04FF]/.test(v) ? "sr-ec" : "sh";
-        if (LANG.test(code) && v && !labels[code]) labels[code] = v;
+        if (LANG.test(code) && v) (labels[code] ??= []).includes(v) || labels[code].push(v);
       }
       return labels;
     }
@@ -165,13 +176,21 @@ async function wiktionary(page, pos, gloss) {
 out.words = {};
 const itemLabels = await labelsOf(Object.values(WORDS).flatMap((w) => (w.qid ? [w.qid] : [])));
 for (const [en, w] of Object.entries(WORDS)) {
-  const fromWiktionary = await wiktionary(w.page ?? en, w.pos, w.gloss);
+  const candidates = await wiktionary(w.page ?? en, w.pos, w.gloss);
   let fromWikidata = {};
   if (w.qid) {
     const labels = itemLabels[w.qid];
     // "church" is "church building"; the English word must be in the label.
     if ((labels.en ?? "").toLowerCase().split(/\s+/).includes(en)) fromWikidata = labels;
     else report.push(`${en}: ${w.qid} is "${labels.en ?? "?"}" in English; its labels not used`);
+  }
+  // Wiktionary may list several words, the first not always the usual one
+  // (Serbian "brv" before "most" for bridge); the one Wikidata also gives
+  // is taken where there is one, the first otherwise.
+  const fromWiktionary = {};
+  for (const [code, words] of Object.entries(candidates)) {
+    const label = (fromWikidata[code] ?? "").toLowerCase();
+    fromWiktionary[code] = words.find((x) => x.toLowerCase() === label) ?? words[0];
   }
   const n = Object.keys(fromWiktionary).length;
   if (n < 20) report.push(`${en}: ${n} translations on Wiktionary`);
