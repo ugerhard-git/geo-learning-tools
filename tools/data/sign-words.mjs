@@ -61,7 +61,8 @@ const WORDS = {
   old: { pos: "Adjective" },
   upper: { pos: "Adjective" },
   lower: { pos: "Adjective" },
-  big: { pos: "Adjective", gloss: /size|large/ },
+  // "big" first means grown-up on Wiktionary; "large" is the size.
+  big: { page: "large", pos: "Adjective" },
   small: { pos: "Adjective" },
 };
 
@@ -162,7 +163,16 @@ async function wiktionary(page, pos, gloss) {
       for (const t of m[2].matchAll(/\{\{tt?\+?\|([a-z-]{2,12})\|([^|}]+)/g)) {
         let code = t[1];
         // "vár#Hungarian" links to a section; the word is before the #.
-        const v = plainWord(code, clean(t[2].replace(/\[\[|\]\]/g, "").replace(/#.*$/, "")));
+        // Korean adds the Chinese characters in brackets: "강(江)".
+        const v = plainWord(
+          code,
+          clean(
+            t[2]
+              .replace(/\[\[|\]\]/g, "")
+              .replace(/#.*$/, "")
+              .replace(/\s*\([^)]*\)/g, ""),
+          ),
+        );
         // Serbo-Croatian lists both scripts under one code.
         if (code === "sh") code = /[\u0400-\u04FF]/.test(v) ? "sr-ec" : "sh";
         if (LANG.test(code) && v) (labels[code] ??= []).includes(v) || labels[code].push(v);
