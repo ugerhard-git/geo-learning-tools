@@ -52,7 +52,7 @@ the scripts on your own machine instead, run `sign-words.mjs`, then
 ## Road signs
 
 `road-signs.mjs` fetches the Roads app's sign drawings: each Street View
-country's stop sign, the two pedestrian crossing signs (the warning, and the
+country's stop sign, give way sign, the two pedestrian crossing signs (the warning, and the
 sign at the crossing itself), the chevron and the general warning sign. It
 reads the country's "Road signs in …" article on Wikipedia, scores each
 drawing's caption (`road-sign-wikitext.mjs`: the sign's number taken off,
@@ -77,6 +77,10 @@ A pick need not be in the article: it can be any drawing on Commons, and a
 country with no article can have picks too. The app then names the drawing's
 Commons page as its source instead of the article, so pick a file whose
 Commons page says which country's sign it is.
+
+Only free licences are kept, and owners' own terms listed in `TERMS` in
+`road-signs.mjs` after reading them (New Zealand's transport agency allows
+its drawings to be copied). The app links each such drawing to the terms.
 
 The rest of this page is about the two Python scripts.
 

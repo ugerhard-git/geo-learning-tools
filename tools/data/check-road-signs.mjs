@@ -14,7 +14,7 @@ import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 import { checkSvg } from "../site-checks.mjs";
 
-const SIGN_NAMES = ["chevron", "crossing", "pedestrian", "stop", "warning"];
+const SIGN_NAMES = ["chevron", "crossing", "pedestrian", "stop", "warning", "yield"];
 const isText = (v, max) => typeof v === "string" && v.length <= max;
 
 /**
@@ -39,6 +39,9 @@ export function checkRoadSigns(signs, files, codes) {
       // The article that shows it; none for a drawing picked on Commons.
       if (s?.source !== undefined && !isText(s.source, 200)) problems.push(`${where}: source`);
       if (s?.changed !== undefined && !isText(s.changed, 60)) problems.push(`${where}: changed`);
+      if (s?.terms !== undefined && !/^https:\/\/[^\s"<>]{1,200}$/.test(s.terms)) {
+        problems.push(`${where}: terms`);
+      }
       named.add(s?.file);
       const svg = files.get(s?.file);
       if (svg === undefined) problems.push(`${where}: drawing missing`);

@@ -12,13 +12,14 @@ import { byCode, parseCountries } from "../shared/countries.js";
 import { table } from "../shared/dom.js";
 
 /** The sign drawings, in the order the app shows them. */
-export const SIGN_CLUES = ["stop", "crossing", "pedestrian", "chevron", "warning"];
+export const SIGN_CLUES = ["stop", "yield", "crossing", "pedestrian", "chevron", "warning"];
 
 /** Every clue, in the order the app shows them. */
 export const CLUES = table({
   side: { label: "Driving side", short: "side" },
   lines: { label: "Centre lines", short: "lines" },
   stop: { label: "Stop signs", short: "stop" },
+  yield: { label: "Give way", short: "give way" },
   crossing: { label: "Crossing here", short: "crossing" },
   pedestrian: { label: "Crossing ahead", short: "crossing warning" },
   chevron: { label: "Chevrons", short: "chevron" },
@@ -59,6 +60,8 @@ const SIGN_FILE = /^[a-z]{2}-[a-z]+\.svg$/;
  * @property {string} [source] the Wikipedia article that shows it; none for a
  *   drawing picked on Commons that no article shows
  * @property {string} [changed] how the copy differs from the file on Commons
+ * @property {string} [terms] where the licence's terms are, for a licence
+ *   that is not a standard free one but whose owner allows reuse
  */
 
 /**
@@ -83,7 +86,8 @@ const SIGN_FILE = /^[a-z]{2}-[a-z]+\.svg$/;
  * @property {Centre} [centre]
  * @property {{ colour: "white" | "yellow" | "none", style: string, note: string, source: string }} [edge]
  *   the edge lines: their colour ("none" for no edge lines) and usual style
- * @property {Partial<Record<string, Sign>>} signs by clue: stop, crossing, pedestrian, chevron, warning
+ * @property {Partial<Record<string, Sign>>} signs by clue: stop, yield, crossing, pedestrian,
+ *   chevron, warning
  * @property {{ styles: ChevronStyle[], note: string, source: string }} [chevron]
  *   what its chevrons look like, described in words by a source; the app draws them
  * @property {string} [subregion] its UN sub-region, e.g. "039" (Southern Europe)

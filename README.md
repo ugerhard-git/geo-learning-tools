@@ -5,14 +5,14 @@ keeps track of what you know and brings back what you don't.
 
 **Live site:** <https://ugerhard-git.github.io/geo-learning-tools/>
 
-| App                           | What you practise                                                                                                                                |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Flags**                     | Every UN member and observer state, plus the territories that fly their own flags.                                                               |
-| **Countries and Territories** | The same countries on a zoomable world map: name the one highlighted, find it, or find it from its internet domain or currency.                  |
-| **Cities and Regions**        | 2,738 cities and 4,596 regions — capitals, regional capitals, every city over a million.                                                         |
-| **Terrain**                   | 2,121 physical features: rivers, ranges, deserts, seas, straits, islands and peaks.                                                              |
-| **Scripts and Languages**     | The official languages of the 120 Street View countries: telltale letters, look-alike scripts, and which language or country a sentence is from. |
-| **Roads**                     | What the roads of the Street View countries give away: driving side, centre line colour, and stop, crossing, chevron and warning signs.          |
+| App                           | What you practise                                                                                                                                 |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Flags**                     | Every UN member and observer state, plus the territories that fly their own flags.                                                                |
+| **Countries and Territories** | The same countries on a zoomable world map: name the one highlighted, find it, or find it from its internet domain or currency.                   |
+| **Cities and Regions**        | 2,738 cities and 4,596 regions — capitals, regional capitals, every city over a million.                                                          |
+| **Terrain**                   | 2,121 physical features: rivers, ranges, deserts, seas, straits, islands and peaks.                                                               |
+| **Scripts and Languages**     | The official languages of the 120 Street View countries: telltale letters, look-alike scripts, and which language or country a sentence is from.  |
+| **Roads**                     | What the roads of the Street View countries give away: driving side, centre line colour, and stop, give way, crossing, chevron and warning signs. |
 
 The landing page shows what is due for review in each app. Progress is kept in
 your browser only and is never sent anywhere. Opening a place's details asks

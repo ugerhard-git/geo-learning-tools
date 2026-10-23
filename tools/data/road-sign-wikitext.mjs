@@ -53,6 +53,14 @@ export const SIGNS = {
     // under a sign (Japan's "Caution").
     where: (section) => !/prohibit|regulat|supplement|additional|plate/i.test(section),
   },
+  // The give way (yield) sign at a junction, not the warning that one is
+  // ahead, and not the signs that give way to someone in particular.
+  yield: {
+    match: /give way|yield/i,
+    avoid:
+      /ahead|\bend\b|\d+ ?m\b|distance|stop|pedestrian|cyclist|bicycle|bus|tram|oncoming|roundabout|priority|school|children|temporary|line|plate|\b(18|19|20)\d\d\b/i,
+    exact: /^(give way|yield)( sign)?( to (all )?traffic)?$/i,
+  },
   stop: {
     // Not "stopping" or "Stopschild"; a number may come straight after ("StopAlt. A").
     match: /(?<![A-Za-z])(?:[Ss]top|STOP)(?![a-z])/,

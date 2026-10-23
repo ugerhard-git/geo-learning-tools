@@ -182,7 +182,7 @@ const signImg = (sign, alt = "", cls = "") =>
 
 /** "Drawing: author, licence" with links to the file on Commons. */
 function credit(sign) {
-  return `<a href="${esc(commonsUrl(sign))}" target="_blank" rel="noopener noreferrer">${esc(sign.commons.replaceAll("_", " "))}</a>, ${esc(sign.author || "unknown author")}, ${esc(sign.licence)}${sign.changed ? ` (${esc(sign.changed)})` : ""}`;
+  return `<a href="${esc(commonsUrl(sign))}" target="_blank" rel="noopener noreferrer">${esc(sign.commons.replaceAll("_", " "))}</a>, ${esc(sign.author || "unknown author")}, ${sign.terms ? `<a href="${esc(sign.terms)}" target="_blank" rel="noopener noreferrer">${esc(sign.licence)}</a>` : esc(sign.licence)}${sign.changed ? ` (${esc(sign.changed)})` : ""}`;
 }
 
 /** Where a drawing is shown: the Wikipedia article, or only its Commons page. */
@@ -432,14 +432,14 @@ async function main() {
         .map((k) => `<li>${sourceLink(k)}</li>`)
         .join("")}</ul>
       <h3>Sign drawings</h3>
-      <p class="src">Copies of files on Wikimedia Commons, each under the licence named, found in Wikipedia's articles on each country's road signs.</p>
+      <p class="src">Copies of files on Wikimedia Commons, each under the licence named, most of them found in Wikipedia's articles on each country's road signs.</p>
       <ul class="credits">${drawn
         .map(
           ({ c, k, s }) =>
             `<li>${esc(c.name)}, ${esc(CLUES[k].label.toLowerCase())}: ${credit(s)}</li>`,
         )
         .join("")}</ul>
-      <p class="src">Licences: <a href="https://creativecommons.org/licenses/" target="_blank" rel="noopener noreferrer">Creative Commons</a>. Article texts: <a href="${esc(articleUrl("Wikipedia:Copyrights"))}" target="_blank" rel="noopener noreferrer">Wikipedia</a>, CC BY-SA.</p>`);
+      <p class="src">Licences: <a href="https://creativecommons.org/licenses/" target="_blank" rel="noopener noreferrer">Creative Commons</a>; a licence that is the owner's own links to its terms. Article texts: <a href="${esc(articleUrl("Wikipedia:Copyrights"))}" target="_blank" rel="noopener noreferrer">Wikipedia</a>, CC BY-SA.</p>`);
   }
 
   detail.addEventListener("click", (e) => {
