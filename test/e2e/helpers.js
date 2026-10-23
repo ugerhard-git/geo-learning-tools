@@ -65,19 +65,37 @@ export async function openPage(page, path, { storage, answers } = {}) {
     }
   }, storage ?? null);
   page.on("pageerror", (err) => problems.push(`uncaught: ${err.message}`));
+  const webkit = isWebKit(page);
   page.on("console", (msg) => {
     // A blocked outside request logs "Failed to load resource"; that is the
     // test's doing, not the page's.
-    if (msg.type() === "error" && !msg.text().startsWith("Failed to load resource")) {
-      problems.push(`console: ${msg.text()}`);
-    }
+    if (msg.type() !== "error" || msg.text().startsWith("Failed to load resource")) return;
+    // WebKit's own report of its <select> styling (see WEBKIT_SELECT).
+    if (webkit && msg.text().startsWith("Refused to apply a stylesheet")) return;
+    problems.push(`console: ${msg.text()}`);
   });
   await page.goto(path);
   return problems;
 }
 
 /** CSP violations the page has reported so far. */
-export const cspViolations = (page) => page.evaluate(() => window.__cspViolations);
+export async function cspViolations(page) {
+  const all = await page.evaluate(() => window.__cspViolations);
+  return isWebKit(page) ? all.filter((v) => v !== WEBKIT_SELECT) : all;
+}
+
+/**
+ * The WebKit build Playwright tests with styles every <select> through an
+ * inline style of its own, which the site's policy refuses: one report per
+ * <select> on the page, whatever the page does. No code of the site's sets
+ * a style on a <select>. Only this exact report is let through, and only in
+ * WebKit; anything else, such as a style attribute on any other element,
+ * still fails the test.
+ */
+const WEBKIT_SELECT = "style-src-attr blocked inline on <select>";
+
+/** @param {import("@playwright/test").Page} page */
+const isWebKit = (page) => page.context().browser()?.browserType().name() === "webkit";
 
 /**
  * Where a longitude/latitude is on screen, given the map's current view.

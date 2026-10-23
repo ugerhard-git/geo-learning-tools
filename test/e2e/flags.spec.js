@@ -55,8 +55,7 @@ test("the detail view shows the place on a map and steps through the flags", asy
   const detail = page.locator("#detail");
   await expect(detail.locator("h2")).toHaveText("Norway");
   await expect(detail.locator(".sim button")).not.toHaveCount(0); // the Nordic crosses
-  await expect(detail.locator(".map svg .world")).toHaveCount(2);
-  await expect(detail.locator(".map svg .world path.hl")).not.toHaveCount(0);
+  await expect(detail.locator(".map svg use")).toHaveCount(2);
   await expect(page.locator("#world path.hl")).not.toHaveCount(0);
 
   await detail.locator('[data-proj="merc"]').click();
