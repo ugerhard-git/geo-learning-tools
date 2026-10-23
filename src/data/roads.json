@@ -1168,11 +1168,10 @@
     "styles": [
      {
       "bg": "black",
-      "fg": "white",
-      "arrows": 1
+      "fg": "white"
      }
     ],
-    "note": "White arrows on black, as in Greece, Albania and Spain; Spain's almost always have two or four arrows.",
+    "note": "White arrows on black, as in Greece, Albania and Spain; Spain's almost always have two or four arrows, Greece's one.",
     "source": "plonkit-italy"
    }
   },

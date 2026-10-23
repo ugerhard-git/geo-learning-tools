@@ -126,3 +126,26 @@ test("the scene drill draws the road and the signs picked", async ({ page }) => 
   await expect(page.locator("#drillbar .opts button.right")).toHaveCount(1);
   expect([...problems, ...(await cspViolations(page))]).toEqual([]);
 });
+
+test("Spain's chevrons are drawn from their description, with its source", async ({ page }) => {
+  const problems = await openPage(page, PAGE);
+  await page.fill("#q", "Spain");
+  await page.click(".rcard");
+  const detail = page.locator("#detail");
+  await expect(detail.locator(".dchev svg")).toHaveCount(2);
+  await expect(detail).toContainText("drawn by this app from that description");
+  await expect(detail.getByRole("link", { name: "Spain: Plonk It guide" }).first()).toBeVisible();
+  expect([...problems, ...(await cspViolations(page))]).toEqual([]);
+});
+
+test("a chevron drill can be limited to Southern Europe", async ({ page }) => {
+  const problems = await openPage(page, PAGE);
+  await setUp(page, "clue", ["chevron"]);
+  await page.selectOption("#dWhere", "039");
+  await page.click("#setup [data-start]");
+  const names = await page.locator("#drillbar .opts button").allTextContents();
+  expect(names).toHaveLength(4);
+  // The remembered choice.
+  expect(await page.evaluate(() => localStorage.getItem("roads.where"))).toBe("039");
+  expect([...problems, ...(await cspViolations(page))]).toEqual([]);
+});

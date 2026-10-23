@@ -248,8 +248,10 @@ test("chevrons described in words: drawn, compared by colour and arrows", () => 
   assert.ok(hasClue(es, "chevron"), "Spain is drawn from its description");
   // Italy and Greece: white on black, one arrow; never offered together.
   assert.ok(looksAlike(it, gr, "chevron"));
-  // Spain's have two arrows; Portugal's yellow on black is its own.
-  assert.ok(!looksAlike(es, it, "chevron"));
+  // Spain's have two arrows, Greece's one; Italy's number is not given, so
+  // Spain and Italy are not offered together. Portugal's yellow is its own.
+  assert.ok(!looksAlike(es, gr, "chevron"));
+  assert.ok(looksAlike(es, it, "chevron"));
   assert.ok(!looksAlike(pt, it, "chevron"));
   for (let i = 0; i < 20; i++) {
     const q = new RoadQuestion({ clue: "chevron", code: "ES" }, data, { where: "039" });
