@@ -69,20 +69,22 @@ jobs:
       # Chromium, and WebKit (Safari's engine) for the layout tests (see
       # playwright.config.js). In two steps, each with its own limit, so a
       # hang shows which side is slow: Ubuntu's package servers, or
-      # Playwright's download servers. Either sometimes stalls for no reason
-      # of ours, so each try gets a few minutes and a stalled one is tried
-      # again, up to three times, rather than failing the run.
+      # Playwright's download servers.
+      #
+      # Ubuntu's servers sometimes stall a download for minutes. Cutting a
+      # try short from outside does not help: the package manager it started
+      # lives on and holds its lock, so the next try fails at once. Instead
+      # the package manager itself gives up on a stalled download after 20
+      # seconds and tries it again, up to five times.
       - name: Install the browsers' system packages
-        timeout-minutes: 14
-        shell: bash
+        timeout-minutes: 12
         run: |
-          for try in 1 2 3; do
-            timeout 240 npx playwright install-deps chromium webkit && exit 0
-            echo "::warning title=Browser packages::Try $try stalled or failed; trying again."
-            # A try cut short can leave the package manager half-way.
-            sudo dpkg --configure -a || true
-          done
-          exit 1
+          printf '%s\n' \
+            'Acquire::Retries "5";' \
+            'Acquire::http::Timeout "20";' \
+            'Acquire::https::Timeout "20";' |
+            sudo tee /etc/apt/apt.conf.d/99-stalls > /dev/null
+          npx playwright install-deps chromium webkit
 
       - name: Install the browsers
         timeout-minutes: 14

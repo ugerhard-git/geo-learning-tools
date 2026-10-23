@@ -1,6 +1,7 @@
 // Countries and Territories in a real browser: the detail panel and every kind of quiz question.
 import { test, expect } from "@playwright/test";
-import { clickAt, cspViolations, openPage, readData } from "./helpers.js";
+import { clickAt, cspViolations, openPage, readData, visiblePoint } from "./helpers.js";
+import { PROJECTIONS } from "../../src/shared/projection.js";
 
 const PAGE = "countries/";
 
@@ -11,13 +12,80 @@ const COUNTRIES = readData("countries.txt")
   .map((line) => line.split("|"))
   .map(([code, , name]) => ({ code, name }));
 const byName = (name) => COUNTRIES.find((c) => c.name === name);
-const middle = (code) => WORLD.i[code].m;
+/**
+ * A spot well inside a country, as longitude/latitude: of a grid laid over
+ * its biggest outline, the point the outline covers that lies furthest from
+ * any point it does not. The middle of its box can lie outside a crescent
+ * like Croatia's, and a spot near a border can slip over it.
+ */
+async function inside(page, code) {
+  const shapes = WORLD.f.flatMap((f, i) => (f.c.includes(code) ? [i] : []));
+  const [mx, my] = await page.evaluate((idx) => {
+    const paths = idx
+      .map((i) => document.querySelector(`#world path[data-i="${i}"]`))
+      .filter(Boolean);
+    const area = (p) => p.getBBox().width * p.getBBox().height;
+    const path = paths.sort((a, b) => area(b) - area(a))[0];
+    const b = path.getBBox();
+    const n = 30;
+    const pts = [];
+    for (let gx = -1; gx <= n + 1; gx++) {
+      for (let gy = -1; gy <= n + 1; gy++) {
+        const pt = new DOMPoint(b.x + (b.width * gx) / n, b.y + (b.height * gy) / n);
+        pts.push({ x: pt.x, y: pt.y, in: path.isPointInFill(pt) });
+      }
+    }
+    const outside = pts.filter((p) => !p.in);
+    let best = null;
+    for (const p of pts.filter((q) => q.in)) {
+      const clear = Math.min(...outside.map((o) => Math.hypot(o.x - p.x, o.y - p.y)));
+      if (!best || clear > best.clear) best = { clear, p: [p.x, p.y] };
+    }
+    return best.p;
+  }, shapes);
+  return PROJECTIONS.ee.inv(mx, my);
+}
 
 /** The country a "Name it" question highlights, read from the map. */
 async function highlighted(page) {
   const i = await page.locator("#world path.target").first().getAttribute("data-i");
   const codes = WORLD.f[Number(i)].c;
   return COUNTRIES.find((c) => codes.includes(c.code) && !c.code.includes("-"));
+}
+
+/**
+ * Wait for the map to stop moving: a question frames its candidates with a
+ * short animation, and a click aimed at a country while the map still moves
+ * lands on its neighbour. Two equal view boxes in a row mean it has stopped.
+ */
+/**
+ * Zoom in on a spot, then click it. At the scale of the whole world a small
+ * country is a few pixels wide, and the dots that mark its tiny neighbours
+ * (Palestine's next to Jordan) can sit over it.
+ */
+async function zoomAndClick(page, lon, lat) {
+  for (let i = 0; i < 4; i++) {
+    const { x, y } = await visiblePoint(page, lon, lat);
+    await page.mouse.move(x, y);
+    await page.mouse.wheel(0, -400);
+    await settled(page);
+  }
+  await clickAt(page, lon, lat);
+}
+
+async function settled(page) {
+  let last = "";
+  await expect
+    .poll(
+      async () => {
+        const now = await page.locator("#map").getAttribute("viewBox");
+        const same = now === last;
+        last = now;
+        return same;
+      },
+      { intervals: [150] },
+    )
+    .toBe(true);
 }
 
 async function startQuiz(page, dirn, level) {
@@ -69,8 +137,9 @@ test("find it, free hand: clicking the country is right", async ({ page }) => {
   await openPage(page, PAGE);
   await startQuiz(page, "find", "hard");
   const name = (await page.locator("#qPrompt").textContent()).match(/^Find (.+) on the map$/)[1];
-  const [lon, lat] = middle(byName(name).code);
-  await clickAt(page, lon, lat);
+  const [lon, lat] = await inside(page, byName(name).code);
+  await settled(page);
+  await zoomAndClick(page, lon, lat);
   await expect(page.locator("#qFoot .msg")).toHaveText("Correct.");
   await expect(page.locator("#world path.found").first()).toBeAttached();
 });
