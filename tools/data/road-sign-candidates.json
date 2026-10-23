@@ -635,6 +635,12 @@
     "caption": "A51: Other dangers",
     "section": "Warning signs (1975-2027)",
     "score": 2
+   },
+   {
+    "file": "Belgian_traffic_sign_A51_KB-AR_03-06-2024.svg",
+    "caption": "A51: Other danger",
+    "section": "New road signs (2027 onwards)",
+    "score": 2
    }
   ],
   "stop": [
@@ -4455,6 +4461,12 @@
     "file": "Serbia_road_sign_I-25.svg",
     "caption": "Other dangers",
     "section": "Warning signs",
+    "score": 2
+   },
+   {
+    "file": "Serbia_road_sign_III-80.svg",
+    "caption": "Danger",
+    "section": "Information signs",
     "score": 2
    }
   ],
