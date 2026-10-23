@@ -84,7 +84,7 @@ const SETTINGS = {
  * @param {{ drive?: "left" | "right", colour?: string, lines?: string[] }} what
  *   leave one out to not show it
  */
-function roadSvg({ drive, colour, lines }) {
+function roadSvg({ drive, colour, lines, edge }) {
   const pattern =
     lines ??
     (colour === "both" ? ["solid-yellow", "solid-white"] : colour ? [`solid-${colour}`] : []);
@@ -104,11 +104,11 @@ function roadSvg({ drive, colour, lines }) {
     `<g class="${cls}" transform="translate(${x} ${y}) scale(${s})"><rect x="-22" y="-16" width="44" height="22" rx="6"/><rect class="glass" x="-15" y="-13" width="30" height="8" rx="3"/><rect class="tyre" x="-20" y="6" width="9" height="6" rx="2"/><rect class="tyre" x="11" y="6" width="9" height="6" rx="2"/></g>`;
   const ours = drive === "left" ? 108 : 212;
   const theirs = drive === "left" ? 172 : 148;
-  return `<svg viewBox="0 0 320 180" role="img" aria-label="${esc(sceneLabel({ drive, colour, lines }))}">
+  return `<svg viewBox="0 0 320 180" role="img" aria-label="${esc(sceneLabel({ drive, colour, lines, edge }))}">
     <rect class="sky" width="320" height="34"/>
     <rect class="verge" y="30" width="320" height="150"/>
     <path class="road" d="M20 180 L150 30 L170 30 L300 180 Z"/>
-    <path class="ln-white solid" d="M34 180 L151 32"/><path class="ln-white solid" d="M286 180 L169 32"/>
+    ${edgeLines(edge)}
     ${centre}
     ${drive ? car(theirs, 64, 0.55, "car them") + car(ours, 150, 1.3, "car us") : ""}
   </svg>`;
@@ -130,11 +130,27 @@ function linesSvg(lines) {
   return `<svg viewBox="0 0 120 64" role="img" aria-label="${esc(linesText(lines))}"><rect class="road" width="120" height="64"/>${paths}</svg>`;
 }
 
+/**
+ * The road's edge lines: as the country has them where known, plain white
+ * otherwise, none for "none".
+ * @param {{ colour: string, style: string } | undefined} edge
+ */
+function edgeLines(edge) {
+  if (edge?.colour === "none") return "";
+  const cls = edge ? `ln-${edge.colour} ${edge.style}` : "ln-white solid";
+  return `<path class="${cls}" d="M34 180 L151 32"/><path class="${cls}" d="M286 180 L169 32"/>`;
+}
+
 /** What a road scene shows, said in words. */
-function sceneLabel({ drive, colour, lines }) {
+function sceneLabel({ drive, colour, lines, edge }) {
   return [
     drive ? `Traffic drives ${sideText(drive).toLowerCase()}` : "",
     lines ? `centre line: ${linesText(lines)}` : colour ? `${COLOURS[colour]} centre line` : "",
+    edge
+      ? edge.colour === "none"
+        ? "no edge lines"
+        : `edge lines: ${linesText([`${edge.style}-${edge.colour}`])}`
+      : "",
   ]
     .filter(Boolean)
     .join(", ");
@@ -309,21 +325,28 @@ async function main() {
              ? `<ul class="patterns">${pats
                  .map(
                    (p) =>
-                     `<li><span class="pat">${linesSvg(p.lines)}</span><span><b>${esc(linesText(p.lines))}</b><br>${esc(p.meaning)}</span></li>`,
+                     `<li><span class="pat">${linesSvg(p.lines)}</span><span><b>${esc(linesText(p.lines))}</b><br>${esc(p.meaning)}${p.source && p.source !== c.centre.patternSource ? `<br><span class="src">Source: ${sourceLink(p.source)}.</span>` : ""}</span></li>`,
                  )
                  .join("")}</ul>
-               <p class="src">Styles: ${sourceLink(c.centre.patternSource)}. The drawing above shows the first.</p>`
+               <p class="src">Styles: ${sourceLink(c.centre.patternSource)}, unless another source is named. A line given only by its colour is one whose source does not say solid or broken; it is drawn solid. The drawing above shows the first.</p>`
              : `<p class="src">The style of the lines (broken or solid, single or double) is not sourced yet; the drawings show their colour only.</p>`
          }`
       : `<p class="empty">No solid source yet.</p>`;
     showDialog(`
       <h2 id="dName">${flagMini(c.code, c.name)}${esc(c.name)}</h2>
-      <div class="dscene">${roadSvg({ drive: c.drive, colour: c.centre?.colour, lines: pats[0]?.lines })}</div>
+      <div class="dscene">${roadSvg({ drive: c.drive, colour: c.centre?.colour, lines: pats[0]?.lines, edge: c.edge })}</div>
       <h3>Driving side</h3>
       <p>${esc(sideText(c.drive))}.</p>
       <p class="src">Source: ${sourceLink(c.driveSource)}.</p>
       <h3>Centre line</h3>
       ${centre}
+      <h3>Edge lines</h3>
+      ${
+        c.edge
+          ? `<p>${c.edge.colour === "none" ? "" : `<b>${esc(linesText([`${c.edge.style}-${c.edge.colour}`]))}.</b> `}${esc(c.edge.note)}</p>
+             <p class="src">Source: ${sourceLink(c.edge.source)}.</p>`
+          : `<p class="empty">No solid source yet; the drawings show plain white edge lines.</p>`
+      }
       <h3>Signs</h3>
       <div class="dsigns">${SIGN_CLUES.map((k) => {
         const s = c.signs[k];
@@ -509,6 +532,7 @@ async function main() {
         drive: shows.includes("side") ? c.drive : undefined,
         colour: shows.includes("lines") ? c.centre.colour : undefined,
         lines: shows.includes("lines") ? c.centre.patterns?.[0].lines : undefined,
+        edge: shows.includes("lines") ? c.edge : undefined,
       });
       const signs = SIGN_CLUES.filter((k) => shows.includes(k));
       art.innerHTML = `${shows.includes("side") || shows.includes("lines") ? `<div class="sroad">${road}</div>` : ""}

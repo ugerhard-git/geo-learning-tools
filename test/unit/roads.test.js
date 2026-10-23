@@ -122,6 +122,7 @@ test("roads.json covers every Street View country, with sources", () => {
       if (r.centre.patterns) {
         assert.ok(roads.sources[r.centre.patternSource], `${code}: pattern source`);
         for (const p of r.centre.patterns) {
+          if (p.source) assert.ok(roads.sources[p.source], `${code}: ${p.source}`);
           assert.ok(p.lines.length >= 1 && p.lines.length <= 3, code);
           assert.ok(
             p.lines.every((l) => LINE.test(l)),
@@ -136,6 +137,13 @@ test("roads.json covers every Street View country, with sources", () => {
         if (r.centre.colour !== "both") assert.ok(hues.has(r.centre.colour), code);
       }
     }
+  }
+  for (const [code, r] of Object.entries(roads.countries)) {
+    if (!r.edge) continue;
+    assert.ok(["white", "yellow", "none"].includes(r.edge.colour), `${code}: edge colour`);
+    assert.ok(["solid", "dashed", "long-dash", "short-dash", "line"].includes(r.edge.style), code);
+    assert.ok(roads.sources[r.edge.source], `${code}: edge source`);
+    assert.ok(data.byCode[code].edge, `${code}: edge kept`);
   }
   for (const s of Object.values(roads.sources)) assert.match(s.url, /^https:\/\//);
   assert.equal(data.countries.length, streetView.length);
@@ -159,6 +167,10 @@ test("progress keys are distinct per clue and read back", () => {
 test("linesText says a pattern in words, left to right", () => {
   assert.equal(linesText(["solid-yellow", "dashed-white"]), "solid yellow, broken white");
   assert.equal(linesText(["long-dash-white"]), "long-dashed white");
+  // A line whose style the source does not give is named by its colour.
+  assert.equal(linesText(["line-yellow", "line-yellow"]), "double yellow");
+  assert.equal(linesText(["solid-white", "solid-white"]), "double solid white");
+  assert.equal(linesText(["line-white", "line-yellow", "line-white"]), "white, yellow, white");
   assert.ok(data.byCode.PH.centre.patterns[0].lines.length === 3);
 });
 
