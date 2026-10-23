@@ -50,7 +50,14 @@ export async function openPage(page, path, { storage, answers } = {}) {
   await page.addInitScript((seed) => {
     window.__cspViolations = [];
     document.addEventListener("securitypolicyviolation", (e) =>
-      window.__cspViolations.push(`${e.violatedDirective} blocked ${e.blockedURI}`),
+      window.__cspViolations.push(
+        `${e.violatedDirective} blocked ${e.blockedURI}` +
+          (e.sourceFile ? ` in ${e.sourceFile}:${e.lineNumber}` : "") +
+          (e.sample ? ` (${e.sample})` : "") +
+          (e.target?.nodeName
+            ? ` on <${e.target.nodeName.toLowerCase()}${(e.target.className?.baseVal ?? e.target.className) ? ` class="${e.target.className?.baseVal ?? e.target.className}"` : ""}>`
+            : ""),
+      ),
     );
     if (seed && !sessionStorage.getItem("__seeded")) {
       sessionStorage.setItem("__seeded", "1");
