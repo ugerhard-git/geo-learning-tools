@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="754"
+   height="754"
+   viewBox="0 0 754 754.00003"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="drawing.svg"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="px"
+     showgrid="false"
+     units="px"
+     inkscape:showpageshadow="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.59"
+     inkscape:cx="876.27119"
+     inkscape:cy="320.33898"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Lager 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-92)">
+    <circle
+       style="fill:#000000;fill-rule:evenodd;stroke:none;stroke-width:3.03072;stroke-linecap:square"
+       id="path137"
+       cx="377"
+       cy="469"
+       r="376" />
+    <circle
+       style="fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:3.02266;stroke-linecap:square"
+       id="circle871"
+       cx="377"
+       cy="469"
+       r="375" />
+    <circle
+       style="fill:#cc2128;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2.94206;stroke-linecap:square"
+       id="circle927"
+       cx="377"
+       cy="469"
+       r="365" />
+    <circle
+       style="fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:2.29722;stroke-linecap:square"
+       id="circle940"
+       cx="377"
+       cy="469"
+       r="285" />
+    <rect
+       style="fill:#000000;fill-rule:evenodd;stroke:none;stroke-width:2.52786;stroke-linecap:square"
+       id="rect8875"
+       width="450"
+       height="120"
+       x="152"
+       y="409"
+       rx="60"
+       ry="60" />
+  </g>
+</svg>

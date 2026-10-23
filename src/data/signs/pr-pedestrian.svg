@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="18in"
+   height="12in"
+   viewBox="0 0 457.2 304.8"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (b8e25be8, 2022-02-05)"
+   sodipodi:docname="MUTCD-PR_R9-3b(D).svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="in"
+     showgrid="false"
+     units="in"
+     inkscape:zoom="0.47222221"
+     inkscape:cx="864.00003"
+     inkscape:cy="577.05884"
+     inkscape:window-width="1417"
+     inkscape:window-height="855"
+     inkscape:window-x="0"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer2"
+     inkscape:snap-bbox="false"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-perpendicular="false"
+     inkscape:snap-tangential="true"
+     inkscape:snap-smooth-nodes="false"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:object-paths="false" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Sign Back"
+     inkscape:groupmode="layer"
+     id="layer1"
+     sodipodi:insensitive="true">
+    <rect
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.5748;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect846"
+       width="455.62521"
+       height="303.22519"
+       x="0.79375142"
+       y="0.79375678"
+       rx="37.306252"
+       ry="37.306252" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:9.525;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect938"
+       height="276.22501"
+       x="14.2875"
+       y="14.287497"
+       rx="23.8125"
+       ry="23.8125"
+       width="428.625" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Legends">
+    <g
+       id="g55650"
+       transform="matrix(-1.4851087,0,0,1.4851087,473.84855,-423.41904)"
+       style="fill:#000000">
+      <path
+         id="path55646"
+         style="fill:#000000;stroke-width:36;stroke-linecap:round;stroke-linejoin:round"
+         d="m 348,1223.0391 a 12.48,12.48 0 0 0 -7.09766,2.2207 h -0.004 L 204,1320 l 136.89844,94.7422 h 0.004 a 12.48,12.48 0 0 0 7.09766,2.2207 12.48,12.48 0 0 0 12.48047,-12.4804 12.48,12.48 0 0 0 -0.13672,-1.8438 h -0.002 a 12.48,12.48 0 0 0 -1.02344,-3.4101 L 335.51172,1320 l 23.8164,-79.2578 a 12.48,12.48 0 0 0 1.01172,-3.3692 l 0.004,-0.01 h -0.002 a 12.48,12.48 0 0 0 0.13867,-1.8418 A 12.48,12.48 0 0 0 348,1223.0391 Z"
+         transform="scale(0.26458334)" />
+      <rect
+         style="fill:#000000;stroke:none;stroke-width:9.525;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect55648"
+         width="67.813889"
+         height="19.050001"
+         x="88.773003"
+         y="339.72501" />
+    </g>
+    <g
+       aria-label="USE"
+       id="text3589"
+       style="font-size:133.35px;line-height:1.25;font-family:'Roadgeek 2014 Series C';-inkscape-font-specification:'Roadgeek 2014 Series C';stroke-width:0.277812">
+      <path
+         d="m 112.4204,110.64241 q 0,7.6962 -2.8956,13.335 -2.8956,4.7244 -7.9248,7.6962 -5.029198,2.9718 -10.363198,2.9718 -5.6388,0 -10.7442,-2.8956 -5.029201,-2.9718 -7.924801,-7.7724 -2.9718,-5.8674 -2.9718,-13.335 V 57.150003 h 10.972801 v 54.787807 q 0,5.334 2.8956,8.6868 2.9718,3.3528 7.7724,3.3528 4.4196,0 7.3152,-3.3528 2.895598,-3.3528 2.895598,-8.6868 V 57.150003 h 10.9728 z"
+         id="path6224" />
+      <path
+         d="m 167.87228,112.47121 q 0,9.2964 -6.1722,15.7734 -6.096,6.4008 -14.859,6.4008 -9.6774,0 -15.5448,-6.9342 -5.8674,-7.0104 -5.8674,-16.8402 h 10.668 q 0,5.334 2.7432,9.2202 2.7432,3.8862 8.001,3.8862 4.4196,0 7.5438,-3.429 3.1242,-3.5052 3.1242,-8.0772 0,-6.17221 -6.2484,-10.97281 -0.381,-0.381 -0.381,-0.5334 -0.2286,-0.2286 -5.715,-4.038596 -3.8862,-2.5908 -6.7056,-4.4196 -9.3726,-6.6294 -9.3726,-16.840201 0,-8.2296 5.6388,-14.0208 5.715,-5.7912 13.9446,-5.7912 8.0772,0 13.5636,5.6388 5.4864,5.5626 5.6388,14.1732 h -10.3632 q -0.1524,-3.8862 -2.667,-6.4008 -2.5146,-2.5146 -6.1722,-2.5146 -3.81,0 -6.477,2.5908 -2.667,2.5146 -2.667,6.3246 0,2.895601 1.4478,4.724401 1.524,1.8288 5.8674,4.2672 11.1252,6.5532 16.0782,13.1064 4.953,6.476996 4.953,14.706606 z"
+         id="path6226" />
+      <path
+         d="M 219.59363,133.35001 H 180.80782 V 57.150003 h 35.89021 v 10.668 h -24.91741 v 19.354801 h 15.7734 v 10.4394 h -15.7734 v 25.069806 h 27.81301 z"
+         id="path6228" />
+    </g>
+    <g
+       aria-label="CRUCE"
+       id="text4623"
+       style="font-size:133.35px;line-height:1.25;font-family:'Roadgeek 2014 Series B';-inkscape-font-specification:'Roadgeek 2014 Series B';text-align:center;text-anchor:middle;stroke-width:0.277812">
+      <path
+         d="m 154.34325,234.82301 q 0,6.6294 -1.0668,10.2108 -0.9144,4.191 -4.6482,6.6294 -3.7338,2.3622 -8.763,2.3622 -11.5062,0 -14.9352,-10.1346 -3.2766,-10.0584 -3.2004,-29.1084 0,-12.6492 1.7526,-23.0124 1.6002,-8.763 5.2578,-12.4968 3.6576,-3.81 10.5918,-3.81 6.5532,0 10.5156,3.8862 3.9624,3.81 4.4958,10.8966 h -9.906 q -0.381,-4.8006 -4.8768,-4.8768 -4.8006,0 -6.4008,7.4676 -1.6002,7.3152 -1.524,21.9456 0,13.9446 1.524,21.6408 1.6002,7.6962 6.1722,7.6962 5.1054,0 5.1054,-9.2964 z"
+         id="path6213" />
+      <path
+         d="m 201.73132,197.94221 q 0,6.4008 -1.8288,10.287 -1.8288,3.8862 -6.1722,6.5532 l 7.6962,37.9476 h -9.7536 l -8.6106,-35.5092 h -4.572 v 35.5092 h -9.6774 v -76.2 h 15.0114 q 17.907,0 17.907,21.4122 z m -9.8298,-0.3048 q 0,-6.5532 -1.8288,-8.8392 -1.8288,-2.3622 -6.7818,-2.3622 h -4.8006 v 20.8788 h 6.4008 q 4.0386,0 5.4864,-2.1336 1.524,-2.2098 1.524,-7.5438 z"
+         id="path6215" />
+      <path
+         d="m 246.78903,234.06101 q 0,7.4676 -2.3622,12.0396 -4.3434,7.9248 -14.0208,7.9248 -11.2014,0 -15.0876,-10.4394 -1.4478,-4.3434 -1.4478,-9.525 v -57.531 h 9.6774 v 58.8264 q 0,8.763 6.858,8.763 6.7818,0 6.858,-8.763 v -58.8264 h 9.525 z"
+         id="path6217" />
+      <path
+         d="m 293.94404,234.82301 q 0,6.6294 -1.0668,10.2108 -0.9144,4.191 -4.6482,6.6294 -3.7338,2.3622 -8.763,2.3622 -11.50621,0 -14.93521,-10.1346 -3.2766,-10.0584 -3.2004,-29.1084 0,-12.6492 1.7526,-23.0124 1.6002,-8.763 5.2578,-12.4968 3.6576,-3.81 10.59181,-3.81 6.5532,0 10.5156,3.8862 3.9624,3.81 4.4958,10.8966 h -9.906 q -0.381,-4.8006 -4.8768,-4.8768 -4.80061,0 -6.40081,7.4676 -1.6002,7.3152 -1.524,21.9456 0,13.9446 1.524,21.6408 1.6002,7.6962 6.17221,7.6962 5.1054,0 5.1054,-9.2964 z"
+         id="path6219" />
+      <path
+         d="m 337.67451,252.73001 h -29.2608 v -76.2 h 28.194 v 9.906 h -18.5166 v 19.5834 h 12.2682 v 10.0584 h -12.2682 v 26.7462 h 19.5834 z"
+         id="path6221" />
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="825.75mm"
+   height="825.75mm"
+   viewBox="0 0 825.75 825.75"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="IE_road_sign_W–170.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     width="825.73mm"
+     inkscape:zoom="0.19420595"
+     inkscape:cx="1660.6082"
+     inkscape:cy="1794.4867"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,528.75002)">
+    <rect
+       style="fill:#000000;fill-rule:evenodd;stroke:none;stroke-width:0.12381"
+       id="rect31"
+       width="600"
+       height="600"
+       x="73.88266"
+       y="-89.989311"
+       rx="30"
+       ry="30"
+       transform="rotate(-45)" />
+    <rect
+       style="fill:#fff000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.117619"
+       id="rect1300"
+       width="570"
+       height="570"
+       x="88.88266"
+       y="-74.989311"
+       rx="15"
+       ry="15"
+       transform="rotate(-45)" />
+    <circle
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.505567"
+       id="path2770"
+       cx="412.875"
+       cy="-296.01007"
+       r="78" />
+    <circle
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.388898"
+       id="circle3054"
+       cx="412.875"
+       cy="75.989929"
+       r="60" />
+    <path
+       id="rect3078"
+       style="fill:#000000;fill-rule:evenodd;stroke:none;stroke-width:0.49239"
+       d="m 337.265,-276.84806 h 151.22 l -66.61,262.833025 h -18 z"
+       sodipodi:nodetypes="ccccc" />
+  </g>
+</svg>
