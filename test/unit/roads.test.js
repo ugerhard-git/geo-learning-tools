@@ -51,7 +51,9 @@ test("captionedFiles finds drawings in galleries and in tables", () => {
     "<gallery>",
     "File:Zeichen 206.svg|Stop and give way",
     "File:Zeichen 350-10.svg|[[Pedestrian crossing]]",
+    "Denmark road sign B13.svg|B13 Stop",
     "</gallery>",
+    "Not in a gallery.svg|Stop",
     "| [[File:Japan road sign 330-A.svg|80px]] || Stop || 止まれ",
     "[[File:Chevron alignment.svg|thumb|Curve alignment marker]]",
   ].join("\n");
@@ -59,7 +61,12 @@ test("captionedFiles finds drawings in galleries and in tables", () => {
   const find = (sign) =>
     files.filter((f) => signScore(sign, f.caption, f.file, f.section)).map((f) => f.file);
   assert.equal(files[1].section, "Regulatory signs / Priority");
-  assert.deepEqual(find("stop"), ["Zeichen_206.svg", "Japan_road_sign_330-A.svg"]);
+  // In a gallery the "File:" may be left out; outside one it may not.
+  assert.deepEqual(find("stop"), [
+    "Zeichen_206.svg",
+    "Denmark_road_sign_B13.svg",
+    "Japan_road_sign_330-A.svg",
+  ]);
   // The same caption: the warning section's drawing is the warning sign.
   assert.deepEqual(find("pedestrian"), ["Zeichen_101.svg"]);
   assert.deepEqual(find("crossing"), ["Zeichen_350-10.svg"]);

@@ -13,7 +13,11 @@
     "crossing": "-"
   },
   "DE": {
-    "crossing": "Zeichen_350-10_-_Fußgängerüberweg_(rechts),_StVO_1992.svg"
+    "crossing": "Zeichen_350-10_-_Fußgängerüberweg_(rechts),_StVO_1992.svg",
+    "warning": "Zeichen_101_-_Gefahrstelle,_StVO_1970.svg"
+  },
+  "DK": {
+    "warning": "Denmark_road_sign_A99.svg"
   },
   "GB": {
     "stop": "UK_traffic_sign_601.1.svg",
