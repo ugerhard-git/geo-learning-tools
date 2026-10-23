@@ -136,23 +136,23 @@ refused when framed too, so a framing page cannot trick a learner into them.
 The storage keys below, the progress key of each item and the record format
 must not change; a test in `test/e2e/` checks that old records still load.
 
-| Key                                                                             | Holds                                                                  |
-| ------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `flagatlas.progress.v1`                                                         | Flags progress, items `f:<code>`                                       |
-| `flagatlasmap.progress.v1`                                                      | Countries and Territories progress, items `c:<code>`                   |
-| `cityatlas.progress.v1`                                                         | Cities and Regions: `l:`/`n:`/`c:<iso>/<name>`, `r:`/`rl:<region>`     |
-| `terrainatlas.progress.v1`                                                      | Terrain: `<l\|n\|c>:<kind>/<name>`                                     |
-| `flagatlas.projection`                                                          | The projection, for every map                                          |
-| `flagatlas.restcountries.key`, `flagatlas.restcountries.cache.v5`               | The REST Countries key and its 3-day cache                             |
-| `flagatlasmap.wikidata.v1`                                                      | Countries and Territories: Wikidata cache (7 days)                     |
-| `flagatlas.adoption.v1`, `flagatlas.quizLevel`                                  | Flags: adoption dates, quiz level                                      |
-| `flagatlasmap.quizDir`                                                          | Countries and Territories: quiz direction                              |
-| `cityatlas.type`, `.cat`, `.scope`, `.hard`, `.hint`, `.len`                    | Cities and Regions drill settings                                      |
-| `terrain.layers`, `terrain.level`, `.type`, `.kinds`, `.scope`, `.hard`, `.len` | Terrain layers and drill settings                                      |
-| `languages.progress.v1`                                                         | Scripts and Languages: `l:`/`c:<language>`, `t:<letter>`, `s:<script>` |
-| `languages.type`, `.hard`, `.len`                                               | Scripts and Languages drill settings                                   |
-| `roads.progress.v1`                                                             | Roads: `<d\|l\|s\|z\|p\|c\|w>:<code>` per clue, `x:<code>` for scenes  |
-| `roads.type`, `.clues`, `.hard`, `.len`                                         | Roads drill settings                                                   |
+| Key                                                                             | Holds                                                                                                      |
+| ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `flagatlas.progress.v1`                                                         | Flags progress, items `f:<code>`                                                                           |
+| `flagatlasmap.progress.v1`                                                      | Countries and Territories progress, items `c:<code>`; clues `d:`/`p:`/`m:<code>` (domain, phone, currency) |
+| `cityatlas.progress.v1`                                                         | Cities and Regions: `l:`/`n:`/`c:<iso>/<name>`, `r:`/`rl:<region>`                                         |
+| `terrainatlas.progress.v1`                                                      | Terrain: `<l\|n\|c>:<kind>/<name>`                                                                         |
+| `flagatlas.projection`                                                          | The projection, for every map                                                                              |
+| `flagatlas.restcountries.key`, `flagatlas.restcountries.cache.v5`               | The REST Countries key and its 3-day cache                                                                 |
+| `flagatlasmap.wikidata.v1`                                                      | Countries and Territories: Wikidata cache (7 days)                                                         |
+| `flagatlas.adoption.v1`, `flagatlas.quizLevel`                                  | Flags: adoption dates, quiz level                                                                          |
+| `flagatlasmap.quizDir`, `flagatlasmap.quizClue`                                 | Countries and Territories: quiz direction, and the clue Clues asks                                         |
+| `cityatlas.type`, `.cat`, `.scope`, `.hard`, `.hint`, `.len`                    | Cities and Regions drill settings                                                                          |
+| `terrain.layers`, `terrain.level`, `.type`, `.kinds`, `.scope`, `.hard`, `.len` | Terrain layers and drill settings                                                                          |
+| `languages.progress.v1`                                                         | Scripts and Languages: `l:`/`c:<language>`, `t:<letter>`, `s:<script>`                                     |
+| `languages.type`, `.hard`, `.len`                                               | Scripts and Languages drill settings                                                                       |
+| `roads.progress.v1`                                                             | Roads: `<d\|l\|s\|z\|p\|c\|w>:<code>` per clue, `x:<code>` for scenes                                      |
+| `roads.type`, `.clues`, `.hard`, `.len`                                         | Roads drill settings                                                                                       |
 
 ## Tests
 
