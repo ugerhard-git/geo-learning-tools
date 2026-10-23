@@ -36,7 +36,7 @@ export function checkLanguages(data, codes) {
     if (!LOCALE.test(l?.id ?? "") || ids.has(l.id)) problems.push(`${where}: id`);
     ids.add(l?.id);
     if (!scripts[l?.script]) problems.push(`${where}: script`);
-    for (const k of ["name", "autonym", "street", "city"]) {
+    for (const k of ["name", "autonym", "street", "road", "city"]) {
       if (l?.[k] !== undefined && !isText(l[k], 80)) problems.push(`${where}: ${k}`);
     }
     if (!isText(l?.sentence, 300) || !l.sentence) problems.push(`${where}: sentence`);
@@ -44,6 +44,20 @@ export function checkLanguages(data, codes) {
     const words = Array.isArray(l?.words) ? l.words : null;
     if (!words || words.length > 60 || !words.every((w) => isText(w, 40))) {
       problems.push(`${where}: words`);
+    }
+    const place = l?.placeWords ?? [];
+    if (
+      !Array.isArray(place) ||
+      place.length > 60 ||
+      !place.every(
+        (p) => Array.isArray(p) && p.length === 2 && isText(p[0], 30) && isText(p[1], 40),
+      )
+    ) {
+      problems.push(`${where}: place words`);
+    }
+    const caps = l?.capitals ?? [];
+    if (!Array.isArray(caps) || caps.length > 40 || !caps.every((c) => isText(c, 60))) {
+      problems.push(`${where}: capitals`);
     }
     const countries = Array.isArray(l?.countries) ? l.countries : [];
     if (!countries.length || !countries.every((c) => codes.has(c))) {
@@ -76,6 +90,31 @@ export function checkSignWords(data) {
         problems.push(`${word} ${code.slice(0, 20)}`);
       }
     }
+  }
+  const labelsOk = (labels) =>
+    labels &&
+    typeof labels === "object" &&
+    Object.entries(labels).every(
+      ([code, label]) => /^[a-z]{2,3}(-[a-z0-9]{2,8})*$/.test(code) && isText(label, 40),
+    );
+  for (const [en, w] of Object.entries(data?.words ?? {})) {
+    if (
+      !isText(en, 30) ||
+      !w?.source ||
+      !/^(wiktionary:[a-z_]+)?( ?Q\d+)?$/.test(w.source) ||
+      !labelsOk(w.wiktionary) ||
+      !labelsOk(w.wikidata)
+    ) {
+      problems.push(`word ${en.slice(0, 30)}`);
+    }
+  }
+  for (const [iso, caps] of Object.entries(data?.capitals ?? {})) {
+    if (!/^[A-Z]{2}$/.test(iso) || !Array.isArray(caps))
+      problems.push(`capital ${iso.slice(0, 5)}`);
+    else
+      for (const c of caps) {
+        if (!/^Q\d+$/.test(c?.source ?? "") || !labelsOk(c.labels)) problems.push(`capital ${iso}`);
+      }
   }
   return problems;
 }

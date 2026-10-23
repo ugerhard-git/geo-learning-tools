@@ -127,3 +127,21 @@ test("the checker accepts the language data and refuses what does not fit", asyn
   );
   assert.equal(checkSignWords({ street: { pl: "x".repeat(50) } }).length, 3);
 });
+
+test("each language has its words for signs and place names, with their English", () => {
+  const pl = data.byId.pl;
+  assert.equal(pl.road, "droga");
+  assert.ok(pl.capitals.includes("Warszawa"));
+  assert.ok(pl.placeWords.some(([en, w]) => en === "north" && w === "północ"));
+  // English has nothing to translate.
+  assert.deepEqual(data.byId.en.placeWords, []);
+  // Most languages have most of the words.
+  const counts = data.languages.map((l) => l.placeWords.length).sort((a, b) => a - b);
+  assert.ok(counts[counts.length >> 1] >= 20, `median ${counts[counts.length >> 1]}`);
+  // No dictionary marks: Russian stress, Arabic vowel marks.
+  for (const id of ["ru", "ar"]) {
+    for (const [, w] of data.byId[id]?.placeWords ?? []) {
+      assert.ok(!/[\u0301\u064B-\u0652]/.test(w.normalize("NFD")), `${id}: ${w}`);
+    }
+  }
+});

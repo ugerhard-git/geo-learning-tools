@@ -18,10 +18,15 @@ import { table } from "../shared/dom.js";
  * @property {string} script ISO 15924 code, e.g. "Latn"
  * @property {string[]} countries where it is official, of those with Street View
  * @property {string} letters every letter it uses, in lower case
- * @property {string[]} words real words: weekdays, months, its own name, its names for its countries
+ * @property {string[]} words real words: place words, capitals, its own name, its names for
+ *   its countries, months; none another language here shares
  * @property {string} sentence Article 1 of the Universal Declaration of Human Rights, first sentence
  * @property {string} [street] its word for "street", as on street signs (from Wikidata)
+ * @property {string} [road] its word for "road" (from Wikidata)
  * @property {string} [city] its word for "city" (from Wikidata)
+ * @property {[string, string][]} [placeWords] words of place names and directions, as
+ *   [English, word] pairs (from Wikidata)
+ * @property {string[]} [capitals] the capitals of its countries, in the language (from Wikidata)
  */
 
 /**

@@ -38,6 +38,10 @@ test("a card opens the language's letters, sentence and words", async ({ page })
   await expect(detail.locator(".dtells")).toContainText("ł");
   await expect(detail.locator(".dsent")).toHaveText(byName.get("Polish").sentence);
   await expect(detail.locator(".dsent")).toHaveAttribute("lang", "pl");
+  // Words of place names, each with its English, and the capital.
+  await expect(detail.locator(".dplace")).toContainText("północ");
+  await expect(detail.locator(".dplace")).toContainText("north");
+  await expect(detail.locator(".dcaps")).toHaveText("Warszawa");
   await page.keyboard.press("Escape");
   await expect(detail).toBeHidden();
   expect([...problems, ...(await cspViolations(page))]).toEqual([]);

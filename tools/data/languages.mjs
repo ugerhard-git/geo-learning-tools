@@ -7,15 +7,16 @@
 //
 //   - Unicode CLDR (Unicode License v3): which languages are official where
 //     (territoryInfo), each language's script (likelySubtags), the letters it
-//     uses (exemplar characters), its weekday and month names, and the names
+//     uses (exemplar characters), its month names, and the names
 //     of languages, scripts and countries in English and in the language
 //     itself.
 //   - The Universal Declaration of Human Rights in Unicode, as packaged by
 //     the udhr npm package (MIT): the first sentence of Article 1 in each
 //     language, a real sentence to show as a specimen.
-//   - Wikidata (CC0): the words for "street" and "city", from
-//     tools/data/sign-words.json (made by tools/data/sign-words.mjs). They
-//     are left out if that file is missing.
+//   - Wikidata (CC0): the words for "street", "road" and "city", the words
+//     of place names and directions ("north", "river", "new"…) and the
+//     capitals' names, from tools/data/sign-words.json (made by
+//     tools/data/sign-words.mjs). They are left out if that file is missing.
 //
 // It reads the packages from a folder, as npm unpacks them, rather than
 // depending on them: they are needed only when the data is rebuilt.
@@ -244,11 +245,34 @@ const ENGLISH_WORDS = new Set(
 const signWords = JSON.parse(
   await readFile(new URL("sign-words.json", import.meta.url), "utf8").catch(() => "{}"),
 );
-/** A language's word for "street" or "city", from Wikidata's labels. */
-function signWord(id, word) {
-  const labels = signWords[word] ?? {};
+/** A label in a language, from Wikidata's labels by language code. */
+function labelIn(id, labels = {}) {
   const code = (WIKIDATA_CODES[id] ?? [id.toLowerCase()]).find((c) => labels[c]);
   return code ? labels[code] : "";
+}
+/** A language's word for "street", "road" or "city", from Wikidata's labels. */
+const signWord = (id, word) => labelIn(id, signWords[word]);
+
+/**
+ * A language's words of place names and directions, with their English, as
+ * [english, word] pairs; English itself has none to learn.
+ */
+function placeWords(id) {
+  if (id.split("-")[0] === "en") return [];
+  return (
+    Object.entries(signWords.words ?? {})
+      // Wiktionary has the plain word ("Kirche"); a Wikidata label can be the
+      // name of the concept ("Kirchengebäude"), so it only fills gaps.
+      .map(([en, w]) => [en, labelIn(id, w.wiktionary) || labelIn(id, w.wikidata)])
+      .filter(([, w]) => w)
+  );
+}
+
+/** The capitals of these countries, as the language writes them. */
+function capitalsIn(id, countries) {
+  return countries.flatMap((c) =>
+    (signWords.capitals?.[c] ?? []).map((cap) => labelIn(id, cap.labels)).filter(Boolean),
+  );
 }
 
 /* ------------------------------------------------------------ which languages */
@@ -331,11 +355,15 @@ for (const [id, countries] of [...merged].sort()) {
     .map((l) => l.toLocaleLowerCase(id))
     .filter((l) => [...l].length === 1);
 
-  // Real words: weekdays, months, the language's own name, and its names for
-  // the countries it is official in.
+  // Words seen on signs and billboards: those of place names and directions,
+  // the capitals, the language's own name and its names for its countries,
+  // and the months (dates on posters).
   const greg = calendar?.dates?.calendars?.gregorian;
+  const place = placeWords(id);
+  const capitals = [...new Set(capitalsIn(id, countries))];
   const words = [
-    ...Object.values(greg?.days?.["stand-alone"]?.wide ?? {}),
+    ...place.map(([, w]) => w),
+    ...capitals,
     ...Object.values(greg?.months?.["stand-alone"]?.wide ?? {}),
     autonym,
     ...countries.map((c) => ownTerritories?.localeDisplayNames?.territories?.[c]),
@@ -356,7 +384,10 @@ for (const [id, countries] of [...merged].sort()) {
     countries: countries.sort(),
     letters: [...new Set(letters)].join(""),
     street: SIGN_WORD_FIXES[id]?.street ?? (signWord(id, "street") || signWord(id, "road")),
+    road: SIGN_WORD_FIXES[id]?.road ?? signWord(id, "road"),
     city: SIGN_WORD_FIXES[id]?.city ?? signWord(id, "city"),
+    placeWords: place,
+    capitals,
     words: [...new Set(words)],
     sentence,
   });
@@ -422,7 +453,11 @@ for (const l of languages) {
   report.push(
     `${l.id.padEnd(8)} ${l.name} (${l.autonym}) · ${scripts[l.script]} · ${l.countries.join(" ")}` +
       `\n         ${l.words.length} words, e.g. ${l.words.slice(0, 3).join(", ")}` +
-      `\n         street: ${l.street || "-"} · city: ${l.city || "-"}` +
+      `\n         street: ${l.street || "-"} · road: ${l.road || "-"} · city: ${l.city || "-"}` +
+      `\n         capitals: ${l.capitals.join(", ") || "-"} · ${l.placeWords.length} place words, e.g. ${l.placeWords
+        .slice(0, 4)
+        .map(([en, w]) => `${w} (${en})`)
+        .join(", ")}` +
       `\n         ${l.sentence ? l.sentence.slice(0, 90) : "NO SENTENCE"}`,
   );
 }

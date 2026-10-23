@@ -129,7 +129,10 @@ has one.
 { "cldr": "48.2.0", "udhr": "6.0.0",
   "scripts": { "Latn": "Latin", "Thai": "Thai", … },
   "languages": [{ "id": "pl", "name": "Polish", "autonym": "polski", "script": "Latn",
-                  "countries": ["PL"], "letters": "aąbcć…", "words": ["poniedziałek", …],
+                  "countries": ["PL"], "letters": "aąbcć…", "words": ["północ", "Warszawa", …],
+                  "street": "ulica", "road": "droga", "city": "miasto",
+                  "placeWords": [["north", "północ"], ["river", "rzeka"], …],
+                  "capitals": ["Warszawa"],
                   "sentence": "Wszyscy ludzie rodzą się wolni …" }, …],
   "telltales": [{ "letter": "ł", "languages": ["pl"] }, …] }
 ```
@@ -140,15 +143,28 @@ has one.
 - **`id`** is the CLDR locale; a language written in two scripts on signs has
   one entry per script (`sr`, `sr-Latn`). **`script`** is an ISO 15924 code.
 - **`letters`** are CLDR's main exemplar letters, in lower case.
-- **`words`** are real words: weekday and month names, the language's name
-  for itself and its names for its countries. Words two languages share are
+- **`words`** are real words, the kind seen on signs and billboards: the
+  place words and capitals below, the language's name for itself, its names
+  for its countries, and the month names. Words two languages share are
   dropped, since they cannot tell them apart.
 - **`sentence`** is the first sentence of Article 1 of the Universal
   Declaration of Human Rights.
-- **`street`** and **`city`** are the language's words for them, as seen on
-  street and town signs: the Wikidata labels of "street" (Q79007) and "city"
-  (Q515), kept in `tools/data/sign-words.json`. Missing where Wikidata has no
-  label in that language.
+- **`street`**, **`road`** and **`city`** are the language's words for them,
+  as seen on street and town signs: the Wikidata labels of "street"
+  (Q79007), "road" (Q34442) and "city" (Q515), kept in
+  `tools/data/sign-words.json`. Missing where Wikidata has no label in that
+  language.
+- **`placeWords`** are words of town, road, region and landmark names and of
+  directions, each with its English: the compass points, village, town,
+  hill, mountain, valley, river, lake, beach, coast, island, bay, port,
+  bridge, church, castle, station, airport, square, forest, new, old, upper,
+  lower and small. Each comes from the English word's translation table
+  on Wiktionary (the sense place names mean), which gives the plain word a
+  sign uses ("Kirche", not "Kirchengebäude"); where Wiktionary has none, from
+  the label of a Wikidata item, checked against its English label. The list
+  is `WORDS` in `tools/data/sign-words.mjs`.
+- **`capitals`** are the capitals (Wikidata P36) of the language's countries,
+  in the language.
 - **`telltales`** are letters of the Latin and Cyrillic alphabets that four
   languages or fewer use, at most six per language, the rarest first.
 
@@ -212,7 +228,8 @@ CC0, CC BY, CC BY-SA), with its author for the credit.
 | Wikidata ids of features                                                    | Carried in Natural Earth's own attributes                                                                   | Public domain                                                   |
 | Flag colour codes                                                           | Measured from the flag drawings on [Wikimedia Commons](https://commons.wikimedia.org/)                      | Public domain                                                   |
 | Languages: official status, scripts, letters, words, names                  | [Unicode CLDR](https://cldr.unicode.org/) 48.2                                                              | Unicode License v3 ([text](../licenses/unicode-license-v3.txt)) |
-| Words for "street" and "city"                                               | [Wikidata](https://www.wikidata.org/) labels of Q79007 and Q515                                             | CC0                                                             |
+| Words on signs, capitals, some place words                                  | [Wikidata](https://www.wikidata.org/) item labels, and capitals (P36)                                       | CC0                                                             |
+| Words in place names                                                        | [Wiktionary](https://en.wiktionary.org/) translation tables                                                 | CC BY-SA 4.0                                                    |
 | Sample sentences                                                            | [UDHR in Unicode](https://www.unicode.org/udhr/), via the [udhr](https://github.com/wooorm/udhr) package    | Translations by the UN OHCHR; package MIT                       |
 | Driving side, road line colours and styles                                  | Wikipedia, World Standards and the Plonk It guides, per country in `roads.json`                             | Facts; the sources are linked in the app                        |
 | Road sign drawings                                                          | [Wikimedia Commons](https://commons.wikimedia.org/), as shown in Wikipedia's "Road signs in …" articles     | Each file's own: public domain, CC0, CC BY or CC BY-SA          |
