@@ -63,7 +63,8 @@
   },
   "JP": {
     "stop": "Japan_road_sign_330-A.svg",
-    "warning": "Japan_road_sign_215.svg"
+    "warning": "Japan_road_sign_215.svg",
+    "yield": "-"
   },
   "LS": {
     "chevron": "SADC road sign W407.svg"
@@ -81,7 +82,8 @@
     "chevron": "SADC road sign W407.svg"
   },
   "NL": {
-    "stop": "Nederlands_verkeersbord_B7.svg"
+    "stop": "Nederlands_verkeersbord_B7.svg",
+    "yield": "Nederlands_verkeersbord_B6.svg"
   },
   "NO": {
     "chevron": "Norwegian-road-sign-902.0H.svg"

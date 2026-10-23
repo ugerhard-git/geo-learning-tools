@@ -70,9 +70,15 @@ export const SIGNS = {
   },
 };
 
-/** A caption without the sign's number in front: "R1-1Stop" → "Stop". */
+/**
+ * A caption without the sign's number in front, or quotes around it:
+ * "R1-1Stop" → "Stop", 'A-7 "give way"' → "give way".
+ */
 export const captionText = (caption) =>
-  caption.replace(/^(?:[Ss]ign\s+)?\S*\d[^\s:]*?\s*:?\s*(?=\p{Lu})/u, "").trim();
+  caption
+    .replace(/^(?:[Ss]ign\s+)?\S*\d[^\s:]*?\s*:?\s*(?=\p{Lu}|["“„])/u, "")
+    .trim()
+    .replace(/^["“„](.*)["”“]$/u, "$1");
 
 /**
  * How well a drawing's caption names a sign: 0 not at all, 1 it mentions

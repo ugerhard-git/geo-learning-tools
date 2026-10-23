@@ -103,6 +103,7 @@ test("signScore takes the sign's number off and ranks the plain name first", () 
   assert.equal(signScore("warning", "A32Other dangers"), 2);
   assert.equal(signScore("yield", "R1-2Give way"), 2);
   assert.equal(signScore("yield", "Yield"), 2);
+  assert.equal(signScore("yield", 'A-7 "give way"'), 2);
   assert.equal(signScore("yield", "Give way to oncoming traffic"), 0);
   assert.equal(signScore("yield", "Give way ahead"), 0);
   assert.equal(signScore("yield", "Stop and give way"), 0);
