@@ -5340,7 +5340,7 @@
     "file": "PL_road_sign_D-6.svg",
     "caption": "D-6 \"pedestrian crossing\"",
     "section": "Vertical signs / Information signs",
-    "score": 1
+    "score": 2
    },
    {
     "file": "PL_road_sign_D-6_(alt).svg",
@@ -5371,6 +5371,12 @@
   ],
   "yield": [
    {
+    "file": "PL_road_sign_A-7.svg",
+    "caption": "A-7 \"give way\"",
+    "section": "Vertical signs / Warning signs",
+    "score": 2
+   },
+   {
     "file": "PL_road_sign_A-5.svg",
     "caption": "A-5 \"intersection — uncontrolled intersection\" (yield to vehicles coming from the right)",
     "section": "Vertical signs / Warning signs",
@@ -5397,12 +5403,6 @@
    {
     "file": "PL_road_sign_A-6e.svg",
     "caption": "A-6e \"entry of the one-way road from the left\" Drivers on the side road have to yield",
-    "section": "Vertical signs / Warning signs",
-    "score": 1
-   },
-   {
-    "file": "PL_road_sign_A-7.svg",
-    "caption": "A-7 \"give way\"",
     "section": "Vertical signs / Warning signs",
     "score": 1
    }
