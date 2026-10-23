@@ -49,6 +49,7 @@ export const SIGNS = {
       /other dangers?|general (warning|danger|caution)|danger ahead|^(caution|danger|warning)$|other hazards?/i,
     avoid: /plate|panel|supplement|temporary|roadworks|end of/i,
     exact: /^(other dangers?|general (warning|danger|caution)|danger|other hazards?)$/i,
+    where: (section) => !section || WARNING.test(section),
   },
   stop: {
     // Not "stopping" or "Stopschild"; a number may come straight after ("StopAlt. A").
