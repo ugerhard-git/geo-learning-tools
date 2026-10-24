@@ -245,6 +245,144 @@ const REGIONS = {
 };
 
 /**
+ * The first-level regions (states, provinces, counties: their codes in
+ * src/data/cities.json) shaded on the map and accepted in the map drill for
+ * each entry of REGIONS. Where a language is used in only part of a region,
+ * the whole region is shaded, so the map is approximate there; the words of
+ * REGIONS say exactly where.
+ */
+const REGION_MAPS = {
+  IN: {
+    as: ["IN-AS"],
+    bn: ["IN-TR", "IN-WB", "IN-AS", "IN-JH"],
+    gu: ["IN-GJ", "IN-DH"],
+    kn: ["IN-KA"],
+    ml: ["IN-KL", "IN-PY", "IN-LD"],
+    mr: ["IN-MH", "IN-GA"],
+    or: ["IN-OR", "IN-JH", "IN-WB"],
+    pa: ["IN-PB", "IN-DL", "IN-HR", "IN-WB"],
+    ta: ["IN-TN", "IN-PY"],
+    te: ["IN-AP", "IN-TG", "IN-PY", "IN-WB"],
+    ur: ["IN-DL", "IN-JK", "IN-LA", "IN-AP", "IN-BR", "IN-JH", "IN-TG", "IN-UP", "IN-WB"],
+  },
+  ES: {
+    ca: ["ES-B", "ES-GI", "ES-L", "ES-T", "ES-PM", "ES-CS", "ES-V", "ES-A"],
+    eu: ["ES-BI", "ES-SS", "ES-VI", "ES-NA"],
+    gl: ["ES-C", "ES-LU", "ES-OR", "ES-PO"],
+    oc: ["ES-L"],
+    ast: ["ES-O"],
+  },
+  FR: {
+    br: ["FR-29", "FR-56", "FR-22"],
+    eu: ["FR-64"],
+    co: ["FR-2A", "FR-2B"],
+    oc: [
+      "FR-04",
+      "FR-05",
+      "FR-06",
+      "FR-09",
+      "FR-11",
+      "FR-12",
+      "FR-13",
+      "FR-15",
+      "FR-19",
+      "FR-23",
+      "FR-24",
+      "FR-30",
+      "FR-31",
+      "FR-32",
+      "FR-33",
+      "FR-34",
+      "FR-40",
+      "FR-43",
+      "FR-46",
+      "FR-47",
+      "FR-48",
+      "FR-63",
+      "FR-64",
+      "FR-65",
+      "FR-81",
+      "FR-82",
+      "FR-83",
+      "FR-84",
+      "FR-87",
+    ],
+  },
+  GB: {
+    cy: [
+      "GB-AGY",
+      "GB-BGE",
+      "GB-BGW",
+      "GB-CAY",
+      "GB-CGN",
+      "GB-CMN",
+      "GB-CRF",
+      "GB-CWY",
+      "GB-DEN",
+      "GB-FLN",
+      "GB-GWN",
+      "GB-MON",
+      "GB-MTY",
+      "GB-NTL",
+      "GB-NWP",
+      "GB-PEM",
+      "GB-POW",
+      "GB-RCT",
+      "GB-SWA",
+      "GB-TOF",
+      "GB-VGL",
+      "GB-WRX",
+    ],
+    gd: ["GB-HLD", "GB-ELS", "GB-AGB"],
+  },
+  NL: {
+    fy: ["NL-FR"],
+  },
+  CH: {
+    rm: ["CH-GR"],
+  },
+  NO: {
+    se: ["NO-19", "NO-20"],
+  },
+  FI: {
+    se: ["FI-10"],
+  },
+  DE: {
+    hsb: ["DE-SN"],
+  },
+  RU: {
+    tt: ["RU-TA"],
+    ba: ["RU-BA"],
+  },
+  IT: {
+    de: ["IT-BZ"],
+    fr: ["IT-AO"],
+    sl: ["IT-TS", "IT-GO", "IT-UD"],
+  },
+  AT: {
+    sl: ["AT-2"],
+    hr: ["AT-1"],
+    hu: ["AT-1"],
+  },
+  HR: {
+    it: ["HR-18"],
+  },
+  SI: {
+    it: ["SI-050", "SI-040", "SI-090"],
+    hu: ["SI-161", "SI-156", "SI-059"],
+  },
+  RS: {
+    hu: ["RS-01", "RS-02", "RS-03", "RS-04", "RS-05", "RS-06", "RS-07"],
+  },
+  SK: {
+    hu: ["SK-NI", "SK-TA", "SK-BC", "SK-KI"],
+  },
+  RO: {
+    hu: ["RO-HR", "RO-CV"],
+  },
+};
+
+/**
  * The name the app gives each script. CLDR's English names are mostly right,
  * but some are names of a writing system's variant ("Simplified") or of a
  * language rather than its script.
@@ -514,12 +652,35 @@ for (const country of STREET_VIEW) {
   }
 }
 
+/**
+ * The region outlines of the Cities and Regions app (src/data/cities.json):
+ * code → packed rings, at `scale` units per degree. The map shades those
+ * REGION_MAPS names, and only those are copied into languages.json.
+ */
+const cityData = JSON.parse(
+  await readFile(new URL("../../src/data/cities.json", import.meta.url), "utf8"),
+);
+const regionRings = new Map(
+  cityData.regionShapes.split("\n").map((line) => {
+    const [code, rings] = line.split("\t");
+    return [code, rings ?? ""];
+  }),
+);
+/** The region codes the map shades, for the shapes written out with the data. */
+const mapped = new Set();
+
 /** Where a language is regional, by country, with the article it comes from. */
 function regionsOf(id, countries) {
   const out = {};
   for (const c of countries) {
     const { source, ...where } = REGIONS[c][id];
-    out[c] = { ...where, source: SOURCES[source] };
+    const map = REGION_MAPS[c]?.[id] ?? [];
+    const missing = map.filter((code) => !regionRings.get(code));
+    if (!map.length || missing.length) {
+      throw new Error(`REGION_MAPS ${c} ${id}: ${missing.join(", ") || "none"} not in cities.json`);
+    }
+    for (const code of map) mapped.add(code);
+    out[c] = { ...where, map, source: SOURCES[source] };
   }
   return out;
 }
@@ -749,6 +910,12 @@ await writeFile(
   JSON.stringify({
     cldr: "48.2.0",
     udhr: "6.0.0",
+    // The outlines of the regions the map shades, as in cities.json.
+    regionScale: cityData.scale.region,
+    regionShapes: [...mapped]
+      .sort()
+      .map((code) => `${code}\t${regionRings.get(code)}`)
+      .join("\n"),
     scripts,
     languages,
     telltales,

@@ -9,6 +9,7 @@
 import { loadData } from "../shared/net.js";
 import { byCode, parseCountries } from "../shared/countries.js";
 import { table } from "../shared/dom.js";
+import { RegionShapes, parseRegionShapes } from "../shared/regions.js";
 
 /**
  * @typedef {object} Language
@@ -41,6 +42,8 @@ import { table } from "../shared/dom.js";
  * @property {string[]} [additional] regions where it is an additional official language
  * @property {string[]} [signs] regions where it is on signs
  * @property {string[]} [spoken] regions where it is spoken without official status
+ * @property {string[]} map the first-level regions the map shades (their codes); the whole of a
+ *   region is shaded where the language is used in only part of it
  * @property {{ title: string, url: string }} source the article
  */
 
@@ -58,6 +61,7 @@ import { table } from "../shared/dom.js";
  * @property {Telltale[]} telltales
  * @property {Record<string, import("../shared/countries.js").Country>} countries the country table
  * @property {string[]} streetView every country some language here is official in
+ * @property {RegionShapes} regionShapes the outlines of the regions the maps shade
  */
 
 /**
@@ -77,7 +81,11 @@ export function makeLanguageData(json, countryText) {
     .map((t) => ({ ...t, languages: t.languages.filter((id) => byId[id]) }))
     .filter((t) => t.languages.length);
   const streetView = [...new Set(languages.flatMap((l) => l.countries))].sort();
-  return { languages, byId, scripts, telltales, countries, streetView };
+  const regionShapes = new RegionShapes(
+    parseRegionShapes(typeof json.regionShapes === "string" ? json.regionShapes : ""),
+    json.regionScale || 1,
+  );
+  return { languages, byId, scripts, telltales, countries, streetView, regionShapes };
 }
 
 /** Load the data files. */

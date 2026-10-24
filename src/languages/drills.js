@@ -29,10 +29,14 @@ export const DRILLS = table({
   letter: { label: "Telltale letters", blurb: "A letter only a few languages use; name one." },
   script: { label: "Which script?", blurb: "Thai or Lao, Cyrillic or Greek: name the writing." },
   country: { label: "Which country?", blurb: "Read a sentence; pick where you would see it." },
+  map: {
+    label: "On the map",
+    blurb: "Read a sentence or a few words; click where you would see it.",
+  },
 });
 
 /** The letter that starts each drill's progress keys. "letter" and "language" both start with l. */
-const PREFIX = table({ language: "l", letter: "t", script: "s", country: "c" });
+const PREFIX = table({ language: "l", letter: "t", script: "s", country: "c", map: "m" });
 
 /**
  * An item's progress key: the drill's prefix (see {@link PREFIX}), then the
@@ -117,6 +121,21 @@ function pickPreferring(candidates, preferred, n) {
 /** The regions (from the country table) a language is official in. */
 const regionsOf = (lang, data) => new Set(lang.countries.map((c) => data.countries[c]?.region));
 
+/**
+ * Where a language is used, as the map shades it and the map drill accepts
+ * a click: the countries where it is official throughout, and the regions
+ * (their codes) of the countries where it is a regional language.
+ * @param {Language} lang
+ * @returns {{ countries: string[], regions: string[] }}
+ */
+export function mapAreas(lang) {
+  const regional = new Set(lang.regional ?? []);
+  return {
+    countries: lang.countries.filter((c) => !regional.has(c)),
+    regions: [...regional].flatMap((c) => lang.regions?.[c]?.map ?? []),
+  };
+}
+
 /** One question. */
 export class LanguageQuestion {
   /**
@@ -138,6 +157,7 @@ export class LanguageQuestion {
     } else {
       this.lang = item;
       this.specimen = specimenOf(item, type === "country" ? "sentence" : "any");
+      if (type === "map") this.areas = mapAreas(item);
     }
     if (type === "country") this.country = pickOne(item.countries);
   }
@@ -156,6 +176,15 @@ export class LanguageQuestion {
         return {
           main: "Where would you read this?",
           sub: "one of the countries where it is an official language",
+          hint: esc(this.lang.name),
+          hintLabel: "Hint: which language?",
+        };
+      case "map":
+        return {
+          main: "Where would you read this?",
+          sub: this.areas.regions.length
+            ? "a country where it is official, or a region where it is used"
+            : "a country where it is official",
           hint: esc(this.lang.name),
           hintLabel: "Hint: which language?",
         };
@@ -274,9 +303,10 @@ export class LanguageQuestion {
         .map((id) => this.data.byId[id].name)
         .join(", ")}.`;
     }
-    return `${l.name} (${l.autonym}), written in ${script}. Official in ${l.countries
-      .map((c) => this.data.countries[c].name)
-      .join(", ")}.`;
+    const where = l.countries.map(
+      (c) => `${this.data.countries[c].name}${l.regional?.includes(c) ? " (some regions)" : ""}`,
+    );
+    return `${l.name}${l.autonym ? ` (${l.autonym})` : ""}, written in ${script}. Used in ${where.join(", ")}.`;
   }
 }
 

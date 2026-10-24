@@ -12,7 +12,7 @@ src/
   countries/            countries on a map    → app.js, wikidata-facts.js
   cities/               cities and regions    → app.js, data.js, drills.js
   terrain/              physical features     → app.js, data.js, drills.js
-  languages/            scripts and languages → app.js, data.js, drills.js
+  languages/            scripts and languages → app.js, data.js, drills.js, map.js
   roads/                roads and road signs  → app.js, data.js, drills.js
   shared/               everything used by more than one page
   data/                 map and place data, loaded at run time
@@ -36,6 +36,7 @@ app does. The shared modules, from the bottom up:
 | `countries.js`     | The country table (`src/data/countries.txt`), regions and statuses                                              |
 | `land.js`          | Country outlines for the Cities and Terrain maps (`land.json`)                                                  |
 | `world.js`         | The more detailed outlines the flag apps draw (`world.json`)                                                    |
+| `regions.js`       | First-level region outlines (states, provinces), decoded on demand: Cities and Regions, and Languages' maps     |
 | `mapview.js`       | `MapView`: the visible window onto the map, pan, pinch, wheel and keyboard, animated moves                      |
 | `overlay.js`       | `MarkerLayer`: rings, pins and guess lines that keep their size on screen                                       |
 | `map-ui.js`        | Drawing the land, the projection switch, the tooltip                                                            |
@@ -65,6 +66,12 @@ Cities and Regions, Terrain, and Countries and Territories share one shape:
    mode it opens the detail panel; in a drill it is an answer.
 4. Switching projection redraws everything from longitude/latitude, so it
    costs a redraw, not a reload.
+
+Scripts and Languages is not a map app, but uses the same pieces for its map
+drill: the map shows only during that drill, under the writing and the
+question bar, and a click is judged against the outlines of where the
+language is used (`languages/map.js`). A language's details draw a small,
+fixed map of the same places.
 
 Pinch zoom re-anchors the gesture whenever the number of fingers changes.
 Without that, lifting one finger of a pinch makes the map jump, because the
@@ -154,7 +161,7 @@ must not change; a test in `test/e2e/` checks that old records still load.
 | `flagatlasmap.quizDir`, `flagatlasmap.quizClue`                                 | Countries and Territories: quiz direction, and the clue Clues asks                                                                       |
 | `cityatlas.type`, `.cat`, `.scope`, `.hard`, `.hint`, `.len`                    | Cities and Regions drill settings                                                                                                        |
 | `terrain.layers`, `terrain.level`, `.type`, `.kinds`, `.scope`, `.hard`, `.len` | Terrain layers and drill settings                                                                                                        |
-| `languages.progress.v1`                                                         | Scripts and Languages: `l:`/`c:<language>`, `t:<letter>`, `s:<script>`                                                                   |
+| `languages.progress.v1`                                                         | Scripts and Languages: `l:`/`c:`/`m:<language>`, `t:<letter>`, `s:<script>`                                                              |
 | `languages.type`, `.hard`, `.len`                                               | Scripts and Languages drill settings                                                                                                     |
 | `roads.progress.v1`                                                             | Roads: `<d\|l\|s\|z\|p\|c\|w>:<code>` per clue, `x:<code>` for scenes                                                                    |
 | `roads.type`, `.clues`, `.hard`, `.len`, `.where`                               | Roads drill settings                                                                                                                     |

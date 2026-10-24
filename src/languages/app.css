@@ -313,3 +313,85 @@ body {
     flex: none;
   }
 }
+
+/* --------------------------------------------------------------- maps */
+
+/* shared/map.css colours the page as ocean, for the full-screen map apps;
+   here the map is one view among several. */
+body {
+  background: var(--bg);
+}
+
+/* The map drill's map fills the stage, under the specimen and the bar. */
+#mapwrap {
+  position: absolute;
+  inset: 0;
+}
+
+#mapwrap[hidden] {
+  display: none;
+}
+
+/* Over the map, the specimen is a card at the top rather than the whole stage. */
+.specimen.onmap {
+  inset: 12px 12px auto;
+  bottom: auto;
+  margin: 0 auto;
+  max-width: 640px;
+  padding: 12px 18px;
+  background: color-mix(in srgb, var(--panel) 94%, transparent);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.specimen.onmap .spec-text {
+  font-size: clamp(1.05rem, 2.6vw, 1.5rem);
+}
+
+.specimen.onmap .spec-note {
+  margin-top: 6px;
+  min-height: 0;
+}
+
+/* The small map in a language's details. */
+.lmap {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--ocean);
+}
+
+/* Where a language is used: its countries and regions, and lighter the
+   countries where it is used only in some regions. */
+.shade path.part {
+  fill: color-mix(in srgb, var(--accent) 16%, var(--land));
+}
+
+.shade .on,
+.shade .ans {
+  fill: color-mix(in srgb, var(--accent) 70%, var(--land));
+  stroke: var(--accent);
+  stroke-width: 0.8;
+  vector-effect: non-scaling-stroke;
+}
+
+.shade .dot {
+  fill: var(--accent);
+  stroke: var(--panel);
+  stroke-width: 1.5;
+}
+
+#answer {
+  pointer-events: none;
+}
+
+@media (max-width: 760px) {
+  /* Beside the zoom buttons, not over them (after the rule it narrows). */
+  .specimen.onmap {
+    right: 66px;
+  }
+}

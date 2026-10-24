@@ -46,8 +46,15 @@ import {
   startSection,
   typeButtons,
 } from "../shared/drill.js";
+import { PROJECTIONS, savedProjection } from "../shared/projection.js";
+import { loadLand } from "../shared/land.js";
+import { drawLand } from "../shared/map-ui.js";
+import { MapView } from "../shared/mapview.js";
+import { MarkerLayer } from "../shared/overlay.js";
+import { bearing, distKm, formatKm, nearestOnRings, ringsContain } from "../shared/geo.js";
 import { loadLanguageData, plainName } from "./data.js";
 import { DRILLS, LanguageQuestion, keyOf, poolFor } from "./drills.js";
+import { LanguageAreas } from "./map.js";
 
 /** Where the drill settings are remembered. */
 const SETTINGS = {
@@ -67,8 +74,11 @@ try {
 }
 
 async function main() {
-  const data = await loadLanguageData();
+  const [data, land] = await Promise.all([loadLanguageData(), loadLand()]);
   const { languages, byId, scripts, countries } = data;
+  const areas = new LanguageAreas(land, data.regionShapes);
+  const projKey = savedProjection();
+  const proj = () => PROJECTIONS[projKey];
   hideFailedFlags();
 
   /* ======================================================= explore */
@@ -187,6 +197,13 @@ async function main() {
         )
         .join("")}</div>
       ${regionsSection(l)}
+      <h3>On the map</h3>
+      ${areas.smallMap(l, proj(), projKey)}
+      <p class="src">${
+        l.regional?.length
+          ? "Where a language is used in only part of a region, the whole region is shaded. "
+          : ""
+      }Outlines: <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener noreferrer">Natural Earth</a>.</p>
       ${
         tells.length
           ? `<h3>Telltale letters</h3><p class="dtells" lang="${esc(l.id)}">${tells
@@ -304,6 +321,7 @@ async function main() {
   function renderSetup() {
     session.stop();
     specimenEl.hidden = true;
+    showMap(false);
     const items = poolFor(data, ds.type);
     const due = items.filter((it) => store.isDueReview(keyOf(ds.type, it))).length;
     const fresh = items.filter((it) => store.isNew(keyOf(ds.type, it))).length;
@@ -313,7 +331,7 @@ async function main() {
       <div class="fieldrow"><span class="flab">What to practise</span>${typeButtons(DRILLS, ds.type)}</div>
       <div class="fieldrow"><span class="flab">How</span>
         <div class="selects">
-          ${difficultySwitch(ds.hard, "Easy: four choices", "Hard: type it")}
+          ${ds.type === "map" ? "" : difficultySwitch(ds.hard, "Easy: four choices", "Hard: type it")}
           ${lengthSelect(ds.len)}
         </div>
       </div>
@@ -354,7 +372,10 @@ async function main() {
     isActive: () => mode === "drill",
     onLook: (look) => openDetail(look),
     onSetup: () => renderSetup(),
-    onEnd: () => (specimenEl.hidden = true),
+    onEnd: () => {
+      specimenEl.hidden = true;
+      showMap(false);
+    },
     backLabel: "Back to the languages",
   });
 
@@ -384,9 +405,105 @@ async function main() {
     return { label: it.name, look: it.id };
   }
 
+  /* ---------------------------------------------------- the map drill */
+
+  const mapWrap = $("#mapwrap");
+  const svg = /** @type {SVGSVGElement} */ ($("#map"));
+  const gAnswer = $("#answer");
+  const markers = new MarkerLayer($("#overlay"), proj);
+  const view = new MapView(svg, {
+    projection: proj,
+    // The writing's card covers the top of the map, the question bar the bottom.
+    padding: () => ({
+      side: 0,
+      bottom: drillBar.hidden ? 0 : drillBar.offsetHeight + 28,
+      top: specimenEl.hidden ? 0 : specimenEl.offsetHeight + 24,
+    }),
+    onChange: () => markers.fit(view.unitsPerPixel()),
+    onTap: (_target, x, y) => mapClick(x, y),
+  });
+  view.bindZoomButtons($('[data-zoom="in"]'), $('[data-zoom="out"]'), $('[data-zoom="home"]'));
+  let landDrawn = false;
+
+  /** Show or hide the map; the specimen moves to a card above it. */
+  function showMap(on) {
+    if (mapWrap.hidden === !on) return;
+    mapWrap.hidden = !on;
+    specimenEl.classList.toggle("onmap", on);
+    if (on && !landDrawn) {
+      drawLand($("#world"), land.shapes, proj());
+      landDrawn = true;
+    }
+    if (on) view.home();
+  }
+
+  /** Shade where the current question's language is used, and frame it. */
+  function showAnswer() {
+    gAnswer.innerHTML = areas.shadeMarkup(current.lang, proj(), view.w, "ans");
+    svg.classList.remove("aim");
+    const box = areas.boxAround(areas.areasOf(current.lang));
+    if (box) view.frameLonLat(box, 1.4, 900);
+    else view.home();
+  }
+
+  /**
+   * A click while a map question waits for one. Anywhere in one of the
+   * language's areas counts, or within a few pixels of its edge; a miss is
+   * measured to the nearest edge of the nearest area.
+   */
+  function mapClick(x, y) {
+    if (!session.awaitingClick || current?.type !== "map") return;
+    const [lon, lat] = view.toLonLat(x, y);
+    const p = proj();
+    const [ax, ay] = p.fwd(lon, lat);
+    let ok = false;
+    let nearest = null;
+    for (const area of areas.areasOf(current.lang)) {
+      const rings = areas.ringsOf(area);
+      if (ringsContain(rings, lon, lat)) {
+        ok = true;
+        break;
+      }
+      const edge = nearestOnRings(rings, lon, lat);
+      if (!edge) continue;
+      const [bx, by] = p.fwd(edge[0], edge[1]);
+      const px = Math.hypot(ax - bx, ay - by) / view.unitsPerPixel();
+      if (px <= 8) {
+        ok = true;
+        break;
+      }
+      const km = distKm(lon, lat, edge[0], edge[1]);
+      if (!nearest || km < nearest.km) nearest = { km, lon: edge[0], lat: edge[1] };
+    }
+    // Say what it was under the specimen, and shade where it is used.
+    reveal();
+    const name = esc(current.lang.name);
+    if (ok || !nearest) {
+      markers.set([{ kind: "guess", lon, lat, size: 7 }]);
+      return session.finish(true, `Correct: that is ${name}.`, "ok");
+    }
+    markers.set([
+      { kind: "line", lon, lat, lon2: nearest.lon, lat2: nearest.lat },
+      { kind: "guess", lon, lat, size: 7 },
+    ]);
+    const away = `${formatKm(nearest.km)} km ${bearing(lon, lat, nearest.lon, nearest.lat)} of your click`;
+    session.finish(
+      false,
+      `Not quite. That is ${name}, used ${esc(away)}.`,
+      nearest.km <= 300 ? "near" : "bad",
+    );
+  }
+
   /** Show a question's specimen and describe the question to the drill bar. */
   function ask(type, it) {
     current = new LanguageQuestion(type, it, data);
+    showMap(type === "map");
+    if (type === "map") {
+      gAnswer.innerHTML = "";
+      markers.clear();
+      svg.classList.add("aim");
+      view.home();
+    }
     const { specimen } = current;
     const text = $("#specText");
     text.textContent = specimen.text;
@@ -395,6 +512,14 @@ async function main() {
     text.className = `spec-text ${specimen.kind}`;
     $("#specNote").textContent = "";
     specimenEl.hidden = false;
+    if (type === "map") {
+      return {
+        ...current.prompt(),
+        answer: "click",
+        aimNote: "Click it on the map. Zoom in for small places.",
+        answerText: esc(current.lang.name),
+      };
+    }
     const answer = ds.hard ? "type" : "choose";
     return {
       ...current.prompt(),
@@ -404,9 +529,10 @@ async function main() {
     };
   }
 
-  /** Once answered, say under the specimen what it was. */
+  /** Once answered, say under the specimen what it was, and on a map where. */
   function reveal() {
     $("#specNote").textContent = current.reveal();
+    if (current.type === "map" && !gAnswer.innerHTML) showAnswer();
   }
 
   /* ====================================================== progress */
@@ -455,6 +581,7 @@ async function main() {
     else {
       setupEl.hidden = true;
       specimenEl.hidden = true;
+      showMap(false);
       session.stop();
     }
     if (m === "prog") progress.render();

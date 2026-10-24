@@ -1,7 +1,11 @@
 // Scripts and Languages in a real browser: the cards, the details, the four
 // drills and saved progress.
 import { test, expect } from "@playwright/test";
-import { cspViolations, openPage, readData } from "./helpers.js";
+import { clickAt, cspViolations, openPage, readData, settled } from "./helpers.js";
+import { unpackRing } from "../../src/shared/codec.js";
+import { ringsContain } from "../../src/shared/geo.js";
+import { parseRegionShapes } from "../../src/shared/regions.js";
+import { mapAreas } from "../../src/languages/drills.js";
 
 const PAGE = "languages/";
 const DATA = JSON.parse(readData("languages.json"));
@@ -141,6 +145,109 @@ test("Basque says where in Spain and France it is used, and Afrikaans is South A
   await page.click('.lcard[data-lang="af"]');
   await expect(detail.locator(".meta")).toContainText("South Africa");
   await expect(detail).toContainText("Official in all of South Africa");
+  expect([...problems, ...(await cspViolations(page))]).toEqual([]);
+});
+
+test("a language's details show where it is used on a map", async ({ page }) => {
+  const problems = await openPage(page, PAGE);
+  // Kannada: one state of India shaded, India itself lighter.
+  await page.fill("#q", "Kannada");
+  await page.click('.lcard[data-lang="kn"]');
+  const map = page.locator("#detail .lmap");
+  await expect(map).toBeVisible();
+  await expect(map.locator(".shade path.on")).toHaveCount(1);
+  await expect(map.locator(".shade path.part")).toHaveCount(1);
+  await page.keyboard.press("Escape");
+  // Swedish: its two countries shaded whole.
+  await page.fill("#q", "Swedish");
+  await page.click('.lcard[data-lang="sv"]');
+  const sv = DATA.languages.find((l) => l.id === "sv");
+  await expect(map.locator(".shade path.on")).toHaveCount(sv.countries.length);
+  await expect(map.locator(".shade path.part")).toHaveCount(0);
+  expect([...problems, ...(await cspViolations(page))]).toEqual([]);
+});
+
+/* The outlines the map drill judges a click by, read here to find a spot inside one. */
+const LAND = JSON.parse(readData("land.json"));
+const landRings = (code) =>
+  LAND.shapes
+    .split("\n")
+    .map((line) => line.split("\t"))
+    .filter(([codes]) => codes.split(",").includes(code))
+    .flatMap(([, rings]) => rings.split("|").map((r) => unpackRing(r, LAND.scale.shape)));
+const REGION_SHAPES = parseRegionShapes(DATA.regionShapes);
+const regionRings = (code) => REGION_SHAPES.get(code).map((r) => unpackRing(r, DATA.regionScale));
+
+/** A spot well inside the largest of these rings: the grid point furthest from its edge. */
+function spotInside(rings) {
+  const ring = rings
+    .map((r) => {
+      const xs = r.filter((_, i) => i % 2 === 0);
+      const ys = r.filter((_, i) => i % 2 === 1);
+      const box = [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)];
+      return { r, box, area: (box[2] - box[0]) * (box[3] - box[1]) };
+    })
+    .sort((a, b) => b.area - a.area)[0];
+  const [x0, y0, x1, y1] = ring.box;
+  const pts = [];
+  for (let i = 0; i <= 24; i++) {
+    for (let j = 0; j <= 24; j++) {
+      const lon = x0 + ((x1 - x0) * i) / 24;
+      const lat = y0 + ((y1 - y0) * j) / 24;
+      pts.push({ lon, lat, in: ringsContain([ring.r], lon, lat) });
+    }
+  }
+  const out = pts.filter((p) => !p.in);
+  let best = null;
+  for (const p of pts.filter((q) => q.in)) {
+    const clear = Math.min(...out.map((o) => Math.hypot(o.lon - p.lon, o.lat - p.lat)));
+    if (!best || clear > best.clear) best = { clear, p };
+  }
+  return [best.p.lon, best.p.lat];
+}
+
+/** The language a map question shows, found from its writing. */
+async function askedLanguage(page) {
+  const text = await page.locator("#specText").textContent();
+  const words = text.split(" · ");
+  return DATA.languages.find((l) =>
+    words.length > 1 ? words.every((w) => l.words.includes(w)) : l.sentence === text,
+  );
+}
+
+test("the map drill takes a click inside the right place, and shades it", async ({ page }) => {
+  const problems = await openPage(page, PAGE);
+  await page.click('header [data-mode="drill"]');
+  await page.click('#setup [data-type="map"]');
+  // The map drill is answered on the map, so there is no choice of easy or hard.
+  await expect(page.locator("#setup [data-hard]")).toHaveCount(0);
+  await page.click("#setup [data-start]");
+  await expect(page.locator("#map")).toBeVisible();
+  await expect(page.locator("#drillbar")).toContainText("Where would you read this?");
+
+  // First question: a click inside one of its places.
+  const lang = await askedLanguage(page);
+  expect(lang, "the language shown").toBeTruthy();
+  const { countries, regions } = mapAreas(lang);
+  const rings = countries.length ? landRings(countries[0]) : regionRings(regions[0]);
+  const [lon, lat] = spotInside(rings);
+  await settled(page);
+  await clickAt(page, lon, lat);
+  await expect(page.locator("#drillbar .msg")).toHaveText(`Correct: that is ${lang.name}.`);
+  await expect(page.locator("#answer path.ans").first()).toBeAttached();
+  await expect(page.locator("#specNote")).toContainText(lang.name);
+
+  // Second question: shown, not answered.
+  await page.click("#drillbar [data-next]");
+  await expect(page.locator("#answer path")).toHaveCount(0);
+  await page.click("#drillbar [data-skip]");
+  await expect(page.locator("#drillbar .msg")).toContainText("The answer is");
+  await expect(page.locator("#answer path.ans").first()).toBeAttached();
+
+  // Saved under the map drill's own key.
+  await expect
+    .poll(() => page.evaluate(() => localStorage.getItem("languages.progress.v1") ?? ""))
+    .toContain(`"m:${lang.id}"`);
   expect([...problems, ...(await cspViolations(page))]).toEqual([]);
 });
 

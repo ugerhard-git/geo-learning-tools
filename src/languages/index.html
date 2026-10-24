@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../fonts/fonts.css" />
     <link rel="stylesheet" href="../shared/tokens.css" />
     <link rel="stylesheet" href="../shared/base.css" />
+    <link rel="stylesheet" href="../shared/map.css" />
     <link rel="stylesheet" href="../shared/drill.css" />
     <link rel="stylesheet" href="../shared/progress.css" />
     <link rel="stylesheet" href="../shared/dialog.css" />
@@ -66,6 +67,24 @@
         </div>
         <div id="cards" class="cards"></div>
       </main>
+      <div id="mapwrap" hidden>
+        <svg
+          id="map"
+          preserveAspectRatio="xMidYMid meet"
+          role="img"
+          aria-label="World map. Scroll or pinch to zoom, drag to move, click to answer."
+          tabindex="0"
+        >
+          <g id="world"></g>
+          <g id="answer"></g>
+          <g id="overlay"></g>
+        </svg>
+        <div class="zoom">
+          <button data-zoom="in" aria-label="Zoom in">+</button>
+          <button data-zoom="out" aria-label="Zoom out">−</button>
+          <button data-zoom="home" aria-label="Show the whole world">⌂</button>
+        </div>
+      </div>
       <section id="specimen" class="specimen" hidden aria-live="polite">
         <p class="spec-text" id="specText"></p>
         <p class="spec-note" id="specNote"></p>
