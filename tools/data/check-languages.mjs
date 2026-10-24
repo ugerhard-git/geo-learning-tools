@@ -19,6 +19,8 @@ const names = (list) =>
 const article = (src) =>
   isText(src?.title, 100) && /^https:\/\/en\.wikipedia\.org\/wiki\/[^\s"<>]+$/.test(src?.url ?? "");
 const WHERE = ["official", "additional", "signs", "spoken"];
+/** A first-level region's code, as in cities.json: "IN-KA", "FR-2A", "SI-050". */
+const REGION = /^[A-Z]{2}-[A-Z0-9]{1,3}$/;
 const SCRIPT = /^[A-Z][a-z]{3}$/;
 const LOCALE = /^[a-z]{2,3}(-[A-Z][a-z]{3})?$/;
 
@@ -35,6 +37,23 @@ export function checkLanguages(data, codes) {
   for (const [code, name] of Object.entries(scripts)) {
     if (!SCRIPT.test(code) || !isText(name, 60)) problems.push(`script ${code}`);
   }
+  // The outlines of the regions the map shades: "code <TAB> packed|packed…" lines.
+  const shapes = new Set();
+  if (typeof data.regionShapes !== "string" || data.regionShapes.length > 2_000_000) {
+    problems.push("region shapes");
+  } else if (data.regionShapes) {
+    for (const line of data.regionShapes.split("\n")) {
+      const [code, rings, extra] = line.split("\t");
+      if (
+        !REGION.test(code ?? "") ||
+        !/^[A-Za-z0-9+\-|]+$/.test(rings ?? "") ||
+        extra !== undefined
+      ) {
+        problems.push(`region shape ${String(code).slice(0, 12)}`);
+      } else shapes.add(code);
+    }
+  }
+  if (!(Number.isInteger(data.regionScale) && data.regionScale > 0)) problems.push("region scale");
   const langs = Array.isArray(data.languages) ? data.languages : [];
   if (langs.length < 40 || langs.length > 300) problems.push(`${langs.length} languages`);
   const ids = new Set();
@@ -87,7 +106,14 @@ export function checkLanguages(data, codes) {
             l.regional.includes(c) &&
             article(r?.source) &&
             WHERE.some((k) => r[k] !== undefined) &&
-            Object.keys(r).every((k) => k === "source" || (WHERE.includes(k) && names(r[k]))),
+            // The regions the map shades, each with its outline.
+            Array.isArray(r.map) &&
+            r.map.length &&
+            r.map.length <= 60 &&
+            r.map.every((code) => shapes.has(code) && code.startsWith(`${c}-`)) &&
+            Object.keys(r).every(
+              (k) => k === "source" || k === "map" || (WHERE.includes(k) && names(r[k])),
+            ),
         );
       if (!ok) problems.push(`${where}: regional`);
     } else if (l?.regions !== undefined) problems.push(`${where}: regions`);

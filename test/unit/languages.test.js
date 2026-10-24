@@ -9,6 +9,7 @@ import {
   DRILLS,
   LanguageQuestion,
   keyOf,
+  mapAreas,
   poolFor,
   specimenOf,
 } from "../../src/languages/drills.js";
@@ -200,8 +201,14 @@ test("the checker accepts the language data and refuses what does not fit", asyn
     title: "Languages of India",
     url: "https://en.wikipedia.org/wiki/Languages_of_India",
   };
-  assert.deepEqual(one({ ...kn, regions: { IN: { official: ["Karnataka"], source } } }), []);
-  assert.deepEqual(one({ ...kn, regions: { IN: { signs: ["Bengaluru"], source } } }), []);
+  assert.deepEqual(
+    one({ ...kn, regions: { IN: { official: ["Karnataka"], map: ["IN-KA"], source } } }),
+    [],
+  );
+  assert.deepEqual(
+    one({ ...kn, regions: { IN: { signs: ["Bengaluru"], map: ["IN-KA"], source } } }),
+    [],
+  );
   assert.match(one({ ...kn, regions: { BD: { official: ["Dhaka"], source } } }).join(), /regional/);
   assert.match(one({ ...kn, regions: { IN: { official: [], source } } }).join(), /regional/);
   assert.match(one({ ...kn, regions: { IN: { official: ["Karnataka"] } } }).join(), /regional/);
@@ -213,6 +220,11 @@ test("the checker accepts the language data and refuses what does not fit", asyn
   assert.match(one({ ...kn, regions: { IN: { capital: ["x"], source } } }).join(), /regional/);
   assert.match(one({ ...kn, regional: undefined, regions: {} }).join(), /regions/);
   assert.match(one({ ...kn, national: { BD: source } }).join(), /national/);
+  // The map's regions must have outlines, and lie in that country.
+  const where = (map) => ({ ...kn, regions: { IN: { official: ["Karnataka"], map, source } } });
+  assert.match(one(where(["IN-ZZ"])).join(), /regional/);
+  assert.match(one(where(["ES-B"])).join(), /regional/);
+  assert.match(one(where([])).join(), /regional/);
   assert.match(one({ ...kn, sentence: "", words: ["ಉತ್ತರ"] }).join(), /sentence/);
 });
 
@@ -232,4 +244,23 @@ test("each language has its words for signs and place names, with their English"
       assert.ok(!/[\u0301\u064B-\u0652]/.test(w.normalize("NFD")), `${id}: ${w}`);
     }
   }
+});
+
+test("the map drill accepts a language's countries, and its regions where it is regional", () => {
+  // Kannada: only Karnataka.
+  assert.deepEqual(mapAreas(data.byId.kn), { countries: [], regions: ["IN-KA"] });
+  // Bengali: all of Bangladesh, and some states of India.
+  const bn = mapAreas(data.byId.bn);
+  assert.deepEqual(bn.countries, ["BD"]);
+  assert.ok(bn.regions.includes("IN-WB") && !bn.countries.includes("IN"));
+  // Every region the map shades has an outline.
+  for (const l of data.languages) {
+    for (const code of mapAreas(l).regions) {
+      assert.ok(data.regionShapes.ringsOf(code).length, `${l.id} ${code}`);
+    }
+  }
+  const q = new LanguageQuestion("map", data.byId.kn, data);
+  assert.equal(keyOf("map", data.byId.kn), "m:kn");
+  assert.match(q.prompt().sub, /region/);
+  assert.equal(q.prompt().hint, "Kannada");
 });

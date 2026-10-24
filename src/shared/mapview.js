@@ -25,7 +25,7 @@ export class MapView {
    * @param {object} options
    * @param {() => Projection} options.projection the projection currently drawn
    * @param {number} [options.minWidth] closest zoom, as map units across the screen
-   * @param {() => { side: number, bottom: number }} [options.padding] pixels hidden
+   * @param {() => { side: number, bottom: number, top?: number }} [options.padding] pixels hidden
    *   behind panels on the right and at the bottom, which framing should avoid
    * @param {() => void} [options.onChange] after every change of view
    * @param {(target: Element, clientX: number, clientY: number) => void} [options.onTap]
@@ -187,14 +187,14 @@ export class MapView {
   frame(box, factor = 1.8, minSpan = 260) {
     if (!box) return;
     const [bx, by, bw, bh] = box;
-    const { side, bottom } = this.padding();
+    const { side, bottom, top = 0 } = this.padding();
     const span = Math.max(
       (bw * factor * this.cw) / Math.max(200, this.cw - side),
-      (bh * factor * this.cw) / Math.max(160, this.ch - bottom),
+      (bh * factor * this.cw) / Math.max(160, this.ch - bottom - top),
       minSpan,
     );
     const k = span / this.cw;
-    this.flyTo(bx + bw / 2 + (side / 2) * k, by + bh / 2 + (bottom / 2) * k, span);
+    this.flyTo(bx + bw / 2 + (side / 2) * k, by + bh / 2 + ((bottom - top) / 2) * k, span);
   }
 
   /** Like {@link frame}, for a box in degrees: [lon, lat, width, height]. */
@@ -205,9 +205,9 @@ export class MapView {
   /** Glide to a longitude/latitude, `span` map units across. */
   centreOn(lon, lat, span) {
     const [x, y] = this.projection().fwd(lon, lat);
-    const { side, bottom } = this.padding();
+    const { side, bottom, top = 0 } = this.padding();
     const k = span / this.cw;
-    this.flyTo(x + (side / 2) * k, y + (bottom / 2) * k, span);
+    this.flyTo(x + (side / 2) * k, y + ((bottom - top) / 2) * k, span);
   }
 
   /* ----------------------------------------------------------- gestures */

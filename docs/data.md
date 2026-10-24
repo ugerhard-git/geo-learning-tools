@@ -128,7 +128,7 @@ has one.
 ### `languages.json`
 
 ```json
-{ "cldr": "48.2.0", "udhr": "6.0.0",
+{ "cldr": "48.2.0", "udhr": "6.0.0", "regionScale": 40, "regionShapes": "IN-KA\t…\n…",
   "scripts": { "Latn": "Latin", "Thai": "Thai", … },
   "languages": [{ "id": "pl", "name": "Polish", "autonym": "polski", "script": "Latn",
                   "countries": ["PL"], "letters": "aąbcć…", "words": ["północ", "Warszawa", …],
@@ -166,7 +166,13 @@ has one.
   title and address). They are written by hand into `REGIONS` in
   `tools/data/languages.mjs`; CLDR's "official_regional" marks too few of
   them, and Wikidata's statements of regions' official languages cover only
-  some regions.
+  some regions. Each also has **`map`**: the first-level regions (their
+  codes in `cities.json`) the app's maps shade and its map drill accepts,
+  from `REGION_MAPS`; where a language is used in only part of a region, the
+  whole region is shaded.
+- **`regionShapes`** and **`regionScale`** hold the outlines of those
+  regions, copied from `cities.json` in its format, so the app need not
+  load all of `cities.json`.
 - **`national`** names, by country, the Wikipedia article saying the
   language is official nationwide where CLDR marks it regional.
 - **`street`**, **`road`** and **`city`** are the language's words for them,
