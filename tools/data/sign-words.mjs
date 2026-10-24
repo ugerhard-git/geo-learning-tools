@@ -260,7 +260,12 @@ for (const [iso, qid] of Object.entries(REGION_COUNTRIES)) {
     SELECT DISTINCT ?region ?name ?code WHERE {
       ?region wdt:P17 wd:${qid};
               wdt:P31/wdt:P279* wd:Q10864048;
-              wdt:P37 ?language.
+              p:P37 ?statement.
+      # Every statement, not only the best ranked: a state whose English is
+      # marked preferred lists its own language at normal rank.
+      ?statement ps:P37 ?language; wikibase:rank ?rank.
+      FILTER(?rank != wikibase:DeprecatedRank)
+      FILTER NOT EXISTS { ?statement pq:P582 ?until }
       ?language wdt:P424 ?code.
       FILTER NOT EXISTS { ?region wdt:P576 ?end }
       ?region rdfs:label ?name. FILTER(LANG(?name) = "en")
