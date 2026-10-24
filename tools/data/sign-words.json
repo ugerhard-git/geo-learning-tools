@@ -37142,7 +37142,135 @@
  },
  "regions": {
   "IN": {
+   "te": [
+    {
+     "source": "Q1159",
+     "name": "Andhra Pradesh"
+    },
+    {
+     "source": "Q66743",
+     "name": "Puducherry"
+    },
+    {
+     "source": "Q1356",
+     "name": "West Bengal"
+    },
+    {
+     "source": "Q677037",
+     "name": "Telangana"
+    }
+   ],
+   "as": [
+    {
+     "source": "Q1164",
+     "name": "Assam"
+    }
+   ],
+   "bn": [
+    {
+     "source": "Q1164",
+     "name": "Assam"
+    },
+    {
+     "source": "Q1356",
+     "name": "West Bengal"
+    },
+    {
+     "source": "Q1184",
+     "name": "Jharkhand"
+    }
+   ],
+   "brx": [
+    {
+     "source": "Q1164",
+     "name": "Assam"
+    }
+   ],
+   "hi": [
+    {
+     "source": "Q1356",
+     "name": "West Bengal"
+    },
+    {
+     "source": "Q200667",
+     "name": "Ladakh"
+    },
+    {
+     "source": "Q40888",
+     "name": "Andaman and Nicobar Islands"
+    },
+    {
+     "source": "Q1174",
+     "name": "Haryana"
+    },
+    {
+     "source": "Q9357528",
+     "name": "National Capital Territory of Delhi"
+    },
+    {
+     "source": "Q1168",
+     "name": "Chhattisgarh"
+    },
+    {
+     "source": "Q1184",
+     "name": "Jharkhand"
+    },
+    {
+     "source": "Q66278313",
+     "name": "Jammu and Kashmir"
+    },
+    {
+     "source": "Q77997266",
+     "name": "Dadra and Nagar Haveli and Daman and Diu"
+    },
+    {
+     "source": "Q1437",
+     "name": "Rajasthan"
+    },
+    {
+     "source": "Q1499",
+     "name": "Uttarakhand"
+    },
+    {
+     "source": "Q1498",
+     "name": "Uttar Pradesh"
+    }
+   ],
+   "ur": [
+    {
+     "source": "Q1356",
+     "name": "West Bengal"
+    },
+    {
+     "source": "Q1159",
+     "name": "Andhra Pradesh"
+    },
+    {
+     "source": "Q9357528",
+     "name": "National Capital Territory of Delhi"
+    },
+    {
+     "source": "Q1184",
+     "name": "Jharkhand"
+    },
+    {
+     "source": "Q677037",
+     "name": "Telangana"
+    },
+    {
+     "source": "Q66278313",
+     "name": "Jammu and Kashmir"
+    },
+    {
+     "source": "Q1498",
+     "name": "Uttar Pradesh"
+    }
+   ],
    "en": [
+    {
+     "source": "Q1356",
+     "name": "West Bengal"
+    },
     {
      "source": "Q66743",
      "name": "Puducherry"
@@ -37156,24 +37284,24 @@
      "name": "National Capital Territory of Delhi"
     },
     {
-     "source": "Q1356",
-     "name": "West Bengal"
+     "source": "Q66278313",
+     "name": "Jammu and Kashmir"
     },
     {
      "source": "Q1445",
      "name": "Tamil Nadu"
     },
     {
-     "source": "Q1195",
-     "name": "Meghalaya"
-    },
-    {
-     "source": "Q66278313",
-     "name": "Jammu and Kashmir"
-    },
-    {
      "source": "Q77997266",
      "name": "Dadra and Nagar Haveli and Daman and Diu"
+    },
+    {
+     "source": "Q1186",
+     "name": "Kerala"
+    },
+    {
+     "source": "Q1195",
+     "name": "Meghalaya"
     }
    ],
    "fr": [
@@ -37192,24 +37320,6 @@
      "name": "Kerala"
     }
    ],
-   "te": [
-    {
-     "source": "Q66743",
-     "name": "Puducherry"
-    },
-    {
-     "source": "Q677037",
-     "name": "Telangana"
-    },
-    {
-     "source": "Q1356",
-     "name": "West Bengal"
-    },
-    {
-     "source": "Q1159",
-     "name": "Andhra Pradesh"
-    }
-   ],
    "ta": [
     {
      "source": "Q66743",
@@ -37224,64 +37334,10 @@
      "name": "Tamil Nadu"
     }
    ],
-   "hi": [
+   "or": [
     {
-     "source": "Q200667",
-     "name": "Ladakh"
-    },
-    {
-     "source": "Q9357528",
-     "name": "National Capital Territory of Delhi"
-    },
-    {
-     "source": "Q1356",
-     "name": "West Bengal"
-    },
-    {
-     "source": "Q40888",
-     "name": "Andaman and Nicobar Islands"
-    },
-    {
-     "source": "Q1437",
-     "name": "Rajasthan"
-    },
-    {
-     "source": "Q1184",
-     "name": "Jharkhand"
-    },
-    {
-     "source": "Q1174",
-     "name": "Haryana"
-    },
-    {
-     "source": "Q1498",
-     "name": "Uttar Pradesh"
-    },
-    {
-     "source": "Q1168",
-     "name": "Chhattisgarh"
-    },
-    {
-     "source": "Q1499",
-     "name": "Uttarakhand"
-    },
-    {
-     "source": "Q66278313",
-     "name": "Jammu and Kashmir"
-    },
-    {
-     "source": "Q77997266",
-     "name": "Dadra and Nagar Haveli and Daman and Diu"
-    }
-   ],
-   "ur": [
-    {
-     "source": "Q677037",
-     "name": "Telangana"
-    },
-    {
-     "source": "Q9357528",
-     "name": "National Capital Territory of Delhi"
+     "source": "Q22048",
+     "name": "Odisha"
     },
     {
      "source": "Q1356",
@@ -37290,18 +37346,6 @@
     {
      "source": "Q1184",
      "name": "Jharkhand"
-    },
-    {
-     "source": "Q1498",
-     "name": "Uttar Pradesh"
-    },
-    {
-     "source": "Q1159",
-     "name": "Andhra Pradesh"
-    },
-    {
-     "source": "Q66278313",
-     "name": "Jammu and Kashmir"
     }
    ],
    "sat": [
@@ -37314,38 +37358,10 @@
      "name": "Jharkhand"
     }
    ],
-   "bn": [
-    {
-     "source": "Q1356",
-     "name": "West Bengal"
-    },
-    {
-     "source": "Q1184",
-     "name": "Jharkhand"
-    },
-    {
-     "source": "Q1164",
-     "name": "Assam"
-    }
-   ],
    "ne": [
     {
      "source": "Q1356",
      "name": "West Bengal"
-    }
-   ],
-   "or": [
-    {
-     "source": "Q1356",
-     "name": "West Bengal"
-    },
-    {
-     "source": "Q1184",
-     "name": "Jharkhand"
-    },
-    {
-     "source": "Q22048",
-     "name": "Odisha"
     }
    ],
    "rkt": [
@@ -37366,46 +37382,6 @@
      "name": "Jharkhand"
     }
    ],
-   "kn": [
-    {
-     "source": "Q1185",
-     "name": "Karnataka"
-    }
-   ],
-   "as": [
-    {
-     "source": "Q1164",
-     "name": "Assam"
-    }
-   ],
-   "brx": [
-    {
-     "source": "Q1164",
-     "name": "Assam"
-    }
-   ],
-   "sa": [
-    {
-     "source": "Q1499",
-     "name": "Uttarakhand"
-    }
-   ],
-   "mr": [
-    {
-     "source": "Q1191",
-     "name": "Maharashtra"
-    },
-    {
-     "source": "Q77997266",
-     "name": "Dadra and Nagar Haveli and Daman and Diu"
-    }
-   ],
-   "kha": [
-    {
-     "source": "Q1195",
-     "name": "Meghalaya"
-    }
-   ],
    "ks": [
     {
      "source": "Q66278313",
@@ -37416,6 +37392,34 @@
     {
      "source": "Q77997266",
      "name": "Dadra and Nagar Haveli and Daman and Diu"
+    }
+   ],
+   "mr": [
+    {
+     "source": "Q77997266",
+     "name": "Dadra and Nagar Haveli and Daman and Diu"
+    },
+    {
+     "source": "Q1191",
+     "name": "Maharashtra"
+    }
+   ],
+   "kn": [
+    {
+     "source": "Q1185",
+     "name": "Karnataka"
+    }
+   ],
+   "sa": [
+    {
+     "source": "Q1499",
+     "name": "Uttarakhand"
+    }
+   ],
+   "kha": [
+    {
+     "source": "Q1195",
+     "name": "Meghalaya"
     }
    ]
   }
