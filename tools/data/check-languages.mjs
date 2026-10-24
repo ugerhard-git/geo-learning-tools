@@ -39,7 +39,10 @@ export function checkLanguages(data, codes) {
     for (const k of ["name", "autonym", "street", "road", "city"]) {
       if (l?.[k] !== undefined && !isText(l[k], 80)) problems.push(`${where}: ${k}`);
     }
-    if (!isText(l?.sentence, 300) || !l.sentence) problems.push(`${where}: sentence`);
+    // A sentence, or else at least three words to be recognised by.
+    if (!isText(l?.sentence, 300) || (!l.sentence && !(l.words?.length >= 3))) {
+      problems.push(`${where}: sentence`);
+    }
     if (!isText(l?.letters, 9000)) problems.push(`${where}: letters`);
     const words = Array.isArray(l?.words) ? l.words : null;
     if (!words || words.length > 60 || !words.every((w) => isText(w, 40))) {
@@ -63,6 +66,23 @@ export function checkLanguages(data, codes) {
     if (!countries.length || !countries.every((c) => codes.has(c))) {
       problems.push(`${where}: countries`);
     }
+    // Countries where it is official only in some states, and those states.
+    if (l?.regional !== undefined) {
+      const ok =
+        Array.isArray(l.regional) &&
+        l.regional.length &&
+        l.regional.every((c) => countries.includes(c)) &&
+        l.regions &&
+        typeof l.regions === "object" &&
+        Object.entries(l.regions).every(
+          ([c, names]) =>
+            l.regional.includes(c) &&
+            Array.isArray(names) &&
+            names.length <= 40 &&
+            names.every((n) => isText(n, 60) && n),
+        );
+      if (!ok) problems.push(`${where}: regional`);
+    } else if (l?.regions !== undefined) problems.push(`${where}: regions`);
   }
   for (const t of Array.isArray(data.telltales) ? data.telltales : []) {
     if (!isText(t?.letter, 4) || !t.languages?.every?.((id) => ids.has(id))) {
@@ -107,6 +127,19 @@ export function checkSignWords(data) {
     ) {
       problems.push(`word ${en.slice(0, 30)}`);
     }
+  }
+  for (const [iso, byLanguage] of Object.entries(data?.regions ?? {})) {
+    const ok =
+      /^[A-Z]{2}$/.test(iso) &&
+      byLanguage &&
+      typeof byLanguage === "object" &&
+      Object.entries(byLanguage).every(
+        ([code, list]) =>
+          /^[a-z]{2,3}(-[a-z0-9]{2,8})*$/.test(code) &&
+          Array.isArray(list) &&
+          list.every((r) => /^Q\d+$/.test(r?.source ?? "") && isText(r?.name, 40) && r.name),
+      );
+    if (!ok) problems.push(`regions ${iso.slice(0, 5)}`);
   }
   for (const [iso, caps] of Object.entries(data?.capitals ?? {})) {
     if (!/^[A-Z]{2}$/.test(iso) || !Array.isArray(caps))

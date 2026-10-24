@@ -20,13 +20,17 @@ import { table } from "../shared/dom.js";
  * @property {string} letters every letter it uses, in lower case
  * @property {string[]} words real words: place words, capitals, its own name, its names for
  *   its countries, months; none another language here shares
- * @property {string} sentence Article 1 of the Universal Declaration of Human Rights, first sentence
+ * @property {string} sentence Article 1 of the Universal Declaration of Human Rights, first
+ *   sentence; empty where there is no translation (Odia, Assamese)
  * @property {string} [street] its word for "street", as on street signs (from Wikidata)
  * @property {string} [road] its word for "road" (from Wikidata)
  * @property {string} [city] its word for "city" (from Wikidata)
  * @property {[string, string][]} [placeWords] words of place names and directions, as
  *   [English, word] pairs (from Wikidata)
  * @property {string[]} [capitals] the capitals of its countries, in the language (from Wikidata)
+ * @property {string[]} [regional] the countries where it is official only in some states (from
+ *   CLDR)
+ * @property {Record<string, string[]>} [regions] those states, by country (from Wikidata)
  */
 
 /**

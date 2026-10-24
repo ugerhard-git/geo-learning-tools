@@ -141,7 +141,11 @@ has one.
 
 - **Which languages:** those official, or official in practice, in a country
   listed in `tools/data/street-view-countries.txt`, according to CLDR, less a
-  few left out on purpose (listed in `tools/data/languages.mjs`).
+  few left out on purpose (listed in `tools/data/languages.mjs`). In India,
+  also the languages CLDR marks official only in some states that at least
+  1% of people speak (Bengali, Telugu, Marathi, Tamil, Urdu, Gujarati,
+  Kannada, Malayalam, Odia, Punjabi, Assamese), since signs there are in the
+  state's language.
 - **`id`** is the CLDR locale; a language written in two scripts on signs has
   one entry per script (`sr`, `sr-Latn`). **`script`** is an ISO 15924 code.
 - **`letters`** are CLDR's main exemplar letters, in lower case.
@@ -150,7 +154,12 @@ has one.
   for its countries, and the month names. Words two languages share are
   dropped, since they cannot tell them apart.
 - **`sentence`** is the first sentence of Article 1 of the Universal
-  Declaration of Human Rights.
+  Declaration of Human Rights; empty where the udhr package has no
+  translation (Odia, Assamese), and then the words stand in for it.
+- **`regional`** lists the countries where the language is official only in
+  some states (CLDR's "official_regional"), and **`regions`** names those
+  states by country: each Indian state or union territory whose official
+  languages (Wikidata P37) include it, kept in `tools/data/sign-words.json`.
 - **`street`**, **`road`** and **`city`** are the language's words for them,
   as seen on street and town signs: the Wikidata labels of "street"
   (Q79007), "road" (Q34442) and "city" (Q515), kept in

@@ -14,9 +14,14 @@
 //     the udhr npm package (MIT): the first sentence of Article 1 in each
 //     language, a real sentence to show as a specimen.
 //   - Wikidata (CC0): the words for "street", "road" and "city", the words
-//     of place names and directions ("north", "river", "new"…) and the
-//     capitals' names, from tools/data/sign-words.json (made by
-//     tools/data/sign-words.mjs). They are left out if that file is missing.
+//     of place names and directions ("north", "river", "new"…), the
+//     capitals' names, and the states where a regional language is official,
+//     from tools/data/sign-words.json (made by tools/data/sign-words.mjs).
+//     They are left out if that file is missing.
+//
+// A country's official languages are those CLDR marks official there. In
+// the countries of REGIONAL, those official only in some states are kept
+// too, where enough people speak them.
 //
 // It reads the packages from a folder, as npm unpacks them, rather than
 // depending on them: they are needed only when the data is rebuilt.
@@ -47,7 +52,17 @@ const LEFT_OUT = {
   no: "the same as Norwegian Bokmål (nb), which is kept",
   "bs-Cyrl": "Bosnian is written in Latin letters on signs; Cyrillic signs there are Serbian",
   yue: "signs in Macau and Hong Kong are in written Chinese, kept as Traditional Chinese",
+  mai: "written in Devanagari like Hindi, and with too few words of its own on Wikidata to tell it by",
 };
+
+/**
+ * Countries whose regional official languages are kept as well: CLDR marks
+ * them "official_regional". India's signs are in the state's language, so
+ * each is a clue to where in India you are. Only those spoken by at least
+ * REGIONAL_MIN_PERCENT of people there are kept.
+ */
+const REGIONAL = ["IN"];
+const REGIONAL_MIN_PERCENT = 1;
 
 /**
  * The name the app gives each script. CLDR's English names are mostly right,
@@ -59,7 +74,8 @@ const SCRIPT_NAMES = {
   Hant: "Traditional Chinese characters",
   Jpan: "Japanese (kana and kanji)",
   Kore: "Hangul (Korean)",
-  Beng: "Bengali",
+  // Bengali and Assamese share it.
+  Beng: "Bengali–Assamese",
 };
 
 /** The UDHR translation for each language (udhr package file names). */
@@ -71,6 +87,12 @@ const UDHR = {
   be: "bel",
   bg: "bul",
   bn: "ben",
+  gu: "guj",
+  kn: "kan",
+  ml: "mal",
+  mr: "mar",
+  pa: "pan",
+  te: "tel",
   bs: "bos_latn",
   ca: "cat",
   cs: "ces",
@@ -279,15 +301,35 @@ function capitalsIn(id, countries) {
 
 /** locale → the Street View countries where it is official */
 const officialIn = new Map();
+/** locale → the countries of those where it is official only in some states */
+const regionalIn = new Map();
 for (const country of STREET_VIEW) {
   const pops = territoryInfo[country]?.languagePopulation ?? {};
   for (const [key, p] of Object.entries(pops)) {
-    if (!["official", "de_facto_official"].includes(p._officialStatus)) continue;
+    const regional =
+      p._officialStatus === "official_regional" &&
+      REGIONAL.includes(country) &&
+      Number(p._populationPercent) >= REGIONAL_MIN_PERCENT;
+    if (!["official", "de_facto_official"].includes(p._officialStatus) && !regional) continue;
     const locale = key.replace(/_/g, "-");
     if (LEFT_OUT[locale]) continue;
     if (!officialIn.has(locale)) officialIn.set(locale, []);
     officialIn.get(locale).push(country);
+    if (regional) regionalIn.set(locale, [...(regionalIn.get(locale) ?? []), country]);
   }
+}
+
+/**
+ * The states where a language is official, by country, for the countries
+ * where it is official only in some: their English names, from Wikidata.
+ */
+function regionsOf(id, countries) {
+  const out = {};
+  for (const c of countries) {
+    const names = signWords.regions?.[c]?.[id] ?? signWords.regions?.[c]?.[id.split("-")[0]];
+    if (names?.length) out[c] = names.map((r) => r.name).sort();
+  }
+  return out;
 }
 
 /** The script a locale is written in: its own subtag, or CLDR's likely one. */
@@ -376,6 +418,12 @@ for (const [id, countries] of [...merged].sort()) {
     .filter((w) => !/\d/.test(w));
 
   const sentence = await udhrSentence(UDHR[id] ?? UDHR[base]);
+  const regional = (regionalIn.get(id) ?? []).filter((c) => countries.includes(c)).sort();
+  // A language needs a sentence or a few words to be recognised by.
+  if (!sentence && words.length < 3) {
+    report.push(`${id}: left out, no sentence and too few words`);
+    continue;
+  }
   languages.push({
     id,
     name,
@@ -390,6 +438,7 @@ for (const [id, countries] of [...merged].sort()) {
     capitals,
     words: [...new Set(words)],
     sentence,
+    ...(regional.length ? { regional, regions: regionsOf(id, regional) } : {}),
   });
 }
 
@@ -401,6 +450,11 @@ for (const lang of languages) {
 }
 for (const lang of languages)
   lang.words = lang.words.filter((w) => wordCount.get(w.toLowerCase()) === 1);
+// Without a sentence, a language is recognised by its words alone.
+for (const lang of languages.filter((l) => !l.sentence && l.words.length < 3)) {
+  report.push(`${lang.id}: left out, no sentence and too few words of its own`);
+  languages.splice(languages.indexOf(lang), 1);
+}
 
 /* ------------------------------------------------------ telltale letters */
 
@@ -458,6 +512,10 @@ for (const l of languages) {
         .slice(0, 4)
         .map(([en, w]) => `${w} (${en})`)
         .join(", ")}` +
+      (l.regional
+        ? `\n         official only in some states of ${l.regional.join(", ")}: ` +
+          (Object.values(l.regions).flat().join(", ") || "no states on Wikidata")
+        : "") +
       `\n         ${l.sentence ? l.sentence.slice(0, 90) : "NO SENTENCE"}`,
   );
 }

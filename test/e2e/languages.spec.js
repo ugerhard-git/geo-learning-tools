@@ -32,7 +32,8 @@ test("the cards list every language, and search and script filters narrow them",
 test("a card opens the language's letters, sentence and words", async ({ page }) => {
   const problems = await openPage(page, PAGE);
   await page.fill("#q", "Polish");
-  await page.click(".lcard");
+  // The language's own card: the first may be clicked before the search narrows the list.
+  await page.click('.lcard[data-lang="pl"]');
   const detail = page.locator("#detail");
   await expect(detail.locator("h2")).toHaveText("Polish");
   await expect(detail.locator(".dtells")).toContainText("ł");
@@ -91,6 +92,30 @@ for (const type of ["language", "letter", "script", "country"]) {
     expect([...problems, ...(await cspViolations(page))]).toEqual([]);
   });
 }
+
+test("India's regional languages say where they are official, with the source", async ({
+  page,
+}) => {
+  const problems = await openPage(page, PAGE);
+  const kn = DATA.languages.find((l) => l.id === "kn");
+  await page.fill("#q", "Kannada");
+  await page.click('.lcard[data-lang="kn"]');
+  const detail = page.locator("#detail");
+  await expect(detail.locator("h2")).toHaveText("Kannada");
+  await expect(detail.locator(".meta")).toContainText("India (some states)");
+  await expect(detail.locator("h3", { hasText: "Where in India" })).toBeVisible();
+  for (const state of kn.regions?.IN ?? []) await expect(detail).toContainText(state);
+  await expect(detail.getByRole("link", { name: "Wikidata" }).first()).toBeVisible();
+  await page.keyboard.press("Escape");
+
+  // Odia has no translation of the Declaration: no sentence, but its words.
+  await page.fill("#q", "Odia");
+  await page.click('.lcard[data-lang="or"]');
+  await expect(detail.locator("h2")).toHaveText("Odia");
+  await expect(detail.locator(".dsent")).toHaveCount(0);
+  await expect(detail.locator(".dwords span").first()).toBeVisible();
+  expect([...problems, ...(await cspViolations(page))]).toEqual([]);
+});
 
 test("typed answers: the right name, a near miss, and another language", async ({ page }) => {
   await openPage(page, PAGE);

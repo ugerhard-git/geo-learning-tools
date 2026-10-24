@@ -11,6 +11,9 @@
 //     for the app to show. The list is WORDS.
 //   - capitals: each Street View country's capital (P36), labelled in every
 //     language.
+//   - regions: for the countries whose regional languages the app keeps
+//     (India), each state or union territory and its official languages
+//     (P37), by the languages' codes (P424).
 //
 // tools/data/languages.mjs picks out the app's languages and merges the
 // words into src/data/languages.json, so run this first, then that. The
@@ -247,10 +250,49 @@ for (const iso of streetView) {
   out.capitals[iso] = qs.map((q) => ({ source: q, labels: capLabels[q] ?? {} }));
 }
 
+// The states of India and their official languages, for the languages
+// official only in some of them. A state is a first-level subdivision
+// (Q10864048, or a subclass) of India (Q668) that still exists.
+const REGION_COUNTRIES = { IN: "Q668" };
+out.regions = {};
+for (const [iso, qid] of Object.entries(REGION_COUNTRIES)) {
+  const res = await sparql(`
+    SELECT DISTINCT ?region ?name ?code WHERE {
+      ?region wdt:P17 wd:${qid};
+              wdt:P31/wdt:P279* wd:Q10864048;
+              wdt:P37 ?language.
+      ?language wdt:P424 ?code.
+      FILTER NOT EXISTS { ?region wdt:P576 ?end }
+      ?region rdfs:label ?name. FILTER(LANG(?name) = "en")
+    }`);
+  const byLanguage = {};
+  const regions = new Set();
+  for (const b of res.results?.bindings ?? []) {
+    const q = String(b.region?.value ?? "").replace(/^.*\//, "");
+    const name = clean(b.name?.value);
+    const code = String(b.code?.value ?? "");
+    if (!/^Q\d+$/.test(q) || !name || !LANG.test(code)) continue;
+    regions.add(q);
+    const list = (byLanguage[code] ??= []);
+    if (!list.some((r) => r.source === q)) list.push({ source: q, name });
+  }
+  // India has 28 states and 8 union territories; far fewer means the query
+  // went wrong.
+  if (regions.size < 20) {
+    report.push(`${iso}: only ${regions.size} states with official languages; left out`);
+    continue;
+  }
+  out.regions[iso] = byLanguage;
+}
+out.source += ". States' official languages: Wikidata (P37)";
+
 const counts = [
   ...Object.keys(ITEMS).map((w) => `${Object.keys(out[w] ?? {}).length} ${w}`),
   `${Object.keys(out.words).length} words`,
   `${Object.values(out.capitals).filter((c) => c.length).length} countries with capitals`,
+  ...Object.entries(out.regions).map(
+    ([iso, r]) => `${Object.keys(r).length} languages official in states of ${iso}`,
+  ),
 ];
 console.log([...report, `Labels: ${counts.join(", ")}.`].join("\n"));
 if (Object.keys(ITEMS).some((w) => Object.keys(out[w] ?? {}).length < 100)) {

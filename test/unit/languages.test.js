@@ -5,7 +5,13 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { parseUnicodeSet } from "../../tools/data/unicode-set.mjs";
 import { makeLanguageData, plainName } from "../../src/languages/data.js";
-import { DRILLS, LanguageQuestion, keyOf, poolFor } from "../../src/languages/drills.js";
+import {
+  DRILLS,
+  LanguageQuestion,
+  keyOf,
+  poolFor,
+  specimenOf,
+} from "../../src/languages/drills.js";
 
 const read = (path) => readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
 const data = makeLanguageData(
@@ -28,7 +34,7 @@ test("the Street View list names real places, each once", () => {
   for (const code of streetView) assert.ok(data.countries[code], `${code} is not in countries.txt`);
 });
 
-test("every language has a script, a country with Street View, and a sentence", () => {
+test("every language has a script, a country with Street View, and a sentence or words", () => {
   assert.ok(data.languages.length > 60);
   for (const l of data.languages) {
     assert.ok(data.scripts[l.script], `${l.id} script`);
@@ -37,11 +43,33 @@ test("every language has a script, a country with Street View, and a sentence", 
       l.countries.every((c) => streetView.includes(c)),
       `${l.id} outside Street View`,
     );
-    assert.ok(l.sentence.length > 10, `${l.id} sentence`);
+    // Odia and Assamese have no translation of the Declaration; their words stand in.
+    assert.ok(l.sentence.length > 10 || l.words.length >= 3, `${l.id} sentence or words`);
     assert.ok(!l.words.some((w) => /\d/.test(w)), `${l.id} placeholder words`);
   }
   assert.equal(plainName(data.byId["sr-Latn"]), "Serbian");
   assert.equal(plainName(data.byId["zh-Hant"]), "Chinese");
+});
+
+test("India's regional languages are in, each official only in some states", () => {
+  for (const id of ["bn", "te", "mr", "ta", "ur", "gu", "kn", "ml", "or", "pa", "as"]) {
+    const l = data.byId[id];
+    assert.ok(l, id);
+    assert.ok(l.countries.includes("IN"), `${id} in India`);
+    assert.deepEqual(l.regional, ["IN"], `${id} regional`);
+  }
+  // Hindi and English are official in all of India.
+  assert.equal(data.byId.hi.regional, undefined);
+  assert.equal(data.byId.en.regional, undefined);
+  // Bengali is official in all of Bangladesh, and in some states of India.
+  assert.ok(data.byId.bn.countries.includes("BD"));
+});
+
+test("a language without a sentence is shown by its words", () => {
+  const lang = { id: "or", sentence: "", words: ["ଉତ୍ତର", "ଦକ୍ଷିଣ", "ପୂର୍ବ", "ପଶ୍ଚିମ"] };
+  for (const kind of ["any", "sentence", "words"]) {
+    assert.equal(specimenOf(lang, kind).kind, "words");
+  }
 });
 
 test("a telltale letter is used by the few languages it names, and no other", () => {
@@ -126,6 +154,23 @@ test("the checker accepts the language data and refuses what does not fit", asyn
     [],
   );
   assert.equal(checkSignWords({ street: { pl: "x".repeat(50) } }).length, 3);
+
+  // States: only for a regional language, and only in its regional countries.
+  const kn = structuredClone(json.languages.find((l) => l.id === "kn"));
+  const one = (l) =>
+    checkLanguages(
+      { ...json, languages: json.languages.map((x) => (x.id === l.id ? l : x)) },
+      codes,
+    );
+  assert.deepEqual(one({ ...kn, regions: { IN: ["Karnataka"] } }), []);
+  assert.match(one({ ...kn, regions: { BD: ["Dhaka"] } }).join(), /regional/);
+  assert.match(one({ ...kn, regional: undefined, regions: {} }).join(), /regions/);
+  assert.match(one({ ...kn, sentence: "", words: ["ಉತ್ತರ"] }).join(), /sentence/);
+  const words = { street: { pl: "ulica" }, road: { pl: "droga" }, city: { pl: "miasto" } };
+  const ok = { IN: { kn: [{ source: "Q1185", name: "Karnataka" }] } };
+  assert.deepEqual(checkSignWords({ ...words, regions: ok }), []);
+  const bad = { IN: { kn: [{ source: "x", name: "<b>" }] } };
+  assert.deepEqual(checkSignWords({ ...words, regions: bad }), ["regions IN"]);
 });
 
 test("each language has its words for signs and place names, with their English", () => {
