@@ -65,7 +65,34 @@ test("India's regional languages are in, each official only in some states", () 
   // Bengali is official in all of Bangladesh, and in some states of India.
   assert.ok(data.byId.bn.countries.includes("BD"));
   assert.ok(data.byId.kn.regions.IN.official.includes("Karnataka"));
-  assert.match(data.regionsSource.url, /^https:\/\/en\.wikipedia\.org\//);
+  assert.match(data.byId.kn.regions.IN.source.url, /^https:\/\/en\.wikipedia\.org\//);
+});
+
+test("Europe's regional and minority languages say where they are used", () => {
+  const where = (id, c) => data.byId[id]?.regions?.[c];
+  assert.ok(where("cy", "GB").official.some((r) => r.startsWith("Wales")));
+  assert.ok(where("eu", "ES").official.includes("the Basque Country"));
+  assert.ok(where("eu", "FR").spoken.length);
+  assert.ok(where("ca", "ES").official.includes("Catalonia"));
+  assert.ok(where("de", "IT").signs[0].startsWith("South Tyrol"));
+  for (const c of ["RS", "SK", "RO", "SI", "AT"]) assert.ok(where("hu", c), `hu ${c}`);
+  for (const id of ["gl", "gd", "fy", "br", "co", "rm", "se", "hsb", "ast", "oc", "tt", "ba"]) {
+    const l = data.byId[id];
+    assert.ok(l?.regional?.length, `${id} regional`);
+    for (const c of l.regional) assert.match(l.regions[c].source.url, /^https:\/\/en\.wikipedia/);
+  }
+  // Catalan is official in all of Andorra, and in some regions of Spain.
+  assert.deepEqual(data.byId.ca.regional, ["ES"]);
+});
+
+test("South Africa's languages are official there nationwide, as is Albanian in North Macedonia", () => {
+  for (const id of ["af", "zu", "xh", "nso", "ts", "ve", "nr", "ss", "st", "tn"]) {
+    const l = data.byId[id];
+    assert.ok(l?.countries.includes("ZA"), `${id} in South Africa`);
+    assert.equal(l.regional, undefined, `${id} not regional`);
+    assert.match(l.national.ZA.url, /Languages_of_South_Africa/);
+  }
+  assert.ok(data.byId.sq.national.MK);
 });
 
 test("a language without a sentence is shown by its words", () => {
@@ -148,6 +175,10 @@ test("the checker accepts the language data and refuses what does not fit", asyn
   assert.deepEqual(checkLanguages(json, codes), []);
   const broken = structuredClone(json);
   broken.languages[0].countries = ["QQ"];
+  // Only the countries problem, not its national source too.
+  delete broken.languages[0].national;
+  delete broken.languages[0].regional;
+  delete broken.languages[0].regions;
   broken.languages[1].sentence = "x".repeat(1000);
   broken.languages[2].id = "<b>";
   const problems = checkLanguages(broken, codes);
@@ -165,10 +196,23 @@ test("the checker accepts the language data and refuses what does not fit", asyn
       { ...json, languages: json.languages.map((x) => (x.id === l.id ? l : x)) },
       codes,
     );
-  assert.deepEqual(one({ ...kn, regions: { IN: { official: ["Karnataka"] } } }), []);
-  assert.match(one({ ...kn, regions: { BD: { official: ["Dhaka"] } } }).join(), /regional/);
-  assert.match(one({ ...kn, regions: { IN: { official: [] } } }).join(), /regional/);
+  const source = {
+    title: "Languages of India",
+    url: "https://en.wikipedia.org/wiki/Languages_of_India",
+  };
+  assert.deepEqual(one({ ...kn, regions: { IN: { official: ["Karnataka"], source } } }), []);
+  assert.deepEqual(one({ ...kn, regions: { IN: { signs: ["Bengaluru"], source } } }), []);
+  assert.match(one({ ...kn, regions: { BD: { official: ["Dhaka"], source } } }).join(), /regional/);
+  assert.match(one({ ...kn, regions: { IN: { official: [], source } } }).join(), /regional/);
+  assert.match(one({ ...kn, regions: { IN: { official: ["Karnataka"] } } }).join(), /regional/);
+  const elsewhere = { title: "x", url: "https://example.org/x" };
+  assert.match(
+    one({ ...kn, regions: { IN: { official: ["Karnataka"], source: elsewhere } } }).join(),
+    /regional/,
+  );
+  assert.match(one({ ...kn, regions: { IN: { capital: ["x"], source } } }).join(), /regional/);
   assert.match(one({ ...kn, regional: undefined, regions: {} }).join(), /regions/);
+  assert.match(one({ ...kn, national: { BD: source } }).join(), /national/);
   assert.match(one({ ...kn, sentence: "", words: ["ಉತ್ತರ"] }).join(), /sentence/);
 });
 

@@ -12,9 +12,13 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
 const isText = (v, max) => typeof v === "string" && v.length <= max;
-/** A list of up to 40 names of places. */
+/** A list of up to 40 names or descriptions of places. */
 const names = (list) =>
-  Array.isArray(list) && list.length <= 40 && list.every((n) => n && isText(n, 60));
+  Array.isArray(list) && list.length && list.length <= 40 && list.every((n) => n && isText(n, 100));
+/** A Wikipedia article, as REGIONS and NATIONAL name their sources. */
+const article = (src) =>
+  isText(src?.title, 100) && /^https:\/\/en\.wikipedia\.org\/wiki\/[^\s"<>]+$/.test(src?.url ?? "");
+const WHERE = ["official", "additional", "signs", "spoken"];
 const SCRIPT = /^[A-Z][a-z]{3}$/;
 const LOCALE = /^[a-z]{2,3}(-[A-Z][a-z]{3})?$/;
 
@@ -69,7 +73,7 @@ export function checkLanguages(data, codes) {
     if (!countries.length || !countries.every((c) => codes.has(c))) {
       problems.push(`${where}: countries`);
     }
-    // Countries where it is official only in some states, and those states.
+    // Countries where it is a regional language, and where in each, with the source.
     if (l?.regional !== undefined) {
       const ok =
         Array.isArray(l.regional) &&
@@ -77,23 +81,26 @@ export function checkLanguages(data, codes) {
         l.regional.every((c) => countries.includes(c)) &&
         l.regions &&
         typeof l.regions === "object" &&
+        l.regional.every((c) => l.regions[c]) &&
         Object.entries(l.regions).every(
           ([c, r]) =>
             l.regional.includes(c) &&
-            names(r?.official) &&
-            r.official.length &&
-            (r.additional === undefined || names(r.additional)),
+            article(r?.source) &&
+            WHERE.some((k) => r[k] !== undefined) &&
+            Object.keys(r).every((k) => k === "source" || (WHERE.includes(k) && names(r[k]))),
         );
       if (!ok) problems.push(`${where}: regional`);
     } else if (l?.regions !== undefined) problems.push(`${where}: regions`);
-  }
-  if (langs.some((l) => l?.regions)) {
-    const src = data.regionsSource;
+    // Countries where it is official nationwide although CLDR says otherwise.
     if (
-      !isText(src?.title, 100) ||
-      !/^https:\/\/en\.wikipedia\.org\/wiki\/[^\s"<>]+$/.test(src?.url ?? "")
+      l?.national !== undefined &&
+      !(
+        l.national &&
+        typeof l.national === "object" &&
+        Object.entries(l.national).every(([c, src]) => countries.includes(c) && article(src))
+      )
     ) {
-      problems.push("regions source");
+      problems.push(`${where}: national`);
     }
   }
   for (const t of Array.isArray(data.telltales) ? data.telltales : []) {

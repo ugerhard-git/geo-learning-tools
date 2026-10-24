@@ -17,12 +17,12 @@
 //     of place names and directions ("north", "river", "new"…), the
 //     capitals' names, from tools/data/sign-words.json (made by
 //     tools/data/sign-words.mjs). They are left out if that file is missing.
-//   - Wikipedia (CC BY-SA): where in India each regional language is
-//     official, written by hand into REGIONS below.
+//   - Wikipedia (CC BY-SA): where each regional or minority language is
+//     official or seen on signs, written by hand into REGIONS below, and
+//     which of CLDR's regional languages are official nationwide (NATIONAL).
 //
-// A country's official languages are those CLDR marks official there. In
-// the countries of REGIONAL, those official only in some states are kept
-// too, where enough people speak them.
+// A country's languages are those CLDR marks official there, those in
+// NATIONAL, and the regional and minority languages in REGIONS.
 //
 // It reads the packages from a folder, as npm unpacks them, rather than
 // depending on them: they are needed only when the data is rebuilt.
@@ -56,38 +56,82 @@ const LEFT_OUT = {
   mai: "written in Devanagari like Hindi, and with too few words of its own on Wikidata to tell it by",
 };
 
-/**
- * Countries whose regional official languages are kept as well: CLDR marks
- * them "official_regional". India's signs are in the state's language, so
- * each is a clue to where in India you are. Only those spoken by at least
- * REGIONAL_MIN_PERCENT of people there are kept.
- */
-const REGIONAL = ["IN"];
-const REGIONAL_MIN_PERCENT = 1;
+/** Wikipedia's articles the hand-written REGIONS and NATIONAL come from. */
+const wiki = (title) => ({
+  title,
+  url: `https://en.wikipedia.org/wiki/${encodeURIComponent(title.replaceAll(" ", "_"))}`,
+});
+const SOURCES = {
+  india: wiki("Languages with official recognition in India"),
+  spain: wiki("Languages of Spain"),
+  galician: wiki("Galician language"),
+  asturian: wiki("Asturian language"),
+  basque: wiki("Basque language"),
+  breton: wiki("Breton language"),
+  corsican: wiki("Corsican language"),
+  occitan: wiki("Occitan language"),
+  welsh: wiki("Welsh language"),
+  signs: wiki("Bilingual sign"),
+  frisian: wiki("West Frisian language"),
+  romansh: wiki("Romansh language"),
+  sami: wiki("Northern Sámi"),
+  sorbian: wiki("Upper Sorbian language"),
+  tatar: wiki("Tatar language"),
+  bashkir: wiki("Bashkir language"),
+  italy: wiki("Languages of Italy"),
+  austria: wiki("Languages of Austria"),
+  croatia: wiki("Italian language in Croatia"),
+  hungarian: wiki("Hungarian language"),
+  slovakia: wiki("Hungarians in Slovakia"),
+  romania: wiki("Hungarians in Romania"),
+  southAfrica: wiki("Languages of South Africa"),
+  macedonia: wiki("Languages of North Macedonia"),
+};
 
 /**
- * Where in India each regional language is official: the states and union
- * territories that name it an official language, and those that name it an
- * additional one. Written by hand from the table of the states' official
- * languages in Wikipedia's article below (read October 2026); Wikidata's
- * statements of states' official languages (P37) cover only some states.
+ * Languages official in all of a country that CLDR marks official only in
+ * part of it ("official_regional"): South Africa's eleven languages are all
+ * official under its constitution, and Albanian has been official across
+ * North Macedonia since 2019.
  */
-const REGIONS_SOURCE = {
-  title: "Languages with official recognition in India",
-  url: "https://en.wikipedia.org/wiki/Languages_with_official_recognition_in_India",
+const NATIONAL = {
+  ZA: {
+    source: "southAfrica",
+    languages: ["af", "nr", "nso", "ss", "st", "tn", "ts", "ve", "xh", "zu"],
+  },
+  MK: { source: "macedonia", languages: ["sq"] },
 };
+
+/**
+ * Languages seen on signs in only part of a country, and where: the regions
+ * that make it an official language (official), an additional one
+ * (additional), those where it is on signs (signs), and those where it is
+ * spoken without official status (spoken). Written by hand from the
+ * Wikipedia article each names (read October 2026), in the article's terms;
+ * CLDR's "official_regional" marks too few of them, and Wikidata's
+ * statements of regions' official languages (P37) cover only some regions.
+ * Each is a clue to where in the country you are.
+ */
 const REGIONS = {
   IN: {
-    as: { official: ["Assam"] },
-    bn: { official: ["Tripura", "West Bengal"], additional: ["Assam", "Jharkhand"] },
-    gu: { official: ["Dadra and Nagar Haveli and Daman and Diu", "Gujarat"] },
-    kn: { official: ["Karnataka"] },
-    ml: { official: ["Kerala", "Puducherry"], additional: ["Lakshadweep"] },
-    mr: { official: ["Maharashtra"], additional: ["Goa"] },
-    or: { official: ["Odisha"], additional: ["Jharkhand", "West Bengal"] },
-    pa: { official: ["Delhi", "Punjab"], additional: ["Haryana", "West Bengal"] },
-    ta: { official: ["Puducherry", "Tamil Nadu"] },
-    te: { official: ["Andhra Pradesh", "Puducherry", "Telangana"], additional: ["West Bengal"] },
+    as: { official: ["Assam"], source: "india" },
+    bn: {
+      official: ["Tripura", "West Bengal"],
+      additional: ["Assam", "Jharkhand"],
+      source: "india",
+    },
+    gu: { official: ["Dadra and Nagar Haveli and Daman and Diu", "Gujarat"], source: "india" },
+    kn: { official: ["Karnataka"], source: "india" },
+    ml: { official: ["Kerala", "Puducherry"], additional: ["Lakshadweep"], source: "india" },
+    mr: { official: ["Maharashtra"], additional: ["Goa"], source: "india" },
+    or: { official: ["Odisha"], additional: ["Jharkhand", "West Bengal"], source: "india" },
+    pa: { official: ["Delhi", "Punjab"], additional: ["Haryana", "West Bengal"], source: "india" },
+    ta: { official: ["Puducherry", "Tamil Nadu"], source: "india" },
+    te: {
+      official: ["Andhra Pradesh", "Puducherry", "Telangana"],
+      additional: ["West Bengal"],
+      source: "india",
+    },
     ur: {
       official: ["Delhi", "Jammu and Kashmir", "Ladakh"],
       additional: [
@@ -98,6 +142,104 @@ const REGIONS = {
         "Uttar Pradesh",
         "West Bengal",
       ],
+      source: "india",
+    },
+  },
+  ES: {
+    ca: {
+      official: ["Catalonia", "the Balearic Islands", "the Valencian Community (as Valencian)"],
+      source: "spain",
+    },
+    eu: {
+      official: ["the Basque Country", "the Basque-speaking north of Navarre"],
+      source: "spain",
+    },
+    gl: { official: ["Galicia"], source: "galician" },
+    oc: {
+      official: ["Catalonia, where it is spoken in the Val d'Aran (as Aranese)"],
+      source: "spain",
+    },
+    ast: {
+      spoken: ["Asturias, where it is protected and many places have official Asturian names"],
+      source: "asturian",
+    },
+  },
+  FR: {
+    br: {
+      signs: ["Breton towns, in street names"],
+      spoken: ["Lower Brittany, above all Finistère, Morbihan and Côtes-d'Armor"],
+      source: "breton",
+    },
+    eu: { spoken: ["the French Basque Country"], source: "basque" },
+    co: { spoken: ["Corsica"], source: "corsican" },
+    oc: {
+      signs: ["a few towns, such as Toulouse"],
+      spoken: ["much of southern France"],
+      source: "occitan",
+    },
+  },
+  GB: {
+    cy: { official: ["Wales, where road signs are in Welsh and English"], source: "welsh" },
+    gd: { signs: ["the north-west of Scotland, its islands and main routes"], source: "signs" },
+  },
+  NL: { fy: { official: ["Friesland (Fryslân)"], source: "frisian" } },
+  CH: { rm: { official: ["Graubünden, beside German and Italian"], source: "romansh" } },
+  NO: {
+    se: {
+      official: ["Troms and Finnmark", "Kautokeino, Karasjok and six other municipalities"],
+      source: "sami",
+    },
+  },
+  FI: { se: { official: ["Enontekiö", "Inari", "Sodankylä", "Utsjoki"], source: "sami" } },
+  DE: {
+    hsb: {
+      official: ["the Sorbian core area around Crostwitz"],
+      signs: ["the Sorbian settlement area of Upper Lusatia, in Saxony"],
+      source: "sorbian",
+    },
+  },
+  RU: {
+    tt: { official: ["Tatarstan"], source: "tatar" },
+    ba: { official: ["Bashkortostan"], source: "bashkir" },
+  },
+  IT: {
+    de: { signs: ["South Tyrol, where every road sign is in German and Italian"], source: "signs" },
+    fr: { official: ["the Aosta Valley"], source: "italy" },
+    sl: {
+      signs: ["smaller villages in the provinces of Trieste, Gorizia and Udine"],
+      source: "signs",
+    },
+  },
+  AT: {
+    sl: { official: ["the mixed-language districts of Carinthia"], source: "austria" },
+    hr: { official: ["some districts of Burgenland"], source: "austria" },
+    hu: { official: ["some districts of Burgenland"], source: "austria" },
+  },
+  HR: {
+    it: {
+      official: ["Istria County, and nineteen of its towns, such as Pula, Rovinj and Umag"],
+      source: "croatia",
+    },
+  },
+  SI: {
+    it: {
+      official: ["parts of Slovenian Istria, where road signs are bilingual"],
+      source: "signs",
+    },
+    hu: { official: ["Hodoš, Dobrovnik and Lendava, in Prekmurje"], source: "hungarian" },
+  },
+  RS: { hu: { official: ["Vojvodina"], source: "hungarian" } },
+  SK: {
+    hu: {
+      official: ["municipalities of southern Slovakia where at least 15% speak it"],
+      source: "slovakia",
+    },
+  },
+  RO: {
+    hu: {
+      official: ["localities over 20% Hungarian, as in Harghita and Covasna"],
+      signs: ["those localities, on their name signs"],
+      source: "romania",
     },
   },
 };
@@ -125,6 +267,18 @@ const UDHR = {
   be: "bel",
   bg: "bul",
   bn: "ben",
+  ast: "ast",
+  br: "bre",
+  co: "cos",
+  eu: "eus",
+  fy: "fri",
+  gd: "gla",
+  gl: "glg",
+  hsb: "hsb",
+  // Occitan: Languedocien, the variety of Toulouse.
+  oc: "lnc",
+  se: "sme",
+  tt: "tat",
   gu: "guj",
   kn: "kan",
   ml: "mal",
@@ -339,31 +493,43 @@ function capitalsIn(id, countries) {
 
 /** locale → the Street View countries where it is official */
 const officialIn = new Map();
-/** locale → the countries of those where it is official only in some states */
+/** locale → the countries of those where it is a regional language (see REGIONS) */
 const regionalIn = new Map();
+const add = (map, locale, country) => {
+  if (!map.get(locale)?.includes(country)) map.set(locale, [...(map.get(locale) ?? []), country]);
+};
 for (const country of STREET_VIEW) {
   const pops = territoryInfo[country]?.languagePopulation ?? {};
   for (const [key, p] of Object.entries(pops)) {
-    const regional =
-      p._officialStatus === "official_regional" &&
-      REGIONAL.includes(country) &&
-      Number(p._populationPercent) >= REGIONAL_MIN_PERCENT;
-    if (!["official", "de_facto_official"].includes(p._officialStatus) && !regional) continue;
+    if (!["official", "de_facto_official"].includes(p._officialStatus)) continue;
     const locale = key.replace(/_/g, "-");
-    if (LEFT_OUT[locale]) continue;
-    if (!officialIn.has(locale)) officialIn.set(locale, []);
-    officialIn.get(locale).push(country);
-    if (regional) regionalIn.set(locale, [...(regionalIn.get(locale) ?? []), country]);
+    if (!LEFT_OUT[locale]) add(officialIn, locale, country);
+  }
+  for (const locale of NATIONAL[country]?.languages ?? []) add(officialIn, locale, country);
+  for (const locale of Object.keys(REGIONS[country] ?? {})) {
+    // Official nationwide already: not regional there.
+    if (officialIn.get(locale)?.includes(country)) continue;
+    add(officialIn, locale, country);
+    add(regionalIn, locale, country);
   }
 }
 
-/**
- * The states where a language is official, by country, for the countries
- * where it is official only in some (see REGIONS).
- */
+/** Where a language is regional, by country, with the article it comes from. */
 function regionsOf(id, countries) {
   const out = {};
-  for (const c of countries) if (REGIONS[c]?.[id]) out[c] = REGIONS[c][id];
+  for (const c of countries) {
+    const { source, ...where } = REGIONS[c][id];
+    out[c] = { ...where, source: SOURCES[source] };
+  }
+  return out;
+}
+
+/** The article saying a language is official nationwide, where CLDR does not. */
+function nationalOf(id, countries) {
+  const out = {};
+  for (const c of countries) {
+    if (NATIONAL[c]?.languages.includes(id)) out[c] = SOURCES[NATIONAL[c].source];
+  }
   return out;
 }
 
@@ -474,6 +640,9 @@ for (const [id, countries] of [...merged].sort()) {
     words: [...new Set(words)],
     sentence,
     ...(regional.length ? { regional, regions: regionsOf(id, regional) } : {}),
+    ...(Object.keys(nationalOf(id, countries)).length
+      ? { national: nationalOf(id, countries) }
+      : {}),
   });
 }
 
@@ -548,11 +717,19 @@ for (const l of languages) {
         .map(([en, w]) => `${w} (${en})`)
         .join(", ")}` +
       (l.regional
-        ? `\n         official only in some states of ${l.regional.join(", ")}: ` +
-          (Object.values(l.regions)
-            .map((r) => [...r.official, ...(r.additional ?? []).map((s) => `${s} (additional)`)])
-            .flat()
-            .join(", ") || "NO STATES in REGIONS")
+        ? Object.entries(l.regions)
+            .map(
+              ([c, r]) =>
+                `\n         ${c}: ` +
+                ["official", "additional", "signs", "spoken"]
+                  .filter((k) => r[k])
+                  .map((k) => `${k} ${r[k].join("; ")}`)
+                  .join(" | "),
+            )
+            .join("")
+        : "") +
+      (l.national
+        ? `\n         official nationwide in ${Object.keys(l.national).join(", ")}`
         : "") +
       `\n         ${l.sentence ? l.sentence.slice(0, 90) : "NO SENTENCE"}`,
   );
@@ -572,7 +749,6 @@ await writeFile(
   JSON.stringify({
     cldr: "48.2.0",
     udhr: "6.0.0",
-    regionsSource: REGIONS_SOURCE,
     scripts,
     languages,
     telltales,

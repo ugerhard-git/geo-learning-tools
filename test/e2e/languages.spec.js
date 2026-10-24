@@ -102,12 +102,12 @@ test("India's regional languages say where they are official, with the source", 
   await page.click('.lcard[data-lang="kn"]');
   const detail = page.locator("#detail");
   await expect(detail.locator("h2")).toHaveText("Kannada");
-  await expect(detail.locator(".meta")).toContainText("India (some states)");
+  await expect(detail.locator(".meta")).toContainText("India (some regions)");
   await expect(detail.locator("h3", { hasText: "Where in India" })).toBeVisible();
   for (const state of kn.regions.IN.official) await expect(detail).toContainText(state);
-  await expect(detail.getByRole("link", { name: DATA.regionsSource.title })).toHaveAttribute(
+  await expect(detail.getByRole("link", { name: kn.regions.IN.source.title })).toHaveAttribute(
     "href",
-    DATA.regionsSource.url,
+    kn.regions.IN.source.url,
   );
   await page.keyboard.press("Escape");
 
@@ -117,6 +117,30 @@ test("India's regional languages say where they are official, with the source", 
   await expect(detail.locator("h2")).toHaveText("Odia");
   await expect(detail.locator(".dsent")).toHaveCount(0);
   await expect(detail.locator(".dwords span").first()).toBeVisible();
+  expect([...problems, ...(await cspViolations(page))]).toEqual([]);
+});
+
+test("Basque says where in Spain and France it is used, and Afrikaans is South African", async ({
+  page,
+}) => {
+  const problems = await openPage(page, PAGE);
+  const eu = DATA.languages.find((l) => l.id === "eu");
+  await page.fill("#q", "Basque");
+  await page.click('.lcard[data-lang="eu"]');
+  const detail = page.locator("#detail");
+  await expect(detail.locator("h3", { hasText: "Where in Spain" })).toBeVisible();
+  await expect(detail.locator("h3", { hasText: "Where in France" })).toBeVisible();
+  await expect(detail).toContainText("Official in the Basque Country");
+  await expect(detail).toContainText(
+    "Spoken, without official status, in the French Basque Country",
+  );
+  await expect(detail.getByRole("link", { name: eu.regions.FR.source.title })).toBeVisible();
+  await page.keyboard.press("Escape");
+
+  await page.fill("#q", "Afrikaans");
+  await page.click('.lcard[data-lang="af"]');
+  await expect(detail.locator(".meta")).toContainText("South Africa");
+  await expect(detail).toContainText("Official in all of South Africa");
   expect([...problems, ...(await cspViolations(page))]).toEqual([]);
 });
 

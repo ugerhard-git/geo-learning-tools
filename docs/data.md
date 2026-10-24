@@ -141,11 +141,13 @@ has one.
 
 - **Which languages:** those official, or official in practice, in a country
   listed in `tools/data/street-view-countries.txt`, according to CLDR, less a
-  few left out on purpose (listed in `tools/data/languages.mjs`). In India,
-  also the languages CLDR marks official only in some states that at least
-  1% of people speak (Bengali, Telugu, Marathi, Tamil, Urdu, Gujarati,
-  Kannada, Malayalam, Odia, Punjabi, Assamese), since signs there are in the
-  state's language.
+  few left out on purpose (listed in `tools/data/languages.mjs`). Also the
+  regional and minority languages seen on signs in part of a country
+  (`REGIONS`: India's state languages, Catalan, Basque, Galician, Welsh,
+  Scottish Gaelic, Frisian, Breton, Romansh, Sami, Sorbian, German in South
+  Tyrol, Hungarian in its neighbours, and others), and those official
+  nationwide that CLDR marks regional (`NATIONAL`: South Africa's eleven
+  languages, Albanian in North Macedonia).
 - **`id`** is the CLDR locale; a language written in two scripts on signs has
   one entry per script (`sr`, `sr-Latn`). **`script`** is an ISO 15924 code.
 - **`letters`** are CLDR's main exemplar letters, in lower case.
@@ -156,14 +158,17 @@ has one.
 - **`sentence`** is the first sentence of Article 1 of the Universal
   Declaration of Human Rights; empty where the udhr package has no
   translation (Odia, Assamese), and then the words stand in for it.
-- **`regional`** lists the countries where the language is official only in
-  some states (CLDR's "official_regional"), and **`regions`** names those
-  states by country: those that name it an official language (`official`)
-  and an additional one (`additional`). They are written by hand into
-  `REGIONS` in `tools/data/languages.mjs` from the table in Wikipedia's
-  "Languages with official recognition in India", which **`regionsSource`**
-  at the top of the file names; Wikidata's statements of the states'
-  official languages cover only some states.
+- **`regional`** lists the countries where the language is a regional or
+  minority language, and **`regions`** says where in each, in the terms of
+  a Wikipedia article: the regions where it is an official language
+  (`official`), an additional one (`additional`), on signs (`signs`), or
+  spoken without official status (`spoken`), with the article (`source`:
+  title and address). They are written by hand into `REGIONS` in
+  `tools/data/languages.mjs`; CLDR's "official_regional" marks too few of
+  them, and Wikidata's statements of regions' official languages cover only
+  some regions.
+- **`national`** names, by country, the Wikipedia article saying the
+  language is official nationwide where CLDR marks it regional.
 - **`street`**, **`road`** and **`city`** are the language's words for them,
   as seen on street and town signs: the Wikidata labels of "street"
   (Q79007), "road" (Q34442) and "city" (Q515), kept in
