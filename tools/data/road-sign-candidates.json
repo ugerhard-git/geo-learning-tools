@@ -52,6 +52,14 @@
     "score": 2
    }
   ],
+  "yield": [
+   {
+    "file": "AE_road_sign_302.svg",
+    "caption": "Give way",
+    "section": "Gallery / Regulatory signs / Control signs",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "AE_road_sign_301.svg",
@@ -68,6 +76,14 @@
     "file": "Italian_traffic_signs_-_attraversamento_pedonale.svg",
     "caption": "Pedestrian crossing",
     "section": "Indication signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "Italian_traffic_signs_-_dare_precedenza.svg",
+    "caption": "Give Way",
+    "section": "Regulatory signs / Priority signs",
     "score": 2
    }
   ],
@@ -93,6 +109,14 @@
     "file": "AR_road_sign_P-5.svg",
     "caption": "Pedestrian crossing",
     "section": "Gallery / Warning signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "Argentina_MSV_2017_road_sign_R-28.svg",
+    "caption": "Yield",
+    "section": "Gallery / Regulatory signs",
     "score": 2
    }
   ],
@@ -177,6 +201,56 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "MUTCD_R1-2.svg",
+    "caption": "R1-2 Yield",
+    "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 2
+   },
+   {
+    "file": "MUTCD_R1-5dR.svg",
+    "caption": "R1-5dR Yield here to trail crossing (right)",
+    "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R1-5dL.svg",
+    "caption": "R1-5dL Yield here to trail crossing (left)",
+    "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R4-4.svg",
+    "caption": "R4-4 Begin right turn lane yield to bikes",
+    "section": "Regulatory signs / R4 series: Regulation of movement",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R10-12.svg",
+    "caption": "R10-12 Left turn yield on green",
+    "section": "Regulatory signs / R10 series: Traffic signal",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R10-12a.svg",
+    "caption": "R10-12a Left turn yield on flashing yellow arrow",
+    "section": "Regulatory signs / R10 series: Traffic signal",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R10-16.svg",
+    "caption": "R10-16 U-turn yield to right turn",
+    "section": "Regulatory signs / R10 series: Traffic signal",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R10-30.svg",
+    "caption": "R10-30 Right turn on red must yield to U-turn",
+    "section": "Regulatory signs / R10 series: Traffic signal",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "MUTCD_R1-1.svg",
@@ -257,6 +331,14 @@
     "file": "Gefahrenzeichen_16.svg",
     "caption": "16: Other dangers",
     "section": "General danger signals",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "Vorschriftszeichen_23.svg",
+    "caption": "23: Give way",
+    "section": "Priority signs",
     "score": 2
    }
   ],
@@ -361,6 +443,32 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "Australia_road_sign_R1-2.svg",
+    "caption": "(R1-2) Give Way",
+    "section": "Regulatory signs",
+    "score": 2
+   },
+   {
+    "file": "Cocos_(Keeling)_Islands_give_way_sign.svg",
+    "caption": "(R1-2) Give Way (bilingual in English and Cocos Malay; used on the Cocos (Keeling) Islands)",
+    "section": "Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "AU-VIC_road_sign_R1-V6.svg",
+    "caption": "(R1-V6) Give Way to Stock (used in Victoria)",
+    "section": "Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "Victoria_R2-V115.svg",
+    "caption": "(R2-V115) U-turn Must Give Way (used in Victoria)",
+    "section": "Regulatory signs",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "Australia_road_sign_R1-1.svg",
@@ -438,6 +546,20 @@
     "score": 2
    }
   ],
+  "yield": [
+   {
+    "file": "Finland_road_sign_B5.svg",
+    "caption": "Give way",
+    "section": "Priority signs",
+    "score": 2
+   },
+   {
+    "file": "AX_road_sign_Fö1.svg",
+    "caption": "Fö1 Give way",
+    "section": "Road signs in Åland / Priority signs",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "Finland_road_sign_B6.svg",
@@ -502,6 +624,14 @@
     "file": "HR_road_sign_A01.svg",
     "caption": "Other dangers",
     "section": "Warning signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "HR_road_sign_B01.svg",
+    "caption": "Give way",
+    "section": "Regulatory signs",
     "score": 2
    }
   ],
@@ -590,6 +720,20 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "Bangladesh_road_sign_A2.svg",
+    "caption": "Give way",
+    "section": "Regulatory signs",
+    "score": 2
+   },
+   {
+    "file": "Bangladesh_road_sign_D8.svg",
+    "caption": "Give way",
+    "section": "Additional signs",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "Bangladesh_road_sign_A1.svg",
@@ -643,6 +787,38 @@
     "score": 2
    }
   ],
+  "yield": [
+   {
+    "file": "Belgian_traffic_sign_B1.svg",
+    "caption": "B1: Yield",
+    "section": "Priority signs (1975-2027)",
+    "score": 2
+   },
+   {
+    "file": "Belgian_traffic_sign_B1_KB-AR_03-06-2024.svg",
+    "caption": "B1: Yield",
+    "section": "New road signs (2027 onwards)",
+    "score": 2
+   },
+   {
+    "file": "Belgian_traffic_sign_B3.svg",
+    "caption": "B3: Yield in 150 metres",
+    "section": "Priority signs (1975-2027)",
+    "score": 1
+   },
+   {
+    "file": "Belgian_traffic_sign_B22.svg",
+    "caption": "B22: Bike may pass a yellow or red light to turn right, after yield",
+    "section": "Priority signs (1975-2027)",
+    "score": 1
+   },
+   {
+    "file": "Belgian_traffic_sign_B23.svg",
+    "caption": "B23: Bike may pass a yellow or red light to go straight, after yield",
+    "section": "Priority signs (1975-2027)",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "Belgian_traffic_sign_B5.svg",
@@ -680,6 +856,20 @@
     "caption": "А39 Other dangers",
     "section": "Warning signs",
     "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "BG_road_sign_Б1.svg",
+    "caption": "Б1 Give way",
+    "section": "Priority signs",
+    "score": 2
+   },
+   {
+    "file": "BG_road_sign_Б5.svg",
+    "caption": "Б5 Give way to vehicles coming from the opposite direction",
+    "section": "Priority signs",
+    "score": 1
    }
   ],
   "stop": [
@@ -725,6 +915,20 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "UK_traffic_sign_602.svg",
+    "caption": "Give way to traffic on the major road (English Language Only)",
+    "section": "Categorisation / Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "UK_traffic_sign_602–WLS.svg",
+    "caption": "Give way to traffic on the major road (English and Welsh Language)",
+    "section": "Categorisation / Regulatory signs",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "UK_2023_Private_Crossing_Sign_109.svg",
@@ -761,6 +965,14 @@
     "file": "Brazil_pedestrian_crossing_sign.svg",
     "caption": "Zebra crossing",
     "section": "Other signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "BR_road_sign_R-2.svg",
+    "caption": "Yield",
+    "section": "Regulatory signs",
     "score": 2
    }
   ],
@@ -802,6 +1014,20 @@
     "file": "SADC_road_sign_W339.svg",
     "caption": "Warning",
     "section": "Permanent road signs / Warning signs",
+    "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "SADC_road_sign_R2.svg",
+    "caption": "Give Way / Yield",
+    "section": "Permanent road signs / Regulatory signs / Control signs",
+    "score": 1
+   },
+   {
+    "file": "SADC_road_sign_R2.1_(Equestrians).svg",
+    "caption": "Give way / Yield to Equestrians",
+    "section": "Permanent road signs / Regulatory signs / Control signs",
     "score": 1
    }
   ],
@@ -934,6 +1160,32 @@
     "caption": "Overhead pedestrian crossing",
     "section": "New Brunswick road signs",
     "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "CA-MUTCDC_RA-002.svg",
+    "caption": "RA-2 Yield",
+    "section": "Canadian road signs / Gallery of other signs",
+    "score": 2
+   },
+   {
+    "file": "CA-BC_road_sign_R-002.svg",
+    "caption": "Yield",
+    "section": "British Columbia road signs",
+    "score": 2
+   },
+   {
+    "file": "CA-ON_road_sign_Ra-002.svg",
+    "caption": "Yield",
+    "section": "Ontario road signs / Examples of Ontario regulatory and warning road signs",
+    "score": 2
+   },
+   {
+    "file": "CA-QC_road_sign_P-020-1.svg",
+    "caption": "Yield sign",
+    "section": "Quebec road signs / Quebec gallery",
+    "score": 2
    }
   ],
   "stop": [
@@ -1079,6 +1331,32 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "Australia_road_sign_R1-2.svg",
+    "caption": "(R1-2) Give Way",
+    "section": "Regulatory signs",
+    "score": 2
+   },
+   {
+    "file": "Cocos_(Keeling)_Islands_give_way_sign.svg",
+    "caption": "(R1-2) Give Way (bilingual in English and Cocos Malay; used on the Cocos (Keeling) Islands)",
+    "section": "Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "AU-VIC_road_sign_R1-V6.svg",
+    "caption": "(R1-V6) Give Way to Stock (used in Victoria)",
+    "section": "Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "Victoria_R2-V115.svg",
+    "caption": "(R2-V115) U-turn Must Give Way (used in Victoria)",
+    "section": "Regulatory signs",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "Australia_road_sign_R1-1.svg",
@@ -1144,6 +1422,14 @@
     "score": 2
    }
   ],
+  "yield": [
+   {
+    "file": "CH-Vortrittssignal-Kein_Vortritt.svg",
+    "caption": "3.02 Give way",
+    "section": "Currently valid signs / Priority signs",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "CH-Vortrittssignal-Stop.svg",
@@ -1168,6 +1454,14 @@
     "file": "CL_road_sign_PE-12.svg",
     "caption": "PE-12 Danger",
     "section": "Warning signs / Special signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "CL_road_sign_RPI-1.svg",
+    "caption": "RPI-1 Give way",
+    "section": "Regulatory signs / Priority signs",
     "score": 2
    }
   ],
@@ -1210,6 +1504,14 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "Colombia_road_sign_SR-02.svg",
+    "caption": "SR-02 Give way",
+    "section": "Regulatory signs",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "Colombia_road_sign_SR-01.svg",
@@ -1240,6 +1542,50 @@
     "file": "SIECA_road_sign_P-9-4.svg",
     "caption": "P-9-4 Pedestrian crosswalk",
     "section": "Warning signs",
+    "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "SIECA_road_sign_R-1-2.svg",
+    "caption": "R-1-2 Give way",
+    "section": "Regulatory signs",
+    "score": 2
+   },
+   {
+    "file": "SIECA_road_sign_R-1-3.svg",
+    "caption": "R-1-3 Give way (red right arrow)",
+    "section": "Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "SIECA_road_sign_R-1-4.svg",
+    "caption": "R-1-4 Give way (green turn left arrow)",
+    "section": "Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "Sieca_road_sign_R-1-9.svg",
+    "caption": "R-1-9 Transit Route Yield Right of Way",
+    "section": "Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "SIECA_road_sign_R-3-19.svg",
+    "caption": "R-3-19 Begin right turn lane yield to bikes",
+    "section": "Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "SIECA_road_sign_R-4-7.svg",
+    "caption": "R-4-7 Yield before turning right on red",
+    "section": "Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "SIECA_road_sign_R-4-8.svg",
+    "caption": "R-4-8 Left turn permitted, yield on green",
+    "section": "Regulatory signs",
     "score": 1
    }
   ],
@@ -1350,6 +1696,32 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "Australia_road_sign_R1-2.svg",
+    "caption": "(R1-2) Give Way",
+    "section": "Regulatory signs",
+    "score": 2
+   },
+   {
+    "file": "Cocos_(Keeling)_Islands_give_way_sign.svg",
+    "caption": "(R1-2) Give Way (bilingual in English and Cocos Malay; used on the Cocos (Keeling) Islands)",
+    "section": "Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "AU-VIC_road_sign_R1-V6.svg",
+    "caption": "(R1-V6) Give Way to Stock (used in Victoria)",
+    "section": "Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "Victoria_R2-V115.svg",
+    "caption": "(R2-V115) U-turn Must Give Way (used in Victoria)",
+    "section": "Regulatory signs",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "Australia_road_sign_R1-1.svg",
@@ -1407,6 +1779,20 @@
     "score": 2
    }
   ],
+  "yield": [
+   {
+    "file": "Cyprus_road_sign_give_way.svg",
+    "caption": "Give way",
+    "section": "Categorisation / Regulatory signs / Other regulatory signs",
+    "score": 2
+   },
+   {
+    "file": "Northern_Cyprus_Giveway_Sign.svg",
+    "caption": "Give way",
+    "section": "Other signs / Northern Cyprus",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "Cyprus_road_sign_-_STOP.svg",
@@ -1445,6 +1831,14 @@
     "file": "Czech_Republic_road_sign_A_22.svg",
     "caption": "I-22: Other dangers",
     "section": "Warning signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "Czech_Republic_road_sign_P_4.svg",
+    "caption": "II-4: Yield",
+    "section": "Priority signs",
     "score": 2
    }
   ],
@@ -1499,6 +1893,14 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "Zeichen_205_-_Vorfahrt_gewähren!_StVO_1970.svg",
+    "caption": "Sign 205 Yield",
+    "section": "Regulatory signs",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "Zeichen_206.svg",
@@ -1524,6 +1926,14 @@
     "caption": "E17: Pedestrian crossing. (Variant: 30px)",
     "section": "Special regulation signs",
     "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "Denmark_road_sign_B11.svg",
+    "caption": "B11: Yield",
+    "section": "Priority signs",
+    "score": 2
    }
   ],
   "stop": [
@@ -1583,6 +1993,20 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "Ecuador_road_sign_R1-2.svg",
+    "caption": "R1-2 Give way",
+    "section": "Regulatory signs / R1: Priority series",
+    "score": 2
+   },
+   {
+    "file": "Ecuador_road_sign_R6-6.svg",
+    "caption": "R6-6 Give way to the trolley",
+    "section": "Regulatory signs / R6: Complementary plate series",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "Ecuador_road_sign_R1-1.svg",
@@ -1618,6 +2042,14 @@
     "score": 2
    }
   ],
+  "yield": [
+   {
+    "file": "Estonia_road_sign_221.svg",
+    "caption": "Give way",
+    "section": "Priority signs",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "Estonia_road_sign_222.svg",
@@ -1650,6 +2082,14 @@
     "file": "Spain_traffic_sign_p50.svg",
     "caption": "P-50 Other dangers",
     "section": "General danger signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "Spain_traffic_signal_r1.svg",
+    "caption": "R-1 Give way",
+    "section": "Regulatory signs / Priority signs",
     "score": 2
    }
   ],
@@ -1712,6 +2152,20 @@
     "score": 2
    }
   ],
+  "yield": [
+   {
+    "file": "Finland_road_sign_B5.svg",
+    "caption": "Give way",
+    "section": "Priority signs",
+    "score": 2
+   },
+   {
+    "file": "AX_road_sign_Fö1.svg",
+    "caption": "Fö1 Give way",
+    "section": "Road signs in Åland / Priority signs",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "Finland_road_sign_B6.svg",
@@ -1750,6 +2204,20 @@
     "file": "France_road_sign_A14.svg",
     "caption": "Other danger",
     "section": "Warning signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "France_road_sign_AB3a.svg",
+    "caption": "Give way",
+    "section": "Priority signs",
+    "score": 2
+   },
+   {
+    "file": "France_road_sign_M9c.svg",
+    "caption": "Give way",
+    "section": "Additional signs",
     "score": 2
    }
   ],
@@ -1805,6 +2273,20 @@
     "file": "UK_traffic_sign_562.svg",
     "caption": "Other danger ahead",
     "section": "Categorisation / Warning signs",
+    "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "UK_traffic_sign_602.svg",
+    "caption": "Give way to traffic on the major road (English Language Only)",
+    "section": "Categorisation / Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "UK_traffic_sign_602–WLS.svg",
+    "caption": "Give way to traffic on the major road (English and Welsh Language)",
+    "section": "Categorisation / Regulatory signs",
     "score": 1
    }
   ],
@@ -1893,6 +2375,20 @@
     "score": 2
    }
   ],
+  "yield": [
+   {
+    "file": "RU_road_sign_2.4.svg",
+    "caption": "Give way",
+    "section": "Gallery / Priority signs",
+    "score": 2
+   },
+   {
+    "file": "GE_road_sign_5.36.svg",
+    "caption": "Yield to merging traffic",
+    "section": "Gallery / Special regulation signs",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "2.5_Georgian_road_sign.svg",
@@ -1948,6 +2444,20 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "UK_traffic_sign_602.svg",
+    "caption": "Give way to traffic on the major road (English Language Only)",
+    "section": "Categorisation / Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "UK_traffic_sign_602–WLS.svg",
+    "caption": "Give way to traffic on the major road (English and Welsh Language)",
+    "section": "Categorisation / Regulatory signs",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "UK_2023_Private_Crossing_Sign_109.svg",
@@ -1985,6 +2495,14 @@
     "caption": "E17: Pedestrian crossing. (Variant: 30px)",
     "section": "Special regulation signs",
     "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "Denmark_road_sign_B11.svg",
+    "caption": "B11: Yield",
+    "section": "Priority signs",
+    "score": 2
    }
   ],
   "stop": [
@@ -2052,6 +2570,14 @@
     "score": 2
    }
   ],
+  "yield": [
+   {
+    "file": "Traffic_Sign_GR_-_KOK_2009_-_R-1.svg",
+    "caption": "Ρ-1 Give way",
+    "section": "Categorization / Regulatory signs (ΚΟΚ series Ρ)",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "Traffic_Sign_GR_-_KOK_2009_-_R-2.svg",
@@ -2082,6 +2608,50 @@
     "file": "SIECA_road_sign_P-9-4.svg",
     "caption": "P-9-4 Pedestrian crosswalk",
     "section": "Warning signs",
+    "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "SIECA_road_sign_R-1-2.svg",
+    "caption": "R-1-2 Give way",
+    "section": "Regulatory signs",
+    "score": 2
+   },
+   {
+    "file": "SIECA_road_sign_R-1-3.svg",
+    "caption": "R-1-3 Give way (red right arrow)",
+    "section": "Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "SIECA_road_sign_R-1-4.svg",
+    "caption": "R-1-4 Give way (green turn left arrow)",
+    "section": "Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "Sieca_road_sign_R-1-9.svg",
+    "caption": "R-1-9 Transit Route Yield Right of Way",
+    "section": "Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "SIECA_road_sign_R-3-19.svg",
+    "caption": "R-3-19 Begin right turn lane yield to bikes",
+    "section": "Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "SIECA_road_sign_R-4-7.svg",
+    "caption": "R-4-7 Yield before turning right on red",
+    "section": "Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "SIECA_road_sign_R-4-8.svg",
+    "caption": "R-4-8 Left turn permitted, yield on green",
+    "section": "Regulatory signs",
     "score": 1
    }
   ],
@@ -2172,6 +2742,56 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "MUTCD_R1-2.svg",
+    "caption": "R1-2 Yield",
+    "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 2
+   },
+   {
+    "file": "MUTCD_R1-5dR.svg",
+    "caption": "R1-5dR Yield here to trail crossing (right)",
+    "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R1-5dL.svg",
+    "caption": "R1-5dL Yield here to trail crossing (left)",
+    "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R4-4.svg",
+    "caption": "R4-4 Begin right turn lane yield to bikes",
+    "section": "Regulatory signs / R4 series: Regulation of movement",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R10-12.svg",
+    "caption": "R10-12 Left turn yield on green",
+    "section": "Regulatory signs / R10 series: Traffic signal",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R10-12a.svg",
+    "caption": "R10-12a Left turn yield on flashing yellow arrow",
+    "section": "Regulatory signs / R10 series: Traffic signal",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R10-16.svg",
+    "caption": "R10-16 U-turn yield to right turn",
+    "section": "Regulatory signs / R10 series: Traffic signal",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R10-30.svg",
+    "caption": "R10-30 Right turn on red must yield to U-turn",
+    "section": "Regulatory signs / R10 series: Traffic signal",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "MUTCD_R1-1.svg",
@@ -2241,6 +2861,14 @@
     "score": 2
    }
   ],
+  "yield": [
+   {
+    "file": "HK_traffic_sign_102.svg",
+    "caption": "Give way",
+    "section": "Regulatory",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "HK_traffic_sign_101.svg",
@@ -2285,6 +2913,14 @@
     "file": "HR_road_sign_A01.svg",
     "caption": "A01 Other dangers",
     "section": "Warning signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "HR_road_sign_B01.svg",
+    "caption": "B01 Give way",
+    "section": "Regulatory signs",
     "score": 2
    }
   ],
@@ -2403,6 +3039,44 @@
     "score": 2
    }
   ],
+  "yield": [
+   {
+    "file": "Hungary_road_sign_B-001.svg",
+    "caption": "B-001 Give way",
+    "section": "Priority signs",
+    "score": 2
+   },
+   {
+    "file": "Hungary_road_sign_A-027.svg",
+    "caption": "A-027 Yield to the right at next intersection",
+    "section": "Warning signs",
+    "score": 1
+   },
+   {
+    "file": "Hungary_road_sign_H-007.svg",
+    "caption": "H-007 Yield to curved main road",
+    "section": "Additional signs",
+    "score": 1
+   },
+   {
+    "file": "Hungary_road_sign_H-008.svg",
+    "caption": "H-008 Yield to curved main road",
+    "section": "Additional signs",
+    "score": 1
+   },
+   {
+    "file": "Hungary_road_sign_H-009.svg",
+    "caption": "H-009 Yield to curved main road",
+    "section": "Additional signs",
+    "score": 1
+   },
+   {
+    "file": "Hungary_road_sign_H-010.svg",
+    "caption": "H-010 Yield to curved main road",
+    "section": "Additional signs",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "Hungary_road_sign_B-002.svg",
@@ -2467,6 +3141,14 @@
     "file": "ID_Rambu_peringatan_8a.svg",
     "caption": "Other danger",
     "section": "Warning signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "Indonesia_road_sign_(Prohibitory)_1b.svg",
+    "caption": "Give way",
+    "section": "Prohibitory signs",
     "score": 2
    }
   ],
@@ -2547,6 +3229,26 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "IE_road_sign_RUS-026.svg",
+    "caption": "RUS 026 Yield",
+    "section": "Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "IE_road_sign_RUS-026G.svg",
+    "caption": "RUS 026 (Yield sign in Irish)",
+    "section": "Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "IE_road_sign_RUS-035.svg",
+    "caption": "RUS 035 LRT Yield",
+    "section": "Regulatory signs",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "IE_road_sign_RUS-027.svg",
@@ -2571,6 +3273,14 @@
     "file": "Israel_road_sign_306.svg",
     "caption": "Pedestrian crossing",
     "section": "Information signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "Israel_road_sign_301.svg",
+    "caption": "Give way",
+    "section": "Regulatory signs",
     "score": 2
    }
   ],
@@ -2614,6 +3324,20 @@
     "file": "UK_traffic_sign_562.svg",
     "caption": "Other danger ahead",
     "section": "Categorisation / Warning signs",
+    "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "UK_traffic_sign_602.svg",
+    "caption": "Give way to traffic on the major road (English Language Only)",
+    "section": "Categorisation / Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "UK_traffic_sign_602–WLS.svg",
+    "caption": "Give way to traffic on the major road (English and Welsh Language)",
+    "section": "Categorisation / Regulatory signs",
     "score": 1
    }
   ],
@@ -2682,6 +3406,14 @@
     "score": 2
    }
   ],
+  "yield": [
+   {
+    "file": "Indian_Road_Sign_I-I-2.svg",
+    "caption": "Give Way",
+    "section": "Mandatory/Regulatory signs",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "Indian_Road_Sign_I-I-1_(EN).svg",
@@ -2714,6 +3446,14 @@
     "file": "Iceland_road_sign_A99.11.svg",
     "caption": "Other danger",
     "section": "Gallery / Warning signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "Iceland_road_sign_A06.11.svg",
+    "caption": "Give way",
+    "section": "Gallery / Priority signs",
     "score": 2
    }
   ],
@@ -2796,6 +3536,20 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "Italian_traffic_signs_-_dare_precedenza.svg",
+    "caption": "Give way (formerly used 30px)",
+    "section": "Gallery / Regulatory signs / Priority signs",
+    "score": 1
+   },
+   {
+    "file": "Segnale_stradale_italiano_2025_-_figura_II_36_+_pannello_giallo_verde.svg",
+    "caption": "Give way (with fluoro board)",
+    "section": "Gallery / Regulatory signs / Priority signs",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "Italian_traffic_signs_-_fermarsi_e_dare_precedenza_-_stop.svg",
@@ -2857,6 +3611,20 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "UK_traffic_sign_602.svg",
+    "caption": "Give way to traffic on the major road (English Language Only)",
+    "section": "Categorisation / Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "UK_traffic_sign_602–WLS.svg",
+    "caption": "Give way to traffic on the major road (English and Welsh Language)",
+    "section": "Categorisation / Regulatory signs",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "UK_2023_Private_Crossing_Sign_109.svg",
@@ -2894,6 +3662,14 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "Japan_road_sign_509.svg",
+    "caption": "Yield",
+    "section": "Supplemental signs",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "Japan_road_sign_330_(English).svg",
@@ -2925,6 +3701,14 @@
     "caption": "Crosswalk right",
     "section": "Gallery / Special regulation signs",
     "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "2.4_Russian_road_sign.svg",
+    "caption": "Yield",
+    "section": "Gallery / Priority signs",
+    "score": 2
    }
   ],
   "stop": [
@@ -2974,6 +3758,20 @@
     "caption": "Other danger",
     "section": "Warning signs",
     "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "Cambodia_road_sign_R3-02.svg",
+    "caption": "Give way",
+    "section": "Priority signs",
+    "score": 2
+   },
+   {
+    "file": "Cambodia_road_sign_R3-07.svg",
+    "caption": "Give way to all traffic from the opposite direction",
+    "section": "Priority signs",
+    "score": 1
    }
   ],
   "stop": [
@@ -3032,6 +3830,20 @@
     "file": "KR_road_sign_140.svg",
     "caption": "Other dangers",
     "section": "Warning signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "KR_road_sign_228.svg",
+    "caption": "Yield",
+    "section": "Prohibition signs",
+    "score": 2
+   },
+   {
+    "file": "Korea_Traffic_Safety_Sign_-_Road_Mark_-_522_Yield.svg",
+    "caption": "Yield",
+    "section": "Road surface marking",
     "score": 2
    }
   ],
@@ -3112,6 +3924,14 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "RU_road_sign_2.4.svg",
+    "caption": "Yield",
+    "section": "Priority signs",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "RU_road_sign_2.5.svg",
@@ -3144,6 +3964,14 @@
     "file": "2026_Vienna_Convention_road_sign_A-29.1.svg",
     "caption": "Other dangers",
     "section": "Warning signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "2026_Vienna_Convention_road_sign_B-01.1.svg",
+    "caption": "Give way",
+    "section": "Priority signs",
     "score": 2
    }
   ],
@@ -3188,6 +4016,14 @@
     "score": 2
    }
   ],
+  "yield": [
+   {
+    "file": "CH-Vortrittssignal-Kein_Vortritt.svg",
+    "caption": "3.02 Give way",
+    "section": "Currently valid signs / Priority signs",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "CH-Vortrittssignal-Stop.svg",
@@ -3213,6 +4049,20 @@
     "caption": "Pedestrian crossing",
     "section": "Directional informative signs / Other signs useful for drivers",
     "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "Vienna_Convention_road_sign_B1-V1.svg",
+    "caption": "Give way (without inscription)",
+    "section": "Regulatory signs / Priority signs",
+    "score": 1
+   },
+   {
+    "file": "UK_traffic_sign_602.svg",
+    "caption": "Give way (with inscription)",
+    "section": "Regulatory signs / Priority signs",
+    "score": 1
    }
   ],
   "stop": [
@@ -3253,6 +4103,20 @@
     "file": "SADC_road_sign_W339.svg",
     "caption": "Warning",
     "section": "Permanent road signs / Warning signs",
+    "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "SADC_road_sign_R2.svg",
+    "caption": "Give Way / Yield",
+    "section": "Permanent road signs / Regulatory signs / Control signs",
+    "score": 1
+   },
+   {
+    "file": "SADC_road_sign_R2.1_(Equestrians).svg",
+    "caption": "Give way / Yield to Equestrians",
+    "section": "Permanent road signs / Regulatory signs / Control signs",
     "score": 1
    }
   ],
@@ -3365,6 +4229,14 @@
     "score": 2
    }
   ],
+  "yield": [
+   {
+    "file": "LT_road_sign_203.svg",
+    "caption": "Give way",
+    "section": "Priority signs",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "LT_road_sign_204.svg",
@@ -3408,6 +4280,14 @@
     "caption": "Pedestrian crossing (with fluoro board)",
     "section": "Special regulation signs",
     "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "LV_road_sign_206.svg",
+    "caption": "Give way",
+    "section": "Priority signs",
+    "score": 2
    }
   ],
   "stop": [
@@ -3471,6 +4351,14 @@
     "file": "MK_road_sign_101.svg",
     "caption": "I-25 Other dangers",
     "section": "Warning signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "ME_road_sign_II-1.svg",
+    "caption": "II-1 Give way",
+    "section": "Order signs / Prohibitory signs",
     "score": 2
    }
   ],
@@ -3541,6 +4429,14 @@
     "score": 2
    }
   ],
+  "yield": [
+   {
+    "file": "MK_road_sign_201.svg",
+    "caption": "Give way",
+    "section": "Regulatory signs",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "MK_road_sign_202.svg",
@@ -3580,6 +4476,14 @@
     "caption": "Other danger (e.g.: potholes)",
     "section": "Road signs / Warning signs",
     "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "RU_road_sign_2.4.svg",
+    "caption": "Give way",
+    "section": "Road signs / Priority signs",
+    "score": 2
    }
   ],
   "stop": [
@@ -3647,6 +4551,14 @@
     "caption": "10a)&nbsp;— Other dangers nearby",
     "section": "Warning signs",
     "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "Macau_road_sign_8a.svg",
+    "caption": "8a)&nbsp;— Give way",
+    "section": "Warning signs",
+    "score": 2
    }
   ],
   "stop": [
@@ -3736,6 +4648,56 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "MUTCD_R1-2.svg",
+    "caption": "R1-2 Yield",
+    "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 2
+   },
+   {
+    "file": "MUTCD_R1-5dR.svg",
+    "caption": "R1-5dR Yield here to trail crossing (right)",
+    "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R1-5dL.svg",
+    "caption": "R1-5dL Yield here to trail crossing (left)",
+    "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R4-4.svg",
+    "caption": "R4-4 Begin right turn lane yield to bikes",
+    "section": "Regulatory signs / R4 series: Regulation of movement",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R10-12.svg",
+    "caption": "R10-12 Left turn yield on green",
+    "section": "Regulatory signs / R10 series: Traffic signal",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R10-12a.svg",
+    "caption": "R10-12a Left turn yield on flashing yellow arrow",
+    "section": "Regulatory signs / R10 series: Traffic signal",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R10-16.svg",
+    "caption": "R10-16 U-turn yield to right turn",
+    "section": "Regulatory signs / R10 series: Traffic signal",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R10-30.svg",
+    "caption": "R10-30 Right turn on red must yield to U-turn",
+    "section": "Regulatory signs / R10 series: Traffic signal",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "MUTCD_R1-1.svg",
@@ -3813,6 +4775,14 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "Italian_traffic_signs_-_dare_precedenza.svg",
+    "caption": "Give way (also used 35px)",
+    "section": "Gallery / Regulatory signs",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "Italian_traffic_signs_-_fermarsi_e_dare_precedenza_-_stop.svg",
@@ -3829,6 +4799,26 @@
     "file": "MX_road_sign_OD-5_(D).svg",
     "caption": "OD-5: Pass either side chevron",
     "section": "Vertical signage / Hazard markers",
+    "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "MX_road_sign_SR-7.svg",
+    "caption": "SR-7: Yield",
+    "section": "Vertical signage / Regulatory signs",
+    "score": 2
+   },
+   {
+    "file": "MX_road_sign_SP-55A1.svg",
+    "caption": "SP-55A1: Turning vehicles yield to bike lane (right)",
+    "section": "Vertical signage / Warning signs",
+    "score": 1
+   },
+   {
+    "file": "MX_road_sign_SP-55A2.svg",
+    "caption": "SP-55A2: Turning vehicles yield to bike lane (left)",
+    "section": "Vertical signage / Warning signs",
     "score": 1
    }
   ],
@@ -3871,6 +4861,14 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "Malaysia_road_sign_RP13.svg",
+    "caption": "Give way traffic",
+    "section": "Prohibition signs",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "Malaysia_road_sign_RP1.svg",
@@ -3909,6 +4907,20 @@
     "file": "SADC_road_sign_W339.svg",
     "caption": "Warning",
     "section": "Permanent road signs / Warning signs",
+    "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "SADC_road_sign_R2.svg",
+    "caption": "Give Way / Yield",
+    "section": "Permanent road signs / Regulatory signs / Control signs",
+    "score": 1
+   },
+   {
+    "file": "SADC_road_sign_R2.1_(Equestrians).svg",
+    "caption": "Give way / Yield to Equestrians",
+    "section": "Permanent road signs / Regulatory signs / Control signs",
     "score": 1
    }
   ],
@@ -4012,6 +5024,14 @@
     "score": 2
    }
   ],
+  "yield": [
+   {
+    "file": "NO_road_sign_202.svg",
+    "caption": "Yield (give way)",
+    "section": "Priority signs",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "NO_road_sign_204.svg",
@@ -4065,6 +5085,14 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "Nepal_road_sign_A2.svg",
+    "caption": "A2: Give way",
+    "section": "Regulatory signs",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "Nepal_road_sign_A1.svg",
@@ -4095,6 +5123,32 @@
     "file": "New_Zealand_road_sign_W16-3.svg",
     "caption": "Pedestrian crossing (Belisha beacon)",
     "section": "Warning signs",
+    "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "New_Zealand_road_sign_R2-2.svg",
+    "caption": "Give Way",
+    "section": "Regulatory signs",
+    "score": 2
+   },
+   {
+    "file": "New_Zealand_road_sign_R2-2F.svg",
+    "caption": "Give Way (fluorescent version)",
+    "section": "Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "New_Zealand_road_sign_R2-2_+_R2-2.3.svg",
+    "caption": "Right turning traffic give way",
+    "section": "Regulatory signs",
+    "score": 1
+   },
+   {
+    "file": "New_Zealand_road_sign_R2-2_+_R2-2.4.svg",
+    "caption": "Left turning traffic give way",
+    "section": "Regulatory signs",
     "score": 1
    }
   ],
@@ -4136,6 +5190,14 @@
     "file": "OM_road_sign_129.svg",
     "caption": "Other dangers",
     "section": "Warning signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "OM_road_sign_201.svg",
+    "caption": "Give way",
+    "section": "Regulatory signs",
     "score": 2
    }
   ],
@@ -4228,6 +5290,20 @@
     "score": 2
    }
   ],
+  "yield": [
+   {
+    "file": "Philippines_road_sign_R1-2.svg",
+    "caption": "Give way",
+    "section": "Regulatory signs / Priority signs",
+    "score": 2
+   },
+   {
+    "file": "Philippines_road_sign_R1-3.svg",
+    "caption": "Left turner must give way",
+    "section": "Regulatory signs / Priority signs",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "Philippines_road_sign_R1-1.svg",
@@ -4264,7 +5340,7 @@
     "file": "PL_road_sign_D-6.svg",
     "caption": "D-6 \"pedestrian crossing\"",
     "section": "Vertical signs / Information signs",
-    "score": 1
+    "score": 2
    },
    {
     "file": "PL_road_sign_D-6_(alt).svg",
@@ -4289,6 +5365,44 @@
    {
     "file": "PL_road_sign_A-30.svg",
     "caption": "A-30 \"other danger\" (formerly used 30px)",
+    "section": "Vertical signs / Warning signs",
+    "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "PL_road_sign_A-7.svg",
+    "caption": "A-7 \"give way\"",
+    "section": "Vertical signs / Warning signs",
+    "score": 2
+   },
+   {
+    "file": "PL_road_sign_A-5.svg",
+    "caption": "A-5 \"intersection — uncontrolled intersection\" (yield to vehicles coming from the right)",
+    "section": "Vertical signs / Warning signs",
+    "score": 1
+   },
+   {
+    "file": "PL_road_sign_A-6b.svg",
+    "caption": "A-6b \"intersection with a side road from the right\" Drivers on the side road have to yield",
+    "section": "Vertical signs / Warning signs",
+    "score": 1
+   },
+   {
+    "file": "PL_road_sign_A-6c.svg",
+    "caption": "A-6c \"intersection with a side road from the left\" Drivers on the side road have to yield",
+    "section": "Vertical signs / Warning signs",
+    "score": 1
+   },
+   {
+    "file": "PL_road_sign_A-6d.svg",
+    "caption": "A-6d \"entry of the one-way road from the right\" Drivers on the side road have to yield",
+    "section": "Vertical signs / Warning signs",
+    "score": 1
+   },
+   {
+    "file": "PL_road_sign_A-6e.svg",
+    "caption": "A-6e \"entry of the one-way road from the left\" Drivers on the side road have to yield",
     "section": "Vertical signs / Warning signs",
     "score": 1
    }
@@ -4348,6 +5462,20 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "MUTCD-PR_R1-2.svg",
+    "caption": "R1-2 Yield",
+    "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 2
+   },
+   {
+    "file": "MUTCD-PR_R10-12.svg",
+    "caption": "R10-12 Left turn yield on green signal",
+    "section": "Regulatory signs / R10 series: Traffic signal",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "MUTCD-PR_R1-1.svg",
@@ -4383,6 +5511,14 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "Portugal_road_sign_B1.svg",
+    "caption": "B1 - Give way",
+    "section": "Signage in use / Priority signs",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "Portugal_road_sign_B2.svg",
@@ -4411,6 +5547,14 @@
     "file": "Paraguay_road_sign_I-40.svg",
     "caption": "I-40 Pedestrian crossing",
     "section": "Information signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "Paraguay_road_sign_R-02.svg",
+    "caption": "R-02 Yield",
+    "section": "Regulatory signs",
     "score": 2
    }
   ],
@@ -4499,6 +5643,14 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "QA_road_sign_R101+P200.svg",
+    "caption": "Give way",
+    "section": "Regulatory signs",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "QA_road_sign_R100.svg",
@@ -4531,6 +5683,20 @@
     "file": "France_road_sign_A14.svg",
     "caption": "Other danger",
     "section": "Warning signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "France_road_sign_AB3a.svg",
+    "caption": "Give way",
+    "section": "Priority signs",
+    "score": 2
+   },
+   {
+    "file": "France_road_sign_M9c.svg",
+    "caption": "Give way",
+    "section": "Additional signs",
     "score": 2
    }
   ],
@@ -4590,6 +5756,14 @@
     "file": "RO_road_sign_A32.svg",
     "caption": "Other dangers ahead",
     "section": "Warning signs",
+    "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "RO_road_sign_B01.svg",
+    "caption": "Give way (yield)",
+    "section": "Priority signs",
     "score": 1
    }
   ],
@@ -4657,6 +5831,14 @@
     "file": "Serbia_road_sign_III-80.svg",
     "caption": "Danger",
     "section": "Information signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "Serbia_road_sign_II-1.svg",
+    "caption": "Give way",
+    "section": "Prohibitory signs",
     "score": 2
    }
   ],
@@ -4787,6 +5969,14 @@
     "score": 2
    }
   ],
+  "yield": [
+   {
+    "file": "RU_road_sign_2.4.svg",
+    "caption": "2.4 Give way",
+    "section": "Priority signs",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "RU_road_sign_2.5.svg",
@@ -4831,6 +6021,20 @@
     "file": "SADC_road_sign_W339.svg",
     "caption": "Warning",
     "section": "Permanent road signs / Warning signs",
+    "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "SADC_road_sign_R2.svg",
+    "caption": "Give Way / Yield",
+    "section": "Permanent road signs / Regulatory signs / Control signs",
+    "score": 1
+   },
+   {
+    "file": "SADC_road_sign_R2.1_(Equestrians).svg",
+    "caption": "Give way / Yield to Equestrians",
+    "section": "Permanent road signs / Regulatory signs / Control signs",
     "score": 1
    }
   ],
@@ -4896,6 +6100,14 @@
     "file": "Sweden_road_sign_A40.svg",
     "caption": "Other hazard",
     "section": "Warning signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "Sweden_road_sign_B1.svg",
+    "caption": "Give way",
+    "section": "Priority signs",
     "score": 2
    }
   ],
@@ -4978,6 +6190,14 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "Singapore_road_sign_-_Mandatory_-_Give_way.svg",
+    "caption": "Give way",
+    "section": "Regulatory signs / Priority signs",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "Singapore_road_sign_-_Mandatory_-_Stop.svg",
@@ -5012,6 +6232,14 @@
     "section": "Warning signs",
     "score": 1
    }
+  ],
+  "yield": [
+   {
+    "file": "Slovenia_road_sign_II-1.svg",
+    "caption": "II-1 Give way",
+    "section": "Regulatory signs",
+    "score": 2
+   }
   ]
  },
  "SK": {
@@ -5043,6 +6271,14 @@
     "file": "101_Nebezpečenstvo.svg",
     "caption": "101 - Other danger",
     "section": "Warning signs",
+    "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "201_Daj_prednosť_v_jazde!.svg",
+    "caption": "201 - Give way",
+    "section": "Regulatory signs",
     "score": 1
    }
   ],
@@ -5119,6 +6355,20 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "Italian_traffic_signs_-_dare_precedenza.svg",
+    "caption": "Give way (formerly used 30px)",
+    "section": "Gallery / Regulatory signs / Priority signs",
+    "score": 1
+   },
+   {
+    "file": "Segnale_stradale_italiano_2025_-_figura_II_36_+_pannello_giallo_verde.svg",
+    "caption": "Give way (with fluoro board)",
+    "section": "Gallery / Regulatory signs / Priority signs",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "Italian_traffic_signs_-_fermarsi_e_dare_precedenza_-_stop.svg",
@@ -5175,6 +6425,20 @@
     "file": "SADC_road_sign_W339.svg",
     "caption": "Warning",
     "section": "Permanent road signs / Warning signs",
+    "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "SADC_road_sign_R2.svg",
+    "caption": "Give Way / Yield",
+    "section": "Permanent road signs / Regulatory signs / Control signs",
+    "score": 1
+   },
+   {
+    "file": "SADC_road_sign_R2.1_(Equestrians).svg",
+    "caption": "Give way / Yield to Equestrians",
+    "section": "Permanent road signs / Regulatory signs / Control signs",
     "score": 1
    }
   ],
@@ -5281,6 +6545,20 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "Thailand_road_sign_บ-2.svg",
+    "caption": "Give way (Thai language)",
+    "section": "Regulatory signs / Priority Signs",
+    "score": 1
+   },
+   {
+    "file": "Thailand_road_sign_บ-2-1.svg",
+    "caption": "Give way (Thai and English languages)",
+    "section": "Regulatory signs / Priority Signs",
+    "score": 1
+   }
+  ],
   "stop": [
    {
     "file": "Thailand_road_sign_บ-1.svg",
@@ -5328,6 +6606,14 @@
     "score": 1
    }
   ],
+  "yield": [
+   {
+    "file": "Turkey_road_sign_TT-1.svg",
+    "caption": "Give way",
+    "section": "Regulatory signs / Prohibitory signs",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "Turkey_road_sign_TT-2.svg",
@@ -5352,6 +6638,20 @@
     "file": "Taiwan_(ROC)_road_sign_W50.svg",
     "caption": "W50: Danger",
     "section": "Warning Signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "Taiwan_(ROC)_road_sign_R2.svg",
+    "caption": "R2: Yield",
+    "section": "Regulatory Signs / Mandatory Signs",
+    "score": 2
+   },
+   {
+    "file": "Taiwan_(ROC)_road_sign_R2_Suppl._Sign.svg",
+    "caption": "Yield",
+    "section": "Supplementary plates",
     "score": 2
    }
   ],
@@ -5458,6 +6758,14 @@
     "score": 2
    }
   ],
+  "yield": [
+   {
+    "file": "UA_road_sign_2.1.svg",
+    "caption": "Give way",
+    "section": "Priority signs",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "UA_road_sign_2.2.svg",
@@ -5528,6 +6836,14 @@
     "file": "UG_road_sign_W21.svg",
     "caption": "Other danger",
     "section": "Warning signs / Permanent warning signs",
+    "score": 2
+   }
+  ],
+  "yield": [
+   {
+    "file": "Uganda_road_sign_R62.svg",
+    "caption": "Give way",
+    "section": "Regulatory signs / Priority signs",
     "score": 2
    }
   ],
@@ -5609,6 +6925,56 @@
     "file": "MUTCD_R1-9a_(fluorescent).svg",
     "caption": "R1-9a Overhead pedestrian crossing",
     "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "MUTCD_R1-2.svg",
+    "caption": "R1-2 Yield",
+    "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 2
+   },
+   {
+    "file": "MUTCD_R1-5dR.svg",
+    "caption": "R1-5dR Yield here to trail crossing (right)",
+    "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R1-5dL.svg",
+    "caption": "R1-5dL Yield here to trail crossing (left)",
+    "section": "Regulatory signs / R1 series: Stop and yield",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R4-4.svg",
+    "caption": "R4-4 Begin right turn lane yield to bikes",
+    "section": "Regulatory signs / R4 series: Regulation of movement",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R10-12.svg",
+    "caption": "R10-12 Left turn yield on green",
+    "section": "Regulatory signs / R10 series: Traffic signal",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R10-12a.svg",
+    "caption": "R10-12a Left turn yield on flashing yellow arrow",
+    "section": "Regulatory signs / R10 series: Traffic signal",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R10-16.svg",
+    "caption": "R10-16 U-turn yield to right turn",
+    "section": "Regulatory signs / R10 series: Traffic signal",
+    "score": 1
+   },
+   {
+    "file": "MUTCD_R10-30.svg",
+    "caption": "R10-30 Right turn on red must yield to U-turn",
+    "section": "Regulatory signs / R10 series: Traffic signal",
     "score": 1
    }
   ],
@@ -5715,6 +7081,14 @@
     "score": 2
    }
   ],
+  "yield": [
+   {
+    "file": "Vietnam_road_sign_W208.svg",
+    "caption": "W.208: Give way",
+    "section": "Warning signs",
+    "score": 2
+   }
+  ],
   "stop": [
    {
     "file": "Vietnam_road_sign_P122.svg",
@@ -5753,6 +7127,20 @@
     "file": "SADC_road_sign_W339.svg",
     "caption": "Warning",
     "section": "Permanent road signs / Warning signs",
+    "score": 1
+   }
+  ],
+  "yield": [
+   {
+    "file": "SADC_road_sign_R2.svg",
+    "caption": "Give Way / Yield",
+    "section": "Permanent road signs / Regulatory signs / Control signs",
+    "score": 1
+   },
+   {
+    "file": "SADC_road_sign_R2.1_(Equestrians).svg",
+    "caption": "Give way / Yield to Equestrians",
+    "section": "Permanent road signs / Regulatory signs / Control signs",
     "score": 1
    }
   ],

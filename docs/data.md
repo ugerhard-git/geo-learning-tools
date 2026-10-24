@@ -246,29 +246,33 @@ them and written afresh; nothing is copied.
                     "licence": "Public domain", "author": "…", "source": "Road signs in Japan" }, … } }
 ```
 
-Per country, up to five drawings: `stop`, `crossing` (the sign at a
-pedestrian crossing), `pedestrian` (the warning that one is coming),
-`chevron` and `warning` (the general warning sign). Each is a copy of a file
-on Wikimedia Commons, kept only if its licence allows reuse (public domain,
-CC0, CC BY, CC BY-SA), with its author for the credit.
+Per country, up to six drawings: `stop`, `yield` (the give way sign),
+`crossing` (the sign at a pedestrian crossing), `pedestrian` (the warning
+that one is coming), `chevron` and `warning` (the general warning sign). Each
+is a copy of a file on Wikimedia Commons, kept only if its licence allows
+reuse (public domain, CC0, CC BY, CC BY-SA, or an owner's own terms that
+allow it, such as New Zealand's), with its author for the credit. A drawing
+under an owner's own terms has `terms`, a link to them. `source` is the
+Wikipedia article that shows the drawing, left out for one picked on Commons
+that no article shows.
 
 ## Where it comes from
 
-| Data                                                                        | Source                                                                                                      | Licence                                                         |
-| --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| Country, region, city and feature geometry; city populations; feature ranks | [Natural Earth](https://www.naturalearthdata.com/) 1:10m (cultural and physical vectors)                    | Public domain                                                   |
-| Geography sections                                                          | [CIA World Factbook](https://github.com/factbook/factbook.json), final edition (discontinued February 2026) | Public domain                                                   |
-| Wikidata ids of features                                                    | Carried in Natural Earth's own attributes                                                                   | Public domain                                                   |
-| Flag colour codes                                                           | Measured from the flag drawings on [Wikimedia Commons](https://commons.wikimedia.org/)                      | Public domain                                                   |
-| Languages: official status, scripts, letters, words, names                  | [Unicode CLDR](https://cldr.unicode.org/) 48.2                                                              | Unicode License v3 ([text](../licenses/unicode-license-v3.txt)) |
-| Words on signs, capitals, some place words                                  | [Wikidata](https://www.wikidata.org/) item labels, and capitals (P36)                                       | CC0                                                             |
-| Words in place names                                                        | [Wiktionary](https://en.wiktionary.org/) translation tables                                                 | CC BY-SA 4.0                                                    |
-| Sample sentences                                                            | [UDHR in Unicode](https://www.unicode.org/udhr/), via the [udhr](https://github.com/wooorm/udhr) package    | Translations by the UN OHCHR; package MIT                       |
-| Driving side, road line colours and styles                                  | Wikipedia, World Standards and the Plonk It guides, per country in `roads.json`                             | Facts; the sources are linked in the app                        |
-| Road sign drawings                                                          | [Wikimedia Commons](https://commons.wikimedia.org/), as shown in Wikipedia's "Road signs in …" articles     | Each file's own: public domain, CC0, CC BY or CC BY-SA          |
-| Internet domains and phone codes                                            | [Wikidata](https://www.wikidata.org/) P78 and P474                                                          | CC0                                                             |
-| Currencies, their names and symbols                                         | [Unicode CLDR](https://cldr.unicode.org/) 48.2                                                              | Unicode License v3                                              |
-| Country table, flag tags, look-alike groups                                 | Written for this project                                                                                    | MIT                                                             |
+| Data                                                                        | Source                                                                                                         | Licence                                                                                                                                                    |
+| --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Country, region, city and feature geometry; city populations; feature ranks | [Natural Earth](https://www.naturalearthdata.com/) 1:10m (cultural and physical vectors)                       | Public domain                                                                                                                                              |
+| Geography sections                                                          | [CIA World Factbook](https://github.com/factbook/factbook.json), final edition (discontinued February 2026)    | Public domain                                                                                                                                              |
+| Wikidata ids of features                                                    | Carried in Natural Earth's own attributes                                                                      | Public domain                                                                                                                                              |
+| Flag colour codes                                                           | Measured from the flag drawings on [Wikimedia Commons](https://commons.wikimedia.org/)                         | Public domain                                                                                                                                              |
+| Languages: official status, scripts, letters, words, names                  | [Unicode CLDR](https://cldr.unicode.org/) 48.2                                                                 | Unicode License v3 ([text](../licenses/unicode-license-v3.txt))                                                                                            |
+| Words on signs, capitals, some place words                                  | [Wikidata](https://www.wikidata.org/) item labels, and capitals (P36)                                          | CC0                                                                                                                                                        |
+| Words in place names                                                        | [Wiktionary](https://en.wiktionary.org/) translation tables                                                    | CC BY-SA 4.0                                                                                                                                               |
+| Sample sentences                                                            | [UDHR in Unicode](https://www.unicode.org/udhr/), via the [udhr](https://github.com/wooorm/udhr) package       | Translations by the UN OHCHR; package MIT                                                                                                                  |
+| Driving side, road line colours and styles                                  | Wikipedia, World Standards and the Plonk It guides, per country in `roads.json`                                | Facts; the sources are linked in the app                                                                                                                   |
+| Road sign drawings                                                          | [Wikimedia Commons](https://commons.wikimedia.org/), mostly as shown in Wikipedia's "Road signs in …" articles | Each file's own: public domain, CC0, CC BY, CC BY-SA, or [NZTA's terms](https://nzta.govt.nz/resources/traffic-control-devices-manual/sign-specifications) |
+| Internet domains and phone codes                                            | [Wikidata](https://www.wikidata.org/) P78 and P474                                                             | CC0                                                                                                                                                        |
+| Currencies, their names and symbols                                         | [Unicode CLDR](https://cldr.unicode.org/) 48.2                                                                 | Unicode License v3                                                                                                                                         |
+| Country table, flag tags, look-alike groups                                 | Written for this project                                                                                       | MIT                                                                                                                                                        |
 
 ### How each file was made
 

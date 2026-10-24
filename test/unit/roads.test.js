@@ -101,6 +101,13 @@ test("signScore takes the sign's number off and ranks the plain name first", () 
   assert.equal(signScore("pedestrian", "State law yield to pedestrians in crosswalk"), 0);
   assert.equal(signScore("chevron", "Sharp curve to the left"), 0);
   assert.equal(signScore("warning", "A32Other dangers"), 2);
+  assert.equal(signScore("yield", "R1-2Give way"), 2);
+  assert.equal(signScore("yield", "Yield"), 2);
+  assert.equal(signScore("yield", 'A-7 "give way"'), 2);
+  assert.equal(signScore("yield", "Give way to oncoming traffic"), 0);
+  assert.equal(signScore("yield", "Give way ahead"), 0);
+  assert.equal(signScore("yield", "Stop and give way"), 0);
+  assert.equal(signScore("yield", "Give way 150 m"), 0);
 });
 
 test("checkRoadSigns accepts a good set and names what is wrong with a bad one", () => {
@@ -126,6 +133,12 @@ test("checkRoadSigns accepts a good set and names what is wrong with a bad one",
   assert.deepEqual(checkRoadSigns({ DE: { stop: picked } }, files, codes), []);
   const odd = { DE: { stop: { ...picked, source: 7 } } };
   assert.match(checkRoadSigns(odd, files, codes).join("\n"), /DE stop: source/);
+
+  // An owner's own terms are a link.
+  const terms = { DE: { stop: { ...picked, terms: "https://example.org/terms" } } };
+  assert.deepEqual(checkRoadSigns(terms, files, codes), []);
+  const badTerms = { DE: { stop: { ...picked, terms: "javascript:alert(1)" } } };
+  assert.match(checkRoadSigns(badTerms, files, codes).join("\n"), /DE stop: terms/);
 });
 
 test("roads.json covers every Street View country, with sources", () => {

@@ -1,5 +1,5 @@
 // Finds and fetches the sign drawings of the Roads app: each Street View
-// country's stop sign, pedestrian crossing signs (the warning and the
+// country's stop sign, give way sign, pedestrian crossing signs (the warning and the
 // sign at the crossing), chevron and general warning sign, as drawn on
 // Wikimedia Commons, with each file's licence and author.
 //
@@ -13,7 +13,8 @@
 //      if there is one (a person's choice after reading the candidates),
 //      otherwise the first candidate.
 //   3. Ask Commons for each picked file's licence. Only files whose licence
-//      allows reuse are kept (public domain, CC0, CC BY, CC BY-SA); files
+//      allows reuse are kept (public domain, CC0, CC BY, CC BY-SA, or an
+//      owner's own terms that allow it, listed in TERMS below); files
 //      stored on English Wikipedia rather than Commons are skipped, since
 //      those are often not free.
 //   4. Download the kept drawings into src/data/signs/ and write
@@ -40,6 +41,17 @@ import { checkSvg } from "../site-checks.mjs";
  * like CC BY, asks only for credit).
  */
 const FREE = /^(public domain|pd\b|cc0|cc[- ]by(-sa)?[- ]?\d|cc by(-sa)? \d|ogl v\d)/i;
+
+/**
+ * Licences that are not standard free ones, but whose owner allows the
+ * drawings to be reused, with where the owner says so. New Zealand's
+ * transport agency lets anyone copy its sign drawings, also commercially,
+ * except onto anything on or seen from a road.
+ */
+const TERMS = {
+  "NZTA-Sign-Spec":
+    "https://nzta.govt.nz/resources/traffic-control-devices-manual/sign-specifications",
+};
 
 /** No sign drawing is anywhere near this big. */
 const MAX_BYTES = 2 * 1024 * 1024;
@@ -225,7 +237,7 @@ for (const pick of chosen) {
     ? "not on Commons"
     : !info.url.startsWith("https://upload.wikimedia.org/wikipedia/commons/")
       ? "stored on Wikipedia, not Commons"
-      : !FREE.test(info.licence)
+      : !FREE.test(info.licence) && !TERMS[info.licence]
         ? `licence "${info.licence}" not reusable`
         : "";
   if (why) {
@@ -261,6 +273,7 @@ for (const pick of chosen) {
     author: info.author,
     ...(pick.article ? { source: pick.article } : {}),
     ...(svg !== original ? { changed: "editor data removed" } : {}),
+    ...(TERMS[info.licence] ? { terms: TERMS[info.licence] } : {}),
   };
   await sleep(300);
 }
