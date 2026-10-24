@@ -14,9 +14,15 @@
 //     the udhr npm package (MIT): the first sentence of Article 1 in each
 //     language, a real sentence to show as a specimen.
 //   - Wikidata (CC0): the words for "street", "road" and "city", the words
-//     of place names and directions ("north", "river", "new"…) and the
+//     of place names and directions ("north", "river", "new"…), the
 //     capitals' names, from tools/data/sign-words.json (made by
 //     tools/data/sign-words.mjs). They are left out if that file is missing.
+//   - Wikipedia (CC BY-SA): where in India each regional language is
+//     official, written by hand into REGIONS below.
+//
+// A country's official languages are those CLDR marks official there. In
+// the countries of REGIONAL, those official only in some states are kept
+// too, where enough people speak them.
 //
 // It reads the packages from a folder, as npm unpacks them, rather than
 // depending on them: they are needed only when the data is rebuilt.
@@ -47,6 +53,53 @@ const LEFT_OUT = {
   no: "the same as Norwegian Bokmål (nb), which is kept",
   "bs-Cyrl": "Bosnian is written in Latin letters on signs; Cyrillic signs there are Serbian",
   yue: "signs in Macau and Hong Kong are in written Chinese, kept as Traditional Chinese",
+  mai: "written in Devanagari like Hindi, and with too few words of its own on Wikidata to tell it by",
+};
+
+/**
+ * Countries whose regional official languages are kept as well: CLDR marks
+ * them "official_regional". India's signs are in the state's language, so
+ * each is a clue to where in India you are. Only those spoken by at least
+ * REGIONAL_MIN_PERCENT of people there are kept.
+ */
+const REGIONAL = ["IN"];
+const REGIONAL_MIN_PERCENT = 1;
+
+/**
+ * Where in India each regional language is official: the states and union
+ * territories that name it an official language, and those that name it an
+ * additional one. Written by hand from the table of the states' official
+ * languages in Wikipedia's article below (read October 2026); Wikidata's
+ * statements of states' official languages (P37) cover only some states.
+ */
+const REGIONS_SOURCE = {
+  title: "Languages with official recognition in India",
+  url: "https://en.wikipedia.org/wiki/Languages_with_official_recognition_in_India",
+};
+const REGIONS = {
+  IN: {
+    as: { official: ["Assam"] },
+    bn: { official: ["Tripura", "West Bengal"], additional: ["Assam", "Jharkhand"] },
+    gu: { official: ["Dadra and Nagar Haveli and Daman and Diu", "Gujarat"] },
+    kn: { official: ["Karnataka"] },
+    ml: { official: ["Kerala", "Puducherry"], additional: ["Lakshadweep"] },
+    mr: { official: ["Maharashtra"], additional: ["Goa"] },
+    or: { official: ["Odisha"], additional: ["Jharkhand", "West Bengal"] },
+    pa: { official: ["Delhi", "Punjab"], additional: ["Haryana", "West Bengal"] },
+    ta: { official: ["Puducherry", "Tamil Nadu"] },
+    te: { official: ["Andhra Pradesh", "Puducherry", "Telangana"], additional: ["West Bengal"] },
+    ur: {
+      official: ["Delhi", "Jammu and Kashmir", "Ladakh"],
+      additional: [
+        "Andhra Pradesh",
+        "Bihar",
+        "Jharkhand",
+        "Telangana",
+        "Uttar Pradesh",
+        "West Bengal",
+      ],
+    },
+  },
 };
 
 /**
@@ -59,7 +112,8 @@ const SCRIPT_NAMES = {
   Hant: "Traditional Chinese characters",
   Jpan: "Japanese (kana and kanji)",
   Kore: "Hangul (Korean)",
-  Beng: "Bengali",
+  // Bengali and Assamese share it.
+  Beng: "Bengali–Assamese",
 };
 
 /** The UDHR translation for each language (udhr package file names). */
@@ -71,6 +125,12 @@ const UDHR = {
   be: "bel",
   bg: "bul",
   bn: "ben",
+  gu: "guj",
+  kn: "kan",
+  ml: "mal",
+  mr: "mar",
+  pa: "pan",
+  te: "tel",
   bs: "bos_latn",
   ca: "cat",
   cs: "ces",
@@ -279,15 +339,32 @@ function capitalsIn(id, countries) {
 
 /** locale → the Street View countries where it is official */
 const officialIn = new Map();
+/** locale → the countries of those where it is official only in some states */
+const regionalIn = new Map();
 for (const country of STREET_VIEW) {
   const pops = territoryInfo[country]?.languagePopulation ?? {};
   for (const [key, p] of Object.entries(pops)) {
-    if (!["official", "de_facto_official"].includes(p._officialStatus)) continue;
+    const regional =
+      p._officialStatus === "official_regional" &&
+      REGIONAL.includes(country) &&
+      Number(p._populationPercent) >= REGIONAL_MIN_PERCENT;
+    if (!["official", "de_facto_official"].includes(p._officialStatus) && !regional) continue;
     const locale = key.replace(/_/g, "-");
     if (LEFT_OUT[locale]) continue;
     if (!officialIn.has(locale)) officialIn.set(locale, []);
     officialIn.get(locale).push(country);
+    if (regional) regionalIn.set(locale, [...(regionalIn.get(locale) ?? []), country]);
   }
+}
+
+/**
+ * The states where a language is official, by country, for the countries
+ * where it is official only in some (see REGIONS).
+ */
+function regionsOf(id, countries) {
+  const out = {};
+  for (const c of countries) if (REGIONS[c]?.[id]) out[c] = REGIONS[c][id];
+  return out;
 }
 
 /** The script a locale is written in: its own subtag, or CLDR's likely one. */
@@ -376,6 +453,12 @@ for (const [id, countries] of [...merged].sort()) {
     .filter((w) => !/\d/.test(w));
 
   const sentence = await udhrSentence(UDHR[id] ?? UDHR[base]);
+  const regional = (regionalIn.get(id) ?? []).filter((c) => countries.includes(c)).sort();
+  // A language needs a sentence or a few words to be recognised by.
+  if (!sentence && words.length < 3) {
+    report.push(`${id}: left out, no sentence and too few words`);
+    continue;
+  }
   languages.push({
     id,
     name,
@@ -390,6 +473,7 @@ for (const [id, countries] of [...merged].sort()) {
     capitals,
     words: [...new Set(words)],
     sentence,
+    ...(regional.length ? { regional, regions: regionsOf(id, regional) } : {}),
   });
 }
 
@@ -401,6 +485,11 @@ for (const lang of languages) {
 }
 for (const lang of languages)
   lang.words = lang.words.filter((w) => wordCount.get(w.toLowerCase()) === 1);
+// Without a sentence, a language is recognised by its words alone.
+for (const lang of languages.filter((l) => !l.sentence && l.words.length < 3)) {
+  report.push(`${lang.id}: left out, no sentence and too few words of its own`);
+  languages.splice(languages.indexOf(lang), 1);
+}
 
 /* ------------------------------------------------------ telltale letters */
 
@@ -458,6 +547,13 @@ for (const l of languages) {
         .slice(0, 4)
         .map(([en, w]) => `${w} (${en})`)
         .join(", ")}` +
+      (l.regional
+        ? `\n         official only in some states of ${l.regional.join(", ")}: ` +
+          (Object.values(l.regions)
+            .map((r) => [...r.official, ...(r.additional ?? []).map((s) => `${s} (additional)`)])
+            .flat()
+            .join(", ") || "NO STATES in REGIONS")
+        : "") +
       `\n         ${l.sentence ? l.sentence.slice(0, 90) : "NO SENTENCE"}`,
   );
 }
@@ -473,7 +569,14 @@ console.log(
 const out = new URL("../../src/data/languages.json", import.meta.url);
 await writeFile(
   out,
-  JSON.stringify({ cldr: "48.2.0", udhr: "6.0.0", scripts, languages, telltales }) + "\n",
+  JSON.stringify({
+    cldr: "48.2.0",
+    udhr: "6.0.0",
+    regionsSource: REGIONS_SOURCE,
+    scripts,
+    languages,
+    telltales,
+  }) + "\n",
 );
 console.log(`Wrote ${out.pathname}`);
 

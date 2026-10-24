@@ -72,7 +72,9 @@ const twinsOf = (id) => TWINS.find((g) => g.includes(id)) ?? [id];
 const SCRIPT_GROUPS = [
   ["Latn", "Cyrl", "Grek"],
   ["Arab", "Hebr"],
-  ["Deva", "Beng", "Tibt", "Sinh", "Taml"],
+  // North Indian scripts hang from a line; South Indian ones are rounder.
+  ["Deva", "Beng", "Guru", "Gujr", "Orya", "Tibt"],
+  ["Taml", "Telu", "Knda", "Mlym", "Sinh", "Orya"],
   ["Thai", "Laoo", "Khmr"],
   ["Hans", "Hant", "Jpan", "Kore"],
   ["Geor", "Grek"],
@@ -86,8 +88,9 @@ const scriptKin = (code) => new Set(SCRIPT_GROUPS.filter((g) => g.includes(code)
  * @returns {{ text: string, lang: string, kind: "sentence" | "words" }}
  */
 export function specimenOf(lang, kind = "any") {
-  const words = lang.words.length >= 3 && kind !== "sentence";
-  if (words && (kind === "words" || Math.random() < 0.5)) {
+  // A language with no sentence (Odia, Assamese) is shown by its words.
+  const words = lang.words.length >= 3 && (kind !== "sentence" || !lang.sentence);
+  if (words && (kind === "words" || !lang.sentence || Math.random() < 0.5)) {
     return {
       text: shuffle(lang.words.slice()).slice(0, 3).join(" · "),
       lang: lang.id,

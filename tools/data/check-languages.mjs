@@ -12,6 +12,9 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
 const isText = (v, max) => typeof v === "string" && v.length <= max;
+/** A list of up to 40 names of places. */
+const names = (list) =>
+  Array.isArray(list) && list.length <= 40 && list.every((n) => n && isText(n, 60));
 const SCRIPT = /^[A-Z][a-z]{3}$/;
 const LOCALE = /^[a-z]{2,3}(-[A-Z][a-z]{3})?$/;
 
@@ -39,7 +42,10 @@ export function checkLanguages(data, codes) {
     for (const k of ["name", "autonym", "street", "road", "city"]) {
       if (l?.[k] !== undefined && !isText(l[k], 80)) problems.push(`${where}: ${k}`);
     }
-    if (!isText(l?.sentence, 300) || !l.sentence) problems.push(`${where}: sentence`);
+    // A sentence, or else at least three words to be recognised by.
+    if (!isText(l?.sentence, 300) || (!l.sentence && !(l.words?.length >= 3))) {
+      problems.push(`${where}: sentence`);
+    }
     if (!isText(l?.letters, 9000)) problems.push(`${where}: letters`);
     const words = Array.isArray(l?.words) ? l.words : null;
     if (!words || words.length > 60 || !words.every((w) => isText(w, 40))) {
@@ -62,6 +68,32 @@ export function checkLanguages(data, codes) {
     const countries = Array.isArray(l?.countries) ? l.countries : [];
     if (!countries.length || !countries.every((c) => codes.has(c))) {
       problems.push(`${where}: countries`);
+    }
+    // Countries where it is official only in some states, and those states.
+    if (l?.regional !== undefined) {
+      const ok =
+        Array.isArray(l.regional) &&
+        l.regional.length &&
+        l.regional.every((c) => countries.includes(c)) &&
+        l.regions &&
+        typeof l.regions === "object" &&
+        Object.entries(l.regions).every(
+          ([c, r]) =>
+            l.regional.includes(c) &&
+            names(r?.official) &&
+            r.official.length &&
+            (r.additional === undefined || names(r.additional)),
+        );
+      if (!ok) problems.push(`${where}: regional`);
+    } else if (l?.regions !== undefined) problems.push(`${where}: regions`);
+  }
+  if (langs.some((l) => l?.regions)) {
+    const src = data.regionsSource;
+    if (
+      !isText(src?.title, 100) ||
+      !/^https:\/\/en\.wikipedia\.org\/wiki\/[^\s"<>]+$/.test(src?.url ?? "")
+    ) {
+      problems.push("regions source");
     }
   }
   for (const t of Array.isArray(data.telltales) ? data.telltales : []) {

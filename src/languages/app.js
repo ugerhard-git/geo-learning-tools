@@ -183,9 +183,10 @@ async function main() {
       <div class="meta"><span class="tag">${esc(scripts[l.script])} script</span>${l.countries
         .map(
           (c) =>
-            `<span class="tag">${flagMini(c, countries[c].name)}${esc(countries[c].name)}</span>`,
+            `<span class="tag">${flagMini(c, countries[c].name)}${esc(countries[c].name)}${l.regional?.includes(c) ? " (some states)" : ""}</span>`,
         )
         .join("")}</div>
+      ${regionsSection(l)}
       ${
         tells.length
           ? `<h3>Telltale letters</h3><p class="dtells" lang="${esc(l.id)}">${tells
@@ -215,9 +216,13 @@ async function main() {
              <p class="src">Words seen in town, road, region and landmark names, with their English.</p>`
           : ""
       }
-      <h3>A sentence</h3>
-      <blockquote class="dsent" lang="${esc(l.id)}" dir="auto">${esc(l.sentence)}</blockquote>
-      <p class="src">Article 1 of the Universal Declaration of Human Rights.</p>
+      ${
+        l.sentence
+          ? `<h3>A sentence</h3>
+             <blockquote class="dsent" lang="${esc(l.id)}" dir="auto">${esc(l.sentence)}</blockquote>
+             <p class="src">Article 1 of the Universal Declaration of Human Rights.</p>`
+          : ""
+      }
       ${
         l.words.length
           ? `<h3>Words</h3><p class="dwords" lang="${esc(l.id)}" dir="auto">${l.words.map((w) => `<span>${esc(w)}</span>`).join("")}</p>
@@ -235,6 +240,32 @@ async function main() {
     if (!detail.open) detail.showModal();
     detailBody.scrollTop = 0;
     detailBody.focus({ preventScroll: true });
+  }
+
+  /** "Goa, Karnataka and Kerala". */
+  const listText = (items) => new Intl.ListFormat("en", { type: "conjunction" }).format(items);
+
+  /** Where a regional language is official: the states, with their source. */
+  function regionsSection(l) {
+    if (!l.regional?.length) return "";
+    return l.regional
+      .map((c) => {
+        const r = l.regions?.[c];
+        const where = esc(countries[c].name);
+        const src = data.regionsSource;
+        return `<h3>Where in ${where}</h3>
+          <p>${
+            r
+              ? `Official in ${esc(listText(r.official))}.${r.additional?.length ? ` An additional official language in ${esc(listText(r.additional))}.` : ""}`
+              : `Official in some states of ${where}.`
+          }</p>
+          <p class="src">Official in some states only: <a href="https://cldr.unicode.org/" target="_blank" rel="noopener noreferrer">Unicode CLDR</a>.${
+            r && src
+              ? ` The states: <a href="${esc(src.url)}" target="_blank" rel="noopener noreferrer">${esc(src.title)}</a> (Wikipedia).`
+              : ""
+          }</p>`;
+      })
+      .join("");
   }
 
   detail.addEventListener("click", (e) => {
