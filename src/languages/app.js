@@ -183,7 +183,7 @@ async function main() {
       <div class="meta"><span class="tag">${esc(scripts[l.script])} script</span>${l.countries
         .map(
           (c) =>
-            `<span class="tag">${flagMini(c, countries[c].name)}${esc(countries[c].name)}${l.regional?.includes(c) ? " (some states)" : ""}</span>`,
+            `<span class="tag">${flagMini(c, countries[c].name)}${esc(countries[c].name)}${l.regional?.includes(c) ? " (some regions)" : ""}</span>`,
         )
         .join("")}</div>
       ${regionsSection(l)}
@@ -245,27 +245,38 @@ async function main() {
   /** "Goa, Karnataka and Kerala". */
   const listText = (items) => new Intl.ListFormat("en", { type: "conjunction" }).format(items);
 
-  /** Where a regional language is official: the states, with their source. */
+  /** How each kind of region is put: "Official in Wales." */
+  const WHERE = {
+    official: "Official in",
+    additional: "An additional official language in",
+    signs: "On signs in",
+    spoken: "Spoken, without official status, in",
+  };
+
+  /** A link to a Wikipedia article. */
+  const wikiLink = (src) =>
+    `<a href="${esc(src.url)}" target="_blank" rel="noopener noreferrer">${esc(src.title)}</a> (Wikipedia)`;
+
+  /**
+   * Where in its countries a regional language is used, each with its
+   * source, and the source for a country where it is official nationwide
+   * although CLDR says otherwise.
+   */
   function regionsSection(l) {
-    if (!l.regional?.length) return "";
-    return l.regional
-      .map((c) => {
-        const r = l.regions?.[c];
-        const where = esc(countries[c].name);
-        const src = data.regionsSource;
-        return `<h3>Where in ${where}</h3>
-          <p>${
-            r
-              ? `Official in ${esc(listText(r.official))}.${r.additional?.length ? ` An additional official language in ${esc(listText(r.additional))}.` : ""}`
-              : `Official in some states of ${where}.`
-          }</p>
-          <p class="src">Official in some states only: <a href="https://cldr.unicode.org/" target="_blank" rel="noopener noreferrer">Unicode CLDR</a>.${
-            r && src
-              ? ` The states: <a href="${esc(src.url)}" target="_blank" rel="noopener noreferrer">${esc(src.title)}</a> (Wikipedia).`
-              : ""
-          }</p>`;
-      })
-      .join("");
+    const regional = (l.regional ?? []).map((c) => {
+      const r = l.regions[c];
+      const lines = Object.keys(WHERE)
+        .filter((k) => r[k]?.length)
+        .map((k) => `${WHERE[k]} ${esc(listText(r[k]))}.`);
+      return `<h3>Where in ${esc(countries[c].name)}</h3>
+          <p>${lines.join(" ")}</p>
+          <p class="src">Source: ${wikiLink(r.source)}.</p>`;
+    });
+    const national = Object.entries(l.national ?? {}).map(
+      ([c, src]) =>
+        `<p class="src">Official in all of ${esc(countries[c].name)}: ${wikiLink(src)}.</p>`,
+    );
+    return [...regional, ...national].join("");
   }
 
   detail.addEventListener("click", (e) => {

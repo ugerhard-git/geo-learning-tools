@@ -28,10 +28,20 @@ import { table } from "../shared/dom.js";
  * @property {[string, string][]} [placeWords] words of place names and directions, as
  *   [English, word] pairs (from Wikidata)
  * @property {string[]} [capitals] the capitals of its countries, in the language (from Wikidata)
- * @property {string[]} [regional] the countries where it is official only in some states (from
- *   CLDR)
- * @property {Record<string, { official: string[], additional?: string[] }>} [regions] those
- *   states, by country: where it is an official language, and where an additional one
+ * @property {string[]} [regional] the countries where it is a regional or minority language
+ * @property {Record<string, Regions>} [regions] where in each of those it is used, by country
+ * @property {Record<string, { title: string, url: string }>} [national] the countries where it
+ *   is official nationwide although CLDR says otherwise, each with the Wikipedia article saying so
+ */
+
+/**
+ * Where in a country a regional language is used, in a Wikipedia article's terms.
+ * @typedef {object} Regions
+ * @property {string[]} [official] regions where it is an official language
+ * @property {string[]} [additional] regions where it is an additional official language
+ * @property {string[]} [signs] regions where it is on signs
+ * @property {string[]} [spoken] regions where it is spoken without official status
+ * @property {{ title: string, url: string }} source the article
  */
 
 /**
@@ -48,8 +58,6 @@ import { table } from "../shared/dom.js";
  * @property {Telltale[]} telltales
  * @property {Record<string, import("../shared/countries.js").Country>} countries the country table
  * @property {string[]} streetView every country some language here is official in
- * @property {{ title: string, url: string } | null} regionsSource the Wikipedia article the
- *   states come from
  */
 
 /**
@@ -69,12 +77,7 @@ export function makeLanguageData(json, countryText) {
     .map((t) => ({ ...t, languages: t.languages.filter((id) => byId[id]) }))
     .filter((t) => t.languages.length);
   const streetView = [...new Set(languages.flatMap((l) => l.countries))].sort();
-  const src = json.regionsSource;
-  const regionsSource =
-    typeof src?.title === "string" && /^https:\/\/en\.wikipedia\.org\//.test(src?.url ?? "")
-      ? { title: src.title, url: src.url }
-      : null;
-  return { languages, byId, scripts, telltales, countries, streetView, regionsSource };
+  return { languages, byId, scripts, telltales, countries, streetView };
 }
 
 /** Load the data files. */
