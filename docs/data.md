@@ -158,8 +158,12 @@ has one.
   translation (Odia, Assamese), and then the words stand in for it.
 - **`regional`** lists the countries where the language is official only in
   some states (CLDR's "official_regional"), and **`regions`** names those
-  states by country: each Indian state or union territory whose official
-  languages (Wikidata P37) include it, kept in `tools/data/sign-words.json`.
+  states by country: those that name it an official language (`official`)
+  and an additional one (`additional`). They are written by hand into
+  `REGIONS` in `tools/data/languages.mjs` from the table in Wikipedia's
+  "Languages with official recognition in India", which **`regionsSource`**
+  at the top of the file names; Wikidata's statements of the states'
+  official languages cover only some states.
 - **`street`**, **`road`** and **`city`** are the language's words for them,
   as seen on street and town signs: the Wikidata labels of "street"
   (Q79007), "road" (Q34442) and "city" (Q515), kept in

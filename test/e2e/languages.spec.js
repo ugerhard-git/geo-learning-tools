@@ -104,8 +104,11 @@ test("India's regional languages say where they are official, with the source", 
   await expect(detail.locator("h2")).toHaveText("Kannada");
   await expect(detail.locator(".meta")).toContainText("India (some states)");
   await expect(detail.locator("h3", { hasText: "Where in India" })).toBeVisible();
-  for (const state of kn.regions?.IN ?? []) await expect(detail).toContainText(state);
-  await expect(detail.getByRole("link", { name: "Wikidata" }).first()).toBeVisible();
+  for (const state of kn.regions.IN.official) await expect(detail).toContainText(state);
+  await expect(detail.getByRole("link", { name: DATA.regionsSource.title })).toHaveAttribute(
+    "href",
+    DATA.regionsSource.url,
+  );
   await page.keyboard.press("Escape");
 
   // Odia has no translation of the Declaration: no sentence, but its words.

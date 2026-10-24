@@ -57,12 +57,15 @@ test("India's regional languages are in, each official only in some states", () 
     assert.ok(l, id);
     assert.ok(l.countries.includes("IN"), `${id} in India`);
     assert.deepEqual(l.regional, ["IN"], `${id} regional`);
+    assert.ok(l.regions.IN.official.length, `${id} states`);
   }
   // Hindi and English are official in all of India.
   assert.equal(data.byId.hi.regional, undefined);
   assert.equal(data.byId.en.regional, undefined);
   // Bengali is official in all of Bangladesh, and in some states of India.
   assert.ok(data.byId.bn.countries.includes("BD"));
+  assert.ok(data.byId.kn.regions.IN.official.includes("Karnataka"));
+  assert.match(data.regionsSource.url, /^https:\/\/en\.wikipedia\.org\//);
 });
 
 test("a language without a sentence is shown by its words", () => {
@@ -162,15 +165,11 @@ test("the checker accepts the language data and refuses what does not fit", asyn
       { ...json, languages: json.languages.map((x) => (x.id === l.id ? l : x)) },
       codes,
     );
-  assert.deepEqual(one({ ...kn, regions: { IN: ["Karnataka"] } }), []);
-  assert.match(one({ ...kn, regions: { BD: ["Dhaka"] } }).join(), /regional/);
+  assert.deepEqual(one({ ...kn, regions: { IN: { official: ["Karnataka"] } } }), []);
+  assert.match(one({ ...kn, regions: { BD: { official: ["Dhaka"] } } }).join(), /regional/);
+  assert.match(one({ ...kn, regions: { IN: { official: [] } } }).join(), /regional/);
   assert.match(one({ ...kn, regional: undefined, regions: {} }).join(), /regions/);
   assert.match(one({ ...kn, sentence: "", words: ["ಉತ್ತರ"] }).join(), /sentence/);
-  const words = { street: { pl: "ulica" }, road: { pl: "droga" }, city: { pl: "miasto" } };
-  const ok = { IN: { kn: [{ source: "Q1185", name: "Karnataka" }] } };
-  assert.deepEqual(checkSignWords({ ...words, regions: ok }), []);
-  const bad = { IN: { kn: [{ source: "x", name: "<b>" }] } };
-  assert.deepEqual(checkSignWords({ ...words, regions: bad }), ["regions IN"]);
 });
 
 test("each language has its words for signs and place names, with their English", () => {

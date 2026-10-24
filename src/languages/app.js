@@ -250,15 +250,20 @@ async function main() {
     if (!l.regional?.length) return "";
     return l.regional
       .map((c) => {
-        const states = l.regions?.[c] ?? [];
+        const r = l.regions?.[c];
         const where = esc(countries[c].name);
+        const src = data.regionsSource;
         return `<h3>Where in ${where}</h3>
           <p>${
-            states.length
-              ? `Official in ${esc(listText(states))}.`
-              : `Official in some states of ${where}; Wikidata names none.`
+            r
+              ? `Official in ${esc(listText(r.official))}.${r.additional?.length ? ` An additional official language in ${esc(listText(r.additional))}.` : ""}`
+              : `Official in some states of ${where}.`
           }</p>
-          <p class="src">Official in some states only: <a href="https://cldr.unicode.org/" target="_blank" rel="noopener noreferrer">Unicode CLDR</a>. The states: each state's official languages on <a href="https://www.wikidata.org/wiki/Property:P37" target="_blank" rel="noopener noreferrer">Wikidata</a> (community-edited).</p>`;
+          <p class="src">Official in some states only: <a href="https://cldr.unicode.org/" target="_blank" rel="noopener noreferrer">Unicode CLDR</a>.${
+            r && src
+              ? ` The states: <a href="${esc(src.url)}" target="_blank" rel="noopener noreferrer">${esc(src.title)}</a> (Wikipedia).`
+              : ""
+          }</p>`;
       })
       .join("");
   }

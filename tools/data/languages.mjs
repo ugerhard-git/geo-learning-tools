@@ -15,9 +15,10 @@
 //     language, a real sentence to show as a specimen.
 //   - Wikidata (CC0): the words for "street", "road" and "city", the words
 //     of place names and directions ("north", "river", "new"…), the
-//     capitals' names, and the states where a regional language is official,
-//     from tools/data/sign-words.json (made by tools/data/sign-words.mjs).
-//     They are left out if that file is missing.
+//     capitals' names, from tools/data/sign-words.json (made by
+//     tools/data/sign-words.mjs). They are left out if that file is missing.
+//   - Wikipedia (CC BY-SA): where in India each regional language is
+//     official, written by hand into REGIONS below.
 //
 // A country's official languages are those CLDR marks official there. In
 // the countries of REGIONAL, those official only in some states are kept
@@ -63,6 +64,43 @@ const LEFT_OUT = {
  */
 const REGIONAL = ["IN"];
 const REGIONAL_MIN_PERCENT = 1;
+
+/**
+ * Where in India each regional language is official: the states and union
+ * territories that name it an official language, and those that name it an
+ * additional one. Written by hand from the table of the states' official
+ * languages in Wikipedia's article below (read October 2026); Wikidata's
+ * statements of states' official languages (P37) cover only some states.
+ */
+const REGIONS_SOURCE = {
+  title: "Languages with official recognition in India",
+  url: "https://en.wikipedia.org/wiki/Languages_with_official_recognition_in_India",
+};
+const REGIONS = {
+  IN: {
+    as: { official: ["Assam"] },
+    bn: { official: ["Tripura", "West Bengal"], additional: ["Assam", "Jharkhand"] },
+    gu: { official: ["Dadra and Nagar Haveli and Daman and Diu", "Gujarat"] },
+    kn: { official: ["Karnataka"] },
+    ml: { official: ["Kerala", "Puducherry"], additional: ["Lakshadweep"] },
+    mr: { official: ["Maharashtra"], additional: ["Goa"] },
+    or: { official: ["Odisha"], additional: ["Jharkhand", "West Bengal"] },
+    pa: { official: ["Delhi", "Punjab"], additional: ["Haryana", "West Bengal"] },
+    ta: { official: ["Puducherry", "Tamil Nadu"] },
+    te: { official: ["Andhra Pradesh", "Puducherry", "Telangana"], additional: ["West Bengal"] },
+    ur: {
+      official: ["Delhi", "Jammu and Kashmir", "Ladakh"],
+      additional: [
+        "Andhra Pradesh",
+        "Bihar",
+        "Jharkhand",
+        "Telangana",
+        "Uttar Pradesh",
+        "West Bengal",
+      ],
+    },
+  },
+};
 
 /**
  * The name the app gives each script. CLDR's English names are mostly right,
@@ -321,14 +359,11 @@ for (const country of STREET_VIEW) {
 
 /**
  * The states where a language is official, by country, for the countries
- * where it is official only in some: their English names, from Wikidata.
+ * where it is official only in some (see REGIONS).
  */
 function regionsOf(id, countries) {
   const out = {};
-  for (const c of countries) {
-    const names = signWords.regions?.[c]?.[id] ?? signWords.regions?.[c]?.[id.split("-")[0]];
-    if (names?.length) out[c] = names.map((r) => r.name).sort();
-  }
+  for (const c of countries) if (REGIONS[c]?.[id]) out[c] = REGIONS[c][id];
   return out;
 }
 
@@ -514,7 +549,10 @@ for (const l of languages) {
         .join(", ")}` +
       (l.regional
         ? `\n         official only in some states of ${l.regional.join(", ")}: ` +
-          (Object.values(l.regions).flat().join(", ") || "no states on Wikidata")
+          (Object.values(l.regions)
+            .map((r) => [...r.official, ...(r.additional ?? []).map((s) => `${s} (additional)`)])
+            .flat()
+            .join(", ") || "NO STATES in REGIONS")
         : "") +
       `\n         ${l.sentence ? l.sentence.slice(0, 90) : "NO SENTENCE"}`,
   );
@@ -531,7 +569,14 @@ console.log(
 const out = new URL("../../src/data/languages.json", import.meta.url);
 await writeFile(
   out,
-  JSON.stringify({ cldr: "48.2.0", udhr: "6.0.0", scripts, languages, telltales }) + "\n",
+  JSON.stringify({
+    cldr: "48.2.0",
+    udhr: "6.0.0",
+    regionsSource: REGIONS_SOURCE,
+    scripts,
+    languages,
+    telltales,
+  }) + "\n",
 );
 console.log(`Wrote ${out.pathname}`);
 

@@ -1,5 +1,5 @@
 {
- "source": "Wiktionary (CC BY-SA 4.0): translation tables of the place words. Wikidata (CC0): item labels and each country's capital (P36). States' official languages: Wikidata (P37)",
+ "source": "Wiktionary (CC BY-SA 4.0): translation tables of the place words. Wikidata (CC0): item labels and each country's capital (P36)",
  "street": {
   "zh": "大街",
   "pl": "ulica",
@@ -8571,8 +8571,7 @@
     "shn": "တႃႈလူတ်ႉၾႆး",
     "my": "ဘူတာရုံ",
     "pms": "Stassion feroviaria",
-    "kw": "gorsav hyns horn",
-    "wo": "gaar"
+    "kw": "gorsav hyns horn"
    }
   },
   "airport": {
@@ -18212,8 +18211,7 @@
      "kai": "Paris",
      "igl": "Paris",
      "dtp": "Paris",
-     "mad": "Paris",
-     "ig": "Paris"
+     "mad": "Paris"
     }
    }
   ],
@@ -25871,7 +25869,7 @@
      "bew": "Rigah",
      "kge": "Riga",
      "min": "Riga",
-     "mul": "Rīga",
+     "mul": "Riga",
      "krc": "Рига"
     }
    }
@@ -37139,289 +37137,5 @@
     }
    }
   ]
- },
- "regions": {
-  "IN": {
-   "te": [
-    {
-     "source": "Q1159",
-     "name": "Andhra Pradesh"
-    },
-    {
-     "source": "Q66743",
-     "name": "Puducherry"
-    },
-    {
-     "source": "Q1356",
-     "name": "West Bengal"
-    },
-    {
-     "source": "Q677037",
-     "name": "Telangana"
-    }
-   ],
-   "as": [
-    {
-     "source": "Q1164",
-     "name": "Assam"
-    }
-   ],
-   "bn": [
-    {
-     "source": "Q1164",
-     "name": "Assam"
-    },
-    {
-     "source": "Q1356",
-     "name": "West Bengal"
-    },
-    {
-     "source": "Q1184",
-     "name": "Jharkhand"
-    }
-   ],
-   "brx": [
-    {
-     "source": "Q1164",
-     "name": "Assam"
-    }
-   ],
-   "hi": [
-    {
-     "source": "Q1356",
-     "name": "West Bengal"
-    },
-    {
-     "source": "Q200667",
-     "name": "Ladakh"
-    },
-    {
-     "source": "Q40888",
-     "name": "Andaman and Nicobar Islands"
-    },
-    {
-     "source": "Q1174",
-     "name": "Haryana"
-    },
-    {
-     "source": "Q9357528",
-     "name": "National Capital Territory of Delhi"
-    },
-    {
-     "source": "Q1168",
-     "name": "Chhattisgarh"
-    },
-    {
-     "source": "Q1184",
-     "name": "Jharkhand"
-    },
-    {
-     "source": "Q66278313",
-     "name": "Jammu and Kashmir"
-    },
-    {
-     "source": "Q77997266",
-     "name": "Dadra and Nagar Haveli and Daman and Diu"
-    },
-    {
-     "source": "Q1437",
-     "name": "Rajasthan"
-    },
-    {
-     "source": "Q1499",
-     "name": "Uttarakhand"
-    },
-    {
-     "source": "Q1498",
-     "name": "Uttar Pradesh"
-    }
-   ],
-   "ur": [
-    {
-     "source": "Q1356",
-     "name": "West Bengal"
-    },
-    {
-     "source": "Q1159",
-     "name": "Andhra Pradesh"
-    },
-    {
-     "source": "Q9357528",
-     "name": "National Capital Territory of Delhi"
-    },
-    {
-     "source": "Q1184",
-     "name": "Jharkhand"
-    },
-    {
-     "source": "Q677037",
-     "name": "Telangana"
-    },
-    {
-     "source": "Q66278313",
-     "name": "Jammu and Kashmir"
-    },
-    {
-     "source": "Q1498",
-     "name": "Uttar Pradesh"
-    }
-   ],
-   "en": [
-    {
-     "source": "Q1356",
-     "name": "West Bengal"
-    },
-    {
-     "source": "Q66743",
-     "name": "Puducherry"
-    },
-    {
-     "source": "Q200667",
-     "name": "Ladakh"
-    },
-    {
-     "source": "Q9357528",
-     "name": "National Capital Territory of Delhi"
-    },
-    {
-     "source": "Q66278313",
-     "name": "Jammu and Kashmir"
-    },
-    {
-     "source": "Q1445",
-     "name": "Tamil Nadu"
-    },
-    {
-     "source": "Q77997266",
-     "name": "Dadra and Nagar Haveli and Daman and Diu"
-    },
-    {
-     "source": "Q1186",
-     "name": "Kerala"
-    },
-    {
-     "source": "Q1195",
-     "name": "Meghalaya"
-    }
-   ],
-   "fr": [
-    {
-     "source": "Q66743",
-     "name": "Puducherry"
-    }
-   ],
-   "ml": [
-    {
-     "source": "Q66743",
-     "name": "Puducherry"
-    },
-    {
-     "source": "Q1186",
-     "name": "Kerala"
-    }
-   ],
-   "ta": [
-    {
-     "source": "Q66743",
-     "name": "Puducherry"
-    },
-    {
-     "source": "Q40888",
-     "name": "Andaman and Nicobar Islands"
-    },
-    {
-     "source": "Q1445",
-     "name": "Tamil Nadu"
-    }
-   ],
-   "or": [
-    {
-     "source": "Q22048",
-     "name": "Odisha"
-    },
-    {
-     "source": "Q1356",
-     "name": "West Bengal"
-    },
-    {
-     "source": "Q1184",
-     "name": "Jharkhand"
-    }
-   ],
-   "sat": [
-    {
-     "source": "Q1356",
-     "name": "West Bengal"
-    },
-    {
-     "source": "Q1184",
-     "name": "Jharkhand"
-    }
-   ],
-   "ne": [
-    {
-     "source": "Q1356",
-     "name": "West Bengal"
-    }
-   ],
-   "rkt": [
-    {
-     "source": "Q1356",
-     "name": "West Bengal"
-    }
-   ],
-   "hoc": [
-    {
-     "source": "Q1184",
-     "name": "Jharkhand"
-    }
-   ],
-   "mai": [
-    {
-     "source": "Q1184",
-     "name": "Jharkhand"
-    }
-   ],
-   "ks": [
-    {
-     "source": "Q66278313",
-     "name": "Jammu and Kashmir"
-    }
-   ],
-   "gu": [
-    {
-     "source": "Q77997266",
-     "name": "Dadra and Nagar Haveli and Daman and Diu"
-    }
-   ],
-   "mr": [
-    {
-     "source": "Q77997266",
-     "name": "Dadra and Nagar Haveli and Daman and Diu"
-    },
-    {
-     "source": "Q1191",
-     "name": "Maharashtra"
-    }
-   ],
-   "kn": [
-    {
-     "source": "Q1185",
-     "name": "Karnataka"
-    }
-   ],
-   "sa": [
-    {
-     "source": "Q1499",
-     "name": "Uttarakhand"
-    }
-   ],
-   "kha": [
-    {
-     "source": "Q1195",
-     "name": "Meghalaya"
-    }
-   ]
-  }
  }
 }

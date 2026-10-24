@@ -12,6 +12,9 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
 const isText = (v, max) => typeof v === "string" && v.length <= max;
+/** A list of up to 40 names of places. */
+const names = (list) =>
+  Array.isArray(list) && list.length <= 40 && list.every((n) => n && isText(n, 60));
 const SCRIPT = /^[A-Z][a-z]{3}$/;
 const LOCALE = /^[a-z]{2,3}(-[A-Z][a-z]{3})?$/;
 
@@ -75,14 +78,23 @@ export function checkLanguages(data, codes) {
         l.regions &&
         typeof l.regions === "object" &&
         Object.entries(l.regions).every(
-          ([c, names]) =>
+          ([c, r]) =>
             l.regional.includes(c) &&
-            Array.isArray(names) &&
-            names.length <= 40 &&
-            names.every((n) => isText(n, 60) && n),
+            names(r?.official) &&
+            r.official.length &&
+            (r.additional === undefined || names(r.additional)),
         );
       if (!ok) problems.push(`${where}: regional`);
     } else if (l?.regions !== undefined) problems.push(`${where}: regions`);
+  }
+  if (langs.some((l) => l?.regions)) {
+    const src = data.regionsSource;
+    if (
+      !isText(src?.title, 100) ||
+      !/^https:\/\/en\.wikipedia\.org\/wiki\/[^\s"<>]+$/.test(src?.url ?? "")
+    ) {
+      problems.push("regions source");
+    }
   }
   for (const t of Array.isArray(data.telltales) ? data.telltales : []) {
     if (!isText(t?.letter, 4) || !t.languages?.every?.((id) => ids.has(id))) {
@@ -127,19 +139,6 @@ export function checkSignWords(data) {
     ) {
       problems.push(`word ${en.slice(0, 30)}`);
     }
-  }
-  for (const [iso, byLanguage] of Object.entries(data?.regions ?? {})) {
-    const ok =
-      /^[A-Z]{2}$/.test(iso) &&
-      byLanguage &&
-      typeof byLanguage === "object" &&
-      Object.entries(byLanguage).every(
-        ([code, list]) =>
-          /^[a-z]{2,3}(-[a-z0-9]{2,8})*$/.test(code) &&
-          Array.isArray(list) &&
-          list.every((r) => /^Q\d+$/.test(r?.source ?? "") && isText(r?.name, 40) && r.name),
-      );
-    if (!ok) problems.push(`regions ${iso.slice(0, 5)}`);
   }
   for (const [iso, caps] of Object.entries(data?.capitals ?? {})) {
     if (!/^[A-Z]{2}$/.test(iso) || !Array.isArray(caps))
