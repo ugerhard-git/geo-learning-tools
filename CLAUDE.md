@@ -17,6 +17,7 @@ What follows is only how Claude works with the owner.
   - If one is still open, ask the owner whether to add to it or open a
     separate pull request.
 - **The owner approves and merges.** Open pull requests; never merge them.
+- **Link every pull request.** Whenever you open one, give the owner its link.
 - **Plan first when asked.** When the owner asks to plan or discuss a change,
   agree on it before building.
 - **Run every check** in CONTRIBUTING.md's "Pull requests" section before
