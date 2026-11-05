@@ -37,6 +37,7 @@ app does. The shared modules, from the bottom up:
 | `land.js`          | Country outlines for the Cities and Terrain maps (`land.json`)                                                  |
 | `world.js`         | The more detailed outlines the flag apps draw (`world.json`)                                                    |
 | `regions.js`       | First-level region outlines (states, provinces), decoded on demand: Cities and Regions, and Languages' maps     |
+| `where.js`         | The parts of the world a list or drill can be limited to, and their select: Roads, Scripts and Languages        |
 | `mapview.js`       | `MapView`: the visible window onto the map, pan, pinch, wheel and keyboard, animated moves                      |
 | `overlay.js`       | `MarkerLayer`: rings, pins and guess lines that keep their size on screen                                       |
 | `map-ui.js`        | Drawing the land, the projection switch, the tooltip                                                            |
@@ -162,7 +163,7 @@ must not change; a test in `test/e2e/` checks that old records still load.
 | `cityatlas.type`, `.cat`, `.scope`, `.hard`, `.hint`, `.len`                    | Cities and Regions drill settings                                                                                                        |
 | `terrain.layers`, `terrain.level`, `.type`, `.kinds`, `.scope`, `.hard`, `.len` | Terrain layers and drill settings                                                                                                        |
 | `languages.progress.v1`                                                         | Scripts and Languages: `l:`/`c:`/`m:<language>`, `t:<letter>`, `s:<script>`                                                              |
-| `languages.type`, `.hard`, `.len`                                               | Scripts and Languages drill settings                                                                                                     |
+| `languages.type`, `.hard`, `.len`, `.show`, `.where`                            | Scripts and Languages drill settings; `.where` also filters the list                                                                     |
 | `roads.progress.v1`                                                             | Roads: `<d\|l\|s\|z\|p\|c\|w>:<code>` per clue, `x:<code>` for scenes                                                                    |
 | `roads.type`, `.clues`, `.hard`, `.len`, `.where`                               | Roads drill settings                                                                                                                     |
 

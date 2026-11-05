@@ -8,7 +8,9 @@ import { makeLanguageData, plainName } from "../../src/languages/data.js";
 import {
   DRILLS,
   LanguageQuestion,
+  alphabetOf,
   keyOf,
+  languageIn,
   mapAreas,
   poolFor,
   specimenOf,
@@ -18,6 +20,7 @@ const read = (path) => readFileSync(new URL(`../../${path}`, import.meta.url), "
 const data = makeLanguageData(
   JSON.parse(read("src/data/languages.json")),
   read("src/data/countries.txt"),
+  JSON.parse(read("src/data/subregions.json")),
 );
 const streetView = read("tools/data/street-view-countries.txt")
   .split("\n")
@@ -263,4 +266,96 @@ test("the map drill accepts a language's countries, and its regions where it is 
   assert.equal(keyOf("map", data.byId.kn), "m:kn");
   assert.match(q.prompt().sub, /region/);
   assert.equal(q.prompt().hint, "Kannada");
+});
+
+test("a language's alphabet: its letters without combining marks, none for Chinese", () => {
+  const pl = alphabetOf(data.byId.pl);
+  assert.ok(pl.includes("ą") && pl.includes("ł") && pl.includes("a"));
+  assert.equal(alphabetOf(data.byId["zh-Hans"]), null);
+  assert.equal(alphabetOf(data.byId.ko), null);
+  // Hindi's vowel signs combine with a letter, so they are left out.
+  assert.ok(alphabetOf(data.byId.hi).every((ch) => !/\p{M}/u.test(ch)));
+  const spec = specimenOf(data.byId.pl, "letters");
+  assert.equal(spec.kind, "letters");
+  assert.equal(spec.text, pl.join(" "));
+  // A kind a language does not have gives one it has.
+  assert.notEqual(specimenOf(data.byId.ja, "letters").kind, "letters");
+});
+
+test("an alphabet question never offers another language with the same letters", () => {
+  for (const id of ["en", "id", "ms", "pl", "es"]) {
+    const lang = data.byId[id];
+    const twins = data.languages.filter(
+      (l) => l !== lang && alphabetOf(l)?.join("") === alphabetOf(lang).join(""),
+    );
+    for (let i = 0; i < 20; i++) {
+      const q = new LanguageQuestion("language", lang, data, { show: "letters" });
+      assert.equal(q.specimen.kind, "letters");
+      assert.equal(q.prompt().sub, "its alphabet");
+      const labels = q.options().map((o) => o.label);
+      for (const t of twins) assert.ok(!labels.includes(t.name), `${id}: ${t.name} offered`);
+      // Typed, any language with those letters is right.
+      for (const t of twins) assert.ok(q.judge(t.name)?.ok, `${id}: ${t.name} typed`);
+    }
+  }
+});
+
+test("the drills and the list can be limited to a part of the world", () => {
+  // Southern Europe (039): Italian and Catalan, not Japanese.
+  const south = poolFor(data, "language", { where: "039" }).map((l) => l.id);
+  assert.ok(south.includes("it") && south.includes("ca") && !south.includes("ja"));
+  // A regional language counts where it is used: Welsh in Northern Europe (154).
+  assert.ok(languageIn(data.byId.cy, "154", data));
+  assert.ok(!languageIn(data.byId.cy, "039", data));
+  // Asia (S): Thai script in, Greek out; Europe (E): telltale letters only of its languages.
+  const asian = poolFor(data, "script", { where: "S" }).map((s) => s.code);
+  assert.ok(asian.includes("Thai") && !asian.includes("Grek"));
+  const euro = new Set(poolFor(data, "language", { where: "E" }).map((l) => l.id));
+  for (const t of poolFor(data, "letter", { where: "E" })) {
+    assert.ok(
+      t.languages.some((id) => euro.has(id)),
+      t.letter,
+    );
+  }
+  // Alphabets only: no Chinese, Japanese or Korean script.
+  const scripts = poolFor(data, "script", { show: "letters" }).map((s) => s.code);
+  assert.ok(!scripts.includes("Hans") && !scripts.includes("Kore") && scripts.includes("Latn"));
+  // Which country: the answer and the wrong options are in the part picked.
+  for (let i = 0; i < 20; i++) {
+    const q = new LanguageQuestion("country", data.byId.fr, data, { where: "F" });
+    assert.equal(data.countries[q.country].region, "F");
+    for (const o of q.options()) {
+      const c = Object.values(data.countries).find((x) => x.name === o.label);
+      assert.equal(c.region, "F", o.label);
+    }
+  }
+  // Which language: wrong options from the part picked while there are enough.
+  for (let i = 0; i < 20; i++) {
+    const q = new LanguageQuestion("language", data.byId.it, data, { where: "039" });
+    for (const o of q.options()) {
+      const l = data.languages.find((x) => x.name === o.label);
+      assert.ok(languageIn(l, "039", data), o.label);
+    }
+  }
+});
+
+test("on the map, an alphabet is shown only where it points to one language", () => {
+  const pool = poolFor(data, "map", { show: "letters" });
+  assert.ok(pool.length > 10);
+  for (const l of pool) {
+    const same = data.languages.filter((x) => alphabetOf(x)?.join("") === alphabetOf(l).join(""));
+    assert.equal(same.length, 1, l.id);
+  }
+  // English shares its letters: shown another way.
+  for (let i = 0; i < 10; i++) {
+    const q = new LanguageQuestion("map", data.byId.en, data, { show: "letters" });
+    assert.notEqual(q.specimen.kind, "letters");
+  }
+});
+
+test("on the map, Bosnian, Croatian and Serbian (Latin) share an answer", () => {
+  const q = new LanguageQuestion("map", data.byId.hr, data);
+  assert.deepEqual(q.answers.map((l) => l.id).sort(), ["bs", "hr", "sr-Latn"]);
+  for (const c of ["BA", "HR", "RS"]) assert.ok(q.areas.countries.includes(c), c);
+  assert.deepEqual(new LanguageQuestion("map", data.byId.pl, data).answers, [data.byId.pl]);
 });

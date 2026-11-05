@@ -1,15 +1,17 @@
 /**
  * Scripts and Languages: the official languages of the countries with
- * Street View coverage, and what gives each away on a sign, with four drills
+ * Street View coverage, and what gives each away on a sign, with five drills
  * and spaced repetition.
  *
  * - Explore: a card per language with its script, its words for "street"
- *   and "city", its telltale letters and countries; filter by script or
- *   search by name, word, letter or country; a card opens the language's
- *   details (its letters, a sentence, words).
- * - Drill: "Which language?", "Telltale letters", "Which script?" and
- *   "Which country?". Each question shows a specimen of real writing above
- *   the drill bar.
+ *   and "city", its telltale letters and countries; filter by part of the
+ *   world and by script, or search by name, word, letter or country; a card
+ *   opens the language's details (its letters, a sentence, words, a map).
+ * - Drill: "Which language?", "Telltale letters", "Which script?", "Which
+ *   country?" and "On the map". Each question shows a specimen of real
+ *   writing (a sentence, three words or the whole alphabet, as picked) above
+ *   the drill bar. The part of the world picked limits the list and the
+ *   drill alike.
  * - Progress: what is known, what is due, what keeps going wrong.
  *
  * How it runs: `main` loads src/data/languages.json and the country table
@@ -53,7 +55,16 @@ import { MapView } from "../shared/mapview.js";
 import { MarkerLayer } from "../shared/overlay.js";
 import { bearing, distKm, formatKm, nearestOnRings, ringsContain } from "../shared/geo.js";
 import { loadLanguageData, plainName } from "./data.js";
-import { DRILLS, LanguageQuestion, keyOf, poolFor } from "./drills.js";
+import {
+  DRILLS,
+  LanguageQuestion,
+  SHOWS,
+  SHOWS_WRITING,
+  keyOf,
+  languageIn,
+  poolFor,
+} from "./drills.js";
+import { placeName as placeNameOf, whereSelect } from "../shared/where.js";
 import { LanguageAreas } from "./map.js";
 
 /** Where the drill settings are remembered. */
@@ -61,6 +72,8 @@ const SETTINGS = {
   type: "languages.type",
   hard: "languages.hard",
   len: "languages.len",
+  where: "languages.where",
+  show: "languages.show",
 };
 
 const pageStatus = $("#pageStatus");
@@ -87,21 +100,47 @@ async function main() {
   const telltalesOf = new Map(languages.map((l) => [l.id, []]));
   for (const t of data.telltales) for (const id of t.languages) telltalesOf.get(id).push(t.letter);
 
+  /** The part of the world picked, shared by the list and the drill, and kept. */
+  const placeName = (where) => placeNameOf(where, data.subregions);
+  let where = String(storage.get(SETTINGS.where) ?? "all");
+  if (!placeName(where)) where = "all";
+  /** The countries of the languages, for the parts of the world to pick from. */
+  const placesShown = data.streetView.map((c) => countries[c]);
+  /** Pick a part of the world, in the list or the drill's setup. */
+  function setWhere(value) {
+    where = placeName(value) ? value : "all";
+    storage.set(SETTINGS.where, where);
+  }
+
   const filter = { script: "all", query: "" };
 
-  // One chip per script, the most used first.
-  const scriptCounts = new Map();
-  for (const l of languages) scriptCounts.set(l.script, (scriptCounts.get(l.script) ?? 0) + 1);
+  // The list's filter by part of the world, before the scripts.
   $(".filters").insertAdjacentHTML(
-    "beforeend",
-    [...scriptCounts]
-      .sort((a, b) => b[1] - a[1] || scripts[a[0]].localeCompare(scripts[b[0]]))
-      .map(
-        ([code, n]) =>
-          `<button class="chip" data-script="${esc(code)}" aria-pressed="false">${esc(scripts[code])} <span class="count">${n}</span></button>`,
-      )
-      .join(""),
+    "beforebegin",
+    `<div class="wherebar">${whereSelect({ id: "eWhere", value: where, label: "Part of the world" }, placesShown, data.subregions)}</div>`,
   );
+
+  /**
+   * One chip per script written in the part of the world picked, the most
+   * used first; a script picked that is not written there is let go.
+   */
+  function renderChips() {
+    const scriptCounts = new Map();
+    for (const l of languages.filter((x) => languageIn(x, where, data))) {
+      scriptCounts.set(l.script, (scriptCounts.get(l.script) ?? 0) + 1);
+    }
+    if (!scriptCounts.has(filter.script)) filter.script = "all";
+    $(".filters").innerHTML =
+      `<button class="chip" data-script="all" aria-pressed="${filter.script === "all"}">All scripts</button>` +
+      [...scriptCounts]
+        .sort((a, b) => b[1] - a[1] || scripts[a[0]].localeCompare(scripts[b[0]]))
+        .map(
+          ([code, n]) =>
+            `<button class="chip" data-script="${esc(code)}" aria-pressed="${code === filter.script}">${esc(scripts[code])} <span class="count">${n}</span></button>`,
+        )
+        .join("");
+  }
+  renderChips();
 
   /** Whether a language matches the search: its names, script, a letter or a country. */
   function matches(l, q) {
@@ -126,11 +165,14 @@ async function main() {
   function renderCards() {
     const list = languages
       .filter((l) => filter.script === "all" || l.script === filter.script)
+      .filter((l) => languageIn(l, where, data))
       .filter((l) => matches(l, filter.query.trim()))
       .sort((a, b) => a.name.localeCompare(b.name));
     $("#cards").innerHTML = list.length
       ? list.map(card).join("")
-      : `<p class="empty">No language matches “${esc(filter.query)}”.</p>`;
+      : filter.query
+        ? `<p class="empty">No language matches “${esc(filter.query)}”${where === "all" ? "" : ` in ${esc(placeName(where))}`}.</p>`
+        : `<p class="empty">No language in ${esc(placeName(where))} is written in this script.</p>`;
   }
 
   function card(l) {
@@ -166,6 +208,11 @@ async function main() {
     for (const c of $$(".filters [data-script]")) {
       c.setAttribute("aria-pressed", String(c.dataset.script === filter.script));
     }
+    renderCards();
+  });
+  $("#eWhere").addEventListener("change", (e) => {
+    setWhere(e.target.value);
+    renderChips();
     renderCards();
   });
   $("#q").addEventListener("input", (e) => {
@@ -312,7 +359,10 @@ async function main() {
     type: DRILLS[storage.get(SETTINGS.type)] ? storage.get(SETTINGS.type) : "language",
     hard: storage.get(SETTINGS.hard) === "1",
     len: cleanLength(storage.get(SETTINGS.len)),
+    show: SHOWS[storage.get(SETTINGS.show)] ? storage.get(SETTINGS.show) : "any",
   };
+  /** The settings that decide which items a drill draws on and what it shows. */
+  const drillOptions = () => ({ where, show: ds.show });
   const save = (name, value) => storage.set(SETTINGS[name], String(value));
   /** @type {LanguageQuestion | null} */
   let current = null;
@@ -322,26 +372,44 @@ async function main() {
     session.stop();
     specimenEl.hidden = true;
     showMap(false);
-    const items = poolFor(data, ds.type);
+    const items = poolFor(data, ds.type, drillOptions());
     const due = items.filter((it) => store.isDueReview(keyOf(ds.type, it))).length;
     const fresh = items.filter((it) => store.isNew(keyOf(ds.type, it))).length;
     setupEl.dataset.view = "setup";
     setupEl.innerHTML = `<h2>Drill</h2>
       <p class="lead">Read the writing, name what it is. Wrong answers come back sooner.</p>
       <div class="fieldrow"><span class="flab">What to practise</span>${typeButtons(DRILLS, ds.type)}</div>
+      ${SHOWS_WRITING.includes(ds.type) ? `<div class="fieldrow"><span class="flab">Show</span>${showButtons()}</div>` : ""}
       <div class="fieldrow"><span class="flab">How</span>
         <div class="selects">
           ${ds.type === "map" ? "" : difficultySwitch(ds.hard, "Easy: four choices", "Hard: type it")}
           ${lengthSelect(ds.len)}
+          ${whereSelect({ id: "dWhere", value: where }, placesShown, data.subregions)}
         </div>
       </div>
       ${startSection({ size: items.length, due, fresh, empty: "Nothing to practise here.", back: "Back to the languages" })}`;
     setupEl.hidden = false;
   }
 
+  /** What the questions show: anything, sentences, words or alphabets. */
+  function showButtons() {
+    return `<div class="chips" role="group" aria-label="Show">${Object.entries(SHOWS)
+      .map(
+        ([k, label]) =>
+          `<button class="chip" data-show="${k}" aria-pressed="${k === ds.show}">${esc(label)}</button>`,
+      )
+      .join("")}</div>`;
+  }
+
   setupEl.addEventListener("click", (e) => {
     if (setupEl.dataset.view !== "setup") return;
     const t = e.target;
+    const show = t.closest("[data-show]")?.dataset.show;
+    if (show && SHOWS[show]) {
+      ds.show = show;
+      save("show", show);
+      return renderSetup();
+    }
     const type = t.closest("[data-type]")?.dataset.type;
     if (type && DRILLS[type]) {
       ds.type = type;
@@ -359,6 +427,14 @@ async function main() {
   });
 
   setupEl.addEventListener("change", (e) => {
+    if (e.target.id === "dWhere") {
+      setWhere(e.target.value);
+      // The list follows the drill's choice.
+      $("#eWhere").value = where;
+      renderChips();
+      renderCards();
+      return renderSetup();
+    }
     if (e.target.id !== "dLen") return;
     ds.len = cleanLength(e.target.value);
     save("len", ds.len);
@@ -380,14 +456,15 @@ async function main() {
   });
 
   function startDrill(dueOnly) {
-    const items = poolFor(data, ds.type);
+    const options = drillOptions();
+    const items = poolFor(data, ds.type, options);
     if (items.length < 2) return;
     const type = ds.type;
     const queue = planSession(items, (it) => keyOf(type, it), store, { length: ds.len, dueOnly });
     session.start(queue, ds.len, {
       label: DRILLS[type].label,
       keyOf: (it) => keyOf(type, it),
-      ask: (it) => ask(type, it),
+      ask: (it) => ask(type, it, options),
       reveal: () => reveal(),
       judge: (text) => current.judge(text),
       describe: (it) => describe(type, it),
@@ -439,9 +516,11 @@ async function main() {
 
   /** Shade where the current question's language is used, and frame it. */
   function showAnswer() {
-    gAnswer.innerHTML = areas.shadeMarkup(current.lang, proj(), view.w, "ans");
+    gAnswer.innerHTML = current.answers
+      .map((l) => areas.shadeMarkup(l, proj(), view.w, "ans"))
+      .join("");
     svg.classList.remove("aim");
-    const box = areas.boxAround(areas.areasOf(current.lang));
+    const box = areas.boxAround(current.answers.flatMap((l) => areas.areasOf(l)));
     if (box) view.frameLonLat(box, 1.4, 900);
     else view.home();
   }
@@ -458,7 +537,7 @@ async function main() {
     const [ax, ay] = p.fwd(lon, lat);
     let ok = false;
     let nearest = null;
-    for (const area of areas.areasOf(current.lang)) {
+    for (const area of current.answers.flatMap((l) => areas.areasOf(l))) {
       const rings = areas.ringsOf(area);
       if (ringsContain(rings, lon, lat)) {
         ok = true;
@@ -477,7 +556,7 @@ async function main() {
     }
     // Say what it was under the specimen, and shade where it is used.
     reveal();
-    const name = esc(current.lang.name);
+    const name = esc(current.answers.map((l) => l.name).join(" or "));
     if (ok || !nearest) {
       markers.set([{ kind: "guess", lon, lat, size: 7 }]);
       return session.finish(true, `Correct: that is ${name}.`, "ok");
@@ -495,8 +574,8 @@ async function main() {
   }
 
   /** Show a question's specimen and describe the question to the drill bar. */
-  function ask(type, it) {
-    current = new LanguageQuestion(type, it, data);
+  function ask(type, it, options) {
+    current = new LanguageQuestion(type, it, data, options);
     showMap(type === "map");
     if (type === "map") {
       gAnswer.innerHTML = "";
