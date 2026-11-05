@@ -64,7 +64,7 @@ import {
   poolFor,
   sideText,
 } from "./drills.js";
-import { REGIONS } from "../shared/countries.js";
+import { placeName as placeNameOf, whereSelect as whereSelectOf } from "../shared/where.js";
 
 /** Where the drill settings are remembered. */
 const SETTINGS = {
@@ -471,21 +471,12 @@ async function main() {
 
   /** The name of a part of the world the drill can be limited to, or "". */
   function placeName(where) {
-    if (where === "all") return "Everywhere";
-    return REGIONS[where] ?? data.subregions[where] ?? "";
+    return placeNameOf(where, data.subregions);
   }
 
   /** "Everywhere", the continents, then the sub-regions with countries in them. */
   function whereSelect() {
-    const regions = [...new Set(countries.map((c) => c.region))].sort((a, b) =>
-      REGIONS[a].localeCompare(REGIONS[b]),
-    );
-    const subs = [...new Set(countries.map((c) => c.subregion).filter(Boolean))].sort((a, b) =>
-      data.subregions[a].localeCompare(data.subregions[b]),
-    );
-    const opt = (v) =>
-      `<option value="${esc(v)}"${v === ds.where ? " selected" : ""}>${esc(placeName(v))}</option>`;
-    return `<select id="dWhere" aria-label="Where">${opt("all")}<optgroup label="Continents">${regions.map(opt).join("")}</optgroup><optgroup label="Parts of continents">${subs.map(opt).join("")}</optgroup></select>`;
+    return whereSelectOf({ id: "dWhere", value: ds.where }, countries, data.subregions);
   }
 
   function clueButtons() {

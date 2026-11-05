@@ -33,6 +33,15 @@ body {
   margin: 0 0 14px;
 }
 
+/* The list's filter by part of the world. */
+.wherebar {
+  margin: 0 0 10px;
+}
+
+.wherebar select {
+  max-width: 100%;
+}
+
 .filters {
   display: flex;
   flex-wrap: wrap;
@@ -188,6 +197,14 @@ body {
 
 .spec-text.words {
   font-weight: 700;
+}
+
+/* A whole alphabet: smaller, wider and evenly spaced, so it reads as a set. */
+.spec-text.letters {
+  max-width: 40ch;
+  font-size: clamp(1.2rem, 2.8vw, 1.9rem);
+  letter-spacing: 0.08em;
+  word-spacing: 0.15em;
 }
 
 .spec-note {

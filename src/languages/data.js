@@ -59,7 +59,9 @@ import { RegionShapes, parseRegionShapes } from "../shared/regions.js";
  * @property {Record<string, Language>} byId
  * @property {Record<string, string>} scripts code → name
  * @property {Telltale[]} telltales
- * @property {Record<string, import("../shared/countries.js").Country>} countries the country table
+ * @property {Record<string, import("../shared/countries.js").Country & { subregion?: string }>} countries
+ *   the country table, each with its UN sub-region where known
+ * @property {Record<string, string>} subregions sub-region code → English name
  * @property {string[]} streetView every country some language here is official in
  * @property {RegionShapes} regionShapes the outlines of the regions the maps shade
  */
@@ -70,8 +72,13 @@ import { RegionShapes, parseRegionShapes } from "../shared/regions.js";
  * @param {string} countryText countries.txt
  * @returns {LanguageData}
  */
-export function makeLanguageData(json, countryText) {
-  const countries = byCode(parseCountries(countryText));
+export function makeLanguageData(json, countryText, subregions = {}) {
+  const countries = byCode(
+    parseCountries(countryText).map((c) => {
+      const sub = subregions.of?.[c.code] ?? "";
+      return /^\d{3}$/.test(sub) ? { ...c, subregion: sub } : c;
+    }),
+  );
   const scripts = table(json.scripts);
   const languages = json.languages
     .filter((l) => typeof l.id === "string" && scripts[l.script])
@@ -85,16 +92,27 @@ export function makeLanguageData(json, countryText) {
     parseRegionShapes(typeof json.regionShapes === "string" ? json.regionShapes : ""),
     json.regionScale || 1,
   );
-  return { languages, byId, scripts, telltales, countries, streetView, regionShapes };
+  return {
+    languages,
+    byId,
+    scripts,
+    telltales,
+    countries,
+    subregions: table(subregions.names ?? {}),
+    streetView,
+    regionShapes,
+  };
 }
 
 /** Load the data files. */
 export async function loadLanguageData() {
-  const [json, countryText] = await Promise.all([
+  const [json, countryText, subregions] = await Promise.all([
     loadData("languages.json"),
     loadData("countries.txt", "text"),
+    // Only the filter by part of the world needs it.
+    loadData("subregions.json").catch(() => ({})),
   ]);
-  return makeLanguageData(json, countryText);
+  return makeLanguageData(json, countryText, subregions);
 }
 
 /**

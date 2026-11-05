@@ -5,7 +5,7 @@ import { clickAt, cspViolations, openPage, readData, settled } from "./helpers.j
 import { unpackRing } from "../../src/shared/codec.js";
 import { ringsContain } from "../../src/shared/geo.js";
 import { parseRegionShapes } from "../../src/shared/regions.js";
-import { mapAreas } from "../../src/languages/drills.js";
+import { alphabetOf, mapAreas } from "../../src/languages/drills.js";
 
 const PAGE = "languages/";
 const DATA = JSON.parse(readData("languages.json"));
@@ -167,6 +167,9 @@ test("a language's details show where it is used on a map", async ({ page }) => 
   expect([...problems, ...(await cspViolations(page))]).toEqual([]);
 });
 
+/** The languages a map question takes as one answer, by name. */
+const TWINS = [["Bosnian", "Croatian", "Serbian (Latin)"]];
+
 /* The outlines the map drill judges a click by, read here to find a spot inside one. */
 const LAND = JSON.parse(readData("land.json"));
 const landRings = (code) =>
@@ -206,9 +209,13 @@ function spotInside(rings) {
   return [best.p.lon, best.p.lat];
 }
 
-/** The language a map question shows, found from its writing. */
+/** The language a map question shows, found from its writing: a sentence, words or its alphabet. */
 async function askedLanguage(page) {
   const text = await page.locator("#specText").textContent();
+  const kind = (await page.locator("#specText").getAttribute("class")) ?? "";
+  if (kind.includes("letters")) {
+    return DATA.languages.find((l) => alphabetOf(l)?.join(" ") === text);
+  }
   const words = text.split(" · ");
   return DATA.languages.find((l) =>
     words.length > 1 ? words.every((w) => l.words.includes(w)) : l.sentence === text,
@@ -233,9 +240,13 @@ test("the map drill takes a click inside the right place, and shades it", async 
   const [lon, lat] = spotInside(rings);
   await settled(page);
   await clickAt(page, lon, lat);
-  await expect(page.locator("#drillbar .msg")).toHaveText(`Correct: that is ${lang.name}.`);
+  // Bosnian, Croatian and Serbian (Latin) read alike, so share an answer.
+  await expect(page.locator("#drillbar .msg")).toHaveText(/^Correct: that is .+\.$/);
+  await expect(page.locator("#drillbar .msg")).toContainText(
+    TWINS.find((g) => g.includes(lang.name)) ? "or" : lang.name,
+  );
   await expect(page.locator("#answer path.ans").first()).toBeAttached();
-  await expect(page.locator("#specNote")).toContainText(lang.name);
+  await expect(page.locator("#specNote")).not.toBeEmpty();
 
   // Second question: shown, not answered.
   await page.click("#drillbar [data-next]");
@@ -247,7 +258,50 @@ test("the map drill takes a click inside the right place, and shades it", async 
   // Saved under the map drill's own key.
   await expect
     .poll(() => page.evaluate(() => localStorage.getItem("languages.progress.v1") ?? ""))
-    .toContain(`"m:${lang.id}"`);
+    .toMatch(
+      new RegExp(
+        `"m:(${(["bs", "hr", "sr-Latn"].includes(lang.id) ? ["bs", "hr", "sr-Latn"] : [lang.id]).join("|")})"`,
+      ),
+    );
+  expect([...problems, ...(await cspViolations(page))]).toEqual([]);
+});
+
+test("the list and the drill can be limited to a part of the world", async ({ page }) => {
+  const problems = await openPage(page, PAGE);
+  const all = await page.locator(".lcard").count();
+  await page.selectOption("#eWhere", "039");
+  await expect(page.locator(".lcard")).not.toHaveCount(all);
+  await expect(page.locator('.lcard[data-lang="it"]')).toBeVisible();
+  await expect(page.locator('.lcard[data-lang="ja"]')).toHaveCount(0);
+  // The drill's setup has the same choice, kept.
+  await page.click('header [data-mode="drill"]');
+  await page.click('#setup [data-type="language"]');
+  await expect(page.locator("#dWhere")).toHaveValue("039");
+  await page.reload();
+  await expect(page.locator("#eWhere")).toHaveValue("039");
+  expect([...problems, ...(await cspViolations(page))]).toEqual([]);
+});
+
+test("a question can show a language's whole alphabet", async ({ page }) => {
+  const problems = await openPage(page, PAGE);
+  await page.click('header [data-mode="drill"]');
+  await page.click('#setup [data-type="language"]');
+  await page.click('#setup [data-show="letters"]');
+  await expect(page.locator('#setup [data-show="letters"]')).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+  await page.click('#setup [data-hard="0"]');
+  await page.click("#setup [data-start]");
+  await expect(page.locator("#specText")).toHaveClass(/letters/);
+  await expect(page.locator("#drillbar")).toContainText("its alphabet");
+  // The letters shown are one language's alphabet, and its name is an option.
+  const text = await page.locator("#specText").textContent();
+  const lang = DATA.languages.find(
+    (l) => text.split(" ").every((ch) => l.letters.includes(ch)) && text.split(" ").length > 5,
+  );
+  expect(lang).toBeTruthy();
+  await expect(page.locator("#drillbar .opts button")).toHaveCount(4);
   expect([...problems, ...(await cspViolations(page))]).toEqual([]);
 });
 
